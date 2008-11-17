@@ -3,7 +3,7 @@ Contributors: clifgriffin
 Donate link: http://clifgriffin.com/2008/10/28/simple-post-template-wordpress-plugin/ 
 Tags: LDAP, authentication, login, active directory
 Requires at least: 2.5.1
-Tested up to: 2.6.3
+Tested up to: 2.7-beta3
 Stable tag: 1.0.0
 
 Authenticates wordpress users against LDAP. That's all there is to it.
