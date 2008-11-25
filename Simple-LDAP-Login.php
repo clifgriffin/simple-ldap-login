@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Simple LDAP Login
-Plugin URI: http://clifgriffin.com/2008/10/28/simple-post-template-wordpress-plugin/ 
+Plugin URI: http://clifgriffin.com/2008/10/28/simple-ldap-login-wordpress-plugin/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.0 
+Version: 1.0.0.1
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
