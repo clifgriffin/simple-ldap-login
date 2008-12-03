@@ -1,21 +1,18 @@
 === Plugin Name ===
 Contributors: clifgriffin
 Donate link: http://clifgriffin.com/2008/10/28/simple-ldap-login-wordpress-plugin/ 
-Tags: LDAP, authentication, login, active directory
+Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.5.1
-Tested up to: 2.7-beta3
-Stable tag: 1.0.0.1
+Tested up to: 2.7-rc1
+Stable tag: 1.1
 
-Authenticates wordpress users against LDAP. That's all there is to it.
+Super simple implementation of adLDAP with Wordpress! Authenticates wordpress users against LDAP. That's all there is to it.
 
 == Description ==
-Having a single login for every service is a must in large organizations. This plugin is a very simple. It redefines the wp_authenticate function and adds a simple hook to adLDAP. The logic goes like this:
-If wordpress login fails, try adLDAP.
-If adLDAP succeeds, login. 
-Else, fail.
-
-Version History:
-1.0 - Original release.
+Having a single login for every service is a must in large organizations. This plugin is a *extremely* simple! It redefines the wp_authenticate function and adds a simple hook to adLDAP. The logic goes like this:
+*   If wordpress login fails, try adLDAP.
+*   If adLDAP succeeds, login. 
+*   Else, fail.
 
 Background:
 
@@ -24,20 +21,26 @@ In times past, our organization used a custom hack of wp-login.php that allowed 
 == Installation ==
 
 1. Upload the directory "simple-ldap-login" to the `/wp-content/plugins/` directory
-2. Customize settings by modifying adLDAP.php in /plugins/simple-ldap-login/ 
-3. Activate the plugin through the 'Plugins' menu in WordPress
-
-Note: You may wish to create a backup of adLDAP.php once you're done. Automatic plugin updates might overwrite this file and make upgrades more difficult. 
+1. Activate the plugin through the 'Plugins' menu in WordPress
+1. Immediately update the settings to those that best match your environment by going to Settings -> Simple LDAP Login
+1. If you don't get the settings right the first time...don't fret! Just use your wordpress credentials...they will always work!
 
 == Frequently Asked Questions ==
-
-= Will you be moving the settings to the admin panel? =
-
-At some point. These settings are not frequently changed however and a competent system administrator should not have any issues with configuration.
-
-= I noticed you're using adLDAP 1.4. Why?  =
-This is the version my organization was using previously and  it was very easy to simply copy over. It should work fine. If there are issues with this version that affect you, let me know and I'll investigate.
 
 = Can feature x be added? =
 
 Probably! E-mail me: webmaster[at]clifgriffin.com
+
+== Screenshots ==
+
+1. The administration page under Settings -> Simple LDAP Login
+
+== Version History == 
+Version 1.1
+*   Moved settings to administration pages under settings.
+*   Upgraded to latest version of adLDAP 2.1.
+*   Got rid of credentials. (They are not neccessary for the authenticate function in adLDAP!)
+*   Plugin is now upgrade proof. Settings are stored using Wordpress's setting functions.
+
+Version 1.0 
+*   Original release.
