@@ -20,13 +20,13 @@ In times past, our organization used a custom hack of wp-login.php that allowed 
 
 = Version History =
 
-**Version 1.1**
+**Version 1.1:**
 * Moved settings to administration pages under settings.
 * Upgraded to latest version of adLDAP 2.1.
 * Got rid of credentials. (They are not neccessary for the authenticate function in adLDAP!)
 * Plugin is now upgrade proof. Settings are stored using Wordpress's setting functions.
 
-**Version 1.0** 
+**Version 1.0:** 
 * Original release.
 
 == Installation ==
