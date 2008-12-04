@@ -9,7 +9,10 @@ Stable tag: 1.1
 Super simple implementation of adLDAP with Wordpress! Authenticates wordpress users against LDAP. That's all there is to it.
 
 == Description ==
+**If you have used this plugin (successfully or unsuccessfully), please visit the plugin homepage and leave feedback. Or you can e-mail me at webmaster[at]clifgriffin.com. Doing so will contribute to the future of this plugin and help me help others who may be experiencing problems.**
+
 Having a single login for every service is a must in large organizations. This plugin is a *extremely* simple! It redefines the wp_authenticate function and adds a simple hook to adLDAP. The logic goes like this:
+
 * If wordpress login fails, try adLDAP.
 * If adLDAP succeeds, login. 
 * Else, fail.
@@ -21,12 +24,14 @@ In times past, our organization used a custom hack of wp-login.php that allowed 
 = Version History =
 
 **Version 1.1:**
+
 * Moved settings to administration pages under settings.
 * Upgraded to latest version of adLDAP 2.1.
 * Got rid of credentials. (They are not neccessary for the authenticate function in adLDAP!)
 * Plugin is now upgrade proof. Settings are stored using Wordpress's setting functions.
 
 **Version 1.0:** 
+
 * Original release.
 
 == Installation ==
