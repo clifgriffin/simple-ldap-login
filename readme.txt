@@ -6,16 +6,18 @@ Requires at least: 2.5.1
 Tested up to: 2.7-rc1
 Stable tag: 1.1
 
-Super simple implementation of adLDAP with Wordpress! Authenticates wordpress users against LDAP. That's all there is to it.
+Super simple implementation of adLDAP with Wordpress! Authenticates wordpress users accounts against LDAP user accounts with the same username. That's all there is to it!
 
 == Description ==
 **If you have used this plugin (successfully or unsuccessfully), please visit the plugin homepage and leave feedback. Or you can e-mail me at webmaster[at]clifgriffin.com. Doing so will contribute to the future of this plugin and help me help others who may be experiencing problems.**
 
-Having a single login for every service is a must in large organizations. This plugin is a *extremely* simple! It redefines the wp_authenticate function and adds a simple hook to adLDAP. The logic goes like this:
+Having a single login for every service is a must in large organizations. This plugin is a *extremely* simple! It authenticates your wordpress username against LDAP using the same username. It does this by redefining the wp_authenticate function and adding a simple hook to adLDAP. The logic goes like this:
 
 * If wordpress login fails, try adLDAP.
 * If adLDAP succeeds, login. 
 * Else, fail.
+
+**Your WordPress usernames MUST be the same as your LDAP usernames for this to work!**
 
 = Background =
 
@@ -46,6 +48,15 @@ In times past, our organization used a custom hack of wp-login.php that allowed 
 = Can feature x be added? =
 
 Probably! E-mail me: webmaster[at]clifgriffin.com
+
+= It's not working, what am I doing wrong? =
+
+1. Make sure PHP is compiled with LDAP. If it is, running phpinfo should reveal a section entitled LDAP and it should indicate that it is enabled. 
+1. Make absolutely sure your setttings are right and that your server can talk to your domain controller. 
+1. Make sure your wordpress user accounts are the **same** as the LDAP user accounts you wish to use. This plugin does not bypass wordpress user accounts...just wordpress user account passwords!
+
+= It's still not working! How can I get help? = 
+There are two ways. You can post a comment on my blog (http://clifgriffin.com/2008/10/28/simple-ldap-login-wordpress-plugin/) or you can e-mail me: webmaster[at]clifgriffin.com. I will respond as soon as I can.
 
 == Screenshots ==
 
