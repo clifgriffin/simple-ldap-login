@@ -3,8 +3,8 @@ Contributors: clifgriffin
 Donate link: http://clifgriffin.com/2008/10/28/simple-ldap-login-wordpress-plugin/ 
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.5.1
-Tested up to: 2.7
-Stable tag: 1.2
+Tested up to: 2.7.1
+Stable tag: 1.2.0.1
 
 Super simple implementation of adLDAP with Wordpress! Authenticates wordpress users accounts against LDAP user accounts with the same username. That's all there is to it!
 
@@ -24,6 +24,11 @@ Having a single login for every service is a must in large organizations. This p
 In times past, our organization used a custom hack of wp-login.php that allowed us to implement adLDAP. This was not an upgrade proof solution. In the recent round of upgrades, I tried several purported LDAP plugins. Some of them didn't work at all. Some of them worked but didn't provide the exact functionality I desired.
 
 = Version History =
+
+
+**Version 1.2.0.1:**
+
+* Changed required user level for admin page to 10, Administrators only.
 
 **Version 1.2:**
 
