@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: clifgriffin
-Donate link: http://clifgriffin.com/2008/10/28/simple-ldap-login-wordpress-plugin/ 
+Donate link: http://clifgriffin.com/code/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.5.1
 Tested up to: 2.7.1
