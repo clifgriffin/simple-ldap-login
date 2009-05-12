@@ -6,10 +6,22 @@ Requires at least: 2.5.1
 Tested up to: 2.7.1
 Stable tag: 1.2.0.1
 
-Super simple implementation of adLDAP with Wordpress! Authenticates wordpress users accounts against LDAP user accounts with the same username. That's all there is to it!
+Super simple implementation of LDAP with Wordpress! Authenticates wordpress users accounts against LDAP user accounts with the same username. That's all there is to it!
 
 == Description ==
-**If you have used this plugin (successfully or unsuccessfully), please visit the plugin homepage and leave feedback. Or you can e-mail me at webmaster[at]clifgriffin.com. Doing so will contribute to the future of this plugin and help me help others who may be experiencing problems.**
+**BETA Version Available**
+I released Simple LDAP Login 1.3 Beta on 05/12/2009.  The new version supports integrated user creation based on LDAP authentication, group membership, or the original mode. Additionally, I have implemented Olivier Fontes' MXC LDAP plugin into my plugin. In theory, this should add support for OpenLDAP. It is important to note, however, that **I have NOT been able to test any OpenLDAP scenarios**. The code logic makes sense to me, but I am 100% confident there will be issues that come up. **I'm counting on you guys to help me out in testing this.** 
+
+The new version seems to work flawlessly in Active Directory. I will be posting a complete description of how the new plugin works philosophically soon. Until now, I believe it should be fairly self-explanatory. 
+
+The new version is available under the versions link on the right. I have not made it the primary release because it is in beta at this point and many features have not been tested adequately.
+
+Please comment on this post with issues, questions: http://clifgriffin.com/2009/05/12/simple-ldap-login-13-beta-released
+
+Or, you can e-mail me: me[at]clifgriffin.com
+
+**Old description for =< 1.2.0.1**
+*NOTE: It appears that all versions before 1.3 do not work with OpenLDAP. If you need OpenLDAP, please see the early beta release of 1.3.*
 
 Having a single login for every service is a must in large organizations. This plugin is a *extremely* simple! It authenticates your wordpress username against LDAP using the same username. It does this by redefining the wp_authenticate function and adding a simple hook to adLDAP. The logic goes like this:
 
@@ -24,7 +36,12 @@ Having a single login for every service is a must in large organizations. This p
 In times past, our organization used a custom hack of wp-login.php that allowed us to implement adLDAP. This was not an upgrade proof solution. In the recent round of upgrades, I tried several purported LDAP plugins. Some of them didn't work at all. Some of them worked but didn't provide the exact functionality I desired.
 
 = Version History =
+**Version 1.3 Beta**
 
+*Support for both Active Directory and OpenLDAP.
+*The ability to create wordpress users automatically upon login based on LDAP group membership OR by LDAP authentication alone.
+*The ability to test domain settings straight from admin panel.
+*Announcements pane that allows me to update you with fixes, cautions, new beta versions, or other important information.
 
 **Version 1.2.0.1:**
 
@@ -71,3 +88,4 @@ There are two ways. You can post a comment on my blog (http://clifgriffin.com/20
 == Screenshots ==
 
 1. The administration page under Settings -> Simple LDAP Login
+2. Version 1.3 Beta administration page highlighting new features
