@@ -15,23 +15,23 @@ Having a single login for every service is a must in large organizations. This p
 
 * Supports Active Directory and OpenLDAP (and other directory systems which comply to the LDAP standard, such as OpenDS)
 * Includes three login modes:
-** Normal Mode: Authenticates existing wordpress usernames against LDAP. This requires you to create all Wordpress accounts manually using the same user names as those in your LDAP directory.
-** Account Creation Mode 1: Creates Wordpress accounts automatically for any LDAP user.
-** Account Creation Mode 2: Creates Wordpress accounts automatically for LDAP users in a specific Group you specify.
+* * Normal Mode: Authenticates existing wordpress usernames against LDAP. This requires you to create all Wordpress accounts manually using the same user names as those in your LDAP directory.
+* * Account Creation Mode 1: Creates Wordpress accounts automatically for any LDAP user.
+* * Account Creation Mode 2: Creates Wordpress accounts automatically for LDAP users in a specific Group you specify.
 * Intuitive control panel.
 
 = Architecture =
 Simple LDAP Login redefines the main function Wordpress uses to authenticate users. In doing so, it makes several decisions.
 
 * Is the provided username a valid Wordpress user?
-** If not, are we allowed to create a wordpress user?
-*** If we are, are we able to authenticate the username and password provided against LDAP?
-**** If we are, does the user belong to the right (if any) group?
-***** If the user does, create the wordpress user and log the user in.
-** If the username is a valid wordpress user, is the password provided the same as the one in the Wordpress database?
-*** If so, log the user in.
-*** If not, do the provided credentials successfully authenticate against LDAP?
-**** If so, log the user in.
+* * If not, are we allowed to create a wordpress user?
+* * * If we are, are we able to authenticate the username and password provided against LDAP?
+* * * * If we are, does the user belong to the right (if any) group?
+* * * * * If the user does, create the wordpress user and log the user in.
+* * If the username is a valid wordpress user, is the password provided the same as the one in the Wordpress database?
+* * * If so, log the user in.
+* * * If not, do the provided credentials successfully authenticate against LDAP?
+* * * * If so, log the user in.
 
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does.
 
