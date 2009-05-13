@@ -38,10 +38,10 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 = Version History =
 **Version 1.3 Beta**
 
-*Support for both Active Directory and OpenLDAP.
-*The ability to create wordpress users automatically upon login based on LDAP group membership OR by LDAP authentication alone.
-*The ability to test domain settings straight from admin panel.
-*Announcements pane that allows me to update you with fixes, cautions, new beta versions, or other important information.
+* Support for both Active Directory and OpenLDAP.
+* The ability to create wordpress users automatically upon login based on LDAP group membership OR by LDAP authentication alone.
+* The ability to test domain settings straight from admin panel.
+* Announcements pane that allows me to update you with fixes, cautions, new beta versions, or other important information.
 
 **Version 1.2.0.1:**
 
