@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.3
+Version: 1.3.0.1
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
@@ -87,22 +87,31 @@ function wp_authenticate($username, $password) {
 							$userinfo = $adldap->user_info($username, array("samaccountname","givenname","sn","mail"));
 							//Create WP account
 							$userData = array(
-								'user_pass'     => $password,
+								'user_pass'     => microtime(),
 								'user_login'    => $userinfo[0][samaccountname][0],
 								'user_nicename' => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
 								'user_email'    => $userinfo[0][mail][0],
 								'display_name'  => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
 								'first_name'    => $userinfo[0][givenname][0],
-								'last_name'     => $userinfo[0][sn][0],
-								'role'			=> get_option('simpleldap_account_type')
+								'last_name'     => $userinfo[0][sn][0]
 								);
-							print_r($userData);
-							wp_insert_user($userData);
+								//print_r($userData);
+							
+							//Get ID of new user
+							$new_id = wp_insert_user($userData);
+							//Create new array to make up for bug in wp_insert_user.
+							$userData_role = array(
+								'ID'			=>	$new_id,
+								'role'			=> get_option('simpleldap_account_type') 
+								);
+							//Update user with role
+							wp_update_user($userData_role);
+							
 						}
 						else
 						{
 							do_action( 'wp_login_failed', $username );				
-							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
+							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
 						}
 						break;
 					case "directory_ol":
@@ -129,13 +138,23 @@ function wp_authenticate($username, $password) {
 									'first_name'    => $ldapuser[0]['givenname'][0],
 									'last_name'     => $ldapuser[0]['sn'][0]
 									);
-								wp_insert_user($userData);
+									//print_r($userData);
+							
+								//Get ID of new user
+								$new_id = wp_insert_user($userData);
+								//Create new array to make up for bug in wp_insert_user.
+								$userData_role = array(
+										'ID'			=>	$new_id,
+										'role'			=> get_option('simpleldap_account_type') 
+										);
+								//Update user with role
+								wp_update_user($userData_role);
 							}
 						}
 						else
 						{
 							do_action( 'wp_login_failed', $username );				
-							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
+							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
 						}
 						break;
 				}
@@ -160,20 +179,30 @@ function wp_authenticate($username, $password) {
 									'first_name'    => $userinfo[0][givenname][0],
 									'last_name'     => $userinfo[0][sn][0],
 									'role'			=> get_option('simpleldap_account_type')
-								);
-								wp_insert_user($userData);
+									);
+									//print_r($userData);
+							
+								//Get ID of new user
+								$new_id = wp_insert_user($userData);
+								//Create new array to make up for bug in wp_insert_user.
+								$userData_role = array(
+										'ID'			=>	$new_id,
+										'role'			=> get_option('simpleldap_account_type') 
+										);
+								//Update user with role
+								wp_update_user($userData_role);
 							}
 							else
 							{
 								//User authenticated, but isn't in group!
 								do_action( 'wp_login_failed', $username );				
-								return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode allows account creation, the LDAP credentials provided are correct, but the user is not in an allowed group.'));
+								return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode allows account creation, the LDAP credentials provided are correct, but the user is not in an allowed group.'));
 							}
 						}
 						else
 						{
 							do_action( 'wp_login_failed', $username );				
-							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
+							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
 						}
 						break;
 					case "directory_ol":
@@ -213,32 +242,41 @@ function wp_authenticate($username, $password) {
 										'first_name'    => $ldapuser[0]['givenname'][0],
 										'last_name'     => $ldapuser[0]['sn'][0]
 										);
-									
-									wp_insert_user($userData);
+										//print_r($userData);
+							
+									//Get ID of new user
+									$new_id = wp_insert_user($userData);
+									//Create new array to make up for bug in wp_insert_user.
+									$userData_role = array(
+										'ID'			=>	$new_id,
+										'role'			=> get_option('simpleldap_account_type') 
+										);
+									//Update user with role
+									wp_update_user($userData_role);
 								}
 								else
 								{
 									do_action( 'wp_login_failed', $username );				
-									return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode allows account creation, the LDAP credentials provided are correct, but the user is not in an allowed group.'));
+									return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode allows account creation, the LDAP credentials provided are correct, but the user is not in an allowed group.'));
 								}
 							}
 							else
 							{
 								do_action( 'wp_login_failed', $username );				
-								return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
+								return new WP_Error('invalid_username', __('<strong>ERROR</strong>: You should not see this error. If you do see it, there is a problem with the group check for OpenLDAP. Please report this error as it probably represents a bug. Location: account creation group check.'));
 							}
 						}
 						else
 						{
 							do_action( 'wp_login_failed', $username );				
-							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login could not bind to OpenLDAP.'));
+							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode allows account creation but the LDAP credentials provided are incorrect.'));
 						}
 						break;
 				}
 				break;
 			default:
 				do_action( 'wp_login_failed', $username );				
-				return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username. Simple LDAP Login mode does not permit account creation.'));
+				return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login mode does not permit account creation.'));
 		}
 	}
 
@@ -262,19 +300,67 @@ function wp_authenticate($username, $password) {
 		{
 			case "directory_ad":
 				if ($adldap -> authenticate($user->user_login,$password)){
-					return new WP_User($user->ID);
-				}
+					if(get_option('simpleldap_login_mode') == "mode_create_group")
+					{
+						if($adldap->user_ingroup($user->user_login,get_option('simpleldap_group')))
+						{
+							return new WP_User($user->ID);							
+						}
+						else
+						{
+							return new WP_Error('invalid_username', __('<strong>ERROR</strong>: User exists and authenticated properly but did not belong to the group required by Simple LDAP Login.'));
+						}
+					}
+					else
+					{
+						return new WP_User($user->ID);	
+					}
+				}				
 				break;
 			case "directory_ol":
-				//OpenLDAP create group
-				$ldap = ldap_connect(LDAP_HOST, LDAP_PORT) 
-					or die("Can't connect to LDAP server.");
-				ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, LDAP_VERSION);
-				$ldapbind = @ldap_bind($ldap, LOGIN .'=' . $username . ',' . BASE_DN, $password);
-				if ($ldapbind == true) 
-				{
-					return new WP_User($user->ID);
-				}
+					//OpenLDAP create based on group
+					$ldap = ldap_connect(LDAP_HOST, LDAP_PORT) 
+						or die("Can't connect to LDAP server.");
+					ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, LDAP_VERSION);
+					$ldapbind = @ldap_bind($ldap, LOGIN .'=' . $username . ',' . BASE_DN, $password);
+					if ($ldapbind == true) 
+					{
+						if(get_option('simpleldap_login_mode') == "mode_create_group")
+						{
+							$result = ldap_search($ldap, BASE_DN, '(' . LOGIN . '=' . $username . ')', array(LOGIN, 'sn', 'givenname', 'mail', 'memberof'));
+							$ldapuser = ldap_get_entries($ldap, $result);
+						
+							if ($ldapuser['count'] == 1) 
+							{
+								//Ok, we should have the user, all the info, including which groups he is a member of. 
+								//Now let's make sure he's in the right group before proceeding.
+								$groups = array();
+								foreach($ldapuser[0][memberof][0] as $group)
+								{
+									$temp = substr($group, 0, stripos($group, ","));
+								 	// Strip the CN= and change to lowercase for easy handling
+								  	$temp = strtolower(str_replace("CN=", "", $temp));
+								  	$groups[] .= $temp;
+								}	
+								if(in_array(get_option('simpleldap_group'),$groups))
+								{	
+									return new WP_User($user->ID);
+								}
+								else
+								{
+									return new WP_Error('invalid_username', __('<strong>ERROR</strong>: User exists and authenticated properly but did not belong to the group required by Simple LDAP Login.'));
+								}
+							}
+							else
+							{
+																return new WP_Error('invalid_username', __('<strong>ERROR</strong>: You should not see this error. If you do see it, there is a problem with the group check for OpenLDAP. Please report this error as it probably represents a bug. Location: existing account group check.'));
+							}
+						}
+						else
+						{
+							return new WP_User($user->ID);
+						}
+					}
 				break;		
 		}
 		do_action( 'wp_login_failed', $username );

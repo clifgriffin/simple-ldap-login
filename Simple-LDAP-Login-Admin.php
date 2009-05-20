@@ -159,35 +159,33 @@ elseif ('test' == $_POST['stage'])
 ?>
 <body>
 <div class="container">
-<div class="banner"><h1>Simple LDAP Login 1.3 Beta</h1></div>
+<div class="banner"><h1>Simple LDAP Login 1.3.0.1 Beta</h1></div>
 <form style="display::inline;" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>&updated=true">
 <div class="simpleldap_style">
 <h2>Settings</h2>
 <h3>These are rather important.</h3>
+<p><strong>LDAP Directory:</strong><br/>
+<input name="LDAP" type="radio" value="directory_ad" onClick="enable('advanced');" <?php if($simpleldap_directory_type=="directory_ad"){echo "checked";}?>> <label for="directory_ad">Active Directory. (default)</label><br/>
+<input name="LDAP" type="radio" value="directory_ol" onClick="disable('advanced');"<?php if($simpleldap_directory_type=="directory_ol"){echo "checked";}?>> <label for="directory_ol">OpenLDAP (BETA, may support other LDAP directories)</label><br/>
+</p>
   <p><strong>Account Suffix:</strong><br />
 <input name="account_suffix" type="text" value="<?php  echo $simpleldap_account_suffix; ?>" size="35" /><br />
 *Probably the domain portion of your e-mail addresses. Example: @domain.com
  </p><p><strong>Base DN:</strong><br />
 <input name="base_dn" type="text" value="<?php  echo $simpleldap_base_dn; ?>" size="35" /><br />
-*Example: For subdomain.domain.sufix  you would be use DC=subdomain,DC=domain,DC=suffix 
+*Example: For subdomain.domain.sufix use DC=subdomain,DC=domain,DC=suffix 
   </p>
  <p><strong>Domain Controller(s):</strong><br />
 <input name="domain_controller" type="text" value="<?php  echo $simpleldap_domain_controllers; ?>" size="60" /><br />
-*Separate with semi-colons. Example: dc1.domain.com;dc2.dcomain.com;dc3.domain.com
+*Separate with semi-colons.
   </p>
 <input type="hidden" name="stage" value="process" />
 <input type="submit" name="button_submit" value="<?php _e('Update Options', 'simple-ldap-login') ?> &raquo;" />
-
 </div>
 <div class="advanced">
 <h2>Advanced</h2>
 <h3>For the intrepid and daring among you.</h3>
-<p><strong>LDAP Directory:</strong><br/>
-<input name="LDAP" type="radio" value="directory_ad" onClick="enable('advanced');" <?php if($simpleldap_directory_type=="directory_ad"){echo "checked";}?>> <label for="directory_ad">Active Directory. (default)</label><br/>
-<input name="LDAP" type="radio" value="directory_ol" onClick="disable('advanced');"<?php if($simpleldap_directory_type=="directory_ol"){echo "checked";}?>> <label for="directory_ol">OpenLDAP (BETA, untested)</label><br/>
-</p>
 <p style="margin-bottom:0px;"><strong>Login mode:</strong><br>
-<em>OpenLDAP only allows first two login models. Group membership is not currently supported.</em><br/>
 <input name="mode" type="radio" value="mode_normal" <?php if($simpleldap_login_mode=="mode_normal"){echo "checked";}?> > <label for="mode_normal">Authenticate Wordpress users against LDAP. I will create the accounts in wordpress myself. (default)</label><br/>
 <input name="mode" type="radio" value="mode_create_all" <?php if($simpleldap_login_mode=="mode_create_all"){echo "checked";}?> > <label for="mode_create_all">Create Wordpress account for anyone who successfully authenticates against LDAP.</label><br/>
 <input name="mode" type="radio" value="mode_create_group" <?php if($simpleldap_login_mode=="mode_create_group"){echo "checked";}?>> <label for="mode_create_group">Create Wordpress account for users in specified AD group:</label> <input name="group_name" type="text" value="<?php  echo $simpleldap_group; ?>" size="12"/></p>
@@ -199,7 +197,6 @@ elseif ('test' == $_POST['stage'])
 <option value="Contributor" <?php if($simpleldap_account_type=="Contributor"){echo 'selected="selected"';}?> >Contributor</option>
 <option value="Subscriber" <?php if($simpleldap_account_type=="Subscriber"){echo 'selected="selected"';}?> >Subscriber</option>
 </select>
-
 </p>
 </div>
 </form>
@@ -235,7 +232,13 @@ elseif($bool_test == 2)
 </p>
 </div>
 <div class="information_pane">
-<? echo file_get_contents('http://clifgriffin.com/plugins/simple-ldap-login/news.htm'); ?>
+<? 
+echo @file_get_contents('http://clifgriffin.com/plugins/simple-ldap-login/news.htm'); 
+if(error_get_last())
+{
+	echo "<iframe src =\"http://clifgriffin.com/plugins/simple-ldap-login/news.htm\" width=\"100%\" height=\"280px\"><p>Oddly, your version of PHP doesn't allow file_get_contents to use URLs. But even more oddly, your browser doesn't allow frames! I think it's time for you to consider leaving 1998 in the past.</p></iframe>";
+}
+?>
 </div>
 </div>
 <?php
