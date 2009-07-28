@@ -4,7 +4,7 @@ Donate link: http://clifgriffin.com/code/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.5.1
 Tested up to: 2.8.2
-Stable tag: 1.3.0.2
+Stable tag: 1.3.0.2.1
 
 Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides the features you need with the simple configuration you want. It has everything you need to get started today.
 
