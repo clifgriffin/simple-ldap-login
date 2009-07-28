@@ -36,7 +36,13 @@ Simple LDAP Login redefines the main function Wordpress uses to authenticate use
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does.
 
 = Version History =
+**Version 1.3.0.2.1**
+
+* Fixed case sensitivity issue that could result in multiple accounts. There may be lingering case insentisivty issues due to the get_userdatabylogin function being case-sensitive. We'll figure this out in due time. 
+* Sorry for posting two updates on the same day!
+
 **Version 1.3.0.2**
+
 * Fixes several tickets including role assignment, case sensitivity, and potential compatibility issues with other themes/plugins.
 * Added security mode setting to allow security to be tightened. 
 * Changed auto created accounts to use a random password rather than the LDAP password given. 
@@ -44,6 +50,7 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 * More code clean up.
 
 **Version 1.3.0.1**
+
 * Never officially released. 
 * Contained code cleanup and some attempted fixes. 
 

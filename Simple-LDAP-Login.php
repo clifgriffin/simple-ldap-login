@@ -75,7 +75,7 @@ function wp_authenticate($username, $password) {
 
 	$user = get_userdatabylogin($username);
 	
-	if ( !$user || ($user->user_login != $username) ) 
+	if ( !$user || (strtolower($user->user_login) != strtolower($username)) ) 
 	{
 		//No user, are we supposed to create one?
 		switch(get_option('simpleldap_login_mode'))
