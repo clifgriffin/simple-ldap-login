@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.3.0.1
+Version: 1.3.0.2
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
@@ -31,9 +31,12 @@ function simpleldap_activation_hook()
 	add_option("simpleldap_login_mode", "mode_normal");
 	add_option("simpleldap_group", "");
 	add_option("simpleldap_account_type", "Contributor");
+	
+	//Version 1.3.0.2
+	add_option("simpleldap_security_mode", "security_low");
 }
 //For adLDAP
-$options=array(
+$sll_options=array(
 	"account_suffix"=>get_option("simpleldap_account_suffix"),
 	"base_dn"=>get_option("simpleldap_base_dn"),
 	"domain_controllers"=>explode(";",get_option("simpleldap_domain_controllers")),	
@@ -57,10 +60,10 @@ add_action('admin_menu', 'simpleldap_admin_actions');
 //Redefine wp_authenticate
 if ( !function_exists('wp_authenticate') ) :
 function wp_authenticate($username, $password) {
-	global $options;
+	global $sll_options;
 	
 	//Setup adLDAP object
-	$adldap = new adLDAP($options);
+	$adldap = new adLDAP($sll_options);
 	
 	$username = sanitize_user($username);
 
@@ -93,19 +96,10 @@ function wp_authenticate($username, $password) {
 								'user_email'    => $userinfo[0][mail][0],
 								'display_name'  => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
 								'first_name'    => $userinfo[0][givenname][0],
-								'last_name'     => $userinfo[0][sn][0]
+								'last_name'     => $userinfo[0][sn][0],
+								'role'			=> strtolower(get_option('simpleldap_account_type'))
 								);
-								//print_r($userData);
-							
-							//Get ID of new user
-							$new_id = wp_insert_user($userData);
-							//Create new array to make up for bug in wp_insert_user.
-							$userData_role = array(
-								'ID'			=>	$new_id,
-								'role'			=> get_option('simpleldap_account_type') 
-								);
-							//Update user with role
-							wp_update_user($userData_role);
+							wp_insert_user($userData);
 							
 						}
 						else
@@ -130,25 +124,18 @@ function wp_authenticate($username, $password) {
 							if ($ldapuser['count'] == 1) {
 								//Create user using wp standard include
 								$userData = array(
-									'user_pass'     => $password,
+									'user_pass'     => microtime(),
 									'user_login'    => $ldapuser[0][LOGIN][0],
 									'user_nicename' => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 									'user_email'    => $ldapuser[0]['mail'][0],
 									'display_name'  => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 									'first_name'    => $ldapuser[0]['givenname'][0],
-									'last_name'     => $ldapuser[0]['sn'][0]
+									'last_name'     => $ldapuser[0]['sn'][0],
+									'role'			=> strtolower(get_option('simpleldap_account_type'))
 									);
-									//print_r($userData);
 							
 								//Get ID of new user
-								$new_id = wp_insert_user($userData);
-								//Create new array to make up for bug in wp_insert_user.
-								$userData_role = array(
-										'ID'			=>	$new_id,
-										'role'			=> get_option('simpleldap_account_type') 
-										);
-								//Update user with role
-								wp_update_user($userData_role);
+								wp_insert_user($userData);								
 							}
 						}
 						else
@@ -171,26 +158,17 @@ function wp_authenticate($username, $password) {
 								$userinfo = $adldap->user_info($username, array("samaccountname","givenname","sn","mail"));
 								//Create WP account
 								$userData = array(
-									'user_pass'     => $password,
+									'user_pass'     => microtime(),
 									'user_login'    => $userinfo[0][samaccountname][0],
 									'user_nicename' => $userinfo[0][givenname][0].' '.$userinfo[0][sn][0],
 									'user_email'    => $userinfo[0][mail][0],
 									'display_name'  => $userinfo[0][givenname][0].' '.$userinfo[0][sn][0],
 									'first_name'    => $userinfo[0][givenname][0],
 									'last_name'     => $userinfo[0][sn][0],
-									'role'			=> get_option('simpleldap_account_type')
+									'role'			=> strtolower(get_option('simpleldap_account_type'))
 									);
-									//print_r($userData);
-							
-								//Get ID of new user
-								$new_id = wp_insert_user($userData);
-								//Create new array to make up for bug in wp_insert_user.
-								$userData_role = array(
-										'ID'			=>	$new_id,
-										'role'			=> get_option('simpleldap_account_type') 
-										);
-								//Update user with role
-								wp_update_user($userData_role);
+									
+									wp_insert_user($userData);
 							}
 							else
 							{
@@ -234,25 +212,17 @@ function wp_authenticate($username, $password) {
 								{						
 									//Create user using wp standard include
 									$userData = array(
-										'user_pass'     => $password,
+										'user_pass'     => microtime(),
 										'user_login'    => $ldapuser[0][LOGIN][0],
 										'user_nicename' => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 										'user_email'    => $ldapuser[0]['mail'][0],
 										'display_name'  => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 										'first_name'    => $ldapuser[0]['givenname'][0],
-										'last_name'     => $ldapuser[0]['sn'][0]
+										'last_name'     => $ldapuser[0]['sn'][0],
+										'role'			=> strtolower(get_option('simpleldap_account_type'))
 										);
-										//print_r($userData);
-							
-									//Get ID of new user
-									$new_id = wp_insert_user($userData);
-									//Create new array to make up for bug in wp_insert_user.
-									$userData_role = array(
-										'ID'			=>	$new_id,
-										'role'			=> get_option('simpleldap_account_type') 
-										);
-									//Update user with role
-									wp_update_user($userData_role);
+																	
+									wp_insert_user($userData);									
 								}
 								else
 								{
@@ -283,7 +253,7 @@ function wp_authenticate($username, $password) {
 
 	$user = get_userdatabylogin($username);
 	
-	if ( !$user || ($user->user_login != $username) ) {	
+	if ( !$user || (strtolower($user->user_login) != strtolower($username)) ) {	
 	
 		do_action( 'wp_login_failed', $username );
 		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Invalid username.'));
@@ -353,12 +323,12 @@ function wp_authenticate($username, $password) {
 							}
 							else
 							{
-																return new WP_Error('invalid_username', __('<strong>ERROR</strong>: You should not see this error. If you do see it, there is a problem with the group check for OpenLDAP. Please report this error as it probably represents a bug. Location: existing account group check.'));
+								return new WP_Error('invalid_username', __('<strong>ERROR</strong>: You should not see this error. If you do see it, there is a problem with the group check for OpenLDAP. Please report this error as it probably represents a bug. Location: existing account group check.'));
 							}
 						}
 						else
 						{
-							return new WP_User($user->ID);
+								return new WP_User($user->ID);
 						}
 					}
 				break;		
@@ -366,8 +336,14 @@ function wp_authenticate($username, $password) {
 		do_action( 'wp_login_failed', $username );
 		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
 	}
-
-	return new WP_User($user->ID);
+	if(get_option("simpleldap_security_mode") == "security_high")
+	{
+		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login is set to high security mode. In this mode Wordpress local accounts do not work. You must authenticate using the LDAP password.'));
+	}
+	else
+	{
+		return new WP_User($user->ID);
+	}
 }
 endif;
 register_activation_hook( __FILE__, 'simpleldap_activation_hook' );

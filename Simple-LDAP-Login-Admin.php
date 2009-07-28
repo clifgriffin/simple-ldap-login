@@ -64,17 +64,6 @@ h4{
 //Debug
 $debug = "false";
 
-//Load settings, etc
-$simpleldap_account_suffix = get_option("simpleldap_account_suffix");
-$simpleldap_base_dn = get_option("simpleldap_base_dn");
-$simpleldap_domain_controllers = get_option("simpleldap_domain_controllers");
-
-//Version 1.3
-$simpleldap_directory_type = 	get_option("simpleldap_directory_type");
-$simpleldap_login_mode = 	get_option("simpleldap_login_mode");
-$simpleldap_group = 	get_option("simpleldap_group");
-$simpleldap_account_type = 	get_option("simpleldap_account_type");
-
 //Where are we?
 $this_page = $_SERVER['PHP_SELF'].'?page='.$_GET['page'];
 
@@ -94,15 +83,8 @@ if ('process' == $_POST['stage'])
 	update_option('simpleldap_group',$_POST['group_name']);
 	update_option('simpleldap_account_type',$_POST['create_type']);
 	
-	$simpleldap_account_suffix = get_option("simpleldap_account_suffix");
-	$simpledap_base_dn = get_option("simpleldap_base_dn");
-	$simpleldap_domain_controllers = get_option("simpleldap_domain_controllers");	
-	
-	//Version 1.3
-	$simpleldap_directory_type = 	get_option("simpleldap_directory_type");
-	$simpleldap_login_mode = 	get_option("simpleldap_login_mode");
-	$simpleldap_group = 	get_option("simpleldap_group");
-	$simpleldap_account_type = 	get_option("simpleldap_account_type");
+	//Version 1.3.0.2
+	update_option('simpleldap_security_mode',$_POST['security_mode']);
 }
 elseif ('test' == $_POST['stage']) 
 {
@@ -156,10 +138,24 @@ elseif ('test' == $_POST['stage'])
 		}
 	}
 }
+//Load settings, etc
+$simpleldap_account_suffix = get_option("simpleldap_account_suffix");
+$simpleldap_base_dn = get_option("simpleldap_base_dn");
+$simpleldap_domain_controllers = get_option("simpleldap_domain_controllers");
+
+//Version 1.3
+$simpleldap_directory_type = 	get_option("simpleldap_directory_type");
+$simpleldap_login_mode = 	get_option("simpleldap_login_mode");
+$simpleldap_group = 	get_option("simpleldap_group");
+$simpleldap_account_type = 	get_option("simpleldap_account_type");
+
+//Version 1.3.0.2
+$simpleldap_security_mode = get_option("simpleldap_security_mode");
+
 ?>
 <body>
 <div class="container">
-<div class="banner"><h1>Simple LDAP Login 1.3.0.1 Beta</h1></div>
+<div class="banner"><h1>Simple LDAP Login 1.3.0.2 Beta</h1></div>
 <form style="display::inline;" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>&updated=true">
 <div class="simpleldap_style">
 <h2>Settings</h2>
@@ -198,6 +194,11 @@ elseif ('test' == $_POST['stage'])
 <option value="Subscriber" <?php if($simpleldap_account_type=="Subscriber"){echo 'selected="selected"';}?> >Subscriber</option>
 </select>
 </p>
+<p>
+<strong>Security mode:</strong><br>
+<input name="security_mode" type="radio" value="security_low" <?php if($simpleldap_security_mode=="security_low"){echo "checked";}?> > <label for="security_low">Default mode. First attempts to login with LDAP credentials, failing that, it attempts to login using the local wordpress username/password. If you intend to use a mixture of local and LDAP accounts, leave this mode enabled.</label><br/>
+<input name="security_mode" type="radio" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high">Restrict login to only LDAP accounts. If a username fails to authenticate against LDAP, login will fail. More secure than normal mode as it creates a smaller target for attack.</label><br/>
+</p>
 </div>
 </form>
 <div class="simpleldap_style_test">
@@ -232,13 +233,7 @@ elseif($bool_test == 2)
 </p>
 </div>
 <div class="information_pane">
-<? 
-echo @file_get_contents('http://clifgriffin.com/plugins/simple-ldap-login/news.htm'); 
-if(error_get_last())
-{
-	echo "<iframe src =\"http://clifgriffin.com/plugins/simple-ldap-login/news.htm\" width=\"100%\" height=\"280px\"><p>Oddly, your version of PHP doesn't allow file_get_contents to use URLs. But even more oddly, your browser doesn't allow frames! I think it's time for you to consider leaving 1998 in the past.</p></iframe>";
-}
-?>
+<? echo "<iframe src =\"http://clifgriffin.com/plugins/simple-ldap-login/news.htm\" width=\"98%\" height=\"280px\" border=\"0\"><p>Oddly, your version of PHP doesn't allow file_get_contents to use URLs. But even more oddly, your browser doesn't allow frames! I think it's time for you to consider leaving 1998 in the past.</p></iframe>"; ?>
 </div>
 </div>
 <?php
