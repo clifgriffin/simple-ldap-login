@@ -71,7 +71,7 @@ $this_page = $_SERVER['PHP_SELF'].'?page='.$_GET['page'];
 $bool_test = 0;
 
 //If admin options updated (uses hidden field)
-if ('process' == $_POST['stage']) 
+if ($_POST['stage'] == 'process') 
 {
     update_option('simpleldap_account_suffix', $_POST['account_suffix']);
 	update_option('simpleldap_base_dn', $_POST['base_dn']);
@@ -86,56 +86,18 @@ if ('process' == $_POST['stage'])
 	//Version 1.3.0.2
 	update_option('simpleldap_security_mode',$_POST['security_mode']);
 }
-elseif ('test' == $_POST['stage']) 
+//Test credentials
+elseif ($_POST['stage'] == 'test') 
 {
 	global $bool_test;
-	global $test_error;
-	require_once( WP_PLUGIN_DIR."/simple-ldap-login/adLDAP.php");
-	$options=array(
-	"account_suffix"=>get_option("simpleldap_account_suffix"),
-	"base_dn"=>get_option("simpleldap_base_dn"),
-	"domain_controllers"=>explode(";",get_option("simpleldap_domain_controllers")),
-	);
-	
-	//For OpenLDAP
-	$ar_ldaphosts = explode(";",get_option("simpleldap_domain_controllers"));
-	$ldaphosts = ""; //string to hold each host separated by space
-	foreach ($ar_ldaphosts as $host)
+	$test_user = wp_authenticate($_POST['test_username'],$_POST['test_password']);
+	if ($test_user->ID > 0)
 	{
-		$ldaphosts .= $host." ";
+		$bool_test = 1;
 	}
-	define ('LDAP_HOST', $ldaphosts);
-	define ('LDAP_PORT', 389);
-	define ('LDAP_VERSION', 3);
-	define ('BASE_DN', get_option('simpleldap_base_dn'));
-	define ('LOGIN', 'uid');
-
-	if(get_option("simpleldap_directory_type") == "directory_ad")
+	else 
 	{
-		$adldap = new adLDAP($options);
-		if ($adldap -> authenticate($_POST['test_username'],$_POST['test_password']))
-		{
-			$bool_test = 1;
-		}
-		else 
-		{
-			$bool_test = 2;
-		}
-	}
-	else //assume OpenLDAP
-	{
-		$ldap = ldap_connect(LDAP_HOST, LDAP_PORT) 
-					or die("Can't connect to LDAP server.");
-		ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, LDAP_VERSION);
-		$ldapbind = @ldap_bind($ldap, LOGIN .'=' .$_POST['test_username']. ',' . BASE_DN, $_POST['test_password']);
-		if ($ldapbind == true) 
-		{
-			$bool_test = 1;
-		}
-		else
-		{
-			$bool_test = 2;
-		}
+		$bool_test = 2;
 	}
 }
 //Load settings, etc
@@ -155,7 +117,7 @@ $simpleldap_security_mode = get_option("simpleldap_security_mode");
 ?>
 <body>
 <div class="container">
-<div class="banner"><h1>Simple LDAP Login 1.3.0.2 Beta</h1></div>
+<div class="banner"><h1>Simple LDAP Login 1.3.0.3</h1></div>
 <form style="display::inline;" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>&updated=true">
 <div class="simpleldap_style">
 <h2>Settings</h2>
@@ -166,7 +128,7 @@ $simpleldap_security_mode = get_option("simpleldap_security_mode");
 </p>
   <p><strong>Account Suffix:</strong><br />
 <input name="account_suffix" type="text" value="<?php  echo $simpleldap_account_suffix; ?>" size="35" /><br />
-*Probably the domain portion of your e-mail addresses. Example: @domain.com
+*Probably the suffix of your e-mail addresses. Example: @domain.com
  </p><p><strong>Base DN:</strong><br />
 <input name="base_dn" type="text" value="<?php  echo $simpleldap_base_dn; ?>" size="35" /><br />
 *Example: For subdomain.domain.sufix use DC=subdomain,DC=domain,DC=suffix 
@@ -196,14 +158,14 @@ $simpleldap_security_mode = get_option("simpleldap_security_mode");
 </p>
 <p>
 <strong>Security mode:</strong><br>
-<input name="security_mode" type="radio" value="security_low" <?php if($simpleldap_security_mode=="security_low"){echo "checked";}?> > <label for="security_low">Default mode. First attempts to login with LDAP credentials, failing that, it attempts to login using the local wordpress username/password. If you intend to use a mixture of local and LDAP accounts, leave this mode enabled.</label><br/>
-<input name="security_mode" type="radio" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high">Restrict login to only LDAP accounts. If a username fails to authenticate against LDAP, login will fail. More secure than normal mode as it creates a smaller target for attack.</label><br/>
+<input name="security_mode" type="radio" value="security_low" <?php if($simpleldap_security_mode=="security_low"){echo "checked";}?> > <label for="security_low"><strong>Low.</strong> Default mode. First attempts to login with LDAP password, failing that, it attempts to login using the local wordpress password. If you intend to use a mixture of local and LDAP accounts, leave this mode enabled.</label><br/>
+<input name="security_mode" type="radio" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high"><strong>High.</strong> Restrict login to only LDAP passwords. If a wordpress username fails to authenticate against LDAP, login will fail. More secure than low mode as it creates a smaller target for attack. <strong>Exception: For safety, the <em>admin</em> account can still login if it exists.<strong></label><br/>
 </p>
 </div>
 </form>
 <div class="simpleldap_style_test">
 <h2>Test Settings</h2>
-<h3>Use this form to test those settings you saved.* Does <em>not</em> test user creation or group membership.</h3>
+<h3>Use this form to test those settings you saved.* This <em>will</em> test user creation and group membership.</h3>
 <h4>*You did save them, right?</h4>
 <form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
   <p>Username:<br />
@@ -219,15 +181,15 @@ $simpleldap_security_mode = get_option("simpleldap_security_mode");
 <?php
 if($bool_test == 0)
 {
-	echo "Nothing to report yet, Commander Nelson.";
+	echo "Nothing to report yet, Mr. Fahrenheit.";
 }
 if($bool_test == 1)
 {
-	echo "Congratulations! The test succeeded. Your settings are correct, it seems.";
+	echo "Congratulations! The test succeeded. This account is able to login.";
 }
 elseif($bool_test == 2)
 {
-	echo "Failure. Your settings do not seem to work yet.";
+	echo "Failure. Your settings do not seem to work yet or the credentials are either wrong or have insufficient group membership.";
 }
 ?>
 </p>

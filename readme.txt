@@ -3,8 +3,8 @@ Contributors: clifgriffin
 Donate link: http://clifgriffin.com/code/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.5.1
-Tested up to: 2.8.2
-Stable tag: 1.3.0.2.1
+Tested up to: 2.8.3
+Stable tag: 1.3.0.3
 
 Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides the features you need with the simple configuration you want. It has everything you need to get started today.
 
@@ -29,16 +29,26 @@ Simple LDAP Login redefines the main function Wordpress uses to authenticate use
 * * * * If we are, does the user belong to the right (if any) group?
 * * * * * If the user does, create the wordpress user and log the user in.
 * * If the username is a valid wordpress user, is the password provided the same as the one in the Wordpress database?
-* * * If so, log the user in.
-* * * If not, do the provided credentials successfully authenticate against LDAP?
+* * * Is the security mode set to low or the username admin?
 * * * * If so, log the user in.
+* * * If not, do the provided credentials successfully authenticate against LDAP?
+* * * * If so, is the user in the required groups? (if any)
+* * * * * If so,log the user in.
 
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does.
 
 = Version History =
+
+**Version 1.3.0.3**
+
+* Test form now implements wp_authenticate and uses the same routines as the actual login. This also means account creation and group membership are tested. 
+* Implemented stripslashes() to correct issue with some special characters such as a single quote and backslash. 
+* Wordpress account "admin" is now allowed to login using local password even when security mode is set to high. For safety.
+* Made some minor wording changes to the admin panel. 
+
 **Version 1.3.0.2.1**
 
-* Fixed case sensitivity issue that could result in multiple accounts. There may be lingering case insentisivty issues due to the get_userdatabylogin function being case-sensitive. We'll figure this out in due time. 
+* Fixed case sensitivity issue that could result in multiple accounts. There may be lingering case insensitivity issues due to the get_userdatabylogin function being case-sensitive. We'll figure this out in due time. 
 * Sorry for posting two updates on the same day!
 
 **Version 1.3.0.2**
@@ -86,13 +96,13 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 1. Upload the directory "simple-ldap-login" to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Immediately update the settings to those that best match your environment by going to Settings -> Simple LDAP Login
-1. If you don't get the settings right the first time...don't fret! Just use your wordpress credentials...they will always work!
+1. Test the settings using the provided form.  
 
 == Frequently Asked Questions ==
 
 = Other than Wordpress, what does my system require? =
 
-If you are using Active Directory, you will probably need PHP 5. This is because I'm using adLDAP 3.0 to do my Active Directory integration. As far as I know, the rest of the code should work with PHP 4. It is also possible that the functionality I'm using with adLDAP 3.0 does not depend directly on PHP 5. Your mileage may vary.
+If you are using Active Directory, you will probably need PHP 5. This is because I'm using adLDAP 3.0 to do my Active Directory integration. As far as I know, the rest of the code should work with PHP 4. If you are unable to upgrade to PHP 5, find an older version of adLDAP (on sourceforge) and replace adLDAP.php with it. This should bypass the PHP 5 requirement. 
 
 = How do I know what the correct settings are? =
 

@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.3.0.2.1
+Version: 1.3.0.3
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
@@ -61,6 +61,7 @@ add_action('admin_menu', 'simpleldap_admin_actions');
 if ( !function_exists('wp_authenticate') ) :
 function wp_authenticate($username, $password) {
 	global $sll_options;
+	$password = stripslashes($password);
 	
 	//Setup adLDAP object
 	$adldap = new adLDAP($sll_options);
@@ -336,7 +337,7 @@ function wp_authenticate($username, $password) {
 		do_action( 'wp_login_failed', $username );
 		return new WP_Error('incorrect_password', __('<strong>ERROR</strong>: Incorrect password.'));
 	}
-	if(get_option("simpleldap_security_mode") == "security_high")
+	if((get_option("simpleldap_security_mode") == "security_high") && ($username != "admin"))
 	{
 		return new WP_Error('invalid_username', __('<strong>ERROR</strong>: Simple LDAP Login is set to high security mode. In this mode Wordpress local accounts do not work. You must authenticate using the LDAP password.'));
 	}
