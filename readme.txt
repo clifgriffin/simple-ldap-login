@@ -6,7 +6,7 @@ Requires at least: 2.8
 Tested up to: 3.0
 Stable tag: 1.4
 
-Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides the features you need with the simple configuration you want. All of the features. None of the hassles.
+Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
 
 == Description ==
 Having a single login for every service is a must in large organizations. This plugin allows you to integrate Wordpress with LDAP quickly and easily. Like, really really easy.
@@ -35,9 +35,10 @@ Simple LDAP Login redefines the main function Wordpress uses to authenticate use
 
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does. If the plugin is unable to authenticate the user, it passes it down the chain to Wordpress. (Unless security mode is set to high, which will disable this functionality.)
 
-= Version History =
+== Changelog ==
 
 **Version 1.4**
+
 * First update in about a year. Thanks for your patience. 
 * Completely rewritten to support changes in Wordpress 2.8+.  Now fully supports Wordpress 3.0.
 * Much more manageable and efficient code structure. Less code repetition.
