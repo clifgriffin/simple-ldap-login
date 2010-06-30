@@ -2,18 +2,20 @@
 Contributors: clifgriffin
 Donate link: http://clifgriffin.com/code/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
-Requires at least: 2.5.1
-Tested up to: 2.8.3
-Stable tag: 1.3.0.3
+Requires at least: 2.8
+Tested up to: 3.0
+Stable tag: 1.4
 
-Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides the features you need with the simple configuration you want. It has everything you need to get started today.
+Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides the features you need with the simple configuration you want. All of the features. None of the hassles.
 
 == Description ==
-Having a single login for every service is a must in large organizations. This plugin allows you to integrate Wordpress with LDAP quickly and easily. 
+Having a single login for every service is a must in large organizations. This plugin allows you to integrate Wordpress with LDAP quickly and easily. Like, really really easy.
 
 = Features =
 
 * Supports Active Directory and OpenLDAP (and other directory systems which comply to the LDAP standard, such as OpenDS)
+* Supports TLS
+* Uses up-to-date methods for Wordpress authentication routines.
 * Includes three login modes:
 * * Normal Mode: Authenticates existing wordpress usernames against LDAP. This requires you to create all Wordpress accounts manually using the same user names as those in your LDAP directory.
 * * Account Creation Mode 1: Creates Wordpress accounts automatically for any LDAP user.
@@ -23,21 +25,24 @@ Having a single login for every service is a must in large organizations. This p
 = Architecture =
 Simple LDAP Login redefines the main function Wordpress uses to authenticate users. In doing so, it makes several decisions.
 
-* Is the provided username a valid Wordpress user?
-* * If not, are we allowed to create a wordpress user?
-* * * If we are, are we able to authenticate the username and password provided against LDAP?
-* * * * If we are, does the user belong to the right (if any) group?
-* * * * * If the user does, create the wordpress user and log the user in.
-* * If the username is a valid wordpress user, is the password provided the same as the one in the Wordpress database?
-* * * Is the security mode set to low or the username admin?
-* * * * If so, log the user in.
-* * * If not, do the provided credentials successfully authenticate against LDAP?
-* * * * If so, is the user in the required groups? (if any)
-* * * * * If so,log the user in.
+* Can the provided credentials be authenticated against LDAP?
+* * If so, is the username a valid WP username?
+* * * If not, can we create a WP user?
+* * * * If we can, does the user belong to the right (if any) group?
+* * * * * If the user does, create the Wordpress user and log the user in.
+* * If the username is already valid wordpress user, are they in the right group?
+* * * Is so, log the user in.
 
-This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does.
+This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does. If the plugin is unable to authenticate the user, it passes it down the chain to Wordpress. (Unless security mode is set to high, which will disable this functionality.)
 
 = Version History =
+
+**Version 1.4**
+* First update in about a year. Thanks for your patience. 
+* Completely rewritten to support changes in Wordpress 2.8+.  Now fully supports Wordpress 3.0.
+* Much more manageable and efficient code structure. Less code repetition.
+* Includes TLS support. 
+* Allows OpenLDAP users to specify an alternate LDAP attribute to use for logins for those not using UID.
 
 **Version 1.3.0.3**
 
@@ -104,6 +109,8 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 
 If you are using Active Directory, you will probably need PHP 5. This is because I'm using adLDAP 3.0 to do my Active Directory integration. As far as I know, the rest of the code should work with PHP 4. If you are unable to upgrade to PHP 5, find an older version of adLDAP (on sourceforge) and replace adLDAP.php with it. This should bypass the PHP 5 requirement. 
 
+Additionally, PHP must be configured/compiled with ldap support!
+
 = How do I know what the correct settings are? =
 
 I have tried to make the settings as self-explanatory as possible. If you are struggling figuring them out, you may need to speak with your LDAP administrator. I realize this is an obnoxious response, but there is no good, fail proof way to help you discover these settings. A good place to start, if you're feeling daring, might be to use ADSIEdit for Windows and Active Directory, or GQ for Linux and OpenLDAP.
@@ -120,4 +127,4 @@ There are two ways. You can post a comment on my blog (http://clifgriffin.com/20
 == Screenshots ==
 
 1. The administration page under Settings -> Simple LDAP Login
-2. Version 1.3 Beta administration page highlighting new features
+2. Easy to use admin panel. 

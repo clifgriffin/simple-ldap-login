@@ -9,7 +9,7 @@ div.simpleldap_style{
 	background: #EBEBEB;
 	margin: 10px;
 	width:450px;
-	height:345px;
+	height:375px;
 	font-family: Calibri,Helvetica,Arial,sans-serif;
 	float: left; 
 }
@@ -36,7 +36,7 @@ div.advanced{
 	background: #EBEBEB;
 	margin: 10px 10px 10px 0px;
 	width:450px;
-	height:345px;
+	height:375px;
 	font-family: Calibri,Helvetica,Arial,sans-serif;
 	float: left; 
 }
@@ -57,6 +57,9 @@ h3{
 }
 h4{
 	margin: 0;
+}
+p{
+	margin-bottom: 0;
 }
 </style>
 </head>
@@ -85,12 +88,34 @@ if ($_POST['stage'] == 'process')
 	
 	//Version 1.3.0.2
 	update_option('simpleldap_security_mode',$_POST['security_mode']);
+	
+	//Version 1.4
+	update_option('simpleldap_ol_login', $_POST['ol_login']);
+	
+	if(isset($_POST['use_tls']))
+	{
+		update_option("simpleldap_use_tls", $_POST['use_tls']);
+	}
+	else
+	{
+		update_option("simpleldap_use_tls", "no");
+	}
+	
 }
 //Test credentials
 elseif ($_POST['stage'] == 'test') 
 {
 	global $bool_test;
+	
+	//Temporarily change security mode for test. Store old setting.
+	$temp_holder = get_option("simpleldap_security_mode");
+	update_option("simpleldap_security_mode", "security_high");
+	
 	$test_user = wp_authenticate($_POST['test_username'],$_POST['test_password']);
+	
+	//Restore security mode setting.
+	update_option("simpleldap_security_mode", $temp_holder);
+	
 	if ($test_user->ID > 0)
 	{
 		$bool_test = 1;
@@ -114,10 +139,14 @@ $simpleldap_account_type = 	get_option("simpleldap_account_type");
 //Version 1.3.0.2
 $simpleldap_security_mode = get_option("simpleldap_security_mode");
 
+//Version 1.4
+$simpleldap_ol_login = get_option("simpleldap_ol_login");
+$simpleldap_use_tls = get_option("simpleldap_use_tls");
+
 ?>
 <body>
 <div class="container">
-<div class="banner"><h1>Simple LDAP Login 1.3.0.3</h1></div>
+<div class="banner"><h1>Simple LDAP Login 1.4</h1></div>
 <form style="display::inline;" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>&updated=true">
 <div class="simpleldap_style">
 <h2>Settings</h2>
@@ -126,15 +155,20 @@ $simpleldap_security_mode = get_option("simpleldap_security_mode");
 <input name="LDAP" type="radio" value="directory_ad" onClick="enable('advanced');" <?php if($simpleldap_directory_type=="directory_ad"){echo "checked";}?>> <label for="directory_ad">Active Directory. (default)</label><br/>
 <input name="LDAP" type="radio" value="directory_ol" onClick="disable('advanced');"<?php if($simpleldap_directory_type=="directory_ol"){echo "checked";}?>> <label for="directory_ol">OpenLDAP (BETA, may support other LDAP directories)</label><br/>
 </p>
-  <p><strong>Account Suffix:</strong><br />
-<input name="account_suffix" type="text" value="<?php  echo $simpleldap_account_suffix; ?>" size="35" /><br />
+<div style="float: left; width: 235px;"><p><strong>Account Suffix:</strong><br />
+<input name="account_suffix" type="text" value="<?php  echo $simpleldap_account_suffix; ?>" size="20" /><br />
 *Probably the suffix of your e-mail addresses. Example: @domain.com
- </p><p><strong>Base DN:</strong><br />
+ </p></div>
+<div style="float:left; width: 200px;"><p><strong>LDAP Login Attribute (OpenLDAP only):</strong><br />
+<input name="ol_login" type="text" value="<?php  echo $simpleldap_ol_login; ?>" size="15" /><br />
+*In case your installation uses something other than <em>uid</em>.
+ </p></div>
+<p><strong>Base DN:</strong><br />
 <input name="base_dn" type="text" value="<?php  echo $simpleldap_base_dn; ?>" size="35" /><br />
 *Example: For subdomain.domain.sufix use DC=subdomain,DC=domain,DC=suffix 
   </p>
  <p><strong>Domain Controller(s):</strong><br />
-<input name="domain_controller" type="text" value="<?php  echo $simpleldap_domain_controllers; ?>" size="60" /><br />
+<input name="domain_controller" type="text" value="<?php  echo $simpleldap_domain_controllers; ?>" size="50" /><br />
 *Separate with semi-colons.
   </p>
 <input type="hidden" name="stage" value="process" />
@@ -158,8 +192,12 @@ $simpleldap_security_mode = get_option("simpleldap_security_mode");
 </p>
 <p>
 <strong>Security mode:</strong><br>
-<input name="security_mode" type="radio" value="security_low" <?php if($simpleldap_security_mode=="security_low"){echo "checked";}?> > <label for="security_low"><strong>Low.</strong> Default mode. First attempts to login with LDAP password, failing that, it attempts to login using the local wordpress password. If you intend to use a mixture of local and LDAP accounts, leave this mode enabled.</label><br/>
-<input name="security_mode" type="radio" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high"><strong>High.</strong> Restrict login to only LDAP passwords. If a wordpress username fails to authenticate against LDAP, login will fail. More secure than low mode as it creates a smaller target for attack. <strong>Exception: For safety, the <em>admin</em> account can still login if it exists.<strong></label><br/>
+<input name="security_mode" type="radio" id="security_low" value="security_low" <?php if($simpleldap_security_mode=="security_low"){echo "checked";}?> > <label for="security_low"><strong>Low.</strong> Default mode. First attempts to login with LDAP password, failing that, it attempts to login using the local wordpress password. If you intend to use a mixture of local and LDAP accounts, leave this mode enabled.</label><br/>
+<input name="security_mode" type="radio" id="security_high" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high"><strong>High.</strong> Restrict login to only LDAP passwords. If a wordpress username fails to authenticate against LDAP, login will fail. More secure than low mode as it creates a smaller target for attack.</label><br/>
+</p>
+<p>
+<strong>TLS:</strong><br />
+<input name="use_tls" type="checkbox" value="yes" id="use_tls" <?php if($simpleldap_use_tls=="yes"){echo "checked";}?>> <label for="use_tls">Use TLS?</label>
 </p>
 </div>
 </form>
