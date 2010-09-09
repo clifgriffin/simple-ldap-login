@@ -3,8 +3,8 @@ Contributors: clifgriffin
 Donate link: http://clifgriffin.com/code/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.8
-Tested up to: 3.0
-Stable tag: 1.4
+Tested up to: 3.0.1
+Stable tag: 1.4.0.1
 
 Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
 
@@ -36,6 +36,9 @@ Simple LDAP Login redefines the main function Wordpress uses to authenticate use
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does. If the plugin is unable to authenticate the user, it passes it down the chain to Wordpress. (Unless security mode is set to high, which will disable this functionality.)
 
 == Changelog ==
+**Version 1.4.0.1**
+
+* Fix for e-mail exists issue with WP 3.0+ for LDAP installations that don't populate the e-mail address attribute.
 
 **Version 1.4**
 
@@ -77,23 +80,23 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 * The ability to test domain settings straight from admin panel.
 * Announcements pane that allows me to update you with fixes, cautions, new beta versions, or other important information.
 
-**Version 1.2.0.1:**
+**Version 1.2.0.1**
 
 * Changed required user level for admin page to 10, Administrators only.
 
-**Version 1.2:**
+**Version 1.2**
 
 * Implemented multiple domain controllers.
 * Changed field sizes on admin page to be more user friendly.
 
-**Version 1.1:**
+**Version 1.1**
 
 * Moved settings to administration pages under settings.
 * Upgraded to latest version of adLDAP 2.1.
 * Got rid of credentials. (They are not neccessary for the authenticate function in adLDAP!)
 * Plugin is now upgrade proof. Settings are stored using Wordpress's setting functions.
 
-**Version 1.0:** 
+**Version 1.0** 
 
 * Original release.
 

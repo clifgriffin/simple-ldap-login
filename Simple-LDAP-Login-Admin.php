@@ -146,7 +146,7 @@ $simpleldap_use_tls = get_option("simpleldap_use_tls");
 ?>
 <body>
 <div class="container">
-<div class="banner"><h1>Simple LDAP Login 1.4</h1></div>
+<div class="banner"><h1>Simple LDAP Login 1.4.0.1</h1></div>
 <form style="display::inline;" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>&updated=true">
 <div class="simpleldap_style">
 <h2>Settings</h2>
@@ -193,17 +193,17 @@ $simpleldap_use_tls = get_option("simpleldap_use_tls");
 <p>
 <strong>Security mode:</strong><br>
 <input name="security_mode" type="radio" id="security_low" value="security_low" <?php if($simpleldap_security_mode=="security_low"){echo "checked";}?> > <label for="security_low"><strong>Low.</strong> Default mode. First attempts to login with LDAP password, failing that, it attempts to login using the local wordpress password. If you intend to use a mixture of local and LDAP accounts, leave this mode enabled.</label><br/>
-<input name="security_mode" type="radio" id="security_high" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high"><strong>High.</strong> Restrict login to only LDAP passwords. If a wordpress username fails to authenticate against LDAP, login will fail. More secure than low mode as it creates a smaller target for attack.</label><br/>
+<input name="security_mode" type="radio" id="security_high" value="security_high" <?php if($simpleldap_security_mode=="security_high"){echo "checked";}?> > <label for="security_high"><strong>High.</strong> Restrict login to only LDAP passwords. If a wordpress username fails to authenticate against LDAP, login will fail. More secure.</label><br/>
 </p>
 <p>
 <strong>TLS:</strong><br />
-<input name="use_tls" type="checkbox" value="yes" id="use_tls" <?php if($simpleldap_use_tls=="yes"){echo "checked";}?>> <label for="use_tls">Use TLS?</label>
+<input name="use_tls" type="checkbox" value="yes" id="use_tls" <?php if($simpleldap_use_tls=="yes"){echo "checked";}?>> <label for="use_tls">Use TLS? (Beta. Very beta.)</label>
 </p>
 </div>
 </form>
 <div class="simpleldap_style_test">
 <h2>Test Settings</h2>
-<h3>Use this form to test those settings you saved.* This <em>will</em> test user creation and group membership.</h3>
+<h3>Use this form as a limited test for those settings you saved.* This <em>will</em> test user creation and group membership. If settings don't work, use another browser to try actually logging in. (unless you'd rather get locked out)</h3>
 <h4>*You did save them, right?</h4>
 <form method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
   <p>Username:<br />

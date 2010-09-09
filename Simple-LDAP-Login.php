@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.4
+Version: 1.4.0.1
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
@@ -96,7 +96,8 @@ function sll_authenticate($user, $username, $password) {
 		return $error;
 	}
 	
-	if(sll_can_authenticate($username, $password))
+	$auth_result = sll_can_authenticate($username, $password);
+	if($auth_result == true && !is_a($auth_result, 'WP_Error'))
 	{
 			$user = get_userdatabylogin($username);
 	
@@ -107,7 +108,7 @@ function sll_authenticate($user, $username, $password) {
 				{
 					case "mode_create_all":
 						$new_user_id = sll_create_wp_user($username);
-						if($new_user_id > 0)
+						if(!is_a($new_user_id, 'WP_Error'))
 						{
 							//It worked
 							return new WP_User($new_user_id);
@@ -115,7 +116,7 @@ function sll_authenticate($user, $username, $password) {
 						else
 						{
 							do_action( 'wp_login_failed', $username );				
-							return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in Wordpress.'));
+							return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in Wordpress. Actual WordPress error: '.$new_user_id->get_error_message()));
 						}
 					break;
 					
@@ -123,7 +124,7 @@ function sll_authenticate($user, $username, $password) {
 						if(sll_is_in_group($username))
 						{
 							$new_user_id = sll_create_wp_user($username);
-							if($new_user_id > 0)
+							if(!is_a($new_user_id, 'WP_Error'))
 							{
 								//It worked
 								return new WP_User($new_user_id);
@@ -131,7 +132,7 @@ function sll_authenticate($user, $username, $password) {
 							else
 							{
 								do_action( 'wp_login_failed', $username );				
-								return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed and you are in the correct group but an error occurred creating the user in Wordpress.'));
+								return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed and you are in the correct group but an error occurred creating the user in Wordpress. Actual WordPress error: '.$new_user_id->get_error_message()));
 							}
 						}
 						else
@@ -170,7 +171,14 @@ function sll_authenticate($user, $username, $password) {
 	}
 	else
 	{
-		return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: Simple LDAP Login could not authenticate your credentials. The security settings do not permit trying the Wordpress user database as a fallback.'));
+		if(is_a($auth_result, 'WP_Error'))
+		{
+			return $auth_result;
+		}
+		else
+		{
+			return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: Simple LDAP Login could not authenticate your credentials. The security settings do not permit trying the Wordpress user database as a fallback.'));
+		}
 	}
 }
 
@@ -183,6 +191,10 @@ function sll_can_authenticate($username, $password)
 	{
 		case "directory_ad":
 			$result = $adldap->authenticate($username,$password);
+			if($result == false)
+			{ 
+				return new WP_Error('adldap_error', __('<strong>Simple LDAP Login Error</strong>: adLDAP may have errored. Message: '.$adldap->get_last_error()));
+			}
 		break;
 		
 		case "directory_ol":
@@ -195,7 +207,7 @@ function sll_can_authenticate($username, $password)
 			$result = $ldapbind; 
 		break;
 	}
-	
+
 	return $result;
 }
 function sll_is_in_group($username)
@@ -253,6 +265,7 @@ function sll_create_wp_user($username)
 				'last_name'     => $userinfo[0][sn][0],
 				'role'			=> strtolower(get_option('simpleldap_account_type'))
 				);
+				
 			$result = wp_insert_user($userData); 
 		break;
 		
@@ -283,5 +296,28 @@ function sll_create_wp_user($username)
 	
 	return $result;
 }
+
+//Temporary fix for e-mail exists bug
+if ( !function_exists('get_user_by_email') ) :
+/**
+ * Retrieve user info by email.
+ *
+ * @since 2.5
+ *
+ * @param string $email User's email address
+ * @return bool|object False on failure, User DB row object
+ */
+function get_user_by_email($email) {
+	if(strlen($email) == 0 || empty($email) || $email == "" || strpos($email, "@") == false)
+	{
+		return false;
+	}
+	else
+	{
+		return get_user_by('email', $email);
+	}
+}
+endif;
+
 register_activation_hook( __FILE__, 'simpleldap_activation_hook' );
 ?>
