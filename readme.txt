@@ -39,6 +39,7 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 **Version 1.4.0.1**
 
 * Fix for e-mail exists issue with WP 3.0+ for LDAP installations that don't populate the e-mail address attribute.
+* Shows actual error message from Wordpress upon failure.
 
 **Version 1.4**
 
