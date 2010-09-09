@@ -23,7 +23,7 @@ Having a single login for every service is a must in large organizations. This p
 * Intuitive control panel.
 
 = Architecture =
-Simple LDAP Login redefines the main function Wordpress uses to authenticate users. In doing so, it makes several decisions.
+Simple LDAP Login adds an authentication filter to Wordpress that authentication requests must pass. In doing so, it makes several decisions.
 
 * Can the provided credentials be authenticated against LDAP?
 * * If so, is the username a valid WP username?
@@ -102,10 +102,12 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 
 == Installation ==
 
-1. Upload the directory "simple-ldap-login" to the `/wp-content/plugins/` directory
+1. Use the WordPress plugin directory to install the plugin or upload the directory “simple-ldap-login” to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Immediately update the settings to those that best match your environment by going to Settings -> Simple LDAP Login
-1. Test the settings using the provided form.  
+1. If you don’t get the settings right the first time…don’t fret! Just use your wordpress credentials…they will always work in low security mode.  
+1. Once you have the settings correct, you can change the security mode to High Security (if you so desire).
+1. To make your life easier, consider using two different browsers (e.g., IE and Firefox) to do testing.  Change settings in one. Test in the other. This will prevent any chance of being locked out.
 
 == Frequently Asked Questions ==
 
@@ -130,5 +132,4 @@ There are two ways. You can post a comment on my blog (http://clifgriffin.com/20
 
 == Screenshots ==
 
-1. The administration page under Settings -> Simple LDAP Login
-2. Easy to use admin panel. 
+1. Easy to use admin panel. 
