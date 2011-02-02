@@ -146,7 +146,7 @@ $simpleldap_use_tls = get_option("simpleldap_use_tls");
 ?>
 <body>
 <div class="container">
-<div class="banner"><h1>Simple LDAP Login 1.4.0.1</h1></div>
+<div class="banner"><h1>Simple LDAP Login 1.4.0.2</h1></div>
 <form style="display::inline;" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>&updated=true">
 <div class="simpleldap_style">
 <h2>Settings</h2>

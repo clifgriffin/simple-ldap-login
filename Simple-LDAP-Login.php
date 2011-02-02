@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.4.0.1
+Version: 1.4.0.2
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
@@ -203,7 +203,12 @@ function sll_can_authenticate($username, $password)
 			if (get_option("simpleldap_use_tls") == "yes") {
 				ldap_start_tls($ldap);
 			}
-			$ldapbind = @ldap_bind($ldap, LOGIN .'=' . $username . ',' . BASE_DN, $password);
+			
+			$ureturn=@ldap_search($ldap, BASE_DN, '(' . LOGIN . '=' . $username . ')', array(LOGIN, 'sn', 'givenname', 'mail'));
+ 			$uent=@ldap_first_entry($ldap, $ureturn);
+ 			$bn=@ldap_get_dn($ldap, $uent);
+ 			$ldapbind = @ldap_bind($ldap, $bn, $password);
+			
 			$result = $ldapbind; 
 		break;
 	}
@@ -223,24 +228,16 @@ function sll_is_in_group($username)
 		
 		case "directory_ol":
 			if($ldap == null) {return false;}
-			$result = ldap_search($ldap, BASE_DN, '(' . LOGIN . '=' . $username . ')', array(LOGIN, 'sn', 'givenname', 'mail', 'memberof'));
-			$ldapuser = ldap_get_entries($ldap, $result);
+			$result = ldap_search($ldap, get_option('simpleldap_group_suffix'), '(' . get_option('simpleldap_group_member_attribute') . '=' . $username . ')', array('cn'));
+			$ldapgroups = ldap_get_entries($ldap, $result);
 		
-			if ($ldapuser['count'] == 1) 
-			{
-				//Ok, we should have the user, all the info, including which groups he is a member of. 
-				//Now let's make sure he's in the right group before proceeding.
-				$groups = array();
-				foreach($ldapuser[0][memberof][0] as $group)
-				{
-					$temp = substr($group, 0, stripos($group, ","));
-				 	// Strip the CN= and change to lowercase for easy handling
-				  	$temp = strtolower(str_replace("CN=", "", $temp));
-				  	$groups[] .= $temp;
-				}	
-				
-				$result = in_array(get_option('simpleldap_group'),$groups);	
+			//Ok, we should have the user, all the info, including which groups he is a member of. 
+			//Now let's make sure he's in the right group before proceeding.
+			$groups = array();
+			for ($i=0; $i<$ldapgroups['count']; $i++) {
+				$groups[] .= $ldapgroups[$i]['cn'][0];
 			}
+			$result = in_array(get_option('simpleldap_group'),$groups);	
 		break;
 	}
 	return $result;

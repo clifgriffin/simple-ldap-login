@@ -1,15 +1,21 @@
 === Plugin Name ===
 Contributors: clifgriffin
-Donate link: http://clifgriffin.com/code/donate/
+Donate link: http://clifgriffin.com/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 1.4.0.1
+Tested up to: 3.0.4
+Stable tag: 1.4.0.2
 
 Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
 
 == Description ==
 Having a single login for every service is a must in large organizations. This plugin allows you to integrate Wordpress with LDAP quickly and easily. Like, really really easy.
+
+**Donate?**
+If you use this plugin, and find that it serves your organization's needs, please consider a donation. I have spent many unpaid hours supporting and updating this plugin. A plugin like this would easily retail for $200 or more. I offer it for free, with only the request that you consider giving back if you are financially capable of doing so.
+
+**Special Requests**
+If you need a customization or change specific to your install, I am available for hire. Shoot me an e-mail: clifgriffin[at]gmail.com
 
 = Features =
 
@@ -36,6 +42,11 @@ Simple LDAP Login adds an authentication filter to Wordpress that authentication
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does. If the plugin is unable to authenticate the user, it passes it down the chain to Wordpress. (Unless security mode is set to high, which will disable this functionality.)
 
 == Changelog ==
+**Version 1.4.0.2 - Patches submitted by Jonas Genannt and Ilya Kozlov**
+* Fixes issue with users in recursive OUs not being found. 
+* Fixes issues with different Base DN formats.
+* NOTE: Please be catious in updating. As I don't have an OpenLDAP install, I am unable to independently confirm these fix the problems. If you have issues, revert to 1.4.0.1 and e-mail me: clifgriffin[at]gmail.com.  Likewise, If you can confirm these changes are effective, also let me know. :)
+
 **Version 1.4.0.1**
 
 * Fix for e-mail exists issue with WP 3.0+ for LDAP installations that don't populate the e-mail address attribute.
