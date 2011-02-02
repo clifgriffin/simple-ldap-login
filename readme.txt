@@ -12,9 +12,16 @@ Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDA
 Having a single login for every service is a must in large organizations. This plugin allows you to integrate Wordpress with LDAP quickly and easily. Like, really really easy.
 
 **Donate?**
+
 If you use this plugin, and find that it serves your organization's needs, please consider a donation. I have spent many unpaid hours supporting and updating this plugin. A plugin like this would easily retail for $200 or more. I offer it for free, with only the request that you consider giving back if you are financially capable of doing so.
 
+**Support**
+
+If you need support, I recommend you leave a comment on the appropriate post on my blog:
+http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/
+
 **Special Requests**
+
 If you need a customization or change specific to your install, I am available for hire. Shoot me an e-mail: clifgriffin[at]gmail.com
 
 = Features =
@@ -45,7 +52,6 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 **Version 1.4.0.2 - Patches submitted by Jonas Genannt and Ilya Kozlov**
 * Fixes issue with users in recursive OUs not being found. 
 * Fixes issues with different Base DN formats.
-* Fixes user_nicename space issue that broke author links. (For future users, past users will still have broken link I'm guessing)
 * NOTE: Please be catious in updating. As I don't have an OpenLDAP install, I am unable to independently confirm these fix the problems. If you have issues, revert to 1.4.0.1 and e-mail me: clifgriffin[at]gmail.com.  Likewise, If you can confirm these changes are effective, also let me know. :)
 
 **Version 1.4.0.1**
