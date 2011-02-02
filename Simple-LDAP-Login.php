@@ -255,7 +255,7 @@ function sll_create_wp_user($username)
 			$userData = array(
 				'user_pass'     => microtime(),
 				'user_login'    => $userinfo[0][samaccountname][0],
-				'user_nicename' => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
+				'user_nicename' => sanitize_title($userinfo[0][givenname][0] .' '.$userinfo[0][sn][0]),
 				'user_email'    => $userinfo[0][mail][0],
 				'display_name'  => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
 				'first_name'    => $userinfo[0][givenname][0],
@@ -276,7 +276,7 @@ function sll_create_wp_user($username)
 				$userData = array(
 					'user_pass'     => microtime(),
 					'user_login'    => $ldapuser[0][LOGIN][0],
-					'user_nicename' => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
+					'user_nicename' => sanitize_title($ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0]),
 					'user_email'    => $ldapuser[0]['mail'][0],
 					'display_name'  => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 					'first_name'    => $ldapuser[0]['givenname'][0],

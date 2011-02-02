@@ -45,6 +45,7 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 **Version 1.4.0.2 - Patches submitted by Jonas Genannt and Ilya Kozlov**
 * Fixes issue with users in recursive OUs not being found. 
 * Fixes issues with different Base DN formats.
+* Fixes user_nicename space issue that broke author links. (For future users, past users will still have broken link I'm guessing)
 * NOTE: Please be catious in updating. As I don't have an OpenLDAP install, I am unable to independently confirm these fix the problems. If you have issues, revert to 1.4.0.1 and e-mail me: clifgriffin[at]gmail.com.  Likewise, If you can confirm these changes are effective, also let me know. :)
 
 **Version 1.4.0.1**
