@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.4.0.2
+Version: 1.4.0.3
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
@@ -203,12 +203,7 @@ function sll_can_authenticate($username, $password)
 			if (get_option("simpleldap_use_tls") == "yes") {
 				ldap_start_tls($ldap);
 			}
-			
-			$ureturn=@ldap_search($ldap, BASE_DN, '(' . LOGIN . '=' . $username . ')', array(LOGIN, 'sn', 'givenname', 'mail'));
- 			$uent=@ldap_first_entry($ldap, $ureturn);
- 			$bn=@ldap_get_dn($ldap, $uent);
- 			$ldapbind = @ldap_bind($ldap, $bn, $password);
-			
+			$ldapbind = @ldap_bind($ldap, LOGIN .'=' . $username . ',' . BASE_DN, $password);
 			$result = $ldapbind; 
 		break;
 	}
@@ -255,7 +250,7 @@ function sll_create_wp_user($username)
 			$userData = array(
 				'user_pass'     => microtime(),
 				'user_login'    => $userinfo[0][samaccountname][0],
-				'user_nicename' => sanitize_title($userinfo[0][givenname][0] .' '.$userinfo[0][sn][0]),
+				'user_nicename' => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
 				'user_email'    => $userinfo[0][mail][0],
 				'display_name'  => $userinfo[0][givenname][0] .' '.$userinfo[0][sn][0],
 				'first_name'    => $userinfo[0][givenname][0],
@@ -276,7 +271,7 @@ function sll_create_wp_user($username)
 				$userData = array(
 					'user_pass'     => microtime(),
 					'user_login'    => $ldapuser[0][LOGIN][0],
-					'user_nicename' => sanitize_title($ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0]),
+					'user_nicename' => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 					'user_email'    => $ldapuser[0]['mail'][0],
 					'display_name'  => $ldapuser[0]['givenname'][0].' '.$ldapuser[0]['sn'][0],
 					'first_name'    => $ldapuser[0]['givenname'][0],
