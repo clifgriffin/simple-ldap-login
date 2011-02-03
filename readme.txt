@@ -54,6 +54,7 @@ This is simply a high level overview. The actual logic the plugin employs is mor
 * If you installed 1.4.0.2 and use OpenLDAP, please update as soon as possible and verify users cannot login with incorrect passwords (and vice versa).
 
 **Version 1.4.0.2 - Patches submitted by Jonas Genannt and Ilya Kozlov**
+* Updates adLDAP to 3.3.2
 * Fixes issue with users in recursive OUs not being found. 
 * Fixes issues with different Base DN formats.
 * NOTE: Please be catious in updating. As I don't have an OpenLDAP install, I am unable to independently confirm these fix the problems. If you have issues, revert to 1.4.0.1 and e-mail me: clifgriffin[at]gmail.com.  Likewise, If you can confirm these changes are effective, also let me know. :)
