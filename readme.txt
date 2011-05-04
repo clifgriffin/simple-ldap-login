@@ -3,8 +3,8 @@ Contributors: clifgriffin
 Donate link: http://clifgriffin.com/donate/
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.8
-Tested up to: 3.0.4
-Stable tag: 1.4.0.3
+Tested up to: 3.1.2
+Stable tag: 1.4.0.4
 
 Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
 
@@ -49,6 +49,9 @@ Simple LDAP Login adds an authentication filter to Wordpress that authentication
 This is simply a high level overview. The actual logic the plugin employs is more complex, but hopefully this gives you an idea, philosophically, about how the plugin accomplishes what it does. If the plugin is unable to authenticate the user, it passes it down the chain to Wordpress. (Unless security mode is set to high, which will disable this functionality.)
 
 == Changelog ==
+**Version 1.4.0.4**
+* Fixes nickname bug accidentally put back in in last version. (My bad!)
+
 **Version 1.4.0.3**
 * Reverts bug introduced in 1.4.0.2
 * If you installed 1.4.0.2 and use OpenLDAP, please update as soon as possible and verify users cannot login with incorrect passwords (and vice versa).
