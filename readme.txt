@@ -13,7 +13,7 @@ Having a single login for every service is a must in large organizations. This p
 
 **Donate?**
 
-If you use this plugin, and find that it serves your organization's needs, please consider a donation. I have spent many unpaid hours supporting and updating this plugin. A plugin like this would easily retail for $200 or more. I offer it for free, with only the request that you consider giving back if you are financially capable of doing so.
+If you use this plugin, and find that it serves your organization's needs, please consider a donation. I have spent many unpaid hours supporting and updating this plugin. A plugin like this would easily retail for $100 or more. I offer it for free, with only the request that you consider giving back if you are financially capable of doing so.
 
 **Support**
 

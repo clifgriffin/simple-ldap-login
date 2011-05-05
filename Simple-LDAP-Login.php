@@ -285,7 +285,6 @@ function sll_create_wp_user($username)
 			}
 		break;
 	}
-	
 	return $result;
 }
 
