@@ -3,11 +3,11 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/ 
 Description:  Authenticates Wordpress usernames against LDAP.
-Version: 1.4.0.4
+Version: 1.4.0.5
 Author: Clifton H. Griffin II
 Author URI: http://clifgriffin.com
 */
-require_once( WP_PLUGIN_DIR."/simple-ldap-login/adLDAP.php");
+require_once( WP_PLUGIN_DIR."/simple-ldap-login/adLDAP/adLDAP.php");
 require_once( ABSPATH . WPINC . '/registration.php');
 
 //Admin
@@ -223,7 +223,7 @@ function sll_is_in_group($username)
 		
 		case "directory_ol":
 			if($ldap == null) {return false;}
-			$result = ldap_search($ldap, get_option('simpleldap_group_suffix'), '(' . get_option('simpleldap_group_member_attribute') . '=' . $username . ')', array('cn'));
+			$result = ldap_search($ldap, BASE_DN, '(' . LOGIN . '=' . $username . ')', array('cn'));
 			$ldapgroups = ldap_get_entries($ldap, $result);
 		
 			//Ok, we should have the user, all the info, including which groups he is a member of. 
@@ -285,6 +285,7 @@ function sll_create_wp_user($username)
 			}
 		break;
 	}
+	
 	return $result;
 }
 
