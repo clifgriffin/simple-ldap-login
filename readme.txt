@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: clifgriffin
-Donate link: http://clifgriffin.com/donate/
+Donate link: http://cgd.io
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 2.8
-Tested up to: 3.2.1
+Tested up to: 3.5.2
 Stable tag: 1.4.0.5.1
 
 Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
@@ -11,9 +11,13 @@ Integrating Wordpress with LDAP shouldn't be difficult. Now it isn't. Simple LDA
 == Description ==
 Having a single login for every service is a must in large organizations. This plugin allows you to integrate Wordpress with LDAP quickly and easily. Like, really really easy.
 
-**Donate?**
+**NEW BETA VERSION -- 1.5**
 
-If you use this plugin, and find that it serves your organization's needs, please consider a donation. I have spent many unpaid hours supporting and updating this plugin. A plugin like this would easily retail for $200 or more. I offer it for free, with only the request that you consider giving back if you are financially capable of doing so.
+Just when you thought this project was dead, it sprang to life. I have spent some time completely rewriting Simple LDAP Login from the ground up. It's object oriented, it's singleton, it's more control, it's redone the WordPress way using all of the things I wish I'd known 6 years ago when this started. I will be releasing it soon, in the meantime I would love feedback.  You can download it here: http://downloads.wordpress.org/plugin/simple-ldap-login.zip 
+
+Please report your feedback to me: clifgriffin@gmail.com  
+
+I need to know if it works at all, and what if any bugs there are. Thanks!
 
 **Support**
 
