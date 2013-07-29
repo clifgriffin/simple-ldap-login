@@ -344,8 +344,6 @@ class SimpleLDAPLogin {
 	}
 }
 
-$SimpleLDAPLogin = SimpleLDAPLogin::getInstance();
-
 if ( ! function_exists('str_true') ) {
 	/**
 	 * Evaluates natural language strings to boolean equivalent
@@ -370,3 +368,5 @@ if ( ! function_exists('str_true') ) {
 		return in_array(strtolower($string),$istrue);
 	}
 }
+
+$SimpleLDAPLogin = SimpleLDAPLogin::getInstance();
