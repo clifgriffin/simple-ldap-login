@@ -42,13 +42,17 @@ if( isset( $_GET[ 'tab' ] ) ) {
 				</tr>
 				<tr>
 					<th scope="row" valign="top">Base DN</th>
-					<td><input type="text" name="<?php echo $this->get_field_name('base_dn'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('base_dn'); ?>" /></td>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('base_dn'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('base_dn'); ?>" />
+						<br/>
+						Example: For subdomain.domain.suffix, use DC=subdomain,DC=domain,DC=suffix. Do not specify an OU here.
+					</td>
 				</tr>
 				<tr>
 					<th scope="row" valign="top">Domain Controller(s)</th>
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('domain_controllers', 'array'); ?>" value="<?php echo join(';', (array)$SimpleLDAPLogin->get_setting('domain_controllers')); ?>" />
-						Separate with semi-colons.
+						<br/>Separate with semi-colons.
 					</td>
 				</tr>
 				<tr>
@@ -75,7 +79,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row" valign="top">LDAP Only</th>
+					<th scope="row" valign="top">LDAP Exclusive</th>
 					<td>
 						<input type="hidden" name="<?php echo $this->get_field_name('high_security'); ?>" value="false" />
 						<label><input type="checkbox" name="<?php echo $this->get_field_name('high_security'); ?>" value="true" <?php if( str_true($this->get_setting('high_security')) ) echo "checked"; ?> /> Force all logins to authenticate against LDAP. Do NOT fallback to default authentication for existing users.<br/>Formerly known as high security mode.</label><br/>
@@ -104,7 +108,11 @@ if( isset( $_GET[ 'tab' ] ) ) {
 			<tbody>
 	    		<tr>
 					<th scope="row" valign="top">LDAP Login Attribute</th>
-					<td><input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" /></td>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
+						<br />
+						In case your installation uses something other than <b>uid</b>; 
+					</td>
 				</tr>
 				<tr>
 					<th scope="row" valign="top">Use TLS</th>

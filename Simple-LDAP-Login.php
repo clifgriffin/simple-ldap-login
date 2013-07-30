@@ -204,7 +204,7 @@ class SimpleLDAPLogin {
 		if ( is_a($user, 'WP_User') ) { return $user; }
 
 		// If high security mode is enabled, remove default WP authentication hook
-		if ( str_true( $this->get_setting('high_security')) ) {
+		if ( str_true( $this->get_setting('high_security') ) ) {
 			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 		}
 
