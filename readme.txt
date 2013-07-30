@@ -13,7 +13,7 @@ Having a single login for every service is a must in large organizations. This p
 
 **NEW VERSION -- 1.5**
 
-Just when you thought this project was dead, it sprang to life. I have spent some time completely rewriting Simple LDAP Login from the ground up. 
+Just when you thought this project was dead, it sprang to life. I have spent some time completely rewriting Simple LDAP Login from the ground up. Proceed with caution as it's possible I have broken something in the process, but I'm reasonably certain it's fundamentally stable.
 
 If you have any problems with 1.5, please let me know: clifgriffin@gmail.com  
 
