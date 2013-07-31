@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/
 Description:  Authenticate your WordPress usernames against LDAP.
-Version: 1.5
+Version: 1.5.1
 Author: Clif Griffin Development Inc.
 Author URI: http://cgd.io
 */
@@ -25,7 +25,7 @@ class SimpleLDAPLogin {
 					"account_suffix"		=>	$this->get_setting('account_suffix'),
 					"use_tls"				=>	str_true( $this->get_setting('use_tls') ),
 					"base_dn"				=>	$this->get_setting('base_dn'),
-					"domain_controllers"	=>	$this->get_setting('domain_controllers'),
+					"domain_controllers"	=>	(array)$this->get_setting('domain_controllers'),
 					"ad_port"				=>	$this->get_setting('ldap_port')
 				)
 			);
