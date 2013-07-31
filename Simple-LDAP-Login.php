@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/
 Description:  Authenticate your WordPress usernames against LDAP.
-Version: 1.5.1
+Version: 1.5.2
 Author: Clif Griffin Development Inc.
 Author URI: http://cgd.io
 */
@@ -71,15 +71,15 @@ class SimpleLDAPLogin {
 			$this->set_setting('enabled', 'true');
 
 			if ( $this->set_setting('account_suffix', get_option('simpleldap_account_suffix')) ) {
-				delete_option('simpleldap_account_suffix');
+				//delete_option('simpleldap_account_suffix');
 			}
 
 			if ( $this->set_setting('base_dn', get_option('simpleldap_base_dn')) ) {
-				delete_option('simpleldap_base_dn');
+				//delete_option('simpleldap_base_dn');
 			}
 
 			if ( $this->set_setting('domain_controllers', get_option('simpleldap_domain_controllers')) ) {
-				delete_option('simpleldap_domain_controllers');
+				//delete_option('simpleldap_domain_controllers');
 			}
 
 			$directory_result = false;
@@ -89,23 +89,23 @@ class SimpleLDAPLogin {
 				$directory_result = $this->set_setting('directory', 'ol');
 			}
 
-			if( $directory_result ) delete_option('simpleldap_directory_type');
+			//if( $directory_result ) delete_option('simpleldap_directory_type');
 			unset($directory_result);
 
 			if ( $this->set_setting('groups', (array)get_option('simpleldap_group') ) ) {
-				delete_option('simpleldap_group');
+				//delete_option('simpleldap_group');
 			}
 
-			if ( $this->set_setting('default_role', get_option('simpleldap_account_type')) ) {
-				delete_option('simpleldap_account_type');
+			if ( $this->set_setting('role', get_option('simpleldap_account_type')) ) {
+				//delete_option('simpleldap_account_type');
 			}
 
 			if ( $this->set_setting('ol_login', get_option('simpleldap_ol_login')) ) {
-				delete_option('simpleldap_ol_login');
+				//delete_option('simpleldap_ol_login');
 			}
 
 			if ( $this->set_setting('use_tls', str_true( get_option('simpleldap_use_tls') ) ) ) {
-				delete_option('simpleldap_use_tls');
+				//delete_option('simpleldap_use_tls');
 			}
 
 			$create_users = false;
@@ -113,7 +113,7 @@ class SimpleLDAPLogin {
 				$create_users = true;
 			}
 			if ( $this->set_setting('create_users', $create_users) ) {
-				delete_option('simpleldap_login_mode');
+				//delete_option('simpleldap_login_mode');
 			}
 
 			$high_security = false;
@@ -121,7 +121,7 @@ class SimpleLDAPLogin {
 				$high_security = true;
 			}
 			if ( $this->set_setting('high_security', $high_security) ) {
-				delete_option('simpleldap_security_mode');
+				//delete_option('simpleldap_security_mode');
 			}
  		}
 	}
@@ -236,7 +236,7 @@ class SimpleLDAPLogin {
 					else
 					{
 						do_action( 'wp_login_failed', $username );
-						return new WP_Error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in WordPress. Actual error: '.$new_user->get_error_message()));
+						return new WP_Error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in WordPress. Actual error: '.$new_user->get_error_message() ));
 					}
 
 				} else {
@@ -275,6 +275,7 @@ class SimpleLDAPLogin {
 	function user_has_groups( $username = false, $directory ) {
 		$result = false;
 		$groups = (array)$this->get_setting('groups');
+		$groups = array_filter($groups);
 
 		if ( ! $username ) return $result;
 		if ( count( $groups ) == 0 ) return true;
@@ -314,7 +315,7 @@ class SimpleLDAPLogin {
 			'display_name' => '',
 			'first_name' => '',
 			'last_name' => '',
-			'role' => $this->get_setting('default_role')
+			'role' => $this->get_setting('role')
 		);
 
 		if( $directory == "ad" ) {
@@ -332,13 +333,13 @@ class SimpleLDAPLogin {
 			}
 		} else return false;
 
-		if( ! is_array($userinfo) ) return false;
-
-		$user_data['user_nicename'] = sanitize_title( array_shift( array_values($userinfo[givenname]) ) . ' ' . array_shift( array_values($userinfo[sn]) ) );
-		$user_data['user_email'] 	= array_shift( array_values($userinfo[mail]) );
-		$user_data['display_name']	= $user_data['user_nicename'];
-		$user_data['first_name']	= sanitize_title( array_shift( array_values($userinfo[givenname]) ) );
-		$user_data['last_name'] 	= sanitize_title( array_shift( array_values($userinfo[sn]) ) );
+		if( is_array($userinfo) ) {
+			$user_data['user_nicename'] = sanitize_title( array_shift( array_values($userinfo[givenname]) ) . ' ' . array_shift( array_values($userinfo[sn]) ) );
+			$user_data['user_email'] 	= array_shift( array_values($userinfo[mail]) );
+			$user_data['display_name']	= $user_data['user_nicename'];
+			$user_data['first_name']	= sanitize_title( array_shift( array_values($userinfo[givenname]) ) );
+			$user_data['last_name'] 	= sanitize_title( array_shift( array_values($userinfo[sn]) ) );	
+		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
 	}
