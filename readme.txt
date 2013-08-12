@@ -4,7 +4,7 @@ Donate link: http://cgd.io
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 License: GPLv2 or later
 
 Integrating WordPress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
@@ -55,6 +55,12 @@ I have spent some time completely rewriting Simple LDAP Login from the ground up
 If you have any problems with 1.5, please let me know: clifgriffin@gmail.com  
 
 == Changelog ==
+**Version 1.5.3**
+
+* Fixing apparent security problem with blank passwords. (!)
+* Fixing typo in filter name (did not affect any functionality)
+* Local admin exception coming soon, as well as more bug fixes. 
+
 **Version 1.5.2**
 
 * Fixed bug with groups setting.

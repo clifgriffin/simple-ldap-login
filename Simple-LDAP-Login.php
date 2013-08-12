@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/
 Description:  Authenticate your WordPress usernames against LDAP.
-Version: 1.5.2
+Version: 1.5.3
 Author: Clif Griffin Development Inc.
 Author URI: http://cgd.io
 */
@@ -153,7 +153,7 @@ class SimpleLDAPLogin {
 	function get_setting ( $option = false ) {
 		if($option === false || ! isset($this->settings[$option]) ) return false;
 
-		return apply_filters($thix->prefix . 'get_setting', $this->settings[$option], $option);
+		return apply_filters($this->prefix . 'get_setting', $this->settings[$option], $option);
 	}
 
 	function add_setting ( $option = false, $newvalue ) {
@@ -206,6 +206,18 @@ class SimpleLDAPLogin {
 		// If high security mode is enabled, remove default WP authentication hook
 		if ( str_true( $this->get_setting('high_security') ) ) {
 			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
+		}
+		
+		if ( empty($username) || empty($password) ) {
+			$error = new WP_Error();
+
+			if ( empty($username) )
+				$error->add('empty_username', __('<strong>ERROR</strong>: The username field is empty.'));
+
+			if ( empty($password) )
+				$error->add('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
+
+			return $error;
 		}
 
 		// Sweet, let's try to authenticate our user and pass against LDAP
@@ -260,7 +272,7 @@ class SimpleLDAPLogin {
 		if ( $directory == "ad" ) {
 			$result = $this->adldap->authenticate( $username, $password );
 		} elseif ( $directory == "ol" ) {
-			$this->ldap = ldap_connect( join(' ', $this->get_setting('domain_controllers')), (int)$this->get_setting('ldap_port') );
+			$this->ldap = ldap_connect( join(' ', (array)$this->get_setting('domain_controllers')), (int)$this->get_setting('ldap_port') );
 			ldap_set_option($this->ldap, LDAP_OPT_PROTOCOL_VERSION, (int)$this->get_setting('ldap_version'));
 			if ( str_true($this->get_setting('use_tls')) ) {
 				ldap_start_tls($this->ldap);
