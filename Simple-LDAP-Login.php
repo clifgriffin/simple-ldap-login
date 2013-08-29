@@ -207,11 +207,6 @@ class SimpleLDAPLogin {
 		$local_admin = false;
 		$user_obj = get_user_by('login', $username); 
 		if( user_can($user_obj, 'update_core') ) $local_admin = true;
-
-		// If high security mode is enabled, remove default WP authentication hook
-		if ( str_true( $this->get_setting('high_security') ) && ! $local_admin ) {
-			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
-		}
 		
 		if ( empty($username) || empty($password) ) {
 			$error = new WP_Error();
@@ -223,6 +218,11 @@ class SimpleLDAPLogin {
 				$error->add('empty_password', __('<strong>ERROR</strong>: The password field is empty.'));
 
 			return $error;
+		}
+		
+		// If high security mode is enabled, remove default WP authentication hook
+		if ( str_true( $this->get_setting('high_security') ) && ! $local_admin ) {
+			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 		}
 
 		// Sweet, let's try to authenticate our user and pass against LDAP
