@@ -65,6 +65,7 @@ If you have any problems with 1.5, please let me know: clifgriffin@gmail.com
 * Fixing apparent security problem with blank passwords. (!)
 * Fixing typo in filter name (did not affect any functionality)
 * Local admin exception coming soon, as well as more bug fixes. 
+* Possible fix for login error upon arriving at login page when LDAP exclusive enabled.
 
 **Version 1.5.2**
 
