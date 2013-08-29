@@ -3,7 +3,7 @@
 Plugin Name: Simple LDAP Login
 Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/
 Description:  Authenticate your WordPress usernames against LDAP.
-Version: 1.5.3
+Version: 1.5.4
 Author: Clif Griffin Development Inc.
 Author URI: http://cgd.io
 */
@@ -202,9 +202,14 @@ class SimpleLDAPLogin {
 	function authenticate ($user, $username, $password) {
 		// If previous authentication succeeded, respect that
 		if ( is_a($user, 'WP_User') ) { return $user; }
+		
+		// Determine if user a local admin
+		$local_admin = false;
+		$user_obj = get_user_by('login', $username); 
+		if( user_can($user_obj, 'update_core') ) $local_admin = true;
 
 		// If high security mode is enabled, remove default WP authentication hook
-		if ( str_true( $this->get_setting('high_security') ) ) {
+		if ( str_true( $this->get_setting('high_security') ) && ! $local_admin ) {
 			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 		}
 		
@@ -330,27 +335,26 @@ class SimpleLDAPLogin {
 			'role' => $this->get_setting('role')
 		);
 
-		if( $directory == "ad" ) {
+		if ( $directory == "ad" ) {
 			$userinfo = $this->adldap->user_info($username, array("samaccountname","givenname","sn","mail"));
-			$userinfo = array_shift( array_values($userinfo) );
-
+			$userinfo = $userinfo[0];
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
 
 			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), 'sn', 'givenname', 'mail'));
-			$ldapuser = ldap_get_entries($this->ldap, $result);
+			$userinfo = ldap_get_entries($this->ldap, $result);
 
-			if ($ldapuser['count'] == 1) {
-				$userinfo = array_shift( array_values($ldapuser) );
+			if ($userinfo['count'] == 1) {
+				$userinfo = $userinfo[0];
 			}
 		} else return false;
 
 		if( is_array($userinfo) ) {
-			$user_data['user_nicename'] = sanitize_title( array_shift( array_values($userinfo[givenname]) ) . ' ' . array_shift( array_values($userinfo[sn]) ) );
-			$user_data['user_email'] 	= array_shift( array_values($userinfo[mail]) );
+			$user_data['user_nicename'] = sanitize_title( $userinfo[givenname][0] . ' ' . $userinfo[sn][0] );
+			$user_data['user_email'] 	= $userinfo[mail][0];
 			$user_data['display_name']	= $user_data['user_nicename'];
-			$user_data['first_name']	= sanitize_title( array_shift( array_values($userinfo[givenname]) ) );
-			$user_data['last_name'] 	= sanitize_title( array_shift( array_values($userinfo[sn]) ) );	
+			$user_data['first_name']	= sanitize_title( $userinfo[givenname][0] );
+			$user_data['last_name'] 	= sanitize_title( $userinfo[sn][0] );	
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
