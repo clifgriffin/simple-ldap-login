@@ -12,6 +12,10 @@ Integrating WordPress with LDAP shouldn't be difficult. Now it isn't. Simple LDA
 ## Description ##
 Having a single login for every service is a must in large organizations. This plugin allows you to integrate WordPress with LDAP quickly and easily. Like, really really easy.
 
+**Contributing**
+The easiest way to contribute to this plugin is to submit a GitHub pull request. Here's the repo:
+https://github.com/clifgriffin/simple-ldap-login
+
 **NEW VERSION -- 1.5**
 
 Just when you thought this project was dead, it sprang to life. I have spent some time completely rewriting Simple LDAP Login from the ground up. Proceed with caution as it's possible I have broken something in the process, but I'm reasonably certain it's fundamentally stable.
@@ -203,7 +207,7 @@ If you are confident your settings are correct and it still does not work, it ma
 Unfortunately I can't be relied upon to assist with these types of requests. I chose not to support these scenarios because they are infrequent and because they confuse everyone else.
 
 ### It's still not working! How can I get help? ###
-You can post a comment on my blog (http://clifgriffin.com/simple-ldap-login) or you can e-mail me: clifgriffin@gmail.com. I'll do my best to get you up and running!
+**The easiest way to get help is to post a comment on my blog:** http://clifgriffin.com/simple-ldap-login/. I'll do my best to get you up and running!  
 
 ## Screenshots ##
 
