@@ -203,7 +203,7 @@ If you are confident your settings are correct and it still does not work, it ma
 Unfortunately I can't be relied upon to assist with these types of requests. I chose not to support these scenarios because they are infrequent and because they confuse everyone else.
 
 ### It's still not working! How can I get help? ###
-There are two ways. You can post a comment on my blog (http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-WordPress/) or you can e-mail me: clifgriffin@gmail.com. I'll do my best to get you up and running!
+You can post a comment on my blog (http://clifgriffin.com/simple-ldap-login) or you can e-mail me: clifgriffin@gmail.com. I'll do my best to get you up and running!
 
 ## Screenshots ##
 
