@@ -350,11 +350,11 @@ class SimpleLDAPLogin {
 		} else return false;
 
 		if( is_array($userinfo) ) {
-			$user_data['user_nicename'] = sanitize_title( $userinfo[givenname][0] . ' ' . $userinfo[sn][0] );
+			$user_data['user_nicename'] = $userinfo[givenname][0] . ' ' . $userinfo[sn][0];
 			$user_data['user_email'] 	= $userinfo[mail][0];
-			$user_data['display_name']	= $user_data['user_nicename'];
-			$user_data['first_name']	= sanitize_title( $userinfo[givenname][0] );
-			$user_data['last_name'] 	= sanitize_title( $userinfo[sn][0] );	
+			$user_data['display_name']	= $userinfo[givenname][0];
+			$user_data['first_name']	= $userinfo[givenname][0];
+			$user_data['last_name'] 	= $userinfo[sn][0];
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
