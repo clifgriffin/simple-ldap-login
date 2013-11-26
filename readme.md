@@ -4,7 +4,7 @@
 **Tags:** LDAP, authentication, login, active directory, adLDAP  
 **Requires at least:** 3.4  
 **Tested up to:** 3.6  
-**Stable tag:** 1.5.4  
+**Stable tag:** 1.5.5  
 **License:** GPLv2 or later  
 
 Integrating WordPress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
@@ -59,6 +59,11 @@ I have spent some time completely rewriting Simple LDAP Login from the ground up
 **If you have any problems with 1.5, please let me know:** clifgriffin@gmail.com    
 
 ## Changelog ##
+**Version 1.5.5**
+
+* Fix syntax error.
+* Don’t sanitize user info.
+
 **Version 1.5.4**
 
 * Local admins will always fall back to local WP password. 
