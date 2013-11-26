@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Simple LDAP Login
-Plugin URI: http://clifgriffin.com/2009/05/13/simple-ldap-login-13-for-wordpress/
-Description:  Authenticate your WordPress usernames against LDAP.
-Version: 1.5.4
+Plugin URI: http://clifgriffin.com/simple-ldap-login/
+Description:  Authenticate WordPress against LDAP.
+Version: 1.5.5
 Author: Clif Griffin Development Inc.
 Author URI: http://cgd.io
 */
@@ -350,11 +350,11 @@ class SimpleLDAPLogin {
 		} else return false;
 
 		if( is_array($userinfo) ) {
-			$user_data['user_nicename'] = $userinfo[givenname][0] . ' ' . $userinfo[sn][0];
-			$user_data['user_email'] 	= $userinfo[mail][0];
+			$user_data['user_nicename'] = $userinfo['givenname'][0] . ' ' . $userinfo['sn'][0];
+			$user_data['user_email'] 	= $userinfo['mail'][0];
 			$user_data['display_name']	= $user_data['user_nicename'];
-			$user_data['first_name']	= $userinfo[givenname][0];
-			$user_data['last_name'] 	= $userinfo[sn][0];
+			$user_data['first_name']	= $userinfo['givenname'][0];
+			$user_data['last_name'] 	= $userinfo['sn'][0];
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
