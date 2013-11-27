@@ -32,8 +32,8 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						<input type="hidden" name="<?php echo $this->get_field_name('enabled'); ?>" value="false" />
 						<label><input type="checkbox" name="<?php echo $this->get_field_name('enabled'); ?>" value="true" <?php if( str_true($this->get_setting('enabled')) ) echo "checked"; ?> /> Enable LDAP login authentication for WordPress. (this one is kind of important)</label><br/>
 					</td>
-	    		<tr>
-	    		<tr>
+    		</tr>
+    		<tr>
 					<th scope="row" valign="top">Account Suffix</th>
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('account_suffix'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('account_suffix'); ?>" /><br/>
@@ -76,6 +76,13 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						<input type="text" name="<?php echo $this->get_field_name('groups', 'array'); ?>" value="<?php echo join(';', (array)$SimpleLDAPLogin->get_setting('groups')); ?>" /><br/>
 						The groups, if any, that authenticating LDAP users must belong to. <br/>
 						Empty means no group required. Separate with semi-colons.
+					</td>
+				</tr>
+    		<tr>
+					<th scope="row" valign="top">Login Domain</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('login_domain'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('login_domain'); ?>" /><br/>
+						prefixes login names with this domain, f.i. mydomain\username
 					</td>
 				</tr>
 				<tr>
