@@ -58,12 +58,15 @@ class SimpleLDAPLogin {
 		$this->add_setting('domain_controllers', array("dc01.mydomain.local") );
 		$this->add_setting('directory', "ad");
 		$this->add_setting('role', "Contributor");
+                $this->add_setting('groups_role_allocation', "");
 		$this->add_setting('high_security', "true");
-		$this->add_setting('ol_login', "uid");
+		$this->add_setting('user_filter', "(uid=[username])");
+                $this->add_setting('group_filter', "(uid=[username])");
 		$this->add_setting('use_tls', "false");
 		$this->add_setting('ldap_port', 389);
 		$this->add_setting('ldap_version', 3);
 		$this->add_setting('create_users', "false");
+                $this->add_setting('update_users', "false");
 		$this->add_setting('enabled', "false");
 
 		if( $this->get_setting('version') === false ) {
@@ -100,9 +103,13 @@ class SimpleLDAPLogin {
 				//delete_option('simpleldap_account_type');
 			}
 
-			if ( $this->set_setting('ol_login', get_option('simpleldap_ol_login')) ) {
-				//delete_option('simpleldap_ol_login');
+			if ( $this->set_setting('user_filter', get_option('simpleldap_user_filter')) ) {
+				//delete_option('simpleldap_user_filter');
 			}
+
+                        if ( $this->set_setting('group_filter', get_option('simpleldap_group_filter')) ) {
+                                //delete_option('simpleldap_group_filter');
+                        }
 
 			if ( $this->set_setting('use_tls', str_true( get_option('simpleldap_use_tls') ) ) ) {
 				//delete_option('simpleldap_use_tls');
@@ -115,6 +122,10 @@ class SimpleLDAPLogin {
 			if ( $this->set_setting('create_users', $create_users) ) {
 				//delete_option('simpleldap_login_mode');
 			}
+
+                        if ( $this->set_setting('update_users', $create_users) ) {
+                                //delete_option('simpleldap_login_mode');
+                        }
 
 			$high_security = false;
 			if ( get_option('simpleldap_security_mode') == "security_high" ) {
@@ -177,7 +188,22 @@ class SimpleLDAPLogin {
 				foreach( $setting_value as $type => $value ) {
 					if( $type == "array" ) {
 						$this->set_setting($setting_name, explode(";", $value));
-					} else {
+					} 
+                                        else if( $type == "multiline" ) {
+                                                $tmp1=explode(PHP_EOL, $value);
+                                                //remove blank lines and stripp whitespace from the beginning and end
+                                                $lines=array();
+                                                $ii=0;
+                                                for ( $i = 0; $i < count($tmp1); $i++) {
+                                                    $tmp2=trim($tmp1[$i]);
+                                                    if (strlen($tmp2)>0){
+                                                        $lines[$ii] = $tmp2;
+                                                        $ii++;
+                                                    }
+                                                }
+                                                $this->set_setting($setting_name, $lines);
+                                        } 
+                                        else {
 						$this->set_setting($setting_name, $value);
 					}
 				}
@@ -257,7 +283,17 @@ class SimpleLDAPLogin {
 					}
 
 				} else {
-					return new WP_User($user->ID);
+                                        if(str_true($this->get_setting('update_users')) ) {
+                                            $user_data=$this->get_user_data( $username, $this->get_setting('directory') );
+                                            unset($user_data['user_pass']);
+                                            $user_data['ID']=$user->ID;
+                                            $user_update=wp_update_user($user_data);
+                                            if( is_wp_error($user_update) ){
+                                                    do_action( 'wp_login_failed', $username );
+                                                    return new WP_Error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred updating the user in WordPress. Actual error: '.$new_user->get_error_message() ));
+                                            }
+                                        }
+                                        return $new_user=new WP_User($user->ID);
 				}
 			} else {
 				return new WP_Error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: Your LDAP credentials are correct, but you are not in an authorized LDAP group.'));
@@ -282,17 +318,24 @@ class SimpleLDAPLogin {
 			if ( str_true($this->get_setting('use_tls')) ) {
 				ldap_start_tls($this->ldap);
 			}
-			$ldapbind = @ldap_bind($this->ldap, $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn'), $password);
-			$result = $ldapbind;
+                        $filter=str_replace(array('[username]'),array($username),$this->get_setting('user_filter'));
+                        $search_result = ldap_search($this->ldap, $this->get_setting('base_dn'),trim($filter), array('dn'));
+                        $userinfo = ldap_get_entries($this->ldap, $search_result);
+                        if ($userinfo['count'] == 1) {
+                            $ldapbind = @ldap_bind($this->ldap, $userinfo['0']['dn'], $password);
+                            $result = $ldapbind;
+                        }
 		}
 
 		return apply_filters($this->prefix . 'ldap_auth', $result);
 	}
 
-	function user_has_groups( $username = false, $directory ) {
+	function user_has_groups( $username = false, $directory,$groups=false ) {
 		$result = false;
-		$groups = (array)$this->get_setting('groups');
-		$groups = array_filter($groups);
+                if (!$groups){
+                    $groups = (array)$this->get_setting('groups');
+                    $groups = array_filter($groups);
+                }
 
 		if ( ! $username ) return $result;
 		if ( count( $groups ) == 0 ) return true;
@@ -306,8 +349,8 @@ class SimpleLDAPLogin {
 			}
 		} elseif ( $directory == "ol" ) {
 			if( $this->ldap === false ) return false;
-
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array('cn'));
+                        $filter=str_replace(array('[username]'),array($username),$this->get_setting('group_filter'));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'),trim($filter), array('cn'));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.
@@ -340,8 +383,8 @@ class SimpleLDAPLogin {
 			$userinfo = $userinfo[0];
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
-
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), 'sn', 'givenname', 'mail'));
+                        $filter=str_replace(array('[username]'),array($username),$this->get_setting('user_filter'));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'),trim($filter), array('uid', 'sn', 'givenname', 'mail'));
 			$userinfo = ldap_get_entries($this->ldap, $result);
 
 			if ($userinfo['count'] == 1) {
@@ -356,6 +399,15 @@ class SimpleLDAPLogin {
 			$user_data['first_name']	= $userinfo['givenname'][0];
 			$user_data['last_name'] 	= $userinfo['sn'][0];
 		}
+
+                foreach ($this->get_setting('groups_role_allocation') as $gra) {
+                    $gra=explode('=',$gra);
+                    $g=$gra[0];
+                    $r=$gra[1];
+                    if( $this->user_has_groups( $username, $directory,array($g))){
+                        $user_data['role']=strtolower($r);
+                    }
+                }
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
 	}
