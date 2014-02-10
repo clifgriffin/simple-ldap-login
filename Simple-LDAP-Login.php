@@ -208,6 +208,10 @@ class SimpleLDAPLogin {
 		$user_obj = get_user_by('login', $username); 
 		if( user_can($user_obj, 'update_core') ) $local_admin = true;
 		
+		// Allow a site to force LDAP even on admin accounts
+		$local_admin = apply_filters( 'sll_force_ldap', $local_admin );
+		// To force LDAP authentication, the filter should return boolean false
+		
 		if ( empty($username) || empty($password) ) {
 			$error = new WP_Error();
 
