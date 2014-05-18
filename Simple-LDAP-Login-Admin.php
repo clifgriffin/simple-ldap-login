@@ -109,7 +109,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 	    		<tr>
 					<th scope="row" valign="top">LDAP Login Attribute</th>
 					<td>
-						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
+						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $this->get_setting('ol_login'); ?>" />
 						<br />
 						In case your installation uses something other than <b>uid</b>; 
 					</td>
@@ -120,6 +120,15 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						<input type="text" name="<?php echo $this->get_field_name('ol_class'); ?>" value="<?php echo $this->get_setting('ol_class'); ?>" />
 						<br />
 						For when your accounts are stored in a different objectClass than <b>posixAccount</b>; 
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">LDAP Group Attribute</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_grouplogin'); ?>" value="<?php echo $this->get_setting('ol_grouplogin'); ?>" />
+
+						<br />
+						In case group membership is incidated by an attribute different from <b>memberUid</b>;
 					</td>
 				</tr>
 				<tr>
