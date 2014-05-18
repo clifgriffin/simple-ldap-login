@@ -71,11 +71,11 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<table class="form-table" style="margin-bottom: 20px;">
 			<tbody>
 				<tr>
-					<th scope="row" valign="top">Required Groups</th>
+					<th scope="row" valign="top">Allowed Groups</th>
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('groups', 'array'); ?>" value="<?php echo join(';', (array)$SimpleLDAPLogin->get_setting('groups')); ?>" /><br/>
-						The groups, if any, that authenticating LDAP users must belong to. <br/>
-						Empty means no group required. Separate with semi-colons.
+						The list of groups allowed to login.<br/>
+						Empty means all groups are allowed. Separate with semi-colons.
 					</td>
 				</tr>
 				<tr>
