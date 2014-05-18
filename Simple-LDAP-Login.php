@@ -60,6 +60,7 @@ class SimpleLDAPLogin {
 		$this->add_setting('role', "Contributor");
 		$this->add_setting('high_security', "true");
 		$this->add_setting('ol_login', "uid");
+		$this->add_setting('ol_class', "posixAccount");
 		$this->add_setting('ol_search', "false");
 		$this->add_setting('use_tls', "false");
 		$this->add_setting('ldap_port', 389);
@@ -289,7 +290,7 @@ class SimpleLDAPLogin {
 			}
 
 			if( str_true($this->get_setting('ol_search')) ) {
-				$matches = @ldap_search($this->ldap, $this->get_setting('base_dn'), $this->get_setting('ol_login') . '=' . $username);
+				$matches = @ldap_search($this->ldap, $this->get_setting('base_dn'), '(&(' . $this->get_setting('ol_login') . '=' . $username .')(objectClass=' . $this->get_setting('ol_class') . '))');
 				if( $matches === false ) {
 					$result = false;
 				} else {

@@ -115,6 +115,14 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					</td>
 				</tr>
 				<tr>
+					<th scope="row" valign="top">LDAP Login objectClass</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_class'); ?>" value="<?php echo $this->get_setting('ol_class'); ?>" />
+						<br />
+						For when your accounts are stored in a different objectClass than <b>posixAccount</b>; 
+					</td>
+				</tr>
+				<tr>
 					<th scope="row" valign="top">Search for DN</th>
 					<td>
 						<label><input type="checkbox" name="<?php echo $this->get_field_name('ol_search'); ?>" value="true" <?php if( str_true($this->get_setting('ol_search')) ) echo "checked"; ?> /> Derive DN by searching the tree for an account with a login attribute matching the username. Use this if your DN's do not contain the username.</label>
