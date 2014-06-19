@@ -57,7 +57,7 @@ class SimpleLDAPLogin {
 		$this->add_setting('base_dn', "DC=mydomain,DC=org");
 		$this->add_setting('domain_controllers', array("dc01.mydomain.local") );
 		$this->add_setting('directory', "ad");
-		$this->add_setting('role', "Contributor");
+		$this->add_setting('role', "contributor");
 		$this->add_setting('high_security', "true");
 		$this->add_setting('ol_login', "uid");
 		$this->add_setting('use_tls', "false");
