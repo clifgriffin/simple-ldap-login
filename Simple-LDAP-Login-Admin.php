@@ -92,6 +92,13 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						<label><input type="checkbox" name="<?php echo $this->get_field_name('create_users'); ?>" value="true" <?php if( str_true($this->get_setting('create_users')) ) echo "checked"; ?> /> Create WordPress user for authenticated LDAP login with appropriate roles.</label><br/>
 					</td>
 	    		<tr>
+                                <tr>
+                                        <th scope="row" valign="top">User Update</th>
+                                        <td>
+                                                <input type="hidden" name="<?php echo $this->get_field_name('update_users'); ?>" value="false" />
+                                                <label><input type="checkbox" name="<?php echo $this->get_field_name('update_users'); ?>" value="true" <?php if( str_true($this->get_setting('update_users')) ) echo "checked"; ?> /> Synchronize the user data with LDAP after every login</label><br/>
+                                        </td>
+                                  <tr>
 					<th scope="row" valign="top">New User Role</th>
 					<td>
 						<select name="<?php echo $this->get_field_name('role'); ?>">
@@ -99,6 +106,18 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						</select>
 					</td>
 				</tr>
+                                <tr>
+                                        <th scope="row" valign="top">Groups Roles Allocation</th>
+                                        <td>
+                                                <textarea type="text" rows="5" name="<?php echo $this->get_field_name('groups_role_allocation', 'multiline'); ?>"/><?php echo join(PHP_EOL, (array)$SimpleLDAPLogin->get_setting('groups_role_allocation')); ?></textarea><br/>
+                                                Syntax: Group-Name=User-role <br/> 
+                                                <b>You must use english role names!</b> <br/>
+                                                One Groups role allocation per line; <br/>
+                                                If a user is in more then one group, the last line has the highest priority; <br/>
+                                                If a user in no group, the "New User Role" setting is used; <br/>
+                                                Empty means the "New User Role" setting is always used; <br/>
+                                        </td>
+                                </tr>
 			</tbody>
     	</table>
     	<hr />
@@ -106,14 +125,26 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<p>Most users should leave these alone.</p>
     	<table class="form-table">
 			<tbody>
-	    		<tr>
-					<th scope="row" valign="top">LDAP Login Attribute</th>
+                                <tr>
+					<th scope="row" valign="top">LDAP User search filter</th>
 					<td>
-						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
+						<input type="text" name="<?php echo $this->get_field_name('user_filter'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('user_filter'); ?>" />
 						<br />
-						In case your installation uses something other than <b>uid</b>; 
+                                                Examples: (uid=[username]) ; &(uid=[username])(objectClass=inetOrgPerson) ; <br/>
+						Default: (uid=[username]) ; <br/>
+                                                see <a href="http://www.mozilla.org/directory/csdk-docs/filter.htm">Netscape Directory SDK</a> for filter syntax;
 					</td>
 				</tr>
+                                <tr>
+                                        <th scope="row" valign="top">LDAP Group search filter</th>
+                                        <td>
+                                                <input type="text" name="<?php echo $this->get_field_name('group_filter'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('group_filter'); ?>" />
+                                                <br />
+                                                Examples: (uid=[username]) ; (memberUid=[username]) ; <br/>
+                                                Default: (uid=[username]); <br/>
+                                                see <a href="http://www.mozilla.org/directory/csdk-docs/filter.htm">Netscape Directory SDK</a> for filter syntax;
+                                        </td>
+                                </tr>
 				<tr>
 					<th scope="row" valign="top">Use TLS</th>
 					<td>
