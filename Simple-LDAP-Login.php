@@ -14,6 +14,7 @@ class SimpleLDAPLogin {
 	var $settings = array();
 	var $adldap;
 	var $ldap;
+	var $network_version = null;
 
 	public function __construct () {
 		$this->settings = $this->get_settings_obj( $this->prefix );
@@ -362,6 +363,28 @@ class SimpleLDAPLogin {
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
+	}
+
+	/**
+	 * Returns whether this plugin is currently network activated
+	 */
+	function is_network_version() {
+		if ( $this->network_version !== null) {
+			return $this->network_version;
+		}
+
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		}
+    
+		if ( is_plugin_active_for_network( plugin_basename(__FILE__) ) ) {
+			$this->network_version = true;
+		}
+		else {
+			$this->network_version = false;
+			
+		}
+		return $this->network_version;
 	}
 }
 
