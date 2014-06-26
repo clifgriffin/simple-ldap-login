@@ -185,11 +185,22 @@ class SimpleLDAPLogin {
 	}
 
 	function get_settings_obj () {
-		return get_option("{$this->prefix}settings", false);
+		if ($this->is_network_version()) {
+			return get_site_option("{$this->prefix}settings", false);
+		}	
+		else {
+			return get_option("{$this->prefix}settings", false);
+		}
 	}
 
 	function set_settings_obj ( $newobj ) {
-		return update_option("{$this->prefix}settings", $newobj);
+		if ($this->is_network_version()) {
+			return update_site_option("{$this->prefix}settings", $newobj);
+		}
+		else {
+			return update_option("{$this->prefix}settings", $newobj);	
+		}
+		
 	}
 
 	function set_setting ( $option = false, $newvalue ) {
