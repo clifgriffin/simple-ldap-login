@@ -49,7 +49,12 @@ class SimpleLDAPLogin {
 		register_activation_hook( __FILE__, array($this, 'activate') );
 
 		// If version is false, and old version detected, run activation
-		if( $this->get_setting('version') === false || get_option('simpleldap_domain_controllers', false) !== false ) $this->activate();
+		if( $this->get_setting('version') === false || 
+			get_option('simpleldap_domain_controllers', false) !== false  ||
+			get_site_option('simpleldap_domain_controllers', false) !== false ) 
+		{
+			$this->activate();
+		}
 	}
 
 	public static function getInstance () {
@@ -78,20 +83,45 @@ class SimpleLDAPLogin {
 			$this->set_setting('version', '1.5');
 			$this->set_setting('enabled', 'true');
 
-			if ( $this->set_setting('account_suffix', get_option('simpleldap_account_suffix')) ) {
+			if ($this->is_network_version()) {
+				$account_suffix = get_site_option('simpleldap_account_suffix');
+				$simpleldap_base_dn = get_site_option('simpleldap_base_dn');
+				$simpleldap_domain_controllers = get_site_option('simpleldap_domain_controllers');
+				$simpleldap_directory_type = get_site_option('simpleldap_directory_type');
+				$simpleldap_group = get_site_option('simpleldap_group');
+				$simpleldap_account_type = get_site_option('simpleldap_account_type');
+				$simpleldap_ol_login = get_site_option('simpleldap_ol_login');
+				$simpleldap_use_tls = get_site_option('simpleldap_use_tls');
+				$simpleldap_login_mode = get_site_option('simpleldap_login_mode');
+				$simpleldap_security_mode = get_site_option('simpleldap_security_mode');
+			}
+			else {
+				$account_suffix = get_option('simpleldap_account_suffix');
+				$simpleldap_base_dn = get_option('simpleldap_base_dn');
+				$simpleldap_domain_controllers = get_option('simpleldap_domain_controllers');
+				$simpleldap_directory_type = get_option('simpleldap_directory_type');
+				$simpleldap_group = get_option('simpleldap_group');
+				$simpleldap_account_type = get_option('simpleldap_account_type');
+				$simpleldap_ol_login = get_option('simpleldap_ol_login');
+				$simpleldap_use_tls = get_option('simpleldap_use_tls');
+				$simpleldap_login_mode = get_option('simpleldap_login_mode');
+				$simpleldap_security_mode = get_option('simpleldap_security_mode');
+			}
+
+			if ( $this->set_setting('account_suffix', $account_suffix ) ) {
 				//delete_option('simpleldap_account_suffix');
 			}
 
-			if ( $this->set_setting('base_dn', get_option('simpleldap_base_dn')) ) {
+			if ( $this->set_setting('base_dn', $simpleldap_base_dn) ) {
 				//delete_option('simpleldap_base_dn');
 			}
 
-			if ( $this->set_setting('domain_controllers', get_option('simpleldap_domain_controllers')) ) {
+			if ( $this->set_setting('domain_controllers', $simpleldap_domain_controllers) ) {
 				//delete_option('simpleldap_domain_controllers');
 			}
 
 			$directory_result = false;
-			if ( get_option('simpleldap_directory_type') == "directory_ad" ) {
+			if ( $simpleldap_directory_type == "directory_ad" ) {
 				$directory_result = $this->set_setting('directory', 'ad');
 			} else {
 				$directory_result = $this->set_setting('directory', 'ol');
@@ -100,24 +130,24 @@ class SimpleLDAPLogin {
 			//if( $directory_result ) delete_option('simpleldap_directory_type');
 			unset($directory_result);
 
-			if ( $this->set_setting('groups', (array)get_option('simpleldap_group') ) ) {
+			if ( $this->set_setting('groups', (array)$simpleldap_group ) ) {
 				//delete_option('simpleldap_group');
 			}
 
-			if ( $this->set_setting('role', get_option('simpleldap_account_type')) ) {
+			if ( $this->set_setting('role', $simpleldap_account_type) ) {
 				//delete_option('simpleldap_account_type');
 			}
 
-			if ( $this->set_setting('ol_login', get_option('simpleldap_ol_login')) ) {
+			if ( $this->set_setting('ol_login', $simpleldap_ol_login) ) {
 				//delete_option('simpleldap_ol_login');
 			}
 
-			if ( $this->set_setting('use_tls', str_true( get_option('simpleldap_use_tls') ) ) ) {
+			if ( $this->set_setting('use_tls', str_true( $simpleldap_use_tls ) ) ) {
 				//delete_option('simpleldap_use_tls');
 			}
 
 			$create_users = false;
-			if ( get_option('simpleldap_login_mode') == "mode_create_all" || get_option('simpleldap_login_mode') == "mode_create_group" ) {
+			if ( $simpleldap_login_mode == "mode_create_all" || $simpleldap_login_mode == "mode_create_group" ) {
 				$create_users = true;
 			}
 			if ( $this->set_setting('create_users', $create_users) ) {
@@ -125,7 +155,7 @@ class SimpleLDAPLogin {
 			}
 
 			$high_security = false;
-			if ( get_option('simpleldap_security_mode') == "security_high" ) {
+			if ( $simpleldap_security_mode == "security_high" ) {
 				$high_security = true;
 			}
 			if ( $this->set_setting('high_security', $high_security) ) {
