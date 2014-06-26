@@ -33,7 +33,14 @@ class SimpleLDAPLogin {
 		}
 
 		add_action('admin_init', array($this, 'save_settings') );
-		add_action('admin_menu', array($this, 'menu') );
+
+		if ($this->is_network_version()) {
+			add_action('network_admin_menu', array($this, 'menu') );
+		}
+		else {
+			add_action('admin_menu', array($this, 'menu') );
+		}
+		
 
 		if ( str_true($this->get_setting('enabled')) ) {
 			add_filter('authenticate', array($this, 'authenticate'), 1, 3);
@@ -128,7 +135,19 @@ class SimpleLDAPLogin {
 	}
 
 	function menu () {
-		add_options_page("Simple LDAP Login", "Simple LDAP Login", 'manage_options', "simple-ldap-login", array($this, 'admin_page') );
+		if ($this->is_network_version()) {
+			add_submenu_page(
+				"settings.php",
+				"Simple LDAP Login",
+				"Simple LDAP Login",
+				'manage_network_plugins',
+				"simple-ldap-login", 
+				array($this, 'admin_page')
+			);			
+		}
+		else {
+			add_options_page("Simple LDAP Login", "Simple LDAP Login", 'manage_options', "simple-ldap-login", array($this, 'admin_page') );	
+		}
 	}
 
 	function admin_page () {
