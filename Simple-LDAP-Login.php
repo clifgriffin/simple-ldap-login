@@ -73,6 +73,10 @@ class SimpleLDAPLogin {
 		$this->add_setting('role', "contributor");
 		$this->add_setting('high_security', "true");
 		$this->add_setting('ol_login', "uid");
+        $this->add_setting('search', "false");
+        $this->add_setting('search_filter', "(mail=%user%)");
+        $this->add_setting('search_user', "uid=someone,dc=mydomain,dc=org");
+        $this->add_setting('search_password', "somepass");
 		$this->add_setting('use_tls', "false");
 		$this->add_setting('ldap_port', 389);
 		$this->add_setting('ldap_version', 3);
@@ -91,6 +95,10 @@ class SimpleLDAPLogin {
 				$simpleldap_group = get_site_option('simpleldap_group');
 				$simpleldap_account_type = get_site_option('simpleldap_account_type');
 				$simpleldap_ol_login = get_site_option('simpleldap_ol_login');
+                $simpleldap_search = get_option('simpleldap_search');
+                $simpleldap_search_filter = get_option('simpleldap_search_filter');
+                $simpleldap_search_user = get_option('simpleldap_search_user');
+                $simpleldap_search_password = get_option('simpleldap_search_password');
 				$simpleldap_use_tls = get_site_option('simpleldap_use_tls');
 				$simpleldap_login_mode = get_site_option('simpleldap_login_mode');
 				$simpleldap_security_mode = get_site_option('simpleldap_security_mode');
@@ -103,6 +111,10 @@ class SimpleLDAPLogin {
 				$simpleldap_group = get_option('simpleldap_group');
 				$simpleldap_account_type = get_option('simpleldap_account_type');
 				$simpleldap_ol_login = get_option('simpleldap_ol_login');
+                $simpleldap_search = get_option('simpleldap_search');
+                $simpleldap_search_filter = get_option('simpleldap_search_filter');
+                $simpleldap_search_user = get_option('simpleldap_search_user');
+                $simpleldap_search_password = get_option('simpleldap_search_password');
 				$simpleldap_use_tls = get_option('simpleldap_use_tls');
 				$simpleldap_login_mode = get_option('simpleldap_login_mode');
 				$simpleldap_security_mode = get_option('simpleldap_security_mode');
@@ -140,6 +152,22 @@ class SimpleLDAPLogin {
 
 			if ( $this->set_setting('ol_login', $simpleldap_ol_login) ) {
 				//delete_option('simpleldap_ol_login');
+			}
+
+			if ( $this->set_setting('search', str_true( $simpleldap_search ) ) ) {
+				//delete_option('simpleldap_search');
+			}
+
+			if ( $this->set_setting('search_filter', $simpleldap_search_filter ) ) {
+				//delete_option('simpleldap_search_filter');
+			}
+
+			if ( $this->set_setting('search_user', $simpleldap_search_user ) ) {
+				//delete_option('simpleldap_search_user');
+			}
+
+			if ( $this->set_setting('search_password', $simpleldap_search_password ) ) {
+				//delete_option('simpleldap_search_password');
 			}
 
 			if ( $this->set_setting('use_tls', str_true( $simpleldap_use_tls ) ) ) {
@@ -336,6 +364,37 @@ class SimpleLDAPLogin {
 		return false;
 	}
 
+    function ldap_get_dn($username) {
+        if(!$this->ldap) return false;
+
+        $result = false;
+        if( str_true($this->get_setting('search'))) {
+            $bind = false;
+            // first, try to bind for searching, using the search DN or anonymous
+            if( $this->get_setting('search_user')) {
+                $bind = ldap_bind($this->ldap, $this->get_setting('search_user'), $this->get_setting('search_password'));
+            } else {
+                $bind = ldap_bind($this->ldap); // anonymous bind
+            }
+            // then do the LDAP account search, using the search_filter
+            if($bind) {
+                $result = ldap_search($this->ldap, $this->get_setting('base_dn'),
+                            str_replace(array('%user%','%userlower%'), array($username, strtolower($username)), $this->get_setting('search_filter')),
+                            array('dn'), 0, 1);
+                if($result) {
+                    $info = ldap_get_entries($this->ldap, $result);
+                    if($info["count"] > 0) {
+                        // rebind
+                        $result = $info[0]["dn"];
+                    }
+                }
+            }
+        } else {
+            $result = $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn');
+        }
+        return $result;
+    }
+
 	function ldap_auth( $username, $password, $directory ) {
 		$result = false;
 
@@ -347,8 +406,10 @@ class SimpleLDAPLogin {
 			if ( str_true($this->get_setting('use_tls')) ) {
 				ldap_start_tls($this->ldap);
 			}
-			$ldapbind = @ldap_bind($this->ldap, $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn'), $password);
-			$result = $ldapbind;
+            $dn = $this->ldap_get_dn($username);
+            if($dn) {
+                $result = @ldap_bind($this->ldap, $dn, $password);
+            }
 		}
 
 		return apply_filters($this->prefix . 'ldap_auth', $result);
