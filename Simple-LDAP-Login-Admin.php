@@ -91,6 +91,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						<input type="hidden" name="<?php echo $this->get_field_name('create_users'); ?>" value="false" />
 						<label><input type="checkbox" name="<?php echo $this->get_field_name('create_users'); ?>" value="true" <?php if( str_true($this->get_setting('create_users')) ) echo "checked"; ?> /> Create WordPress user for authenticated LDAP login with appropriate roles.</label><br/>
 					</td>
+                </tr>
 	    		<tr>
 					<th scope="row" valign="top">New User Role</th>
 					<td>
@@ -111,7 +112,35 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
 						<br />
-						In case your installation uses something other than <b>uid</b>; 
+						In case your installation uses something other than <b>uid</b> or you want to use searching (see below); 
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">Search, then bind</th>
+					<td>
+						<input type="hidden" name="<?php echo $this->get_field_name('create_users'); ?>" value="false" />
+						<label><input type="checkbox" name="<?php echo $this->get_field_name('search'); ?>" value="true" <?php if( str_true($this->get_setting('search')) ) echo "checked"; ?> /> Search user in LDAP database first, then try to login with the resulting DN.</label><br/>
+					</td>
+                </tr>
+				<tr>
+					<th scope="row" valign="top">Search filter specification</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('search_filter'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('search_filter'); ?>" /><br/>
+						Filter to use for account search. Use "%user%" as a placeholder for the user name, or "%userlower%" for a lower-case version of the user name. Example: "(mail=%userlower%@mywordpress.domain)"
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">LDAP user for search</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('search_user'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('search_user'); ?>" /><br/>
+						Full DN for user to bind to before searching user to authenticate. Leave empty if anonymous bind shall be used.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">Passwort for user used for searching</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('search_password'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('search_password'); ?>" /><br/>
+						The password of that user.
 					</td>
 				</tr>
 				<tr>
