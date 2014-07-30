@@ -40,7 +40,7 @@ class SimpleLDAPLogin {
 		else {
 			add_action('admin_menu', array($this, 'menu') );
 		}
-		
+
 
 		if ( str_true($this->get_setting('enabled')) ) {
 			add_filter('authenticate', array($this, 'authenticate'), 1, 3);
@@ -49,9 +49,9 @@ class SimpleLDAPLogin {
 		register_activation_hook( __FILE__, array($this, 'activate') );
 
 		// If version is false, and old version detected, run activation
-		if( $this->get_setting('version') === false || 
+		if( $this->get_setting('version') === false ||
 			get_option('simpleldap_domain_controllers', false) !== false  ||
-			get_site_option('simpleldap_domain_controllers', false) !== false ) 
+			get_site_option('simpleldap_domain_controllers', false) !== false )
 		{
 			$this->activate();
 		}
@@ -171,12 +171,12 @@ class SimpleLDAPLogin {
 				"Simple LDAP Login",
 				"Simple LDAP Login",
 				'manage_network_plugins',
-				"simple-ldap-login", 
+				"simple-ldap-login",
 				array($this, 'admin_page')
-			);			
+			);
 		}
 		else {
-			add_options_page("Simple LDAP Login", "Simple LDAP Login", 'manage_options', "simple-ldap-login", array($this, 'admin_page') );	
+			add_options_page("Simple LDAP Login", "Simple LDAP Login", 'manage_options', "simple-ldap-login", array($this, 'admin_page') );
 		}
 	}
 
@@ -187,7 +187,7 @@ class SimpleLDAPLogin {
 	function get_settings_obj () {
 		if ($this->is_network_version()) {
 			return get_site_option("{$this->prefix}settings", false);
-		}	
+		}
 		else {
 			return get_option("{$this->prefix}settings", false);
 		}
@@ -198,9 +198,9 @@ class SimpleLDAPLogin {
 			return update_site_option("{$this->prefix}settings", $newobj);
 		}
 		else {
-			return update_option("{$this->prefix}settings", $newobj);	
+			return update_option("{$this->prefix}settings", $newobj);
 		}
-		
+
 	}
 
 	function set_setting ( $option = false, $newvalue ) {
@@ -263,16 +263,16 @@ class SimpleLDAPLogin {
 	function authenticate ($user, $username, $password) {
 		// If previous authentication succeeded, respect that
 		if ( is_a($user, 'WP_User') ) { return $user; }
-		
+
 		// Determine if user a local admin
 		$local_admin = false;
-		$user_obj = get_user_by('login', $username); 
+		$user_obj = get_user_by('login', $username);
 		if( user_can($user_obj, 'update_core') ) $local_admin = true;
-		
+
 		// Allow a site to force LDAP even on admin accounts
 		$local_admin = apply_filters( 'sll_force_ldap', $local_admin );
 		// To force LDAP authentication, the filter should return boolean false
-		
+
 		if ( empty($username) || empty($password) ) {
 			$error = new WP_Error();
 
@@ -284,7 +284,7 @@ class SimpleLDAPLogin {
 
 			return $error;
 		}
-		
+
 		// If high security mode is enabled, remove default WP authentication hook
 		if ( str_true( $this->get_setting('high_security') ) && ! $local_admin ) {
 			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
@@ -372,14 +372,16 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if( $this->ldap === false ) return false;
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array('cn'));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array('memberof'));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.
 			// Let's make sure he's in the right group before proceeding.
 			$user_groups = array();
 			for ( $i = 0; $i < $ldapgroups['count']; $i++) {
-				$user_groups[] .= $ldapgroups[$i]['cn'][0];
+				for ($j=0; $j < $ldapgroups[$i]['memberof']['count']; $j++) {
+					$user_groups[] .= $ldapgroups[$i]['memberof'][$j];
+				}
 			}
 
 			$result =  (bool)(count( array_intersect($user_groups, $groups) ) > 0);
@@ -436,13 +438,13 @@ class SimpleLDAPLogin {
 		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		}
-    
+
 		if ( is_plugin_active_for_network( plugin_basename(__FILE__) ) ) {
 			$this->network_version = true;
 		}
 		else {
 			$this->network_version = false;
-			
+
 		}
 		return $this->network_version;
 	}
