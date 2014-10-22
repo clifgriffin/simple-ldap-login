@@ -415,9 +415,9 @@ class SimpleLDAPLogin {
 		} else return false;
 
 		if( is_array($userinfo) ) {
-			$user_data['user_nicename'] = $userinfo['givenname'][0] . ' ' . $userinfo['sn'][0];
+			$user_data['user_nicename'] = strtolower($userinfo['givenname'][0]) . '-' . strtolower($userinfo['sn'][0]);
 			$user_data['user_email'] 	= $userinfo['mail'][0];
-			$user_data['display_name']	= $user_data['user_nicename'];
+			$user_data['display_name']	= $userinfo['givenname'][0] . ' ' . $userinfo['sn'][0];
 			$user_data['first_name']	= $userinfo['givenname'][0];
 			$user_data['last_name'] 	= $userinfo['sn'][0];
 		}
