@@ -73,6 +73,10 @@ class SimpleLDAPLogin {
 		$this->add_setting('role', "contributor");
 		$this->add_setting('high_security', "true");
 		$this->add_setting('ol_login', "uid");
+		$this->add_setting('ol_class', "posixAccount");
+		$this->add_setting('ol_grouplogin', "memberUid");
+		$this->add_setting('ol_groupclass', "posixGroup");
+		$this->add_setting('ol_search', "false");
 		$this->add_setting('use_tls', "false");
 		$this->add_setting('ldap_port', 389);
 		$this->add_setting('ldap_version', 3);
@@ -347,8 +351,26 @@ class SimpleLDAPLogin {
 			if ( str_true($this->get_setting('use_tls')) ) {
 				ldap_start_tls($this->ldap);
 			}
-			$ldapbind = @ldap_bind($this->ldap, $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn'), $password);
-			$result = $ldapbind;
+
+			if( str_true($this->get_setting('ol_search')) ) {
+				$matches = @ldap_search($this->ldap, $this->get_setting('base_dn'), '(&(' . $this->get_setting('ol_login') . '=' . $username .')(objectClass=' . $this->get_setting('ol_class') . '))');
+				if( $matches === false ) {
+					$result = false;
+				} else {
+					$matches = ldap_get_entries($this->ldap, $matches);
+					if( $matches['count'] > 0 ) {
+						$dn = $matches[0]['dn'];
+					} else {
+						$result = false;
+					}
+				}
+			} else {
+				$dn = $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn');
+			}
+
+			if( isset($dn) ) {
+				$result = @ldap_bind($this->ldap, $dn, $password);
+			}
 		}
 
 		return apply_filters($this->prefix . 'ldap_auth', $result);
@@ -372,7 +394,7 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if( $this->ldap === false ) return false;
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array('cn'));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(&(' . $this->get_setting('ol_grouplogin') . '=' . $username . ')(objectClass=' . $this->get_setting('ol_groupclass') . '))', array('cn'));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.

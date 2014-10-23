@@ -71,11 +71,11 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<table class="form-table" style="margin-bottom: 20px;">
 			<tbody>
 				<tr>
-					<th scope="row" valign="top">Required Groups</th>
+					<th scope="row" valign="top">Allowed Groups</th>
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('groups', 'array'); ?>" value="<?php echo join(';', (array)$SimpleLDAPLogin->get_setting('groups')); ?>" /><br/>
-						The groups, if any, that authenticating LDAP users must belong to. <br/>
-						Empty means no group required. Separate with semi-colons.
+						The list of groups allowed to login.<br/>
+						Empty means all groups are allowed. Separate with semi-colons.
 					</td>
 				</tr>
 				<tr>
@@ -109,9 +109,41 @@ if( isset( $_GET[ 'tab' ] ) ) {
 	    		<tr>
 					<th scope="row" valign="top">LDAP Login Attribute</th>
 					<td>
-						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
+						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $this->get_setting('ol_login'); ?>" />
 						<br />
 						In case your installation uses something other than <b>uid</b>; 
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">LDAP Login objectClass</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_class'); ?>" value="<?php echo $this->get_setting('ol_class'); ?>" />
+						<br />
+						For when your accounts are stored in a different objectClass than <b>posixAccount</b>; 
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">LDAP Group Attribute</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_grouplogin'); ?>" value="<?php echo $this->get_setting('ol_grouplogin'); ?>" />
+
+						<br />
+						In case group membership is incidated by an attribute different from <b>memberUid</b>;
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">LDAP Group objectclass</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_groupclass'); ?>" value="<?php echo $this->get_setting('ol_groupclass'); ?>" />
+
+						<br />
+						The type of object in which group information is stored.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">Search for DN</th>
+					<td>
+						<label><input type="checkbox" name="<?php echo $this->get_field_name('ol_search'); ?>" value="true" <?php if( str_true($this->get_setting('ol_search')) ) echo "checked"; ?> /> Derive DN by searching the tree for an account with a login attribute matching the username. Use this if your DN's do not contain the username.</label>
 					</td>
 				</tr>
 				<tr>
@@ -148,3 +180,4 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<?php endif; ?>
     </form>
 </div>
+
