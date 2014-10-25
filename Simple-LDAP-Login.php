@@ -78,6 +78,7 @@ class SimpleLDAPLogin {
 		$this->add_setting('ldap_version', 3);
 		$this->add_setting('create_users', "false");
 		$this->add_setting('enabled', "false");
+                $this->add_setting('search_sub_ous', "false");
 
 		if( $this->get_setting('version') === false ) {
 			$this->set_setting('version', '1.5');
@@ -347,7 +348,19 @@ class SimpleLDAPLogin {
 			if ( str_true($this->get_setting('use_tls')) ) {
 				ldap_start_tls($this->ldap);
 			}
-			$ldapbind = @ldap_bind($this->ldap, $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn'), $password);
+                        $dn = $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn');
+                        if (str_true($this->get_setting('search_sub_ous'))) {
+                            // search for user's DN in the base DN and below
+                            $filter = $this->get_setting('ol_login') .'=' . $username;
+                            $sr = @ldap_search($this->ldap, $this->get_setting('base_dn'), $filter, array('cn'));
+                            if ($sr !== FALSE) {
+                                $info = @ldap_get_entries($this->ldap, $sr);
+                                if ($info !== FALSE && $info['count'] > 0) {
+                                    $dn = $info[0]['dn'];
+                                }
+                            }
+                        }
+                        $ldapbind = @ldap_bind($this->ldap, $dn, $password);
 			$result = $ldapbind;
 		}
 
