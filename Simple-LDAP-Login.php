@@ -303,7 +303,7 @@ class SimpleLDAPLogin {
 				if ( ! $user || ( strtolower($user->user_login) !== strtolower($username) ) )  {
 					if( ! str_true($this->get_setting('create_users')) ) {
 						do_action( 'wp_login_failed', $username );
-						return new WP_Error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct, but there is no matching WordPress user and user creation is not enabled.'));
+						return $this->ldap_auth_error('invalid_username', __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct, but there is no matching WordPress user and user creation is not enabled.'));
 					}
 
 					$new_user = wp_insert_user( $this->get_user_data( $username, $this->get_setting('directory') ) );
@@ -319,18 +319,18 @@ class SimpleLDAPLogin {
 					else
 					{
 						do_action( 'wp_login_failed', $username );
-						return new WP_Error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in WordPress. Actual error: '.$new_user->get_error_message() ));
+						return $this->ldap_auth_error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in WordPress. Actual error: '.$new_user->get_error_message() ));
 					}
 
 				} else {
 					return new WP_User($user->ID);
 				}
 			} else {
-				return new WP_Error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: Your LDAP credentials are correct, but you are not in an authorized LDAP group.'));
+				return $this->ldap_auth_error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: Your LDAP credentials are correct, but you are not in an authorized LDAP group.'));
 			}
 
 		} elseif ( str_true($this->get_setting('high_security')) ) {
-			return new WP_Error('invalid_username', __('<strong>Simple LDAP Login</strong>: Simple LDAP Login could not authenticate your credentials. The security settings do not permit trying the WordPress user database as a fallback.'));
+			return $this->ldap_auth_error('invalid_username', __('<strong>Simple LDAP Login</strong>: Simple LDAP Login could not authenticate your credentials. The security settings do not permit trying the WordPress user database as a fallback.'));
 		}
 
 		do_action($this->prefix . 'auth_failure');
@@ -365,6 +365,19 @@ class SimpleLDAPLogin {
 		}
 
 		return apply_filters($this->prefix . 'ldap_auth', $result);
+	}
+	
+	/**
+	 * Prevent modification of the error message by other authenticate hooks
+	 * before it is shown to the user
+	 * 
+	 * @param string $code
+	 * @param string $message
+	 * @return WP_Error
+	 */
+	function ldap_auth_error( $code, $message ) {
+		remove_all_filters( 'authenticate' );
+		return new WP_Error( $code, $message );
 	}
 
 	function user_has_groups( $username = false, $directory ) {
