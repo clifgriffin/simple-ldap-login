@@ -67,7 +67,11 @@ class SimpleLDAPLogin {
 	function activate () {
 		// Default settings
 		$this->add_setting('account_suffix', "@mydomain.org");
-		$this->add_setting('base_dn', "DC=mydomain,DC=org");
+		$this->add_setting('base_dn', "ou=users,DC=mydomain,DC=org");
+
+		$this->add_setting('group_dn', "ou=groups,DC=mydomain,DC=org");
+		$this->add_setting('group_uid', "memberUid");
+
 		$this->add_setting('domain_controllers', array("dc01.mydomain.local") );
 		$this->add_setting('directory', "ad");
 		$this->add_setting('role', "contributor");
@@ -398,7 +402,7 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if( $this->ldap === false ) return false;
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array('cn'));
+			$result = ldap_search($this->ldap, $this->get_setting('group_dn'), '(' . $this->get_setting('group_uid'). '=' . $username . ')', array('cn'));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.

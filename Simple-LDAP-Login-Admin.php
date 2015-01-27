@@ -41,11 +41,19 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row" valign="top">Base DN</th>
+					<th scope="row" valign="top">User Base DN</th>
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('base_dn'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('base_dn'); ?>" />
 						<br/>
-						Example: For subdomain.domain.suffix, use DC=subdomain,DC=domain,DC=suffix. Do not specify an OU here.
+						Example: For subdomain.domain.suffix, use ou=users,DC=subdomain,DC=domain,DC=suffix.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">Group Base DN</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('group_dn'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('group_dn'); ?>" />
+						<br/>
+						Example: For subdomain.domain.suffix, use ou=groups,DC=subdomain,DC=domain,DC=suffix.
 					</td>
 				</tr>
 				<tr>
@@ -121,6 +129,14 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						In case your installation uses something other than <b>uid</b>; 
 					</td>
 				</tr>
+	    		<tr>
+					<th scope="row" valign="top">LDAP Group Attribute</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('group_uid'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('group_uid'); ?>" />
+						<br />
+						In case your installation uses something other than <b>memberUid</b>;
+					</td>
+				</tr>
 				<tr>
 					<th scope="row" valign="top">Use TLS</th>
 					<td>
@@ -155,3 +171,4 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<?php endif; ?>
     </form>
 </div>
+
