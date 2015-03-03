@@ -46,6 +46,10 @@ class SimpleLDAPLogin {
 			add_filter('authenticate', array($this, 'authenticate'), 1, 3);
 		}
 
+		if ( str_true($this->get_setting('auto_login')) ) {
+			add_action('init', array($this, 'auto_login') );
+		}
+
 		register_activation_hook( __FILE__, array($this, 'activate') );
 
 		// If version is false, and old version detected, run activation
@@ -78,7 +82,8 @@ class SimpleLDAPLogin {
 		$this->add_setting('ldap_version', 3);
 		$this->add_setting('create_users', "false");
 		$this->add_setting('enabled', "false");
-                $this->add_setting('search_sub_ous', "false");
+		$this->add_setting('search_sub_ous', "false");
+		$this->add_setting('auto_login', "false");
 
 		if( $this->get_setting('version') === false ) {
 			$this->set_setting('version', '1.5');
@@ -95,6 +100,7 @@ class SimpleLDAPLogin {
 				$simpleldap_use_tls = get_site_option('simpleldap_use_tls');
 				$simpleldap_login_mode = get_site_option('simpleldap_login_mode');
 				$simpleldap_security_mode = get_site_option('simpleldap_security_mode');
+				$simpleldap_auto_login = get_site_option('simpleldap_auto_login');
 			}
 			else {
 				$account_suffix = get_option('simpleldap_account_suffix');
@@ -107,6 +113,7 @@ class SimpleLDAPLogin {
 				$simpleldap_use_tls = get_option('simpleldap_use_tls');
 				$simpleldap_login_mode = get_option('simpleldap_login_mode');
 				$simpleldap_security_mode = get_option('simpleldap_security_mode');
+				$simpleldap_auto_login = get_option('simpleldap_auto_login');
 			}
 
 			if ( $this->set_setting('account_suffix', $account_suffix ) ) {
@@ -147,6 +154,10 @@ class SimpleLDAPLogin {
 				//delete_option('simpleldap_use_tls');
 			}
 
+			if ( $this->set_setting('auto_login', str_true( $simpleldap_auto_login ) ) ) {
+				//delete_option('simpleldap_auto_login');
+			}
+
 			$create_users = false;
 			if ( $simpleldap_login_mode == "mode_create_all" || $simpleldap_login_mode == "mode_create_group" ) {
 				$create_users = true;
@@ -162,7 +173,7 @@ class SimpleLDAPLogin {
 			if ( $this->set_setting('high_security', $high_security) ) {
 				//delete_option('simpleldap_security_mode');
 			}
- 		}
+		}
 	}
 
 	function menu () {
@@ -250,15 +261,28 @@ class SimpleLDAPLogin {
 	}
 
 	function saved_admin_notice(){
-	    echo '<div class="updated">
-	       <p>Simple LDAP Login settings have been saved.</p>
-	    </div>';
+		echo '<div class="updated">
+		   <p>Simple LDAP Login settings have been saved.</p>
+		</div>';
 
-	    if( ! str_true($this->get_setting('enabled')) ) {
+		if( ! str_true($this->get_setting('enabled')) ) {
 			echo '<div class="error">
 				<p>Simple LDAP Login is disabled.</p>
 			</div>';
-	    }
+		}
+	}
+
+	function auto_login(){
+		if (!is_user_logged_in() && isset($_SERVER['PHP_AUTH_USER'])) {
+			$user_login = $_SERVER['PHP_AUTH_USER'];
+			$user = get_user_by('login', $user_login);
+			if($user){
+				$user_id = $user->ID;
+				wp_set_current_user($user_id, $user_login);
+				wp_set_auth_cookie($user_id);
+				do_action('wp_login', $user_login);
+			}
+		}
 	}
 
 	function authenticate ($user, $username, $password) {
@@ -348,19 +372,19 @@ class SimpleLDAPLogin {
 			if ( str_true($this->get_setting('use_tls')) ) {
 				ldap_start_tls($this->ldap);
 			}
-                        $dn = $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn');
-                        if (str_true($this->get_setting('search_sub_ous'))) {
-                            // search for user's DN in the base DN and below
-                            $filter = $this->get_setting('ol_login') .'=' . $username;
-                            $sr = @ldap_search($this->ldap, $this->get_setting('base_dn'), $filter, array('cn'));
-                            if ($sr !== FALSE) {
-                                $info = @ldap_get_entries($this->ldap, $sr);
-                                if ($info !== FALSE && $info['count'] > 0) {
-                                    $dn = $info[0]['dn'];
-                                }
-                            }
-                        }
-                        $ldapbind = @ldap_bind($this->ldap, $dn, $password);
+						$dn = $this->get_setting('ol_login') .'=' . $username . ',' . $this->get_setting('base_dn');
+						if (str_true($this->get_setting('search_sub_ous'))) {
+							// search for user's DN in the base DN and below
+							$filter = $this->get_setting('ol_login') .'=' . $username;
+							$sr = @ldap_search($this->ldap, $this->get_setting('base_dn'), $filter, array('cn'));
+							if ($sr !== FALSE) {
+								$info = @ldap_get_entries($this->ldap, $sr);
+								if ($info !== FALSE && $info['count'] > 0) {
+									$dn = $info[0]['dn'];
+								}
+							}
+						}
+						$ldapbind = @ldap_bind($this->ldap, $dn, $password);
 			$result = $ldapbind;
 		}
 
@@ -462,7 +486,7 @@ class SimpleLDAPLogin {
 		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 			require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		}
-    
+	
 		if ( is_plugin_active_for_network( plugin_basename(__FILE__) ) ) {
 			$this->network_version = true;
 		}

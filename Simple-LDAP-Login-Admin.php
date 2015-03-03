@@ -109,6 +109,20 @@ if( isset( $_GET[ 'tab' ] ) ) {
 			</tbody>
     	</table>
     	<hr />
+    	<h3>Basic access authentication</h3>
+    	<p>Use only if wordpress is protected behind a external Basic access authentication (like Apache httpd)</p>
+    	<table class="form-table">
+			<tbody>
+				<tr>
+					<th scope="row" valign="top">Auto-login users</th>
+					<td>
+						<input type="hidden" name="<?php echo $this->get_field_name('auto_login'); ?>" value="false" />
+						<label><input type="checkbox" name="<?php echo $this->get_field_name('auto_login'); ?>" value="true" <?php if( str_true($this->get_setting('auto_login')) ) echo "checked"; ?> /> Auto-login users in WordPress, using external <a href="http://en.wikipedia.org/wiki/Basic_access_authentication">Basic access authentication</a>.</label><br/>
+					</td>
+				</tr>
+			</tbody>
+    	</table>
+    	<hr />
     	<h3>Extraordinary</h3>
     	<p>Most users should leave these alone.</p>
     	<table class="form-table">
