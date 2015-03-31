@@ -121,6 +121,14 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						In case your installation uses something other than <b>uid</b>; 
 					</td>
 				</tr>
+	    		<tr>
+					<th scope="row" valign="top">LDAP Group Attribute</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('ol_group'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_group'); ?>" />
+						<br />
+						In case your installation uses something other than <b>cn</b>; 
+					</td>
+				</tr>
 				<tr>
 					<th scope="row" valign="top">Use TLS</th>
 					<td>
