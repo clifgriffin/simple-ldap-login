@@ -84,6 +84,7 @@ class SimpleLDAPLogin {
         $this->add_setting('user_first_name_attribute', "givenname");
         $this->add_setting('user_last_name_attribute', "sn");
         $this->add_setting('user_email_attribute', "mail");
+        $this->add_setting('user_url_attribute', "wwwhomepage");
 
 		if( $this->get_setting('version') === false ) {
 			$this->set_setting('version', '1.5');
@@ -428,6 +429,7 @@ class SimpleLDAPLogin {
 			'display_name' => '',
 			'first_name' => '',
 			'last_name' => '',
+			'user_url' => '',
 			'role' => $this->get_setting('role')
 		);
 
@@ -437,7 +439,7 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), $this->get_setting('user_last_name_attribute'), $this->get_setting('user_first_name_attribute'), $this->get_setting('user_email_attribute')));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), $this->get_setting('user_last_name_attribute'), $this->get_setting('user_first_name_attribute'), $this->get_setting('user_email_attribute'), $this->get_setting('user_url_attribute')));
 			$userinfo = ldap_get_entries($this->ldap, $result);
 
 			if ($userinfo['count'] == 1) {
@@ -451,6 +453,7 @@ class SimpleLDAPLogin {
 			$user_data['display_name']	= $userinfo[$this->get_setting('user_first_name_attribute')][0] . ' ' . $userinfo[$this->get_setting('user_last_name_attribute')][0];
 			$user_data['first_name']	= $userinfo[$this->get_setting('user_first_name_attribute')][0];
 			$user_data['last_name'] 	= $userinfo[$this->get_setting('user_last_name_attribute')][0];
+			$user_data['user_url'] 		= $userinfo[$this->get_setting('user_url_attribute')][0];
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);

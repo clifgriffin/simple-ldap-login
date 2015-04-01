@@ -183,6 +183,14 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						The LDAP attribute for the email.
 					</td>
 				</tr>
+				<tr>
+					<th scope="row" valign="top">Website</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('user_url_attribute'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('user_url_attribute'); ?>" />
+                        <br/>
+						The LDAP attribute for the website.
+					</td>
+				</tr>
 			</tbody>
     	</table>
     	<p><input class="button-primary" type="submit" value="Save Settings" /></p>
