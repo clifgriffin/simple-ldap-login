@@ -193,6 +193,24 @@ if( isset( $_GET[ 'tab' ] ) ) {
 				</tr>
 			</tbody>
     	</table>
+    	<hr />
+    	<h3>Additional user data</h3>
+		<p>Additional user data can be stored as user meta data. You can specify the LDAP
+		attributes and the associated wordpress meta keys in the format <i>&lt;ldap_attribute_name&gt;:&lt;wordpress_meta_key&gt;</i>. Multiple attributes can be given on separate lines.</p>
+		<p> Example:<br/><i>phone:user_phone_number</i><br/><i>adress:user_home_address</i></p>
+		<table class="form-table" style="margin-bottom: 20px;">
+			<tbody>
+				<tr>
+					<th scope="row" valign="top">Meta data</th>
+					<td>
+					<textarea name="<?php echo $this->get_field_name('user_meta_data'); ?>"><?php
+					echo join("\n", array_map(function ($attr) { return join(':', $attr); },
+							  $SimpleLDAPLogin->get_setting('user_meta_data')));
+					?></textarea>
+					</td>
+				</tr>
+			</tbody>
+    	</table>
     	<p><input class="button-primary" type="submit" value="Save Settings" /></p>
     	<?php else: ?>
 		<h3>Help</h3>
