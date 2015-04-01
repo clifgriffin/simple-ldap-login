@@ -439,7 +439,15 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), $this->get_setting('user_last_name_attribute'), $this->get_setting('user_first_name_attribute'), $this->get_setting('user_email_attribute'), $this->get_setting('user_url_attribute')));
+			$attributes = array(
+				$this->get_setting('ol_login'),
+				$this->get_setting('user_last_name_attribute'),
+				$this->get_setting('user_first_name_attribute'),
+				$this->get_setting('user_email_attribute'),
+				$this->get_setting('user_url_attribute')
+			);
+
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', $attributes);
 			$userinfo = ldap_get_entries($this->ldap, $result);
 
 			if ($userinfo['count'] == 1) {
