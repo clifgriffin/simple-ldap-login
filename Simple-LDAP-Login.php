@@ -79,7 +79,11 @@ class SimpleLDAPLogin {
 		$this->add_setting('ldap_version', 3);
 		$this->add_setting('create_users', "false");
 		$this->add_setting('enabled', "false");
-                $this->add_setting('search_sub_ous', "false");
+        $this->add_setting('search_sub_ous', "false");
+        // User attribute settings
+        $this->add_setting('user_first_name_attribute', "givenname");
+        $this->add_setting('user_last_name_attribute', "sn");
+        $this->add_setting('user_email_attribute', "mail");
 
 		if( $this->get_setting('version') === false ) {
 			$this->set_setting('version', '1.5');
@@ -433,7 +437,7 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), 'sn', 'givenname', 'mail'));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), $this->get_setting('user_last_name_attribute'), $this->get_setting('user_first_name_attribute'), $this->get_setting('user_email_attribute')));
 			$userinfo = ldap_get_entries($this->ldap, $result);
 
 			if ($userinfo['count'] == 1) {
@@ -442,11 +446,11 @@ class SimpleLDAPLogin {
 		} else return false;
 
 		if( is_array($userinfo) ) {
-			$user_data['user_nicename'] = strtolower($userinfo['givenname'][0]) . '-' . strtolower($userinfo['sn'][0]);
-			$user_data['user_email'] 	= $userinfo['mail'][0];
-			$user_data['display_name']	= $userinfo['givenname'][0] . ' ' . $userinfo['sn'][0];
-			$user_data['first_name']	= $userinfo['givenname'][0];
-			$user_data['last_name'] 	= $userinfo['sn'][0];
+			$user_data['user_nicename'] = strtolower($userinfo[$this->get_setting('user_first_name_attribute')][0]) . '-' . strtolower($userinfo[$this->get_setting('user_last_name_attribute')][0]);
+			$user_data['user_email'] 	= $userinfo[$this->get_setting('user_email_attribute')][0];
+			$user_data['display_name']	= $userinfo[$this->get_setting('user_first_name_attribute')][0] . ' ' . $userinfo[$this->get_setting('user_last_name_attribute')][0];
+			$user_data['first_name']	= $userinfo[$this->get_setting('user_first_name_attribute')][0];
+			$user_data['last_name'] 	= $userinfo[$this->get_setting('user_last_name_attribute')][0];
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);

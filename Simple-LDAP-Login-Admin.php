@@ -15,6 +15,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
     <h2 class="nav-tab-wrapper">
         <a href="<?php echo add_query_arg( array('tab' => 'simple'), $_SERVER['REQUEST_URI'] ); ?>" class="nav-tab <?php echo $active_tab == 'simple' ? 'nav-tab-active' : ''; ?>">Simple</a>
         <a href="<?php echo add_query_arg( array('tab' => 'advanced'), $_SERVER['REQUEST_URI'] ); ?>" class="nav-tab <?php echo $active_tab == 'advanced' ? 'nav-tab-active' : ''; ?>">Advanced</a>
+        <a href="<?php echo add_query_arg( array('tab' => 'user'), $_SERVER['REQUEST_URI'] ); ?>" class="nav-tab <?php echo $active_tab == 'user' ? 'nav-tab-active' : ''; ?>">User</a>
         <a href="<?php echo add_query_arg( array('tab' => 'help'), $_SERVER['REQUEST_URI'] ); ?>" class="nav-tab <?php echo $active_tab == 'help' ? 'nav-tab-active' : ''; ?>">Help</a>
     </h2>
 
@@ -148,6 +149,38 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('ldap_version'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ldap_version'); ?>" /><br/>
 						Only applies to Open LDAP. Typically 3.
+					</td>
+				</tr>
+			</tbody>
+    	</table>
+    	<p><input class="button-primary" type="submit" value="Save Settings" /></p>
+    	<?php elseif ( $active_tab == "user" ): ?>
+    	<h3>User data</h3>
+		<p>These settings give you control which LDAP attributes are used for user creation.</p>
+    	<table class="form-table" style="margin-bottom: 20px;">
+			<tbody>
+				<tr>
+					<th scope="row" valign="top">First name</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('user_first_name_attribute'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('user_first_name_attribute'); ?>" />
+                        <br/>
+						The LDAP attribute for the first name.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">Last name</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('user_last_name_attribute'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('user_last_name_attribute'); ?>" />
+                        <br/>
+						The LDAP attribute for the last name.
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" valign="top">Email</th>
+					<td>
+						<input type="text" name="<?php echo $this->get_field_name('user_email_attribute'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('user_email_attribute'); ?>" />
+                        <br/>
+						The LDAP attribute for the email.
 					</td>
 				</tr>
 			</tbody>
