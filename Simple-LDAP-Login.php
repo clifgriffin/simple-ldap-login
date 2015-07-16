@@ -400,7 +400,7 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if( $this->ldap === false ) return false;
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(member=' . $this->dn . ')', array($this->get_setting('ol_group')));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(|(&(objectClass=groupOfUniqueNames)(uniquemember=' . $this->dn . '))(&(objectClass=groupOfNames)(member=' . $this->dn . ')))', array($this->get_setting('ol_group')));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.
