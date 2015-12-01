@@ -99,13 +99,6 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						</select>
 					</td>
 				</tr>
-				<tr>
-					<th scope="row" valign="top">Search Sub OUs</th>
-					<td>
-						<input type="hidden" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="false" />
-						<label><input type="checkbox" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="true" <?php if( str_true($this->get_setting('search_sub_ous')) ) echo "checked"; ?> /> Also search sub-OUs of Base DN. For example, if the base DN is "ou=People,dc=example,dc=com", also search "ou=Staff,ou=People,dc=example,dc=com for uid=<i>username</i></label><br/>
-					</td>
-                                </tr>
 			</tbody>
     	</table>
     	<hr />
@@ -119,14 +112,6 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
 						<br />
 						In case your installation uses something other than <b>uid</b>; 
-					</td>
-				</tr>
-	    		<tr>
-					<th scope="row" valign="top">LDAP Group Attribute</th>
-					<td>
-						<input type="text" name="<?php echo $this->get_field_name('ol_group'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_group'); ?>" />
-						<br />
-						In case your installation uses something other than <b>cn</b>; 
 					</td>
 				</tr>
 				<tr>
