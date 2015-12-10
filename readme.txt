@@ -3,7 +3,7 @@ Contributors: clifgriffin
 Donate link: http://cgd.io
 Tags: LDAP, authentication, login, active directory, adLDAP
 Requires at least: 3.4
-Tested up to: 4.3.1
+Tested up to: 4.4
 Stable tag: 1.5.6
 License: GPLv2 or later
 
