@@ -288,8 +288,6 @@ class SimpleLDAPLogin {
 		}
 		
 		// If high security mode is enabled, remove default WP authentication hook
-		// Weak local passwords on Admin accounts would still fall-through in "High Security" more. Fixed. 
-		//if ( str_true( $this->get_setting('high_security') ) && ! $local_admin ) {
 		if ( str_true( $this->get_setting('high_security') ) ) {	
 			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 		}
