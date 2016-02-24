@@ -273,6 +273,7 @@ class SimpleLDAPLogin {
 		
 		// Allow a site to force LDAP even on admin accounts
 		$local_admin = apply_filters( 'sll_force_ldap', $local_admin );
+		$password = stripslashes($password);
 		// To force LDAP authentication, the filter should return boolean false
 		
 		if ( empty($username) || empty($password) ) {
