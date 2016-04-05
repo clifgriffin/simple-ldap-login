@@ -65,15 +65,15 @@ class adLDAP {
     * 
     * @var string
     */   
-	protected $_account_suffix = "@mydomain.local";
+    protected $_account_suffix = "@mydomain.local";
     
     /**
     * The base dn for your domain
     * 
     * @var string
     */
-	protected $_base_dn = "DC=mydomain,DC=local"; 
-	
+    protected $_base_dn = "DC=mydomain,DC=local"; 
+    
     /**
     * Array of domain controllers. Specifiy multiple controllers if you
     * would like the class to balance the LDAP queries amongst multiple servers
@@ -81,7 +81,7 @@ class adLDAP {
     * @var array
     */
     protected $_domain_controllers = array ("dc01.mydomain.local");
-	
+    
     /**
     * Optional account with higher privileges for searching
     * This should be set to a domain admin account
@@ -89,7 +89,7 @@ class adLDAP {
     * @var string
     * @var string
     */
-	protected $_ad_username=NULL;
+    protected $_ad_username=NULL;
     protected $_ad_password=NULL;
     
     /**
@@ -100,15 +100,15 @@ class adLDAP {
     * 
     * @var bool
     */
-	protected $_real_primarygroup=true;
-	
+    protected $_real_primarygroup=true;
+    
     /**
     * Use SSL (LDAPS), your server needs to be setup, please see
     * http://adldap.sourceforge.net/wiki/doku.php?id=ldap_over_ssl
     * 
     * @var bool
     */
-	protected $_use_ssl=false;
+    protected $_use_ssl=false;
     
     /**
     * Use TLS
@@ -125,19 +125,19 @@ class adLDAP {
     * 
     * @var bool
     */
-	protected $_recursive_groups=true;
-	
-	// You should not need to edit anything below this line
-	//******************************************************************************************
-	
-	/**
+    protected $_recursive_groups=true;
+    
+    // You should not need to edit anything below this line
+    //******************************************************************************************
+    
+    /**
     * Connection and bind default variables
     * 
     * @var mixed
     * @var mixed
     */
-	protected $_conn;
-	protected $_bind;
+    protected $_conn;
+    protected $_bind;
     
     /**
     * Getters and Setters
@@ -416,9 +416,19 @@ class adLDAP {
         
         // Bind as the user        
         $ret = true;
+// ========================================================================
+// adrydzak@syr.edu
+// Custom code to set vendor account name here:
+// ========================================================================
+    if (strpos($username, 'v-') !== false) {
+        $this->_bind = @ldap_bind($this->_conn, $username, $password);
+    } 
+    else {
         $this->_bind = @ldap_bind($this->_conn, $username . $this->_account_suffix, $password);
-        if (!$this->_bind){ $ret = false; }
-        
+    }
+// ========================================================================
+    if (!$this->_bind){ $ret = false; }
+
         // Cnce we've checked their details, kick back into admin mode if we have it
         if ($this->_ad_username !== NULL && !$prevent_rebind) {
             $this->_bind = @ldap_bind($this->_conn, $this->_ad_username . $this->_account_suffix , $this->_ad_password);
