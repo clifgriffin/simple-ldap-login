@@ -119,7 +119,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
 						<br />
-						In case your installation uses something other than <b>uid</b>; 
+						In case your installation uses something other than <b>uid</b>;
 					</td>
 				</tr>
 	    		<tr>
@@ -127,7 +127,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('ol_group'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_group'); ?>" />
 						<br />
-						In case your installation uses something other than <b>cn</b>; 
+						In case your installation uses something other than <b>cn</b>;
 					</td>
 				</tr>
 				<tr>
@@ -156,7 +156,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<p><input class="button-primary" type="submit" value="Save Settings" /></p>
     	<?php elseif ( $active_tab == "user" ): ?>
     	<h3>User data</h3>
-		<p>These settings give you control which LDAP attributes are used for user creation.</p>
+		<p>These settings give you control over which LDAP attributes are used for user creation.</p>
     	<table class="form-table" style="margin-bottom: 20px;">
 			<tbody>
 				<tr>
@@ -203,10 +203,9 @@ if( isset( $_GET[ 'tab' ] ) ) {
 				<tr>
 					<th scope="row" valign="top">Meta data</th>
 					<td>
-					<textarea name="<?php echo $this->get_field_name('user_meta_data'); ?>"><?php
-					echo join("\n", array_map(function ($attr) { return join(':', $attr); },
-							  $SimpleLDAPLogin->get_setting('user_meta_data')));
-					?></textarea>
+<textarea name="<?php echo $this->get_field_name('user_meta_data'); ?>">
+<?php echo join("\n", array_map(function ($attr) { return join(':', $attr); }, $SimpleLDAPLogin->get_setting('user_meta_data'))); ?>
+</textarea>
 					</td>
 				</tr>
 			</tbody>
@@ -216,7 +215,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 		<h3>Help</h3>
 		<p>Here's a brief primer on how to effectively use and test Simple LDAP Login.</p>
 		<h4>Testing</h4>
-		<p>The most effective way to test logins is to use two browsers. In other words, keep WordPress Admin open in Chrome, and use Firefox to try logging in. This will give you real time feedback on your settings and prevent you from inadvertently locking yourself out.</p>
+		<p>The most effective way to test logins is to use two browsers. In other words, keep the WordPress Dashboard open in Chrome, and use Firefox to try logging in. This will give you real time feedback on your settings and prevent you from inadvertently locking yourself out.</p>
 		<h4>Which raises the question, what happens if I get locked out?</h4>
 		<p>If you accidentally lock yourself out, the easiest way to get back in is to rename <strong><?php echo plugin_dir_path(__FILE__); ?></strong> to something else and then refresh. WordPress will detect the change and disable Simple LDAP Login. You can then rename the folder back to its previous name.</p>
     	<?php endif; ?>

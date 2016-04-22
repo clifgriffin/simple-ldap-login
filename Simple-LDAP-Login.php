@@ -32,6 +32,11 @@ class SimpleLDAPLogin {
 			);
 		}
 
+		// Disabling Upgrade Routines --- if you upgraded from an old install, uncomment the line below,
+		// refresh the dashboard, then comment it out again
+
+		// add_action('admin_init', array($this, 'upgrade_settings') );
+
 		add_action('admin_init', array($this, 'save_settings') );
 
 		if ($this->is_network_version()) {
@@ -80,15 +85,18 @@ class SimpleLDAPLogin {
 		$this->add_setting('create_users', "false");
 		$this->add_setting('enabled', "false");
         $this->add_setting('search_sub_ous', "false");
+
         // User attribute settings
         $this->add_setting('user_first_name_attribute', "givenname");
         $this->add_setting('user_last_name_attribute', "sn");
         $this->add_setting('user_email_attribute', "mail");
         $this->add_setting('user_url_attribute', "wwwhomepage");
-        $this->add_setting('user_meta_data', array());
+        $this->add_setting('user_meta_data', array() );
+	}
 
+	function upgrade_settings() {
 		if( $this->get_setting('version') === false ) {
-			$this->set_setting('version', '1.5');
+			$this->set_setting('version', '1.6');
 			$this->set_setting('enabled', 'true');
 
 			if ($this->is_network_version()) {
@@ -116,58 +124,31 @@ class SimpleLDAPLogin {
 				$simpleldap_security_mode = get_option('simpleldap_security_mode');
 			}
 
-			if ( $this->set_setting('account_suffix', $account_suffix ) ) {
-				//delete_option('simpleldap_account_suffix');
-			}
+			$this->set_setting('account_suffix', $account_suffix );
+			$this->set_setting('base_dn', $simpleldap_base_dn);
+			$this->set_setting('domain_controllers', $simpleldap_domain_controllers);
+			$this->set_setting('groups', (array)$simpleldap_group );
+			$this->set_setting('role', $simpleldap_account_type);
+			$this->set_setting('ol_login', $simpleldap_ol_login);
+			$this->set_setting('use_tls', str_true( $simpleldap_use_tls );
 
-			if ( $this->set_setting('base_dn', $simpleldap_base_dn) ) {
-				//delete_option('simpleldap_base_dn');
-			}
-
-			if ( $this->set_setting('domain_controllers', $simpleldap_domain_controllers) ) {
-				//delete_option('simpleldap_domain_controllers');
-			}
-
-			$directory_result = false;
+			// Directory Type
 			if ( $simpleldap_directory_type == "directory_ad" ) {
-				$directory_result = $this->set_setting('directory', 'ad');
+				$this->set_setting('directory', 'ad');
 			} else {
-				$directory_result = $this->set_setting('directory', 'ol');
+				$this->set_setting('directory', 'ol');
 			}
 
-			//if( $directory_result ) delete_option('simpleldap_directory_type');
-			unset($directory_result);
-
-			if ( $this->set_setting('groups', (array)$simpleldap_group ) ) {
-				//delete_option('simpleldap_group');
-			}
-
-			if ( $this->set_setting('role', $simpleldap_account_type) ) {
-				//delete_option('simpleldap_account_type');
-			}
-
-			if ( $this->set_setting('ol_login', $simpleldap_ol_login) ) {
-				//delete_option('simpleldap_ol_login');
-			}
-
-			if ( $this->set_setting('use_tls', str_true( $simpleldap_use_tls ) ) ) {
-				//delete_option('simpleldap_use_tls');
-			}
-
+			// Create User Setting
 			$create_users = false;
 			if ( $simpleldap_login_mode == "mode_create_all" || $simpleldap_login_mode == "mode_create_group" ) {
-				$create_users = true;
-			}
-			if ( $this->set_setting('create_users', $create_users) ) {
-				//delete_option('simpleldap_login_mode');
+				$this->set_setting('create_users', true);
 			}
 
+			// High Security Setting
 			$high_security = false;
 			if ( $simpleldap_security_mode == "security_high" ) {
-				$high_security = true;
-			}
-			if ( $this->set_setting('high_security', $high_security) ) {
-				//delete_option('simpleldap_security_mode');
+				$this->set_setting('high_security', true);
 			}
  		}
 	}
@@ -193,7 +174,7 @@ class SimpleLDAPLogin {
 	}
 
 	function get_settings_obj () {
-		if ($this->is_network_version()) {
+		if ( $this->is_network_version() ) {
 			return get_site_option("{$this->prefix}settings", false);
 		}
 		else {
@@ -202,7 +183,7 @@ class SimpleLDAPLogin {
 	}
 
 	function set_settings_obj ( $newobj ) {
-		if ($this->is_network_version()) {
+		if ( $this->is_network_version() ) {
 			return update_site_option("{$this->prefix}settings", $newobj);
 		}
 		else {
@@ -220,13 +201,13 @@ class SimpleLDAPLogin {
 	}
 
 	function get_setting ( $option = false ) {
-		if($option === false || ! isset($this->settings[$option]) ) return false;
+		if( $option === false || ! isset($this->settings[$option]) ) return false;
 
 		return apply_filters($this->prefix . 'get_setting', $this->settings[$option], $option);
 	}
 
 	function add_setting ( $option = false, $newvalue ) {
-		if($option === false ) return false;
+		if( $option === false ) return false;
 
 		if ( ! isset($this->settings[$option]) ) {
 			return $this->set_setting($option, $newvalue);
@@ -481,14 +462,14 @@ class SimpleLDAPLogin {
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
 	}
-    
+
     function get_user_meta_data( $username, $directory ) {
 		if ( $directory == "ad" ) {
 			// TODO: get user meta data for ad
 			return false;
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
-            
+
 			$attributes = array();
 			foreach( $this->get_setting('user_meta_data') as $attr ) {
 				$attributes[] = $attr[0];
@@ -500,7 +481,7 @@ class SimpleLDAPLogin {
 				$userinfo = $userinfo[0];
 			}
 		} else return false;
-        
+
 		$user_meta_data = array();
         foreach( $this->get_setting('user_meta_data') as $attr ) {
 			$user_meta_data[$attr[1]] = $userinfo[$attr[0]][0];
