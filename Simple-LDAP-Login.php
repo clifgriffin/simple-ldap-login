@@ -149,7 +149,7 @@ class SimpleLDAPLogin {
 
 		if ( $this->get_setting('version') < $this->version || $this->get_setting('version') === false ) {
 			$this->add_setting('search_sub_ous', "false");
-			$this->add_setting('group_dn', "");
+			$this->add_setting('group_base_dn', "");
 			$this->add_setting('group_uid', "memberUid");
 
 			// User attribute settings
@@ -161,7 +161,7 @@ class SimpleLDAPLogin {
 		}
 
 		// Update version
-		$this->set_setting('version', $this->version );
+		$this->set_setting( 'version', $this->version );
 	}
 
 	function menu () {
