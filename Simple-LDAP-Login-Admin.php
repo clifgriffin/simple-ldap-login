@@ -46,7 +46,7 @@ if( isset( $_GET[ 'tab' ] ) ) {
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('base_dn'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('base_dn'); ?>" />
 						<br/>
-						Example: For subdomain.domain.suffix, use DC=subdomain,DC=domain,DC=suffix. Do not specify an OU here.
+						Example: For subdomain.domain.suffix, use DC=subdomain,DC=domain,DC=suffix. In most cases you should not specify an ou here.
 					</td>
 				</tr>
 				<tr>
@@ -100,13 +100,6 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						</select>
 					</td>
 				</tr>
-				<tr>
-					<th scope="row" valign="top">Search Sub OUs</th>
-					<td>
-						<input type="hidden" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="false" />
-						<label><input type="checkbox" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="true" <?php if( str_true($this->get_setting('search_sub_ous')) ) echo "checked"; ?> /> Also search sub-OUs of Base DN. For example, if the base DN is "ou=People,dc=example,dc=com", also search "ou=Staff,ou=People,dc=example,dc=com for uid=<i>username</i></label><br/>
-					</td>
-                                </tr>
 			</tbody>
     	</table>
     	<hr />
@@ -114,12 +107,20 @@ if( isset( $_GET[ 'tab' ] ) ) {
     	<p>Most users should leave these alone.</p>
     	<table class="form-table">
 			<tbody>
+                <tr>
+                    <th scope="row" valign="top">Group Base DN (optional)</th>
+                    <td>
+                        <input type="text" name="<?php echo $this->get_field_name('group_base_dn'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('group_base_dn'); ?>" />
+                        <br/>
+                        If you need to specify a different Base DN for group searches. Example: For subdomain.domain.suffix, use ou=groups,DC=subdomain,DC=domain,DC=suffix.
+                    </td>
+                </tr>
 	    		<tr>
 					<th scope="row" valign="top">LDAP Login Attribute</th>
 					<td>
 						<input type="text" name="<?php echo $this->get_field_name('ol_login'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('ol_login'); ?>" />
 						<br />
-						In case your installation uses something other than <b>uid</b>;
+						Default: <b>uid</b>;
 					</td>
 				</tr>
 	    		<tr>
@@ -151,11 +152,18 @@ if( isset( $_GET[ 'tab' ] ) ) {
 						Only applies to Open LDAP. Typically 3.
 					</td>
 				</tr>
+                <tr>
+                    <th scope="row" valign="top">Search Sub OUs</th>
+                    <td>
+                        <input type="hidden" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="false" />
+                        <label><input type="checkbox" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="true" <?php if( str_true($this->get_setting('search_sub_ous')) ) echo "checked"; ?> /> Also search sub-OUs of Base DN. For example, if the base DN is "ou=People,dc=example,dc=com", also search "ou=Staff,ou=People,dc=example,dc=com for uid=<i>username</i></label><br/>
+                    </td>
+                </tr>
 			</tbody>
     	</table>
     	<p><input class="button-primary" type="submit" value="Save Settings" /></p>
     	<?php elseif ( $active_tab == "user" ): ?>
-    	<h3>User data</h3>
+    	<h3>User Data</h3>
 		<p>These settings give you control over which LDAP attributes are used for user creation.</p>
     	<table class="form-table" style="margin-bottom: 20px;">
 			<tbody>
