@@ -274,7 +274,6 @@ class SimpleLDAPLogin {
 		$user_obj = get_user_by('login', $username);
 		if( user_can($user_obj, 'update_core') ) $local_admin = true;
 
-		// Allow a site to force LDAP even on admin accounts
 		$local_admin = apply_filters( 'sll_force_ldap', $local_admin );
 		$password = stripslashes($password);
 
@@ -293,7 +292,7 @@ class SimpleLDAPLogin {
 		}
 
 		// If high security mode is enabled, remove default WP authentication hook
-		if ( str_true( $this->get_setting('high_security') ) && ! $local_admin ) {
+		if ( apply_filters('sll_remove_default_authentication_hook', str_true( $this->get_setting('high_security') ) && ! $local_admin ) ) {
 			remove_filter('authenticate', 'wp_authenticate_username_password', 20, 3);
 		}
 
