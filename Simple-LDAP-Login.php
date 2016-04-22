@@ -403,7 +403,7 @@ class SimpleLDAPLogin {
 			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(|(&(objectClass=groupOfUniqueNames)(uniquemember=' . $this->dn . '))(&(objectClass=groupOfNames)(member=' . $this->dn . ')))', array($this->get_setting('ol_group')));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
-			// Ok, we should have the user, all the info, including which groups he is a member of.
+			// Ok, we should have the user, all the info, including which groups he is a member of (if this is stored in the user).
 			// Let's make sure he's in the right group before proceeding.
 			$user_groups = array();
 			for ( $i = 0; $i < $ldapgroups['count']; $i++) {
@@ -411,6 +411,13 @@ class SimpleLDAPLogin {
 			}
 
 			$result =  (bool)(count( array_intersect($user_groups, $groups) ) > 0);
+
+			if (!$result) {
+				// Maybe with members listed in groups?
+				$result = ldap_search($this->ldap, preg_replace('/^ou=\w+,/', '', $this->get_setting('base_dn')), '(&(memberUid=' . $username . ')(|(cn=' . implode(')(cn=', $groups) . ')))', array('cn'));
+				$ldapgroups = ldap_get_entries($this->ldap, $result);
+				$result = (bool)($ldapgroups["count"] > 0);
+			}
 		}
 
 		return apply_filters($this->prefix . 'user_has_groups', $result);
