@@ -125,7 +125,7 @@ class SimpleLDAPLogin {
 			$this->set_setting('groups', (array)$simpleldap_group );
 			$this->set_setting('role', $simpleldap_account_type);
 			$this->set_setting('ol_login', $simpleldap_ol_login);
-			$this->set_setting('use_tls', str_true( $simpleldap_use_tls );
+			$this->set_setting('use_tls', str_true( $simpleldap_use_tls ) );
 
 			// Directory Type
 			if ( $simpleldap_directory_type == "directory_ad" ) {
