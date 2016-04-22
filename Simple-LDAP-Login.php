@@ -364,7 +364,8 @@ class SimpleLDAPLogin {
                             }
                         }
                         $ldapbind = @ldap_bind($this->ldap, $dn, $password);
-			$result = $ldapbind;
+                        $this->dn = $dn;
+						$result = $ldapbind;
 		}
 
 		return apply_filters($this->prefix . 'ldap_auth', $result);
@@ -401,14 +402,14 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if( $this->ldap === false ) return false;
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_group')));
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(|(&(objectClass=groupOfUniqueNames)(uniquemember=' . $this->dn . '))(&(objectClass=groupOfNames)(member=' . $this->dn . ')))', array($this->get_setting('ol_group')));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.
 			// Let's make sure he's in the right group before proceeding.
 			$user_groups = array();
 			for ( $i = 0; $i < $ldapgroups['count']; $i++) {
-				$user_groups[] .= $ldapgroups[$i][$this->get_setting('ol_group')][0];
+				$user_groups[] = $ldapgroups[$i][$this->get_setting('ol_group')][0];
 			}
 
 			$result =  (bool)(count( array_intersect($user_groups, $groups) ) > 0);
