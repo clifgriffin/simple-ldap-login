@@ -349,11 +349,22 @@ class SimpleLDAPLogin {
 		return false;
 	}
 
+	function get_domain_username( $username ) {
+		// Format username with domain prefix, if login_domain is set
+		$login_domain = $this->get_setting('login_domain');
+
+		if ( ! empty($login_domain) ) {
+			return $login_domain . '\\' . $username;
+		}
+
+		return $username;
+	}
+
 	function ldap_auth( $username, $password, $directory ) {
 		$result = false;
 
 		if ( $directory == "ad" ) {
-			$result = $this->adldap->authenticate( $username, $password );
+			$result = $this->adldap->authenticate( $this->get_domain_username($username), $password );
 		} elseif ( $directory == "ol" ) {
 			$this->ldap = ldap_connect( join(' ', (array)$this->get_setting('domain_controllers')), (int)$this->get_setting('ldap_port') );
 			ldap_set_option($this->ldap, LDAP_OPT_PROTOCOL_VERSION, (int)$this->get_setting('ldap_version'));

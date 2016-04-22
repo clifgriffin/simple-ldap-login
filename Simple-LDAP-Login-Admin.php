@@ -159,6 +159,13 @@ if( isset( $_GET[ 'tab' ] ) ) {
                         <label><input type="checkbox" name="<?php echo $this->get_field_name('search_sub_ous'); ?>" value="true" <?php if( str_true($this->get_setting('search_sub_ous')) ) echo "checked"; ?> /> Also search sub-OUs of Base DN. For example, if the base DN is "ou=People,dc=example,dc=com", also search "ou=Staff,ou=People,dc=example,dc=com for uid=<i>username</i></label><br/>
                     </td>
                 </tr>
+  		        <tr>
+                    <th scope="row" valign="top">Login Domain</th>
+                    <td>
+                        <input type="text" name="<?php echo $this->get_field_name('login_domain'); ?>" value="<?php echo $SimpleLDAPLogin->get_setting('login_domain'); ?>" /><br/>
+ 						prefixes login names with this domain, f.i. mydomain\username
+					</td>
+		        </tr>
 			</tbody>
     	</table>
     	<p><input class="button-primary" type="submit" value="Save Settings" /></p>
