@@ -79,7 +79,13 @@ class SimpleLDAPLogin {
 		$this->add_setting('ldap_version', 3);
 		$this->add_setting('create_users', "false");
 		$this->add_setting('enabled', "false");
-                $this->add_setting('search_sub_ous', "false");
+        $this->add_setting('search_sub_ous', "false");
+        // User attribute settings
+        $this->add_setting('user_first_name_attribute', "givenname");
+        $this->add_setting('user_last_name_attribute', "sn");
+        $this->add_setting('user_email_attribute', "mail");
+        $this->add_setting('user_url_attribute', "wwwhomepage");
+        $this->add_setting('user_meta_data', array());
 
 		if( $this->get_setting('version') === false ) {
 			$this->set_setting('version', '1.5');
@@ -238,7 +244,12 @@ class SimpleLDAPLogin {
 
 			foreach( $new_settings as $setting_name => $setting_value  ) {
 				foreach( $setting_value as $type => $value ) {
-					if( $type == "array" ) {
+					if( $setting_name == 'user_meta_data') {
+						$this->set_setting($setting_name,
+								array_map( function ($attr) { return explode(':', $attr); },
+								array_filter(preg_split('/\r\n|\n|\r|;/', $value))));
+					}
+					elseif( $type == "array") {
 						$this->set_setting($setting_name, explode(";", $value));
 					} else {
 						$this->set_setting($setting_name, $value);
@@ -313,6 +324,12 @@ class SimpleLDAPLogin {
 
 					if( ! is_wp_error($new_user) )
 					{
+						// Add user meta data
+						$user_meta_data = $this->get_user_meta_data( $username, $this->get_setting('directory'));
+						foreach( $user_meta_data as $meta_key => $meta_value ) {
+							add_user_meta($new_user, $meta_key, $meta_value);
+						}
+
 						// Successful Login
 						$new_user = new WP_User($new_user);
 						do_action_ref_array($this->prefix . 'auth_success', array($new_user) );
@@ -427,6 +444,7 @@ class SimpleLDAPLogin {
 			'display_name' => '',
 			'first_name' => '',
 			'last_name' => '',
+			'user_url' => '',
 			'role' => $this->get_setting('role')
 		);
 
@@ -436,7 +454,15 @@ class SimpleLDAPLogin {
 		} elseif ( $directory == "ol" ) {
 			if ( $this->ldap == null ) {return false;}
 
-			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', array($this->get_setting('ol_login'), 'sn', 'givenname', 'mail'));
+			$attributes = array(
+				$this->get_setting('ol_login'),
+				$this->get_setting('user_last_name_attribute'),
+				$this->get_setting('user_first_name_attribute'),
+				$this->get_setting('user_email_attribute'),
+				$this->get_setting('user_url_attribute')
+			);
+
+			$result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', $attributes);
 			$userinfo = ldap_get_entries($this->ldap, $result);
 
 			if ($userinfo['count'] == 1) {
@@ -445,14 +471,42 @@ class SimpleLDAPLogin {
 		} else return false;
 
 		if( is_array($userinfo) ) {
-			$user_data['user_nicename'] = strtolower($userinfo['givenname'][0]) . '-' . strtolower($userinfo['sn'][0]);
-			$user_data['user_email'] 	= $userinfo['mail'][0];
-			$user_data['display_name']	= $userinfo['givenname'][0] . ' ' . $userinfo['sn'][0];
-			$user_data['first_name']	= $userinfo['givenname'][0];
-			$user_data['last_name'] 	= $userinfo['sn'][0];
+			$user_data['user_nicename'] = strtolower($userinfo[$this->get_setting('user_first_name_attribute')][0]) . '-' . strtolower($userinfo[$this->get_setting('user_last_name_attribute')][0]);
+			$user_data['user_email'] 	= $userinfo[$this->get_setting('user_email_attribute')][0];
+			$user_data['display_name']	= $userinfo[$this->get_setting('user_first_name_attribute')][0] . ' ' . $userinfo[$this->get_setting('user_last_name_attribute')][0];
+			$user_data['first_name']	= $userinfo[$this->get_setting('user_first_name_attribute')][0];
+			$user_data['last_name'] 	= $userinfo[$this->get_setting('user_last_name_attribute')][0];
+			$user_data['user_url'] 		= $userinfo[$this->get_setting('user_url_attribute')][0];
 		}
 
 		return apply_filters($this->prefix . 'user_data', $user_data);
+	}
+    
+    function get_user_meta_data( $username, $directory ) {
+		if ( $directory == "ad" ) {
+			// TODO: get user meta data for ad
+			return false;
+		} elseif ( $directory == "ol" ) {
+			if ( $this->ldap == null ) {return false;}
+            
+			$attributes = array();
+			foreach( $this->get_setting('user_meta_data') as $attr ) {
+				$attributes[] = $attr[0];
+			}
+		    $result = ldap_search($this->ldap, $this->get_setting('base_dn'), '(' . $this->get_setting('ol_login') . '=' . $username . ')', $attributes);
+			$userinfo = ldap_get_entries($this->ldap, $result);
+
+			if ($userinfo['count'] == 1) {
+				$userinfo = $userinfo[0];
+			}
+		} else return false;
+        
+		$user_meta_data = array();
+        foreach( $this->get_setting('user_meta_data') as $attr ) {
+			$user_meta_data[$attr[1]] = $userinfo[$attr[0]][0];
+		}
+
+		return apply_filters($this->prefix . 'user_meta_data', $user_meta_data);
 	}
 
 	/**
