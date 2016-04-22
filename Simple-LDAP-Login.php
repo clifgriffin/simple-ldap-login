@@ -15,8 +15,10 @@ class SimpleLDAPLogin {
 	var $adldap;
 	var $ldap;
 	var $network_version = null;
+	var $version = "116";
 
 	public function __construct () {
+
 		$this->settings = $this->get_settings_obj( $this->prefix );
 
 		if( $this->get_setting('directory') == "ad" ) {
@@ -31,11 +33,6 @@ class SimpleLDAPLogin {
 				)
 			);
 		}
-
-		// Disabling Upgrade Routines --- if you upgraded from an old install, uncomment the line below,
-		// refresh the dashboard, then comment it out again
-
-		// add_action('admin_init', array($this, 'upgrade_settings') );
 
 		add_action('admin_init', array($this, 'save_settings') );
 
@@ -54,11 +51,8 @@ class SimpleLDAPLogin {
 		register_activation_hook( __FILE__, array($this, 'activate') );
 
 		// If version is false, and old version detected, run activation
-		if( $this->get_setting('version') === false ||
-			get_option('simpleldap_domain_controllers', false) !== false  ||
-			get_site_option('simpleldap_domain_controllers', false) !== false )
-		{
-			$this->activate();
+		if( $this->get_setting('version') === false || $this->get_setting('version') != $version ) {
+			$this->upgrade_settings();
 		}
 	}
 
@@ -85,6 +79,8 @@ class SimpleLDAPLogin {
 		$this->add_setting('create_users', "false");
 		$this->add_setting('enabled', "false");
         $this->add_setting('search_sub_ous', "false");
+		$this->add_setting('group_dn', "");
+		$this->add_setting('group_uid', "memberUid");
 
         // User attribute settings
         $this->add_setting('user_first_name_attribute', "givenname");
@@ -96,7 +92,6 @@ class SimpleLDAPLogin {
 
 	function upgrade_settings() {
 		if( $this->get_setting('version') === false ) {
-			$this->set_setting('version', '1.6');
 			$this->set_setting('enabled', 'true');
 
 			if ($this->is_network_version()) {
@@ -151,6 +146,22 @@ class SimpleLDAPLogin {
 				$this->set_setting('high_security', true);
 			}
  		}
+
+		if ( $this->get_setting('version') < $this->version || $this->get_setting('version') === false ) {
+			$this->add_setting('search_sub_ous', "false");
+			$this->add_setting('group_dn', "");
+			$this->add_setting('group_uid', "memberUid");
+
+			// User attribute settings
+			$this->add_setting('user_first_name_attribute', "givenname");
+			$this->add_setting('user_last_name_attribute', "sn");
+			$this->add_setting('user_email_attribute', "mail");
+			$this->add_setting('user_url_attribute', "wwwhomepage");
+			$this->add_setting('user_meta_data', array() );
+		}
+
+		// Update version
+		$this->set_setting('version', $this->version );
 	}
 
 	function menu () {
@@ -401,7 +412,7 @@ class SimpleLDAPLogin {
 			if( $this->ldap === false ) return false;
 
 			$group_base_dn = $this->get_setting('group_base_dn') !== false ? $this->get_setting('group_base_dn') : $this->get_setting('base_dn');
-			$result = ldap_search($this->ldap, $group_base_dn, '(|(&(objectClass=groupOfUniqueNames)(uniquemember=' . $this->dn . '))(&(objectClass=groupOfNames)(member=' . $this->dn . ')))', array($this->get_setting('ol_group')));
+			$result = ldap_search($this->ldap, $group_base_dn, '(|(&(objectClass=groupOfUniqueNames)(uniquemember=' . $this->dn . '))(&(objectClass=groupOfNames)(member=' . $this->dn . '))(' . $this->get_setting('group_uid') . '=' . $username . '))', array($this->get_setting('ol_group')));
 			$ldapgroups = ldap_get_entries($this->ldap, $result);
 
 			// Ok, we should have the user, all the info, including which groups he is a member of.
