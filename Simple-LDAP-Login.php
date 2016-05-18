@@ -50,7 +50,7 @@ class SimpleLDAPLogin {
 		register_activation_hook( __FILE__, array($this, 'activate') );
 
 		// If version is false, and old version detected, run activation
-		if( $this->get_setting('version') === false || $this->get_setting('version') != $version ) {
+		if( $this->get_setting('version') === false || $this->get_setting('version') != $this->version ) {
 			$this->upgrade_settings();
 		}
 	}
