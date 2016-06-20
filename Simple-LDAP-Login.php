@@ -317,8 +317,11 @@ class SimpleLDAPLogin {
 					{
 						// Add user meta data
 						$user_meta_data = $this->get_user_meta_data( $username, trim($this->get_setting('directory')));
-						foreach( $user_meta_data as $meta_key => $meta_value ) {
-							add_user_meta($new_user, $meta_key, $meta_value);
+						// Check, if empty to prevent login failures
+						if ( $user_meta_data !== false) {
+							foreach( $user_meta_data as $meta_key => $meta_value ) {
+								add_user_meta($new_user, $meta_key, $meta_value);
+							}
 						}
 
 						// Successful Login
