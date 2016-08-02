@@ -177,7 +177,7 @@ if (isset($_GET['tab'])) {
             <table class="form-table" style="margin-bottom: 20px;">
                 <tbody>
                     <tr>
-                        <th scope="row" valign="top">Configuration Status</th>
+                        <th scope="row" valign="top">Server Status</th>
                         <td>
                             <?php if (!$this->is_sso_configuration_ok()) { ?>
                                 <p style="color: red">Configuration Not Found.</p>
@@ -207,6 +207,27 @@ if (isset($_GET['tab'])) {
                             <input type="password" name="<?php echo esc_attr($this->get_field_name('sso_search_user_password')); ?>" value="<?php echo esc_attr($SimpleLDAPLogin->get_setting('sso_search_user_password')); ?>" />
                             <br/>
                             User password.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top">Bind Search User Status</th>
+                        <td>
+                            <?php if (!$this->is_sso_enabled()) { ?>
+                                <p>SSO disabled.</p>
+                                <?php
+                            } else {
+                                $bind_test = $this->sso_search_user_bind_test();
+                                if ($bind_test) {
+                                    ?>
+                                    <p style="color: green">Bind OK for search user '<b><?php echo $SimpleLDAPLogin->get_setting('sso_search_user'); ?></b>'.</p>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <p style="color: red">Bind failure for search user '<b><?php echo $SimpleLDAPLogin->get_setting('sso_search_user'); ?></b>'.</p>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </td>
                     </tr>
                 </tbody>

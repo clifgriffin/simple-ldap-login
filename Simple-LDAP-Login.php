@@ -25,17 +25,16 @@ class SimpleLDAPLogin {
 
         if (trim($this->get_setting('directory')) == "ad") {
             require_once( plugin_dir_path(__FILE__) . "/includes/adLDAP.php" );
-            $this->adldap = new adLDAP(
-                    array(
-                "account_suffix" => trim($this->get_setting('account_suffix')),
-                "use_tls" => str_true($this->get_setting('use_tls')),
-                "base_dn" => trim($this->get_setting('base_dn')),
-                "domain_controllers" => (array) $this->get_setting('domain_controllers'),
-                "ad_port" => (int) $this->get_setting('ldap_port'),
-                "ad_username" => str_true($this->get_setting('sso_enabled')) ? $this->get_setting('sso_search_user') : NULL,
-                "ad_password" => str_true($this->get_setting('sso_enabled')) ? $this->get_setting('sso_search_user_password') : NULL
-                    )
-            );
+
+            try {
+                $this->create_adldap();
+            } catch (adLDAPException $e) {
+                // Disable SSO
+                $this->set_setting('sso_enabled', FALSE);
+
+                // try create adldap again
+                $this->create_adldap();
+            }
         }
 
         add_action('admin_init', array($this, 'save_settings'));
@@ -64,13 +63,26 @@ class SimpleLDAPLogin {
         }
     }
 
+    function create_adldap() {
+        $this->adldap = new adLDAP(
+                array(
+            "account_suffix" => trim($this->get_setting('account_suffix')),
+            "use_tls" => str_true($this->get_setting('use_tls')),
+            "base_dn" => trim($this->get_setting('base_dn')),
+            "domain_controllers" => (array) $this->get_setting('domain_controllers'),
+            "ad_port" => (int) $this->get_setting('ldap_port'),
+            "ad_username" => $this->is_sso_enabled() ? $this->get_setting('sso_search_user') : NULL,
+            "ad_password" => $this->is_sso_enabled() ? $this->get_setting('sso_search_user_password') : NULL
+                )
+        );
+    }
+
     // implementa SSO 
     function login_sso() {
         // Respeitar login atual: Apenas executar operação automática se o usuário não estiver logado
         if (!is_user_logged_in() && $this->is_sso_configuration_ok()) {
             // Realizando login automático
             $usu = $this->authenticate(NULL, $this->get_sso_logged_user(), $this->get_sso_logged_user(), TRUE);
-//            echo "TESTE: " . print_r($usu);
             wp_set_current_user($usu->ID, $usu);
             wp_set_auth_cookie($usu->ID);
             do_action('wp_login', $usu);
@@ -489,7 +501,13 @@ class SimpleLDAPLogin {
         );
 
         if ($directory == "ad") {
-            $userinfo = $this->adldap->user_info($username, array("samaccountname", "givenname", "sn", "mail"));
+            $userinfo = $this->adldap->user_info($username, array(
+                trim($this->get_setting('ol_login')),
+                trim($this->get_setting('user_last_name_attribute')),
+                trim($this->get_setting('user_first_name_attribute')),
+                trim($this->get_setting('user_email_attribute')),
+                trim($this->get_setting('user_url_attribute'))
+            ));
             $userinfo = $userinfo[0];
         } elseif ($directory == "ol") {
             if ($this->ldap == null) {
@@ -594,12 +612,27 @@ class SimpleLDAPLogin {
         }
     }
 
+    function is_sso_enabled() {
+        return str_true($this->get_setting('sso_enabled'));
+    }
+
     function is_sso_configuration_ok() {
         return isset($_SERVER['REMOTE_USER']) && !empty($_SERVER['REMOTE_USER']);
     }
 
     function get_sso_logged_user() {
         return $this->is_sso_configuration_ok() ? $_SERVER['REMOTE_USER'] : FALSE;
+    }
+
+    function sso_search_user_bind_test() {
+        $directory = $this->get_setting('directory');
+        if ($directory == "ad") {
+            return $this->adldap->authenticate($this->get_domain_username($this->get_setting('sso_search_user')), $this->get_setting('sso_search_user_password'));
+        } elseif ($directory == "ol") {
+            // TODO - Implement bind test
+        } else {
+            return FALSE;
+        }
     }
 
 }
