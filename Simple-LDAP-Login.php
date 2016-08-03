@@ -540,12 +540,12 @@ class SimpleLDAPLogin {
 
         if (is_array($userinfo)) {
 //            print_r($userinfo);
-            $user_data['user_nicename'] = strtolower($userinfo[trim($this->get_setting('user_first_name_attribute'))][0]) . '-' . strtolower($userinfo[trim($this->get_setting('user_last_name_attribute'))][0]);
+            $user_data['user_nicename'] = strtolower($userinfo[trim($this->get_setting('ol_login'))][0]);
             $user_data['user_email'] = $userinfo[trim($this->get_setting('user_email_attribute'))][0];
             $user_data['display_name'] = $userinfo[trim($this->get_setting('user_first_name_attribute'))][0] . ' ' . $userinfo[trim($this->get_setting('user_last_name_attribute'))][0];
             $user_data['first_name'] = $userinfo[trim($this->get_setting('user_first_name_attribute'))][0];
             $user_data['last_name'] = $userinfo[trim($this->get_setting('user_last_name_attribute'))][0];
-            $user_data['user_url'] = $userinfo[trim($this->get_setting('user_url_attribute'))][0];
+            $user_data['user_url'] = array_key_exists(trim($this->get_setting('user_url_attribute')), $userinfo) ? $userinfo[trim($this->get_setting('user_url_attribute'))][0] : "";
         }
 
         return apply_filters($this->prefix . 'user_data', $user_data);
