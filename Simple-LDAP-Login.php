@@ -1,5 +1,4 @@
 <?php
-
 /*
   Plugin Name: Simple LDAP Login
   Plugin URI: http://clifgriffin.com/simple-ldap-login/
@@ -290,19 +289,27 @@ class SimpleLDAPLogin {
                 }
             }
 
-            add_action('admin_notices', array($this, 'saved_admin_notice'));
+            if ($this->is_network_version()) {
+                add_action('network_admin_notices', array($this, 'saved_admin_notice'));
+            } else {
+                add_action('admin_notices', array($this, 'saved_admin_notice'));
+            }
         }
     }
 
     function saved_admin_notice() {
-        echo '<div class="updated">
-		<p>Simple LDAP Login settings have been saved.</p>
-		</div>';
-
-        if (!str_true($this->get_setting('enabled'))) {
-            echo '<div class="error">
-				<p>Simple LDAP Login is disabled.</p>
-			</div>';
+        if (str_true($this->get_setting('enabled'))) {
+            ?>
+            <div class="notice notice-success is-dismissible">
+                <p><?php _e('Simple LDAP Login settings have been saved.', $this->prefix); ?></p>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="notice notice-error is-dismissible">
+                <p><?php _e('Simple LDAP Login is disabled.', $this->prefix); ?></p>
+            </div>
+            <?php
         }
     }
 
