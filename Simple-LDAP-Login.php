@@ -11,16 +11,21 @@
 
 class SimpleLDAPLogin {
 
+    private static $prefix_s = "sll_";
     static $instance = false;
-    var $prefix = 'sll_';
+    var $prefix;
     var $settings = array();
     var $adldap;
     var $ldap;
     var $network_version = null;
     var $version = "170";
 
-    public function __construct() {
+    public static function get_field_settings_s() {
+        return SimpleLDAPLogin::$prefix_s . "settings";
+    }
 
+    public function __construct() {
+        $this->prefix = SimpleLDAPLogin::$prefix_s;
         $this->settings = $this->get_settings_obj($this->prefix);
 
         if (trim($this->get_setting('directory')) == "ad") {
@@ -222,17 +227,17 @@ class SimpleLDAPLogin {
 
     function get_settings_obj() {
         if ($this->is_network_version()) {
-            return get_site_option("{$this->prefix}settings", false);
+            return get_site_option(SimpleLDAPLogin::get_field_settings_s(), false);
         } else {
-            return get_option("{$this->prefix}settings", false);
+            return get_option(SimpleLDAPLogin::get_field_settings_s(), false);
         }
     }
 
     function set_settings_obj($newobj) {
         if ($this->is_network_version()) {
-            return update_site_option("{$this->prefix}settings", $newobj);
+            return update_site_option(SimpleLDAPLogin::get_field_settings_s(), $newobj);
         } else {
-            return update_option("{$this->prefix}settings", $newobj);
+            return update_option(SimpleLDAPLogin::get_field_settings_s(), $newobj);
         }
     }
 
