@@ -297,6 +297,11 @@ if (isset($_GET['tab'])) {
             <?php else: ?>
             <h3>Help</h3>
             <p>Here's a brief primer on how to effectively use and test Simple LDAP Login.</p>
+            <h4>SSO (Single Sign-on)</h4>
+            <p>For this functionality, you must configure the Apache to use an authentication method in the Wordpress Directory.</p>
+            <ul>
+                <li>For Debian/Apache, you can follow the steps described <a target="_blank" title="Configuring SSO in Debian/Apache" href="https://github.com/MP-ES/simple-ldap-login/blob/master/ssoDebian.md">here</a>.</li>
+            </ul>
             <h4>Testing</h4>
             <p>The most effective way to test logins is to use two browsers. In other words, keep the WordPress Dashboard open in Chrome, and use Firefox to try logging in. This will give you real time feedback on your settings and prevent you from inadvertently locking yourself out.</p>
             <h4>Which raises the question, what happens if I get locked out?</h4>
