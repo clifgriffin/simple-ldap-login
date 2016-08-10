@@ -1,27 +1,21 @@
-# Configurando SSO no Ambiente Debian/Apache #
+# Configurando SSO no Ambiente CentOS/Apache #
 
 Siga este documento para configurar o SSO (Single Sign-on) entre a autenticação do Windows e o servidor Apache, usando o módulo **auth_ntlm_winbind**.
 
 ## Configurando o nome da máquina ##
-Edite o arquivo `/etc/hosts` e configure o nome completo da máquina, seguindo o modelo abaixo:
 
-````
-127.0.0.1       localhost
-127.0.1.1       WEB1.seu.dominio       WEB1
-```
-
-No arquivo `/etc/hostname`, informe o nome da máquina conforme configurado no arquivo `/etc/hosts`:
+No arquivo `/etc/hostname`, informe o nome completo da máquina(FQDN):
 
 ```
-WEB1
+WEB1.seu.dominio
 ```
 
 ## Sincronizando relógio com o Active Directory ##
-Para evitar problemas ao incluir a máquina no domínio, você deve sincronizar o relógio da máquina Debian com o relógio do AD.
+Para evitar problemas ao incluir a máquina no domínio, você deve sincronizar o relógio da máquina CentOS com o relógio do AD.
 Instale o o ntp:
 
 ```
-aptitude intall ntpdate ntp
+yum intall ntpdate ntp
 ```
 
 Edite o arquivo `/etc/ntp.conf`, deixando apenas os servidores LDAP's. Exemplo:
@@ -34,7 +28,7 @@ server 192.168.1.1
 Reinicie o serviço:
 
 ```
-service ntp restart
+systemctl restart ntpd
 ```
 
 Sincronize o relógio:
@@ -48,7 +42,7 @@ ntpdate -s 192.168.1.1
 Instale os seguintes pacotes:
 
 ```
-aptitude install krb5-user krb5-config libpam-krb5
+yum install krb5-libs krb5-workstation pam_krb5
 ```
 
 Edite o arquivo `/etc/krb5.conf` de acordo com o exemplo abaixo:
@@ -60,12 +54,13 @@ Edite o arquivo `/etc/krb5.conf` de acordo com o exemplo abaixo:
         admin_server = FILE:/var/log/kadmind.log
 
 [libdefaults]
-        ticket_lifetime = 24000
         dns_lookup_realm = false
-        dns_lookup_kdc = false
-        clockskew = 300
-        kdc_timesync = 1
+        ticket_lifetime = 24h
+        renew_lifetime = 7d
+        forwardable = true
+        rdns = false
         default_realm = SEU.DOMINIO
+        default_ccache_name = KEYRING:persistent:%{uid}
 
 [realms]
 SEU.DOMINIO = {
@@ -96,7 +91,7 @@ kdestroy # Destrói o token gerado.
 Instale os seguintes pacotes:
 
 ```
-aptitude install Samba winbind libnss-winbind libpam-winbind
+yum install samba samba-winbind samba-winbind-clients oddjob-mkhomedir samba-winbind-krb5-locator
 ```
 
 Edite o arquivo `/etc/Samba/smb.conf` seguindo o exemplo a seguir (consulte a documentação do Samba para entender cada parâmetro):
@@ -131,11 +126,10 @@ Edite o arquivo `/etc/Samba/smb.conf` seguindo o exemplo a seguir (consulte a do
 
 **Dica**: Para testar a configuração do Samba, execute o comando `testparm`.
 
-Reinicie os serviços:
+Reinicie o serviço:
 
 ```
-service winbind restart
-service smbd restart
+systemctl restart smb
 ```
 
 ## Ingressando a máquina no domínio ##
@@ -148,17 +142,24 @@ net ads join -U usuarioAdministradorDoDominio
 
 ## Configurando Apache ##
 
-Instale o módulo **auth_ntlm_winbind** e o habilite:
+Instale o módulo **auth_ntlm_winbind**. Para isso, copie o arquivo **utils/mod_auth_ntlm_winbind.e17.x_86_64.rpm** para o servidor e execute os comandos:
 
 ```
-aptitude install libapache2-mod-auth-ntlm-winbind
-a2enmod auth_ntlm_winbind
+yum localinstall mod_auth_ntlm_winbind.e17.x_86_64.rpm
 ```
 
-Edite o arquivo `/etc/apache2/apache2.conf` e adicione o módulo de autenticação à pasta do Wordpress. 
+Mova o arquivo de configuração para o local correto:
+
+```
+mv /etc/httpd/conf.d/auth_ntlm_winbind.conf ../conf.modules.d
+```
+
+Edite o arquivo `/etc/httpd/conf/httpd.conf`, habilite o **keepAlive** e adicione o módulo de autenticação à pasta do Wordpress. 
 Se o Wordpress estiver instalado na pasta `/var/www`, a configuração necessária seria:
 
 ```ApacheConf
+keepAlive On
+
 <Directory /var/www/>
     Options FollowSymLinks
     AllowOverride FileInfo
@@ -171,12 +172,10 @@ Se o Wordpress estiver instalado na pasta `/var/www`, a configuração necessár
 </Directory>
 ```
 
-Execute os comandos a seguir, para dar permissão ao usuário do Apache e corrigir um bug:
+Reinicie o Apache:
 
 ```
-usermod -a -G winbindd_priv www-data
-chgrp winbindd_priv /var/lib/samba/winbindd_privileged
-ln -s /var/lib/samba/winbindd_privileged/pipe /var/run/samba/winbindd_privileged/pipe
+systemctl restart httpd
 ```
 
 Feito isso, basta acessar o Wordpress e habilitar o **SSO** na tela de configuração do `simple-LDAP-plugin`.
