@@ -142,7 +142,7 @@ net ads join -U usuarioAdministradorDoDominio
 
 ## Configurando Apache ##
 
-Instale o módulo **auth_ntlm_winbind**. Para isso, copie o arquivo **utils/mod_auth_ntlm_winbind.e17.x_86_64.rpm** para o servidor e execute os comandos:
+Instale o módulo **auth_ntlm_winbind**. Para isso, copie o arquivo **utils/mod_auth_ntlm_winbind.e17.x_86_64.rpm** para o servidor e execute o comando:
 
 ```
 yum localinstall mod_auth_ntlm_winbind.e17.x_86_64.rpm
