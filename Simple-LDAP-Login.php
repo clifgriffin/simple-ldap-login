@@ -3,7 +3,7 @@
   Plugin Name: Simple LDAP Login
   Plugin URI: http://clifgriffin.com/simple-ldap-login/
   Description:  Authenticate WordPress against LDAP.
-  Version: 1.7.0
+  Version: 1.8.0
   Author: Clif Griffin Development Inc.
   Author URI: http://cgd.io
  */
@@ -17,7 +17,7 @@ class SimpleLDAPLogin {
     var $adldap;
     var $ldap;
     var $network_version = null;
-    var $version = "170";
+    var $version = "180";
 
     public static function get_field_settings_s() {
         return SimpleLDAPLogin::$prefix_s . "settings";
@@ -130,6 +130,8 @@ class SimpleLDAPLogin {
         $this->add_setting('user_email_attribute', "mail");
         $this->add_setting('user_url_attribute', "wwwhomepage");
         $this->add_setting('user_meta_data', array());
+        $this->add_setting('meta_data_suffix_ldap', 'ldap');
+        $this->add_setting('meta_data_suffix_wp', 'wp');
     }
 
     function upgrade_settings() {
@@ -204,6 +206,8 @@ class SimpleLDAPLogin {
             $this->add_setting('user_email_attribute', "mail");
             $this->add_setting('user_url_attribute', "wwwhomepage");
             $this->add_setting('user_meta_data', array());
+            $this->add_setting('meta_data_suffix_ldap', 'ldap');
+            $this->add_setting('meta_data_suffix_wp', 'wp');
         }
 
         // Update version
@@ -370,10 +374,12 @@ class SimpleLDAPLogin {
                     if (!is_wp_error($new_user)) {
                         // Add user meta data
                         $user_meta_data = $this->get_user_meta_data($username, trim($this->get_setting('directory')));
+
                         // Check, if empty to prevent login failures
                         if ($user_meta_data !== false) {
                             foreach ($user_meta_data as $meta_key => $meta_value) {
-                                add_user_meta($new_user, $meta_key, $meta_value);
+                                add_user_meta($new_user, $this->get_meta_key_ldap($meta_key), $meta_value);
+                                add_user_meta($new_user, $this->get_meta_key_wp($meta_key), $meta_value);
                             }
                         }
 
@@ -387,6 +393,23 @@ class SimpleLDAPLogin {
                         return $this->ldap_auth_error("{$this->prefix}login_error", __('<strong>Simple LDAP Login Error</strong>: LDAP credentials are correct and user creation is allowed but an error occurred creating the user in WordPress. Actual error: ' . $new_user->get_error_message()));
                     }
                 } else {
+
+                    // update user meta data
+                    $user_meta_data = $this->get_user_meta_data($username, trim($this->get_setting('directory')));
+
+                    // prevent error
+                    if ($user_meta_data !== false) {
+                        foreach ($user_meta_data as $meta_key => $meta_value) {
+                            $actual = get_user_meta($user->ID, $this->get_meta_key_ldap($meta_key));
+
+                            // new value: change the meta attributes
+                            if (empty($actual) || $actual[0] !== $meta_value) {
+                                update_user_meta($user->ID, $this->get_meta_key_ldap($meta_key), $meta_value);
+                                update_user_meta($user->ID, $this->get_meta_key_wp($meta_key), $meta_value);
+                            }
+                        }
+                    }
+
                     return new WP_User($user->ID);
                 }
             } else {
@@ -560,8 +583,14 @@ class SimpleLDAPLogin {
 
     function get_user_meta_data($username, $directory) {
         if ($directory == "ad") {
-            // TODO: get user meta data for ad
-            return false;
+
+            $attributes = array();
+            foreach ($this->get_setting('user_meta_data') as $attr) {
+                $attributes[] = $attr[0];
+            }
+
+            $userinfo = $this->adldap->user_info($username, $attributes);
+            $userinfo = $userinfo[0];
         } elseif ($directory == "ol") {
             if ($this->ldap == null) {
                 return false;
@@ -584,10 +613,25 @@ class SimpleLDAPLogin {
 
         $user_meta_data = array();
         foreach ($this->get_setting('user_meta_data') as $attr) {
-            $user_meta_data[$attr[1]] = $userinfo[$attr[0]][0];
+            $user_meta_data[$attr[1]] = $this->meta_data_filter(isset($userinfo[$attr[0]]) ? $userinfo[$attr[0]][0] : "", isset($attr[2]) ? $attr[2] : "string");
         }
 
         return apply_filters($this->prefix . 'user_meta_data', $user_meta_data);
+    }
+
+    function meta_data_filter($value, $type) {
+        if ($type === "number") {
+            return preg_replace("/[^0-9]/", "", $value);
+        }
+        return $value;
+    }
+
+    function get_meta_key_ldap($meta_key) {
+        return "{$meta_key}_{$this->get_setting('meta_data_suffix_ldap')}";
+    }
+
+    function get_meta_key_wp($meta_key) {
+        return "{$meta_key}_{$this->get_setting('meta_data_suffix_wp')}";
     }
 
     /**

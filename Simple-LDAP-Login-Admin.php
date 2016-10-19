@@ -280,20 +280,35 @@ if (isset($_GET['tab'])) {
             <hr />
             <h3>Additional user data</h3>
             <p>Additional user data can be stored as user meta data. You can specify the LDAP
-                attributes and the associated wordpress meta keys in the format <i>&lt;ldap_attribute_name&gt;:&lt;wordpress_meta_key&gt;</i>. Multiple attributes can be given on separate lines.</p>
-            <p> Example:<br/><i>phone:user_phone_number</i><br/><i>adress:user_home_address</i></p>
+                attributes and the associated wordpress meta keys in the format <i>&lt;ldap_attribute_name&gt;:&lt;wordpress_meta_key&gt;:&lt;type&gt;</i>. Multiple attributes can be given on separate lines. 
+                <b>Keep in your mind that the final <i>wordpress_meta_key</i> will be two meta keys, using the suffixes below, like, <i>wordpress_meta_key_<?php echo $SimpleLDAPLogin->get_setting('meta_data_suffix_ldap'); ?></i> and <i>wordpress_meta_key_<?php echo $SimpleLDAPLogin->get_setting('meta_data_suffix_wp'); ?></i>.</b></p>
+            <p> Example:<br/><i>phone:user_phone_number:number</i><br/><i>address:user_home_address:string</i></p>
             <table class="form-table" style="margin-bottom: 20px;">
                 <tbody>
                     <tr>
                         <th scope="row" valign="top">Meta data</th>
                         <td>
-                            <textarea name="<?php echo esc_attr($this->get_field_name('user_meta_data')); ?>">
-                                <?php
+                            <textarea cols="50" name="<?php echo esc_attr($this->get_field_name('user_meta_data')); ?>"><?php
                                 echo esc_html(join("\n", array_map(function ($attr) {
                                                     return join(':', $attr);
                                                 }, $SimpleLDAPLogin->get_setting('user_meta_data'))));
-                                ?>
-                            </textarea>
+                                ?></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top">Suffix data LDAP</th>
+                        <td>
+                            <input type="text" name="<?php echo esc_attr($this->get_field_name('meta_data_suffix_ldap')); ?>" value="<?php echo esc_attr($SimpleLDAPLogin->get_setting('meta_data_suffix_ldap')); ?>" />
+                            <br/>
+                             Suffix for the data obtained in the LDAP.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row" valign="top">Suffix data WP</th>
+                        <td>
+                            <input type="text" name="<?php echo esc_attr($this->get_field_name('meta_data_suffix_wp')); ?>" value="<?php echo esc_attr($SimpleLDAPLogin->get_setting('meta_data_suffix_wp')); ?>" />
+                            <br/>
+                            Suffix for the valid data (that can be displayed to the user).
                         </td>
                     </tr>
                 </tbody>
