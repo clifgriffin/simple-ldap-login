@@ -25,7 +25,7 @@ class SimpleLDAPLogin {
 
     public function __construct() {
         $this->prefix = SimpleLDAPLogin::$prefix_s;
-        $this->settings = $this->get_settings_obj($this->prefix);
+        $this->settings = $this->get_settings_obj();
 
         if (trim($this->get_setting('directory')) == "ad") {
             require_once( plugin_dir_path(__FILE__) . "/includes/adLDAP.php" );
