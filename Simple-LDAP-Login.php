@@ -283,8 +283,8 @@ class SimpleLDAPLogin {
                 foreach ($setting_value as $type => $value) {
                     if ($setting_name == 'user_meta_data') {
                         $this->set_setting($setting_name, array_map(function ($attr) {
-                                    return explode(':', $attr);
-                                }, array_filter(preg_split('/\r\n|\n|\r|;/', $value))));
+                                    return explode(':', trim($attr));
+                                }, array_filter(preg_split('/\r\n|\n|\r|;/', trim($value)))));
                     } elseif ($type == "array") {
                         $this->set_setting($setting_name, explode(";", $value));
                     } else {
@@ -582,37 +582,38 @@ class SimpleLDAPLogin {
     }
 
     function get_user_meta_data($username, $directory) {
+        $meta_data_list = $this->get_setting('user_meta_data');
+        if (empty($meta_data_list)) {
+            return false;
+        }
+
+        $attributes = array();
+        foreach ($meta_data_list as $attr) {
+            $attributes[] = $attr[0];
+        }
+
         if ($directory == "ad") {
-
-            $attributes = array();
-            foreach ($this->get_setting('user_meta_data') as $attr) {
-                $attributes[] = $attr[0];
-            }
-
             $userinfo = $this->adldap->user_info($username, $attributes);
-            $userinfo = $userinfo[0];
         } elseif ($directory == "ol") {
             if ($this->ldap == null) {
                 return false;
             }
 
-            $attributes = array();
-            foreach ($this->get_setting('user_meta_data') as $attr) {
-                $attributes[] = $attr[0];
-            }
             $ol_filter = sprintf('(%s=%s)', trim($this->get_setting('ol_login')), $this->esc_ldap_filter_val($username));
             $result = ldap_search($this->ldap, $this->get_setting('base_dn'), $ol_filter, $attributes);
             $userinfo = ldap_get_entries($this->ldap, $result);
+        } else {
+            return false;
+        }
 
-            if ($userinfo['count'] == 1) {
-                $userinfo = $userinfo[0];
-            }
+        if ($userinfo['count'] == 1) {
+            $userinfo = $userinfo[0];
         } else {
             return false;
         }
 
         $user_meta_data = array();
-        foreach ($this->get_setting('user_meta_data') as $attr) {
+        foreach ($meta_data_list as $attr) {
             $user_meta_data[$attr[1]] = $this->meta_data_filter(isset($userinfo[$attr[0]]) ? $userinfo[$attr[0]][0] : "", isset($attr[2]) ? $attr[2] : "string");
         }
 
