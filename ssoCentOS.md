@@ -94,7 +94,7 @@ Instale os seguintes pacotes:
 yum install samba samba-winbind samba-winbind-clients oddjob-mkhomedir samba-winbind-krb5-locator
 ```
 
-Edite o arquivo `/etc/Samba/smb.conf` seguindo o exemplo a seguir (consulte a documentação do Samba para entender cada parâmetro):
+Edite o arquivo `/etc/samba/smb.conf` seguindo o exemplo a seguir (consulte a documentação do Samba para entender cada parâmetro):
 
 ```
 [global]
