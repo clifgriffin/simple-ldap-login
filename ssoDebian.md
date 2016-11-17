@@ -99,7 +99,7 @@ Instale os seguintes pacotes:
 aptitude install samba winbind libnss-winbind libpam-winbind
 ```
 
-Edite o arquivo `/etc/Samba/smb.conf` seguindo o exemplo a seguir (consulte a documentação do Samba para entender cada parâmetro):
+Edite o arquivo `/etc/samba/smb.conf` seguindo o exemplo a seguir (consulte a documentação do Samba para entender cada parâmetro):
 
 ```
 [global]
