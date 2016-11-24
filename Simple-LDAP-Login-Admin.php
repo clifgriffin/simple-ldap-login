@@ -209,7 +209,7 @@ if (isset($_GET['tab'])) {
                     <tr>
                         <th scope="row" valign="top">Search User Password</th>
                         <td>
-                            <input type="password" name="<?php echo esc_attr($this->get_field_name('sso_search_user_password')); ?>" value="<?php echo esc_attr($SimpleLDAPLogin->get_setting('sso_search_user_password')); ?>" />
+                            <input type="password" name="<?php echo esc_attr($this->get_field_name('sso_search_user_password', 'password')); ?>" value="" />
                             <br/>
                             User password.
                         </td>
@@ -300,7 +300,7 @@ if (isset($_GET['tab'])) {
                         <td>
                             <input type="text" name="<?php echo esc_attr($this->get_field_name('meta_data_suffix_ldap')); ?>" value="<?php echo esc_attr($SimpleLDAPLogin->get_setting('meta_data_suffix_ldap')); ?>" />
                             <br/>
-                             Suffix for the data obtained in the LDAP.
+                            Suffix for the data obtained in the LDAP.
                         </td>
                     </tr>
                     <tr>

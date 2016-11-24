@@ -18,6 +18,12 @@ class SimpleLDAPLogin {
     var $ldap;
     var $network_version = null;
     var $version = "180";
+    // openssl constants
+    private static $openssl_method = "AES-256-CBC";
+
+    private static function get_openssl_pass() {
+        return gethostname();
+    }
 
     public static function get_field_settings_s() {
         return SimpleLDAPLogin::$prefix_s . "settings";
@@ -76,7 +82,7 @@ class SimpleLDAPLogin {
             "domain_controllers" => (array) $this->get_setting('domain_controllers'),
             "ad_port" => (int) $this->get_setting('ldap_port'),
             "ad_username" => $this->is_sso_enabled() ? $this->get_setting('sso_search_user') : NULL,
-            "ad_password" => $this->is_sso_enabled() ? $this->get_setting('sso_search_user_password') : NULL
+            "ad_password" => $this->is_sso_enabled() ? $this->get_sso_search_user_pass() : NULL
                 )
         );
     }
@@ -287,6 +293,12 @@ class SimpleLDAPLogin {
                                 }, array_filter(preg_split('/\r\n|\n|\r|;/', trim($value)))));
                     } elseif ($type == "array") {
                         $this->set_setting($setting_name, explode(";", $value));
+                    } elseif ($type == "password") {
+                        if (!empty($value)) {
+                            $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length(self::$openssl_method));
+                            $encrypt = openssl_encrypt($value, self::$openssl_method, self::get_openssl_pass(), 0, $iv);
+                            $this->set_setting($setting_name, "{$encrypt};" . bin2hex($iv));
+                        }
                     } else {
                         $this->set_setting($setting_name, $value);
                     }
@@ -684,12 +696,20 @@ class SimpleLDAPLogin {
     function sso_search_user_bind_test() {
         $directory = $this->get_setting('directory');
         if ($directory == "ad") {
-            return $this->adldap->authenticate($this->get_domain_username($this->get_setting('sso_search_user')), $this->get_setting('sso_search_user_password'));
+            return $this->adldap->authenticate($this->get_domain_username($this->get_setting('sso_search_user')), $this->get_sso_search_user_pass());
         } elseif ($directory == "ol") {
             // TODO - Implement bind test
         } else {
             return FALSE;
         }
+    }
+
+    private function get_sso_search_user_pass() {
+        $cryptPass = explode(";", $this->get_setting('sso_search_user_password'));
+        if (count($cryptPass) != 2) {
+            return ""; // wrong pass
+        }
+        return openssl_decrypt($cryptPass[0], self::$openssl_method, $this->get_openssl_pass(), 0, hex2bin($cryptPass[1]));
     }
 
 }
