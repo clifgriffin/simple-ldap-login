@@ -87,15 +87,23 @@ class SimpleLDAPLogin {
         );
     }
 
+    private function is_valid_call_sso() {
+        //  Skip login page
+        if (parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH) === "/wp-login.php") {
+            return false;
+        }
+        return true;
+    }
+
     // implementa SSO 
     function login_sso() {
         // Respeitar login atual: Apenas executar operação automática se o usuário não estiver logado
-        if (!is_user_logged_in() && $this->is_sso_configuration_ok()) {
+        if (!is_user_logged_in() && $this->is_sso_configuration_ok() && $this->is_valid_call_sso()) {
             // Realizando login automático
             $usu = $this->authenticate(NULL, $this->get_sso_logged_user(), $this->get_sso_logged_user(), TRUE);
-            wp_set_current_user($usu->ID, $usu);
+            wp_set_current_user($usu->ID, $usu->user_login);
             wp_set_auth_cookie($usu->ID);
-            do_action('wp_login', $usu);
+            do_action('wp_login', $usu->user_login, $usu);
         }
     }
 
