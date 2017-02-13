@@ -131,7 +131,7 @@ Edite o arquivo `/etc/samba/smb.conf` seguindo o exemplo a seguir (consulte a do
 
 **Dica**: Para testar a configuração do Samba, execute o comando `testparm`.
 
-Reinicie os serviços:
+Reinicie o serviço:
 
 ```
 service winbind restart
@@ -144,6 +144,13 @@ Execute o comando abaixo:
 
 ```
 net ads join -U usuarioAdministradorDoDominio
+```
+
+
+Reinicie o Winbind:
+
+```
+service winbind restart
 ```
 
 ## Configurando Apache ##
