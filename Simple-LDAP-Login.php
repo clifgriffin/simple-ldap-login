@@ -67,7 +67,7 @@ class SimpleLDAPLogin {
             $this->upgrade_settings();
         }
 
-        // Chamada para implementação do SSO
+        // Registering SSO function
         if (str_true($this->get_setting('sso_enabled'))) {
             add_action('init', array($this, 'login_sso'));
         }
@@ -95,11 +95,11 @@ class SimpleLDAPLogin {
         return true;
     }
 
-    // implementa SSO 
+    // SSO Implementation
     function login_sso() {
-        // Respeitar login atual: Apenas executar operação automática se o usuário não estiver logado
+        // Respect current login
         if (!is_user_logged_in() && $this->is_sso_configuration_ok() && $this->is_valid_call_sso()) {
-            // Realizando login automático
+            // Automatic login 
             $usu = $this->authenticate(NULL, $this->get_sso_logged_user(), $this->get_sso_logged_user(), TRUE);
             wp_set_current_user($usu->ID, $usu->user_login);
             wp_set_auth_cookie($usu->ID);
@@ -706,7 +706,7 @@ class SimpleLDAPLogin {
         if ($directory == "ad") {
             return $this->adldap->authenticate($this->get_domain_username($this->get_setting('sso_search_user')), $this->get_sso_search_user_pass());
         } elseif ($directory == "ol") {
-            // TODO - Implement bind test
+            // TODO - Implement bind test to other directories
         } else {
             return FALSE;
         }

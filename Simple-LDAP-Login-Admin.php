@@ -1,9 +1,4 @@
 <?php
-//must check that the user has the required capability 
-if (!current_user_can('manage_options')) {
-    wp_die(__('You do not have sufficient permissions to access this page.'));
-}
-
 global $SimpleLDAPLogin;
 
 if (isset($_GET['tab'])) {
