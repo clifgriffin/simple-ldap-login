@@ -140,16 +140,12 @@ net ads join -U domainAdminUser
 
 ## Configuring Apache ##
 
-Install the **auth_ntlm_winbind** module. Copy the file **utils/mod_auth_ntlm_winbind.e17.x_86_64.rpm** to the server and run the command below:
+Install the **auth_ntlm_winbind** module following the instructions described in http://adldap.sourceforge.net/wiki/doku.php?id=mod_auth_ntlm_winbind.
 
-```
-yum localinstall mod_auth_ntlm_winbind.e17.x_86_64.rpm
-```
-
-**Note**: You can also compile the module following the instructions described in http://adldap.sourceforge.net/wiki/doku.php?id=mod_auth_ntlm_winbind.
+**Note**: You can also download the mod_auth_ntlm_winbind.rpm from rpm repositories as https://www.rpmfind.net and install with `yum localinstall <file.rpm>`
 
 
-Move the rpm file for the correct local:
+Move the configuration file for the correct local:
 
 ```
 mv /etc/httpd/conf.d/auth_ntlm_winbind.conf ../conf.modules.d
