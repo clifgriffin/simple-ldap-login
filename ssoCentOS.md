@@ -149,7 +149,7 @@ yum localinstall mod_auth_ntlm_winbind.e17.x_86_64.rpm
 **Note**: You can also compile the module following the instructions described in http://adldap.sourceforge.net/wiki/doku.php?id=mod_auth_ntlm_winbind.
 
 
-Mova o arquivo de configuração para o local correto:
+Move the rpm file for the correct local:
 
 ```
 mv /etc/httpd/conf.d/auth_ntlm_winbind.conf ../conf.modules.d
