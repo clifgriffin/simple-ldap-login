@@ -21,8 +21,8 @@ class SimpleLDAPLogin {
     // openssl constants
     private static $openssl_method = "AES-256-CBC";
 
-    private static function get_openssl_pass() {
-        return gethostname();
+    private function get_openssl_pass() {
+        return $this->get_setting('base_dn');
     }
 
     public static function get_field_settings_s() {
@@ -304,7 +304,7 @@ class SimpleLDAPLogin {
                     } elseif ($type == "password") {
                         if (!empty($value)) {
                             $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length(self::$openssl_method));
-                            $encrypt = openssl_encrypt($value, self::$openssl_method, self::get_openssl_pass(), 0, $iv);
+                            $encrypt = openssl_encrypt($value, self::$openssl_method, $this->get_openssl_pass(), 0, $iv);
                             $this->set_setting($setting_name, "{$encrypt};" . bin2hex($iv));
                         }
                     } else {
