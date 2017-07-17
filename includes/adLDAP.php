@@ -2683,8 +2683,15 @@ class adLDAP {
      * @author Port by Andreas Gohr <andi@splitbrain.org>
      * @return string
      */
-    protected function ldap_slashes($str) {
-        return preg_replace('/([\x00-\x1F\*\(\)\\\\])/e', '"\\\\\".join("",unpack("H2","$1"))', $str);
+    protected function ldap_slashes($str)
+    {
+        if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
+            return preg_replace_callback('/([\x00-\x1F\*\(\)\\\\])/', function ($matches) {
+                return "\\" . join("", unpack("H2", $matches[1]));
+            }, $str);
+        } else {
+            return preg_replace('/([\x00-\x1F\*\(\)\\\\])/e', '"\\\\\".join("",unpack("H2","$1"))', $str);
+        }
     }
 
     /**
