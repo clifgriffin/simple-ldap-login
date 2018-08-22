@@ -1,0 +1,20 @@
+{
+    "name"       : "clifgriffin/simple-ldap-login",
+    "description": "Simple LDAP Login",
+    "homepage"   : "http://cgd.io",
+    "keywords"    : ["wordpress", "ldap", "login", "active directory"],
+    "type"       : "wordpress-plugin",
+    "license"    : "GPL-2.0+",
+    "authors"     : [
+    {
+        "name"    : "Clif Griffin",
+        "homepage": "http://cgd.io"
+    }
+    ],
+    "support"     : {
+        "issues": "https://github.com/clifgriffin/simple-ldap-login/issues"
+    },
+    "require"    : {
+        "composer/installers": "~1.0"
+    }
+}
