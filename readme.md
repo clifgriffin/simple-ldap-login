@@ -3,8 +3,8 @@
 **Donate link:** http://cgd.io  
 **Tags:** LDAP, authentication, login, active directory, adLDAP  
 **Requires at least:** 3.4  
-**Tested up to:** 4.5  
-**Stable tag:** 1.6.0  
+**Tested up to:** 6.8.2  
+**Stable tag:** 1.7.0  
 **License:** GPLv2 or later  
 
 Integrating WordPress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
@@ -49,7 +49,13 @@ Simple LDAP Login adds an authentication filter to WordPress that authentication
 
 This is high level overview. This should answer the philosophical questions about how the plugin works. If the plugin is unable to authenticate the user, it should pass it down the chain to WordPress. (Unless LDAP Exclusive is turned on, in which case it won't.)
 
+## Requirements ##
+* PHP Extensions: php-ldap
+
 ## Changelog ##
+**Version 1.7.0**
+* PHP 8 Support
+
 **Version 1.6.0**
 
 * New filter sll_remove_default_authentication_hook lets you override local password fallback.
