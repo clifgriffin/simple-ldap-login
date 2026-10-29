@@ -1,0 +1,85 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  php:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4', '8.5']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ldap, openssl
+          coverage: none
+          tools: composer:v2
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer install --working-dir=pro --no-interaction --prefer-dist --no-plugins --no-scripts
+      - run: composer validate --strict
+      - run: composer validate --working-dir=pro --strict
+      - run: composer check
+  assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: ldap, openssl
+          coverage: none
+          tools: composer:v2
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer install --working-dir=pro --no-interaction --prefer-dist --no-plugins --no-scripts
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:packages
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.1'
+            wordpress: '6.5'
+            directory: ol
+          - php: '8.1'
+            wordpress: '6.5'
+            directory: ad
+          - php: '8.5'
+            wordpress: ''
+            directory: ol
+          - php: '8.5'
+            wordpress: ''
+            directory: ad
+    env:
+      SLL_PHP_VERSION: ${{ matrix.php }}
+      SLL_WP_VERSION: ${{ matrix.wordpress }}
+      SLL_DIRECTORY: ${{ matrix.directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: ldap, openssl
+          coverage: none
+          tools: composer:v2
+      - run: npm ci
+      - run: npm run test:docker
+      - run: SLL_MULTISITE=1 sh tests/docker/run.sh test

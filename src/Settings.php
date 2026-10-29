@@ -1,0 +1,505 @@
+<?php
+/**
+ * Read, validate, and migrate plugin settings.
+ *
+ * @package SimpleLdapLogin
+ */
+
+namespace SimpleLdapLogin;
+
+/** Keep settings in the original site or network option. */
+final class Settings {
+
+	/** Old option names and their current settings keys. */
+	private const LEGACY_MAP = array(
+		'account_suffix'     => 'account_suffix',
+		'base_dn'            => 'base_dn',
+		'domain_controllers' => 'domain_controllers',
+		'group'              => 'groups',
+		'account_type'       => 'role',
+		'ol_login'           => 'ol_login',
+		'use_tls'            => 'use_tls',
+		'directory_type'     => 'directory',
+		'login_mode'         => 'create_users',
+		'security_mode'      => 'high_security',
+	);
+
+	/**
+	 * Explicit scope during network activation.
+	 *
+	 * @var bool|null
+	 */
+	private ?bool $network;
+
+	/**
+	 * Set a scope override only when WordPress activates the plugin.
+	 *
+	 * @param bool|null $network Network activation flag, or detect current scope.
+	 */
+	public function __construct( ?bool $network = null ) {
+		$this->network = $network;
+	}
+
+	/**
+	 * Get defaults for a new installation.
+	 *
+	 * @return array
+	 */
+	public static function defaults(): array {
+		return array(
+			'version'                   => '200',
+			'schema_version'            => 2,
+			'enabled'                   => false,
+			'directory'                 => 'ad',
+			'account_suffix'            => '',
+			'base_dn'                   => '',
+			'domain_controllers'        => array(),
+			'transport'                 => 'starttls',
+			'allow_plaintext'           => false,
+			'use_tls'                   => true,
+			'ldap_port'                 => 389,
+			'ldap_version'              => 3,
+			'timeout'                   => 5,
+			'ol_login'                  => 'uid',
+			'ol_group'                  => 'cn',
+			'groups'                    => array(),
+			'group_base_dn'             => '',
+			'group_uid'                 => 'memberUid',
+			'search_sub_ous'            => false,
+			'login_domain'              => '',
+			'high_security'             => true,
+			'create_users'              => false,
+			'role'                      => 'subscriber',
+			'sso_enabled'               => false,
+			'sso_search_user'           => '',
+			'sso_search_user_password'  => '',
+			'user_first_name_attribute' => 'givenname',
+			'user_last_name_attribute'  => 'sn',
+			'user_email_attribute'      => 'mail',
+			'user_url_attribute'        => 'wwwhomepage',
+			'user_meta_data'            => array(),
+			'meta_data_suffix_ldap'     => 'ldap',
+			'meta_data_suffix_wp'       => 'wp',
+			'delete_on_uninstall'       => false,
+		);
+	}
+
+	/**
+	 * Read a setting and retain the original setting filter.
+	 *
+	 * @param string $key Setting key.
+	 * @param mixed  $fallback Default for an unknown key.
+	 * @return mixed
+	 */
+	public function get( string $key, $fallback = false ) {
+		$settings = $this->all();
+		$value    = array_key_exists( $key, $settings ) ? $settings[ $key ] : $fallback;
+		return apply_filters( 'sll_get_setting', $value, $key );
+	}
+
+	/**
+	 * Read all settings without filters.
+	 *
+	 * @return array
+	 */
+	public function all(): array {
+		$stored = $this->read( 'sll_settings', array() );
+		return array_replace( self::defaults(), is_array( $stored ) ? $stored : array() );
+	}
+
+	/**
+	 * Check the plugin activation scope.
+	 *
+	 * @return bool
+	 */
+	public function is_network(): bool {
+		if ( ! is_multisite() ) {
+			return false;
+		}
+		if ( null !== $this->network ) {
+			return $this->network;
+		}
+		$file   = defined( 'SLL_FILE' ) ? SLL_FILE : dirname( __DIR__ ) . '/Simple-LDAP-Login.php';
+		$active = get_site_option( 'active_sitewide_plugins', array() );
+		return is_array( $active ) && isset( $active[ plugin_basename( $file ) ] );
+	}
+
+	/**
+	 * Read a legacy boolean.
+	 *
+	 * @param mixed $value Setting value.
+	 * @return bool
+	 */
+	public static function is_true( $value ): bool {
+		return true === $value || ( is_scalar( $value ) && in_array( strtolower( (string) $value ), array( 'yes', 'y', 'true', '1', 'on', 'open' ), true ) );
+	}
+
+	/**
+	 * Validate an LDAP attribute description.
+	 *
+	 * @param mixed $value Attribute name.
+	 * @return bool
+	 */
+	public static function validate_attribute( $value ): bool {
+		return is_string( $value ) && 1 === preg_match( '/^(?:[a-zA-Z][a-zA-Z0-9-]*|[0-9]+(?:\.[0-9]+)+)(?:;[a-zA-Z0-9-]+)*$/D', $value );
+	}
+
+	/**
+	 * Block metadata keys that can change account security.
+	 *
+	 * @param string $key Final metadata key, with its suffix.
+	 * @return bool
+	 */
+	public static function safe_meta_key( string $key ): bool {
+		if ( ! preg_match( '/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/D', $key ) ) {
+			return false;
+		}
+		$key = strtolower( $key );
+		if ( preg_match( '/(?:^|_)(?:capabilities|user_level)$/D', $key ) ) {
+			return false;
+		}
+		return ! in_array( $key, array( 'session_tokens', 'application_passwords', 'user_pass', 'user_login', 'user_email', 'user_activation_key', 'primary_blog', 'source_domain', 'use_ssl', 'user_status' ), true );
+	}
+
+	/**
+	 * Validate and save one complete settings change.
+	 *
+	 * The caller must check the administrator capability and nonce first.
+	 *
+	 * @param array $input Unslashed form values. Missing keys are retained.
+	 * @return true|\WP_Error
+	 */
+	public function save( array $input ) {
+		$settings = $this->all();
+		$defaults = self::defaults();
+		$booleans = array( 'enabled', 'allow_plaintext', 'use_tls', 'search_sub_ous', 'high_security', 'create_users', 'sso_enabled', 'delete_on_uninstall' );
+		$attrs    = array( 'ol_login', 'ol_group', 'group_uid', 'user_first_name_attribute', 'user_last_name_attribute', 'user_email_attribute', 'user_url_attribute' );
+
+		foreach ( $input as $key => $value ) {
+			if ( ! array_key_exists( $key, $defaults ) || in_array( $key, array( 'version', 'schema_version' ), true ) ) {
+				return $this->invalid( $key );
+			}
+			if ( in_array( $key, $booleans, true ) ) {
+				if ( ! is_scalar( $value ) || ! in_array( strtolower( (string) $value ), array( '', '0', '1', 'true', 'false', 'yes', 'no', 'y', 'n', 'on', 'off', 'open', 'closed' ), true ) ) {
+					return $this->invalid( $key );
+				}
+				$settings[ $key ] = self::is_true( $value );
+			} elseif ( in_array( $key, array( 'domain_controllers', 'groups' ), true ) ) {
+				$list = $this->list_value( $value );
+				if ( is_wp_error( $list ) ) {
+					return $this->invalid( $key );
+				}
+				$settings[ $key ] = $list;
+			} elseif ( 'user_meta_data' === $key ) {
+				$mappings = $this->mappings( $value );
+				if ( is_wp_error( $mappings ) ) {
+					return $mappings;
+				}
+				$settings[ $key ] = $mappings;
+			} elseif ( in_array( $key, array( 'ldap_port', 'ldap_version', 'timeout' ), true ) ) {
+				$number = filter_var( $value, FILTER_VALIDATE_INT );
+				$min    = 1;
+				$max    = 'ldap_port' === $key ? 65535 : 30;
+				if ( false === $number || $number < $min || $number > $max || ( 'ldap_version' === $key && 3 !== $number ) ) {
+					return $this->invalid( $key );
+				}
+				$settings[ $key ] = $number;
+			} elseif ( 'sso_search_user_password' === $key ) {
+				if ( ! is_string( $value ) || false !== strpos( $value, "\0" ) ) {
+					return $this->invalid( $key );
+				}
+				if ( '' !== $value ) {
+					$encrypted = Secrets::encrypt( $value );
+					if ( is_wp_error( $encrypted ) ) {
+						return $encrypted;
+					}
+					$settings[ $key ] = $encrypted;
+				}
+			} else {
+				if ( ! is_string( $value ) || preg_match( '/[\x00-\x1f\x7f]/', $value ) ) {
+					return $this->invalid( $key );
+				}
+				$value = trim( $value );
+				if ( in_array( $key, $attrs, true ) && ! self::validate_attribute( $value ) ) {
+					return $this->invalid( $key );
+				}
+				if ( in_array( $key, array( 'meta_data_suffix_ldap', 'meta_data_suffix_wp' ), true ) && ! preg_match( '/^[a-zA-Z0-9_-]*$/D', $value ) ) {
+					return $this->invalid( $key );
+				}
+				$settings[ $key ] = $value;
+			}
+		}
+
+		if ( ! in_array( $settings['directory'], array( 'ad', 'ol' ), true ) || ! in_array( $settings['transport'], array( 'plain', 'starttls', 'ldaps' ), true ) ) {
+			return $this->invalid( 'directory / transport' );
+		}
+		if ( 'plain' === $settings['transport'] && ! self::is_true( $settings['allow_plaintext'] ) ) {
+			return new \WP_Error( 'sll_plaintext', __( 'Select the option to permit an unencrypted connection, or select TLS.', 'simple-ldap-login' ) );
+		}
+		if ( isset( $input['use_tls'] ) && ! isset( $input['transport'] ) ) {
+			$settings['transport'] = $settings['use_tls'] ? 'starttls' : 'plain';
+			if ( 'plain' === $settings['transport'] && ! self::is_true( $settings['allow_plaintext'] ) ) {
+				return $this->invalid( 'allow_plaintext' );
+			}
+		}
+		$settings['use_tls'] = 'starttls' === $settings['transport'];
+		if ( ! get_role( $settings['role'] ) ) {
+			return $this->invalid( 'role' );
+		}
+		foreach ( $settings['domain_controllers'] as $host ) {
+			if ( ! self::valid_host( $host ) ) {
+				return $this->invalid( 'domain_controllers' );
+			}
+		}
+		foreach ( $settings['user_meta_data'] as $mapping ) {
+			if ( ! is_array( $mapping ) || count( $mapping ) < 2 || ! self::validate_attribute( $mapping[0] ) ) {
+				return $this->invalid( 'user_meta_data' );
+			}
+			foreach ( array( 'meta_data_suffix_ldap', 'meta_data_suffix_wp' ) as $suffix ) {
+				if ( ! self::safe_meta_key( $mapping[1] . '_' . $settings[ $suffix ] ) ) {
+					return new \WP_Error( 'sll_meta_key', __( 'A user data mapping targets a protected or invalid WordPress metadata key.', 'simple-ldap-login' ) );
+				}
+			}
+		}
+		if ( self::is_true( $settings['enabled'] ) && ( '' === $settings['base_dn'] || empty( $settings['domain_controllers'] ) ) ) {
+			return new \WP_Error( 'sll_connection_required', __( 'Enter the base DN and at least one directory server before you enable LDAP login.', 'simple-ldap-login' ) );
+		}
+		if ( ! $this->write( 'sll_settings', $settings ) && $this->read( 'sll_settings', array() ) !== $settings ) {
+			return new \WP_Error( 'sll_save_failed', __( 'WordPress could not save the settings. Try again.', 'simple-ldap-login' ) );
+		}
+		return true;
+	}
+
+	/**
+	 * Migrate once without deleting the original data.
+	 *
+	 * @return void
+	 */
+	public function migrate(): void {
+		$stored = $this->read( 'sll_settings', null );
+		if ( ! $this->record_legacy_access( $stored ) ) {
+			return;
+		}
+		if ( is_array( $stored ) && isset( $stored['schema_version'] ) && 2 <= (int) $stored['schema_version'] ) {
+			return;
+		}
+		if ( null !== $stored && false !== $stored && ! is_array( $stored ) ) {
+			return;
+		}
+		$legacy = is_array( $stored ) ? $stored : array();
+		$old    = array();
+		foreach ( self::LEGACY_MAP as $old_key => $new_key ) {
+			$value = $this->read( 'simpleldap_' . $old_key, null );
+			if ( null !== $value ) {
+				$old[ 'simpleldap_' . $old_key ] = $value;
+				if ( ! array_key_exists( $new_key, $legacy ) ) {
+					if ( 'directory_type' === $old_key ) {
+						$value = 'directory_ad' === $value ? 'ad' : 'ol';
+					} elseif ( 'login_mode' === $old_key ) {
+						$value = in_array( $value, array( 'mode_create_all', 'mode_create_group' ), true );
+					} elseif ( 'security_mode' === $old_key ) {
+						$value = 'security_high' === $value;
+					}
+					$legacy[ $new_key ] = $value;
+				}
+			}
+		}
+		$has_legacy = is_array( $stored ) || ! empty( $old );
+		if ( $has_legacy && null === $this->read( 'sll_settings_backup_v1', null ) ) {
+			$backup = is_array( $stored ) ? $stored : $old;
+			if ( ! $this->write( 'sll_settings_backup_v1', $backup ) ) {
+				return;
+			}
+		}
+		$settings = array_replace( self::defaults(), $legacy );
+		if ( $has_legacy ) {
+			if ( ! array_key_exists( 'enabled', $legacy ) && ! empty( $old ) ) {
+				$settings['enabled'] = true;
+			}
+			if ( ! array_key_exists( 'role', $legacy ) ) {
+				$settings['role'] = 'contributor';
+			}
+			if ( ! array_key_exists( 'transport', $legacy ) ) {
+				$settings['transport']       = self::is_true( $legacy['use_tls'] ?? false ) ? 'starttls' : 'plain';
+				$settings['allow_plaintext'] = 'plain' === $settings['transport'];
+			}
+		}
+		foreach ( array( 'enabled', 'allow_plaintext', 'use_tls', 'search_sub_ous', 'high_security', 'create_users', 'sso_enabled', 'delete_on_uninstall' ) as $key ) {
+			$settings[ $key ] = self::is_true( $settings[ $key ] );
+		}
+		foreach ( array( 'domain_controllers', 'groups' ) as $key ) {
+			$list = $this->list_value( $settings[ $key ] );
+			if ( is_wp_error( $list ) ) {
+				return;
+			}
+			$settings[ $key ] = $list;
+		}
+		if ( false === $settings['user_meta_data'] || null === $settings['user_meta_data'] ) {
+			$settings['user_meta_data'] = array();
+		}
+		$password = $settings['sso_search_user_password'];
+		if ( is_string( $password ) && '' !== $password && 0 !== strpos( $password, 'v2:' ) ) {
+			$plain = Secrets::decrypt( $password );
+			if ( ! is_wp_error( $plain ) ) {
+				$encrypted = Secrets::encrypt( $plain );
+				if ( ! is_wp_error( $encrypted ) ) {
+					$settings['sso_search_user_password'] = $encrypted;
+				}
+			}
+		}
+		$settings['use_tls']        = 'starttls' === $settings['transport'];
+		$settings['version']        = '200';
+		$settings['schema_version'] = 2;
+		$this->write( 'sll_settings', $settings );
+	}
+
+	/**
+	 * Check continued access to the old feature set.
+	 *
+	 * This record identifies an installation. It is not proof of purchase.
+	 * It does not load feature code that is absent from the package.
+	 *
+	 * @return bool Whether this scope qualifies for no-cost Legacy access.
+	 */
+	public function has_legacy_access(): bool {
+		$record = $this->read( 'sll_legacy_access', array() );
+		return is_array( $record ) && true === ( $record['eligible'] ?? false );
+	}
+
+	/**
+	 * Record eligibility before settings migration writes new defaults.
+	 *
+	 * @param mixed $stored Raw settings, before defaults are added.
+	 * @return bool Whether the record is saved and safe to use.
+	 */
+	private function record_legacy_access( $stored ): bool {
+		$record     = $this->read( 'sll_legacy_access', null );
+		$transition = defined( 'SLL_EDITION' ) && 'transition' === SLL_EDITION;
+		if ( is_array( $record ) && isset( $record['eligible'] ) && is_bool( $record['eligible'] ) ) {
+			if ( ! $transition || $record['eligible'] ) {
+				return true;
+			}
+		} elseif ( null !== $record ) {
+			return false;
+		}
+		$eligible = $transition || is_array( $stored );
+		foreach ( array_keys( self::LEGACY_MAP ) as $key ) {
+			$eligible = $eligible || null !== $this->read( 'simpleldap_' . $key, null );
+		}
+		$record = array( 'eligible' => $eligible );
+		return $this->write( 'sll_legacy_access', $record ) || $record === $this->read( 'sll_legacy_access', null );
+	}
+
+	/**
+	 * Parse a list from an array or form field.
+	 *
+	 * @param mixed $value List value.
+	 * @return array|\WP_Error
+	 */
+	private function list_value( $value ) {
+		if ( is_string( $value ) ) {
+			$value = preg_split( '/[;\r\n]+/', $value );
+		}
+		if ( false === $value || null === $value ) {
+			return array();
+		}
+		if ( ! is_array( $value ) ) {
+			return $this->invalid( 'list' );
+		}
+		$list = array();
+		foreach ( $value as $item ) {
+			if ( ! is_string( $item ) || preg_match( '/[\x00-\x1f\x7f]/', $item ) ) {
+				return $this->invalid( 'list' );
+			}
+			$item = trim( $item );
+			if ( '' !== $item ) {
+				$list[] = $item;
+			}
+		}
+		return array_values( array_unique( $list ) );
+	}
+
+	/**
+	 * Parse metadata mappings.
+	 *
+	 * @param mixed $value Mapping value.
+	 * @return array|\WP_Error
+	 */
+	private function mappings( $value ) {
+		if ( is_string( $value ) ) {
+			$value = preg_split( '/[;\r\n]+/', $value, -1, PREG_SPLIT_NO_EMPTY );
+			$value = array_map(
+				static function ( $line ) {
+					return explode( ':', trim( $line ) );
+				},
+				$value
+			);
+		}
+		if ( ! is_array( $value ) ) {
+			return $this->invalid( 'user_meta_data' );
+		}
+		$mappings = array();
+		foreach ( $value as $mapping ) {
+			if ( ! is_array( $mapping ) || count( $mapping ) < 2 || count( $mapping ) > 3 ) {
+				return $this->invalid( 'user_meta_data' );
+			}
+			foreach ( $mapping as $part ) {
+				if ( ! is_string( $part ) ) {
+					return $this->invalid( 'user_meta_data' );
+				}
+			}
+			$mapping = array_values( array_map( 'trim', $mapping ) );
+			if ( ! self::validate_attribute( $mapping[0] ) || ! preg_match( '/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/D', $mapping[1] ) || ( isset( $mapping[2] ) && ! in_array( $mapping[2], array( 'string', 'number' ), true ) ) ) {
+				return $this->invalid( 'user_meta_data' );
+			}
+			$mapping[2] = $mapping[2] ?? 'string';
+			$mappings[] = $mapping;
+		}
+		return $mappings;
+	}
+
+	/**
+	 * Check a host or LDAP URL. Prevent URLs with credentials or paths.
+	 *
+	 * @param string $host Directory server.
+	 * @return bool
+	 */
+	private static function valid_host( string $host ): bool {
+		$url = strpos( $host, '://' ) === false ? 'ldap://' . $host : $host;
+		$uri = wp_parse_url( $url );
+		return is_array( $uri ) && isset( $uri['scheme'], $uri['host'] ) && in_array( $uri['scheme'], array( 'ldap', 'ldaps' ), true ) && ! isset( $uri['user'] ) && ! isset( $uri['pass'] ) && ! isset( $uri['query'] ) && ! isset( $uri['fragment'] ) && ( ! isset( $uri['path'] ) || '' === $uri['path'] || '/' === $uri['path'] ) && ! preg_match( '/[\s\\\\]/', $uri['host'] );
+	}
+
+	/**
+	 * Read an option in the correct scope.
+	 *
+	 * @param string $key Option key.
+	 * @param mixed  $fallback Default value.
+	 * @return mixed
+	 */
+	private function read( string $key, $fallback ) {
+		return $this->is_network() ? get_site_option( $key, $fallback ) : get_option( $key, $fallback );
+	}
+
+	/**
+	 * Write an option without autoloading service account secrets.
+	 *
+	 * @param string $key Option key.
+	 * @param array  $value Option value.
+	 * @return bool
+	 */
+	private function write( string $key, array $value ): bool {
+		return $this->is_network() ? update_site_option( $key, $value ) : update_option( $key, $value, false );
+	}
+
+	/**
+	 * Create a validation error.
+	 *
+	 * @param string $key Setting key.
+	 * @return \WP_Error
+	 */
+	private function invalid( string $key ): \WP_Error {
+		/* translators: %s: setting key. */
+		return new \WP_Error( 'sll_invalid_setting', sprintf( __( 'The value for %s is not valid. No settings were saved.', 'simple-ldap-login' ), $key ) );
+	}
+}

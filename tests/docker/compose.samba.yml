@@ -1,0 +1,50 @@
+x-ad-environment: &ad-environment
+  SLL_DIRECTORY: ad
+  SLL_LDAP_HOST: ad
+  SLL_BASE_DN: DC=example,DC=test
+  SLL_GROUP_BASE_DN: CN=Users,DC=example,DC=test
+  SLL_BIND_USER: reader@example.test
+
+services:
+  ldap:
+    profiles: [openldap]
+
+  ad:
+    profiles: [ad]
+    build:
+      context: .
+      dockerfile: samba.Dockerfile
+    hostname: ad.example.test
+    volumes:
+      - samba-data:/var/lib/samba
+      - samba-config:/etc/samba
+      - samba-certs:/certs
+    networks:
+      default:
+        aliases: [ad.example.test, ad-wrong-name]
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          ldapsearch -x -ZZ -H ldap://ad -D reader@example.test
+          -w 'Reader-Password-42!' -b 'DC=example,DC=test'
+          '(sAMAccountName=alice)' dn | grep -qi '^dn: CN=alice,'
+      interval: 2s
+      timeout: 5s
+      retries: 45
+      start_period: 10s
+
+  free:
+    environment: *ad-environment
+    volumes:
+      - samba-certs:/certs:ro
+
+  pro:
+    environment: *ad-environment
+    volumes:
+      - samba-certs:/certs:ro
+
+volumes:
+  samba-data:
+  samba-config:
+  samba-certs:

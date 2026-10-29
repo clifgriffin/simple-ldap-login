@@ -1,0 +1,56 @@
+# Checks completed
+
+Test date: 2026-10-29.
+
+`npm run test:release` passed with exit code 0 after the LdapRecord migration. All 24 core configurations passed. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
+
+## Source and release packages
+
+`composer check` passes all 297 checks: 156 for settings, secrets, authentication, and LDAP; 117 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+
+LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
+
+`npm run lint` passes with Node 24 and `@wordpress/scripts` 37. Root, Pro, and build-tool Composer manifests pass strict validation. The Composer lock audit reported no known security advisories when LdapRecord 4.1.1 was installed. All 18 production dependencies declare MIT licenses. Their license files remain in the ZIPs.
+
+`npm run test:packages` builds Free, Pro, Legacy, and Transition from the real source. Twelve extracted-package tests cover fresh, existing, and network installations. They check PSR-4 loading, feature hooks, Legacy eligibility, metadata, syntax, file exclusions, and source preservation after successful and failed builds. Startup must not make a service request.
+
+Package tests also check private dependency namespaces, helper functions, Composer helper-file records, AD relation classes, SID conversion, and event names. The library must work when another plugin has already defined a helper with the same name. Release ZIPs use the `SimpleLdapLoginVendor` prefix.
+
+## Docker integration checks
+
+The complete matrix passed on these local ARM64 targets:
+
+| PHP | WordPress | Directory servers |
+| --- | --- | --- |
+| 8.1.34 | 6.5 | OpenLDAP 2.5.13; Samba AD 4.17.12 |
+| 8.5.12 | 7.1.4 | OpenLDAP 2.5.13; Samba AD 4.17.12 |
+
+Each target checks Free and Pro with single-site activation, network activation, and site-only activation in multisite. Tests install the built release ZIPs. The kept PHP 8.4 Samba sites also passed with the new packages and remain available on ports 8088 and 8089.
+
+Directory tests cover direct and subtree lookup, anonymous and service binds, controller failover, login forms, disabled AD users, profile attributes, account creation, safe roles, fallback, and administrator recovery. Group tests cover no rule, any allowed group, all absent groups, a different group base, OpenLDAP membership attributes, nested AD groups, primary groups, and primary group parents.
+
+Trusted StartTLS and LDAPS pass. Both transports reject an untrusted CA and a certificate for a different host. Plain LDAP requires explicit permission. Samba still rejects an unencrypted bind. A source test checks that the production adapter retains an explicit LDAPS port of 389 without making a network request.
+
+Real OpenLDAP password changes check the literal password `0`, quotes, backslashes, and entity text. Login accepts each exact value and rejects a changed value. LdapRecord 4.1 decodes HTML entities and treats `0` as null during bind. The adapter compensates for those two cases. The original fixture password is restored after each run.
+
+The first migration run also found that OpenLDAP's enabled-account filter needs a password policy schema. A generic server can return no entries for its undefined attribute. The client now applies the enabled-account filter only to the AD model. The generic OpenLDAP test server and a source assertion cover this behavior.
+
+Native migrations check both old settings formats, stored false values, encryption migration, backups, repeated migration, Legacy eligibility, malformed data, and child-site scope isolation. Each package update runs in a separate WordPress request. Later requests check activation, settings, credentials, user password hashes, roles, profiles, and metadata after core shutdown work.
+
+The HTTP suite has 45 checks per edition and activation mode. Apache Basic authentication supplies a trusted `REMOTE_USER`; forged headers cannot create a session. Tests cover SSO on and off, password login off, recovery, invalid identities, group denials, user and later login filter denials, request contexts, and auth cookies. Separate PHP requests remove LDAP or disable encryption functions, then check controlled errors, unchanged secrets, and usable admin controls.
+
+Earlier tests found that an SSO proof made with `wp_generate_password()` could contain whitespace that core trims. The proof now uses 32 random bytes encoded as hex. Source and HTTP tests retain that regression check and verify that later authentication filters can still deny access.
+
+Temporary test containers and volumes were removed after each automated run. The kept Samba domain, configuration, and CA remain in named volumes.
+
+## Earlier settings-screen checks
+
+Before the LDAP dependency change, a WordPress 7.1.3 site passed site and network saves, section retention, nonce and scope checks, and subscriber permission denial. Desktop and 390-pixel mobile checks showed aligned controls, wrapped tabs, no horizontal overflow, and no JavaScript errors. Current admin source tests continue to cover the controls and migration notices.
+
+WordPress Plugin Check passed the earlier Free and Transition packages with zero errors. Reviewed warnings covered short naming prefixes, the preserved `str_true` function, and core hooks. Repeat Plugin Check on the new dependency packages before public release. These results do not provide formal WordPress.org approval.
+
+## Checks still needed
+
+Complete the [release checklist](release-checklist.md). Microsoft AD DS, domain trusts, Kerberos negotiation, expired certificates, customer settings, and named second-factor integrations still need acceptance tests. Samba and Apache Basic authentication do not establish support for every AD policy or SSO setup.
+
+PaidCommunities licensing and automatic external updates are not implemented. Pro and Legacy remain local previews. Their update paths and the public Legacy migration process must be ready before release. The previously uploaded draft ZIP also needs replacement before release.

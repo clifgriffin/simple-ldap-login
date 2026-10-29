@@ -1,0 +1,14 @@
+{
+    "name": "clifgriffin/simple-ldap-login-build",
+    "description": "Build tools for isolated plugin dependencies.",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "humbug/php-scoper": "^0.18.20"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.0"
+        },
+        "sort-packages": true
+    }
+}

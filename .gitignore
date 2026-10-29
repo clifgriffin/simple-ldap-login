@@ -1,1 +1,8 @@
-/nbproject/private*
+/vendor/
+/pro/vendor/
+/tools/scoper/vendor/
+/dist/
+/.phpcs-cache
+/.DS_Store
+/node_modules/
+/simple-ldap-login.zip

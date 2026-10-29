@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="Simple LDAP Login">
+    <description>WordPress standards and PHP 8.1 compatibility.</description>
+    <file>Simple-LDAP-Login.php</file>
+    <file>uninstall.php</file>
+    <file>src</file>
+    <file>pro/bootstrap.php</file>
+    <file>pro/src</file>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <config name="testVersion" value="8.1-"/>
+    <config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcompatibility/php-compatibility,vendor/phpcompatibility/phpcompatibility-paragonie,vendor/phpcompatibility/phpcompatibility-wp,vendor/phpcsstandards/phpcsextra,vendor/phpcsstandards/phpcsutils"/>
+    <rule ref="WordPress">
+        <exclude name="WordPress.Files.FileName"/>
+    </rule>
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array"><element value="simple-ldap-login"/></property>
+        </properties>
+    </rule>
+    <rule ref="PHPCompatibilityWP"/>
+</ruleset>

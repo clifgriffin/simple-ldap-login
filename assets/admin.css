@@ -1,0 +1,246 @@
+.sll-admin {
+	--sll-ink: #172b3d;
+	--sll-muted: #526575;
+	--sll-border: #dcdcde;
+	max-width: 1120px;
+	padding-bottom: 36px;
+}
+
+.sll-admin > h1 {
+	margin: 16px 0 20px;
+}
+
+.sll-admin .sll-overview {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding: 28px 32px;
+	border: 1px solid #d2e0e7;
+	border-radius: 12px;
+	background: linear-gradient(115deg, #fff, #edf5f8);
+	color: var(--sll-ink);
+}
+
+.sll-admin .sll-overview h2 {
+	margin: 6px 0 10px;
+	font-size: 25px;
+	line-height: 1.3;
+	color: var(--sll-ink);
+}
+
+.sll-admin .sll-overview p {
+	margin: 0;
+	color: var(--sll-muted);
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+.sll-admin .sll-overview .sll-eyebrow {
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.sll-admin .sll-status {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	flex-shrink: 0;
+	padding: 10px 14px;
+	border: 1px solid var(--sll-border);
+	border-radius: 24px;
+	background: #fff;
+	font-weight: 600;
+}
+
+.sll-admin .sll-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #757575;
+}
+
+.sll-admin .sll-dot-on {
+	background: #008a20;
+}
+
+.sll-admin .sll-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	margin: 24px 0;
+	padding-top: 0;
+}
+
+.sll-admin .sll-tabs .nav-tab {
+	margin-inline-start: 0;
+	padding: 10px 16px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.sll-admin .sll-card {
+	margin: 0 0 20px;
+	border: 1px solid var(--sll-border);
+	border-radius: 9px;
+	background: #fff;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 3%);
+	overflow: hidden;
+}
+
+.sll-admin .sll-card-heading {
+	padding: 22px 28px;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.sll-admin .sll-card-heading h2 {
+	margin: 0 0 7px;
+	color: var(--sll-ink);
+	font-size: 17px;
+}
+
+.sll-admin .sll-card-heading p {
+	max-width: 760px;
+	margin: 0;
+	color: var(--sll-muted);
+	line-height: 1.6;
+}
+
+.sll-admin .sll-fields {
+	padding: 0 28px;
+}
+
+.sll-admin .sll-field {
+	display: grid;
+	grid-template-columns: 220px minmax(0, 1fr);
+	align-items: start;
+	gap: 24px;
+	padding: 22px 0;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.sll-admin .sll-field:last-child {
+	border-bottom: 0;
+}
+
+.sll-admin .sll-field > label,
+.sll-admin .sll-field-label {
+	padding-top: 5px;
+	font-weight: 600;
+	color: var(--sll-ink);
+}
+
+.sll-admin .sll-field input.regular-text,
+.sll-admin .sll-field textarea,
+.sll-admin .sll-field select {
+	width: 100%;
+	max-width: 560px;
+}
+
+.sll-admin .sll-field select {
+	max-width: 360px;
+}
+
+.sll-admin .sll-field .description {
+	max-width: 560px;
+	margin: 7px 0 0;
+	font-size: 12px;
+	line-height: 1.6;
+	color: var(--sll-muted);
+}
+
+.sll-admin .sll-check {
+	display: block;
+	max-width: 600px;
+	padding-top: 4px;
+	line-height: 1.7;
+}
+
+.sll-admin .sll-save-bar {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin: 4px 0 28px;
+}
+
+.sll-admin .sll-save-bar span {
+	color: var(--sll-muted);
+	font-size: 12px;
+}
+
+.sll-admin .sll-tests {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.sll-admin .sll-tests form {
+	padding: 20px 28px 28px;
+}
+
+.sll-admin .sll-tests form + form {
+	border-inline-start: 1px solid #f0f0f1;
+}
+
+.sll-admin .sll-tests h3 {
+	margin-top: 0;
+}
+
+.sll-admin .sll-tests label {
+	display: block;
+	margin-bottom: 5px;
+	font-weight: 600;
+}
+
+.sll-admin .sll-tests input[type="text"],
+.sll-admin .sll-tests input[type="password"] {
+	width: 100%;
+	max-width: 360px;
+}
+
+.sll-admin .notice.inline {
+	margin: 20px 0;
+}
+
+@media (max-width: 782px) {
+
+	.sll-admin .sll-overview {
+		align-items: flex-start;
+		flex-direction: column;
+		padding: 24px;
+	}
+
+	.sll-admin .sll-overview h2 {
+		font-size: 22px;
+	}
+
+	.sll-admin .sll-field,
+	.sll-admin .sll-tests {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.sll-admin .sll-field {
+		gap: 10px;
+	}
+
+	.sll-admin .sll-fields {
+		padding: 0 20px;
+	}
+
+	.sll-admin .sll-card-heading,
+	.sll-admin .sll-tests form {
+		padding: 20px;
+	}
+
+	.sll-admin .sll-tests form + form {
+		border-inline-start: 0;
+		border-top: 1px solid #f0f0f1;
+	}
+
+	.sll-admin .sll-save-bar {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 8px;
+	}
+}

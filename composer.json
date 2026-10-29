@@ -1,0 +1,51 @@
+{
+    "name": "clifgriffin/simple-ldap-login",
+    "description": "WordPress authentication for Active Directory and OpenLDAP.",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.1",
+        "ext-ldap": "*",
+        "ext-openssl": "*",
+        "directorytree/ldaprecord": "^4.1"
+    },
+    "require-dev": {
+        "wp-coding-standards/wpcs": "^3.3",
+        "phpcompatibility/phpcompatibility-wp": "^2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "SimpleLdapLogin\\": "src/"
+        },
+        "files": [
+            "src/compat.php"
+        ],
+        "exclude-from-classmap": [
+            "/src/compat.php"
+        ]
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.0"
+        },
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": [
+            "php tests/run.php",
+            "php tests/admin.php",
+            "php tests/upgrades.php",
+            "php tests/uninstall.php"
+        ],
+        "lint": "phpcs",
+        "format": "phpcbf",
+        "check": [
+            "@test",
+            "@lint"
+        ],
+        "build": "npm run plugin-zip"
+    }
+}

@@ -1,0 +1,58 @@
+{
+	"name": "simple-ldap-login",
+	"version": "2.0.0",
+	"description": "WordPress authentication for Active Directory and OpenLDAP.",
+	"author": "Clif Griffin Development Inc.",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"wordpress",
+		"ldap",
+		"authentication",
+		"active-directory"
+	],
+	"homepage": "https://github.com/clifgriffin/simple-ldap-login",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/clifgriffin/simple-ldap-login.git"
+	},
+	"bugs": {
+		"url": "https://github.com/clifgriffin/simple-ldap-login/issues"
+	},
+	"engines": {
+		"node": "^22.22.2 || ^24.15.0 || >=26.0.0",
+		"npm": ">=10"
+	},
+	"files": [
+		"Simple-LDAP-Login.php",
+		"uninstall.php",
+		"src/",
+		"assets/",
+		"vendor/",
+		"composer.json",
+		"composer.lock",
+		"readme.txt",
+		"LICENSE"
+	],
+	"private": true,
+	"devDependencies": {
+		"@wordpress/scripts": "37.0.0"
+	},
+	"scripts": {
+		"check-engines": "wp-scripts check-engines",
+		"lint:css": "wp-scripts lint-style assets/admin.css",
+		"lint:js": "wp-scripts lint-js scripts/package.cjs tests/package.cjs",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"lint": "npm run lint:css && npm run lint:js && npm run lint:pkg-json",
+		"format:css": "wp-scripts lint-style assets/admin.css --fix",
+		"test:packages": "node tests/package.cjs",
+		"test:docker": "npm run build:free && npm run build:pro && npm run build:legacy && npm run build:transition && sh tests/docker/run.sh test",
+		"test:release": "composer check && npm run lint && npm run test:packages && sh tests/docker/matrix.sh",
+		"env:up": "npm run build:free && npm run build:pro && npm run build:legacy && npm run build:transition && sh tests/docker/run.sh up",
+		"env:down": "sh tests/docker/run.sh down",
+		"build:free": "node scripts/package.cjs free",
+		"build:pro": "node scripts/package.cjs pro",
+		"build:legacy": "node scripts/package.cjs legacy",
+		"build:transition": "node scripts/package.cjs transition",
+		"plugin-zip": "npm run build:transition"
+	}
+}

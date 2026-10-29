@@ -1,217 +1,155 @@
-# Plugin Name #
-**Contributors:** clifgriffin  
-**Donate link:** http://cgd.io  
-**Tags:** LDAP, authentication, login, active directory, adLDAP  
-**Requires at least:** 3.4  
-**Tested up to:** 4.5  
-**Stable tag:** 1.6.0  
-**License:** GPLv2 or later  
+# Simple LDAP Login
 
-Integrating WordPress with LDAP shouldn't be difficult. Now it isn't. Simple LDAP Login provides all of the features, none of the hassles.
+Use the [Docker test environments](docs/docker-tests.md) to test the Free and Pro release ZIPs with OpenLDAP or Samba AD.
 
-## Description ##
-Having a single login for every service is a must in large organizations. This plugin allows you to integrate WordPress with LDAP quickly and easily. Like, really really easy.
+Use Active Directory or OpenLDAP accounts to log in to WordPress. The plugin requires WordPress 6.5 or later and PHP 8.1 or later, with LDAP, OpenSSL, and iconv.
 
-**Contributing**
-This is a community project now. Most development is done by users like you who find bugs and fix them, or find new ways to make the plugin more powerful for everyone.
+Version 2.0 is in development. Complete the [release checks](docs/release-checklist.md) before production use. Source checks use simulated directory responses. Docker tests use real WordPress, MariaDB, OpenLDAP, Samba AD, and Apache server sign-on. Microsoft AD and Kerberos still need deployment tests.
 
-The easiest way to contribute to this plugin is to submit a GitHub pull request. Here's the repo:
-https://github.com/clifgriffin/simple-ldap-login
+Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and directory server failover. Server SSO and custom metadata mappings belong to Pro for new installations after the transition release.
 
-**Support**
+Existing installations keep all old features through a maintained Legacy package at no charge. The Transition package keeps those features available to everyone while users move to the correct package. Do not publish the reduced Free package as an immediate update for old installations.
 
-If you need support, file an issue report here:
-https://github.com/clifgriffin/simple-ldap-login/issues
+## Development
 
-**Special Requests**
+Use Composer 2, PHP 8.2 or later for package builds, and the Node LTS version in `.nvmrc`. The installed plugin requires PHP 8.1 or later.
 
-**If you need a customization or change specific to your install, I am available for hire. Shoot me an e-mail:** clifgriffin[at]gmail.com  
+```sh
+composer install
+composer install --working-dir=pro
+nvm use
+npm ci
+composer check
+npm run lint
+npm run test:packages
+```
 
-### Features ###
+Run `npm run test:release` before a release. It adds the complete Docker configuration matrix, native migrations and package updates, and HTTP SSO checks. See the [coverage map](docs/test-coverage.md).
 
-* Supports Active Directory and OpenLDAP (and other directory systems which comply to the LDAP standard, such as OpenDS)
-* Supports TLS
-* Uses up-to-date methods for WordPress authentication routines.
-* Authenticates existing WordPress usernames against LDAP.
-* Can be configured to automatically create WordPress users for valid LDAP logins.
-* You can restrict logins based on one or more LDAP groups.
-* Intuitive control panel.
+Composer manages PSR-4 autoloading, WordPress Coding Standards, and PHP compatibility checks. LdapRecord provides the LDAP connection and directory model APIs. The PHP LDAP extension remains a server requirement. Plugin code uses library methods for each LDAP operation. The source checks use the library transport fake without WordPress or a directory server.
 
-### Architecture ###
-Simple LDAP Login adds an authentication filter to WordPress that authentication requests must pass. In doing so, it makes several decisions.
+The selected directory schema still controls login attributes and bind names. LdapRecord handles AD account filters, nested groups, primary groups, and SID conversion. OpenLDAP group queries use the saved schema attributes. Existing settings and WordPress hooks keep their current format.
 
-* Can the provided credentials be authenticated against LDAP?
-* * If so, is the LDAP user a member of the required LDAP groups (if any)?
-* * * Does a matching WordPress user exist?
-* * * * If so, log the user in.
-* * * * If not, is user creation enabled?
-* * * * * Create the user and log them in.
+The client has a small compatibility step for LdapRecord 4.1 password handling. It encodes ampersands and the literal password `0` before the library decodes them. Real directory tests check that passwords keep their exact bytes. Remove this step when the library preserves those bytes itself.
 
-This is high level overview. This should answer the philosophical questions about how the plugin works. If the plugin is unable to authenticate the user, it should pass it down the chain to WordPress. (Unless LDAP Exclusive is turned on, in which case it won't.)
+`@wordpress/scripts` checks the CSS, JavaScript, and package metadata. It also creates the release ZIP. The settings screen uses WordPress forms and CSS.
 
-## Changelog ##
-**Version 1.6.0**
+```sh
+npm run build:free
+npm run build:pro
+npm run build:legacy
+npm run build:transition
+```
 
-* New filter sll_remove_default_authentication_hook lets you override local password fallback.
-* Lots of new features from various pull requests from contributing users. Most of these focus on new settings for edge cases, and some general improvements.
-* If we did our jobs right, nothing will break. But if it does, rolling back to 1.5.5 is the best place to start.
+The ZIPs in `dist/` are:
 
-**Version 1.5.5**
+| Command | ZIP | Contents |
+| --- | --- | --- |
+| `build:free` | `simple-ldap-login.zip` | Basic LDAP login; excludes SSO and custom metadata code |
+| `build:pro` | `simple-ldap-login-pro.zip` | Free features, server SSO, and custom metadata mappings |
+| `build:legacy` | `simple-ldap-login-legacy.zip` | All old features, with no license key required |
+| `build:transition` | `simple-ldap-login-transition.zip` | All old features, available to everyone during migration |
 
-* Fix syntax error.
-* Don’t sanitize user info.
+Every ZIP contains the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one edition. It replaces the existing package and does not require an add-on. `npm run plugin-zip` builds Transition to prevent an accidental early release of the reduced Free package.
 
-**Version 1.5.4**
+Each build copies release files into a temporary folder, installs production dependencies from the Composer lock files, uses PHP-Scoper to put bundled dependencies under `SimpleLdapLoginVendor`, and calls `wp-scripts plugin-zip`. It then removes the temporary folder. The source files and development dependencies stay unchanged. The PHP-Scoper build tool has its own manifest and lock in `tools/scoper/` and is excluded from the ZIP. Site owners install the ZIP without Composer or Node.
 
-* Local admins will always fall back to local WP password.
-* Fixes bug where new users do not have name or other information from LDAP directory
+The Pro, Legacy, and Transition builds include the SSO and metadata classes from `pro/`. All included feature code works without a license call. There is no PaidCommunities integration yet. Pro and Legacy preview builds use `Update URI: false` to prevent replacement by a WordPress.org update. They have no automatic external updates. Add and test a safe update path before public distribution or sales.
 
-**Version 1.5.3**
+### Pro source
 
-* Fixing apparent security problem with blank passwords. (!)
-* Fixing typo in filter name (did not affect any functionality)
-* Local admin exception coming soon, as well as more bug fixes.
-* Possible fix for login error upon arriving at login page when LDAP exclusive enabled.
+Keep shared classes in `src/`, under the `SimpleLdapLogin\` PSR-4 namespace. Put Pro classes in `pro/src/`, under `SimpleLdapLogin\Pro\`. The Pro folder needs these release files:
 
-**Version 1.5.2**
+```text
+pro/
+  bootstrap.php
+  composer.json
+  composer.lock
+  readme.txt
+  src/
+  assets/          # Optional.
+```
 
-* Fixed bug with groups setting.
-* Removed delete_option references in upgrade code to allow for easier rollbacks (sorry about that!)
-* Fixed a few bugs in the user creation code.
-* Fixed bug with storing default user role.
+Use a separate Composer manifest for Pro dependencies. This keeps the PaidCommunities SDK out of the free dependency tree. When you add a Pro dependency, extend the private dependency build and its tests to include `pro/vendor/`. The current build scopes the shared dependency tree. The Pro autoload declaration must use PSR-4:
 
-**Version 1.5.1**
+```json
+{
+  "name": "clifgriffin/simple-ldap-login-pro",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimpleLdapLogin\\Pro\\": "src/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.1.0"
+    }
+  }
+}
+```
 
-* Fixed a bug where the domain controllers are passed as a string.
+The Pro manifest needs its own PHP platform setting. The shared manifest's setting does not apply to it. This keeps dependency selection compatible with PHP 8.1.
 
-**Version 1.5**
+Generate and commit `pro/composer.lock` when adding its dependencies. `pro/bootstrap.php` checks `ABSPATH`, loads `pro/vendor/autoload.php`, and registers the SSO and metadata features. Use shared services and the `sll_loaded` hook where needed. Do not check a remote license during login.
 
-* Complete rewritten from the ground up.
-* It's Object Oriented, DRY and Singleton.
-* The options have been overhauled to make configuration much easier. Focuses on individual features rather than "modes" that encapsulate several behaviors.
-* Admin pages now use WordPress admin styles and behaviors.
-* Tested with Active Directory. I recommend OpenLDAP users test carefully before implementing in their production environments.
-* Added global on off switch so you can easily disable LDAP authentication without deactivating.  
+The full builds include the bootstrap, Composer files, classes, assets, and production dependencies. The reduced Free ZIP excludes the entire Pro folder and keeps WordPress.org updates. Transition also uses the WordPress.org update path and makes every included feature available without payment.
 
-**Version 1.4.0.5.1**
+`npm run test:packages` checks the package contents, stable plugin path, PSR-4 class loading, production autoloaders, file exclusions, and source preservation. Test classes must not enter product ZIPs.
 
-* I broke it. Sorry guys! :(
-* Downgraded adLDAP as some referenced functions no longer exist.
+## Settings and migration
 
-**Version 1.4.0.5**
+The plugin keeps its entry file, `Simple-LDAP-Login.php`, and settings option, `sll_settings`. It uses the original site or network scope. Migration reads the older `simpleldap_*` options, makes one `sll_settings_backup_v1` backup, and keeps the old options and unknown settings keys. A save changes only the submitted fields.
 
-* Updated adLDAP to version 4.x
-* Fixed error in OpenLDAP group membership check
-* As always TEST this first. Don't assume it works...I don't have a testing environment to ensure it will work correctly.
+Before migration, the plugin records legacy eligibility in `sll_legacy_access` in the same scope. Raw old settings identify an existing installation. A fresh Free installation gets a lasting false value; creating its settings later must not change that value. Transition grants eligibility to every installation, including new ones. This local record preserves access to old capabilities. It is not proof of purchase and does not load code absent from the installed ZIP.
 
-**Version 1.4.0.4**
+The Legacy package keeps SSO and metadata controls visible and editable, including features that were off before migration. Removing a migration backup must not remove legacy eligibility. Restored backups and site copies can carry that eligibility with them.
 
-* Fixes nickname bug accidentally put back in in last version. (My bad!)
+An active full package rejects an incoming ZIP that lacks the SSO or metadata files. If WordPress deactivated the plugin before this check, the guard restores its original activation scope. To choose reduced Free, deactivate the full package before installing Free. Old versions that skip Transition do not have this guard.
 
-**Version 1.4.0.3**
-* Reverts bug introduced in 1.4.0.2
-* If you installed 1.4.0.2 and use OpenLDAP, please update as soon as possible and verify users cannot login with incorrect passwords (and vice versa).
+Existing plain LDAP settings continue to work and show a warning. New installs require TLS by default. TLS failure stops the connection. Install the correct certificate authority on the PHP server; the plugin has no control to disable certificate checks.
 
-**Version 1.4.0.2 - Patches submitted by Jonas Genannt and Ilya Kozlov**
-* Updates adLDAP to 3.3.2
-* Fixes issue with users in recursive OUs not being found.
-* Fixes issues with different Base DN formats.
-*** NOTE:** Please be catious in updating. As I don't have an OpenLDAP install, I am unable to independently confirm these fix the problems. If you have issues, revert to 1.4.0.1 and e-mail me: clifgriffin[at]gmail.com.  Likewise, If you can confirm these changes are effective, also let me know. :)  
+Migration converts the search password from hostname-based encryption to AES-256-GCM. If the plugin cannot read the old password, it keeps the stored value. Enter the password again in the settings. Keep WordPress salts stable or set a long, random `SLL_ENCRYPTION_KEY` in `wp-config.php` before setting the search password. Keep this key outside the database. A key change requires password re-entry.
 
-**Version 1.4.0.1**
+The backup can contain old weakly encrypted credentials. Restrict database backup access. Remove the migration backup after the upgrade and recovery checks are complete. Do not restore it to an active system without a tested recovery plan.
 
-* Fix for e-mail exists issue with WP 3.0+ for LDAP installations that don't populate the e-mail address attribute.
-* Shows actual error message from WordPress upon failure.
+## Login behavior
 
-**Version 1.4**
+LDAP checks run before the core password handlers. LDAP-only mode blocks core username, email, and application password fallback for other users. Local administrators retain local password recovery unless an existing `sll_force_ldap` filter explicitly disables it. Other WordPress authentication and user checks remain installed. Group denial blocks local fallback for other users.
 
-* First update in about a year. Thanks for your patience.
-* Completely rewritten to support changes in WordPress 2.8+.  Now fully supports WordPress 3.0.
-* Much more manageable and efficient code structure. Less code repetition.
-* Includes TLS support.
-* Allows OpenLDAP users to specify an alternate LDAP attribute to use for logins for those not using UID.
+For Active Directory, a verified UPN or domain login uses the directory account name when no WordPress account matches the entered name. Existing exact login names are kept. New accounts receive a random local password, never the LDAP password. Standard profile values are set during account creation. In editions with custom metadata, the two original suffix keys remain. Local edits are kept until the LDAP source value changes. Mappings cannot change protected WordPress account metadata.
 
-**Version 1.3.0.3**
+Server SSO is included in Pro, Legacy, and Transition. It requires a web server that authenticates the user and sets `REMOTE_USER`. It also requires a nonempty search account password and a unique LDAP user result. `DOMAIN\name` identities must match the configured Login domain. See [server SSO](docs/server-sso.md).
 
-* Test form now implements wp_authenticate and uses the same routines as the actual login. This also means account creation and group membership are tested.
-* Implemented stripslashes() to correct issue with some special characters such as a single quote and backslash.
-* WordPress account "admin" is now allowed to login using local password even when security mode is set to high. For safety.
-* Made some minor wording changes to the admin panel.
+The connection and login tests require an administrator action and a nonce. They do not create users or sessions. Save connection settings before running a test.
 
-**Version 1.3.0.2.1**
+## Recovery and removal
 
-* Fixed case sensitivity issue that could result in multiple accounts. There may be lingering case insensitivity issues due to the get_userdatabylogin function being case-sensitive. We'll figure this out in due time.
-* Sorry for posting two updates on the same day!
+Keep a separate local administrator account. To stop LDAP password and SSO hooks, add this before WordPress loads in `wp-config.php`:
 
-**Version 1.3.0.2**
+```php
+define( 'SLL_DISABLE_LDAP', true );
+```
 
-* Fixes several tickets including role assignment, case sensitivity, and potential compatibility issues with other themes/plugins.
-* Added security mode setting to allow security to be tightened.
-* Changed auto created accounts to use a random password rather than the LDAP password given.
-* Fixed error with the way announcements are displayed in the admin panel.
-* More code clean up.
+Log in with a local password, correct the settings, and remove the constant. You can also rename the plugin folder through your host's file manager.
 
-**Version 1.3.0.1**
+Deactivation keeps your settings. Uninstall removes them only if an administrator selected **Delete settings on uninstall** for that scope. It keeps WordPress users and does not load the plugin or connect to LDAP.
 
-* Never officially released.
-* Contained code cleanup and some attempted fixes.
+## Extension hooks
 
-**Version 1.3 Beta**
+The legacy filters remain: `sll_get_setting`, `sll_force_ldap`, `sll_remove_default_authentication_hook`, `sll_ldap_auth`, `sll_user_has_groups`, and `sll_user_data`. The custom metadata feature retains `sll_user_meta_data` in Pro, Legacy, and Transition. The actions `sll_auth_success` and `sll_auth_failure` remain. A compatibility class provides the old global object and its settings methods. The old `adLDAP` object and its directory administration methods are no longer available.
 
-* Support for both Active Directory and OpenLDAP.
-* The ability to create WordPress users automatically upon login based on LDAP group membership OR by LDAP authentication alone.
-* The ability to test domain settings straight from admin panel.
-* Announcements pane that allows me to update you with fixes, cautions, new beta versions, or other important information.
+`false` from `sll_force_ldap` means that the administrator must use LDAP. This inverted legacy meaning is retained. The hook named `sll_remove_default_authentication_hook` now controls fallback policy without removing core or third-party filters. `sll_ldap_auth` can reject a successful bind; it cannot turn a failed bind into a valid identity. `sll_auth_success` now runs for both new and existing LDAP accounts.
 
-**Version 1.2.0.1**
+Extensions can register through `sll_loaded`, which supplies the settings and authentication services. Do not call a licensing service during login.
 
-* Changed required user level for admin page to 10, Administrators only.
+## Product plan
 
-**Version 1.2**
+Pro starts with server SSO and custom metadata mappings for new installations. Existing installations retain all old capabilities through Legacy at no charge. Central network settings remain free. Multiple independent directories, group-to-role rules, scheduled account updates, audit exports, and network setup tools remain planned features.
 
-* Implemented multiple domain controllers.
-* Changed field sizes on admin page to be more user friendly.
+PaidCommunities will manage Pro licenses, downloads, and updates after its SDK repair and the checks in the [product plan](docs/product-plan.md). There is no licensing client, external updater, or licensing backend in the current code.
 
-**Version 1.1**
-
-* Moved settings to administration pages under settings.
-* Upgraded to latest version of adLDAP 2.1.
-* Got rid of credentials. (They are not neccessary for the authenticate function in adLDAP!)
-* Plugin is now upgrade proof. Settings are stored using WordPress's setting functions.
-
-**Version 1.0**
-
-* Original release.
-
-## Installation ##
-
-1. Use the WordPress plugin directory to install the plugin or upload the directory `simple-ldap-login` to the `/wp-content/plugins/` directory.
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Update the settings to those that best match your environment by going to Settings -> Simple LDAP Login
-1. If you don't get the settings right the first time, don't fret! Just use your WordPress credentials. They should always work
-1. Once you have the settings correct, you can toggle LDAP Exclusive mode (if you like).
-1. To make your life easier, consider using two different browsers (e.g., Chrome and Firefox) to do testing.  Change settings in one. Test in the other. This will prevent any chance of being locked out.
-
-## Frequently Asked Questions ##
-
-### Other than WordPress, what does my system require? ###
-
-Your install of PHP must be configured/compiled with LDAP support.
-
-### How do I know what the correct settings are? ###
-
-I have tried to make the settings as self-explanatory as possible. If you are struggling figuring them out, you may need to speak with your LDAP administrator. I realize this is an obnoxious response, but there is no good, fool proof way to help you discover these settings. A good place to start, if you're feeling daring, might be to use ADSIEdit for Windows and Active Directory, or GQ for Linux and OpenLDAP.
-
-### It's still not working, what other things can I try? ###
-
-If you are confident your settings are correct and it still does not work, it may be time to check for port or firewall issues. If your LDAP server is running on a non-standard port or an obsolete version of the LDAP protocol you are going to have issues. Port 389 is the port this plugin, and nearly every other LDAP enabled software expects. They are also expecting protocol version 3. If you are using an old version of LDAP or running a non-standard port you may need to modify the code that the plugin runs or update your LDAP installation.
-
-Unfortunately I can't be relied upon to assist with these types of requests. I chose not to support these scenarios because they are infrequent and because they confuse everyone else.
-
-### It's still not working! How can I get help? ###
-**The easiest way to get help is to post a comment on my blog:** http://clifgriffin.com/simple-ldap-login/. I'll do my best to get you up and running!  
-
-## Screenshots ##
-
-1. Easy to use admin panel.
-2. Advanced options for power users.
+All editions use GPL-2.0-or-later. A Pro subscription will cover downloads, updates, and support. Installed features must continue to work after expiry or a licensing service outage.

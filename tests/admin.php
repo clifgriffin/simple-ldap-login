@@ -1,0 +1,181 @@
+<?php
+/** Standalone admin regression checks. Run: php tests/admin.php. */
+
+namespace SimpleLdapLogin {
+
+	/** Keep screen tests independent of WordPress and a live directory. */
+	class Settings {
+		public bool $network = false;
+		public bool $enabled = false;
+		public bool $legacy = false;
+		public array $saved = array();
+		public function get( $key ) { return $this->all()[ $key ] ?? ''; }
+		public function all() {
+			return array( 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) );
+		}
+		public function is_network() { return $this->network; }
+		public function has_legacy_access() { return $this->legacy; }
+		public static function is_true( $value ) { return true === $value || '1' === $value; }
+		public function save( $values ) { $this->saved = $values; return true; }
+	}
+
+	/** Count every explicit test call. */
+	class Ldap_Client {
+		public int $calls = 0;
+		public array $credentials = array();
+		public function authenticate( $username, $password ) { ++$this->calls; $this->credentials = array( $username, $password ); return array( 'dn' => 'uid=test' ); }
+		public function test_connection() { ++$this->calls; return true; }
+	}
+
+	/** Read only the stored secret format in these screen checks. */
+	class Secrets {
+		public static function decrypt( $value ) { return empty( $GLOBALS['sll_admin_broken_secret'] ) ? 'test-secret' : new \WP_Error(); }
+	}
+}
+
+namespace {
+
+	define( 'ABSPATH', '/tmp/' );
+	define( 'SLL_FILE', '/simple-ldap-login/Simple-LDAP-Login.php' );
+	define( 'SLL_VERSION', 'test' );
+	define( 'MINUTE_IN_SECONDS', 60 );
+	$GLOBALS['sll_admin_allowed'] = true;
+	$GLOBALS['sll_admin_checks'] = 0;
+	$GLOBALS['sll_admin_hooks'] = array();
+
+	class AdminTestStop extends RuntimeException {}
+	class WP_Error {}
+	function __( $s, $d = '' ) { return $s; }
+	function add_filter( $name, $callback, $priority = 10, $accepted = 1 ) { $GLOBALS['sll_admin_hooks'][ $name ][ $priority ][] = array( $callback, $accepted ); }
+	function add_action( $name, $callback, $priority = 10, $accepted = 1 ) { add_filter( $name, $callback, $priority, $accepted ); }
+	function apply_filters( $name, $value ) {
+		$priorities = $GLOBALS['sll_admin_hooks'][ $name ] ?? array();
+		ksort( $priorities );
+		foreach ( $priorities as $callbacks ) { foreach ( $callbacks as $entry ) { $value = call_user_func( $entry[0], $value ); } }
+		return $value;
+	}
+	function do_action( $name, ...$args ) {
+		$priorities = $GLOBALS['sll_admin_hooks'][ $name ] ?? array();
+		ksort( $priorities );
+		foreach ( $priorities as $callbacks ) { foreach ( $callbacks as $entry ) { call_user_func_array( $entry[0], array_slice( $args, 0, $entry[1] ) ); } }
+	}
+	function esc_html( $s ) { return htmlspecialchars( (string) $s, ENT_QUOTES ); }
+	function esc_attr( $s ) { return esc_html( $s ); }
+	function esc_url( $s ) { return esc_html( $s ); }
+	function esc_textarea( $s ) { return esc_html( $s ); }
+	function esc_html__( $s, $d = '' ) { return esc_html( $s ); }
+	function esc_attr__( $s, $d = '' ) { return esc_attr( $s ); }
+	function esc_html_e( $s, $d = '' ) { echo esc_html( $s ); }
+	function esc_attr_e( $s, $d = '' ) { echo esc_attr( $s ); }
+	function admin_url( $path = '' ) { return '/wp-admin/' . $path; }
+	function network_admin_url( $path = '' ) { return '/wp-admin/network/' . $path; }
+	function add_query_arg( $key, $value, $url = null ) {
+		if ( is_array( $key ) ) { return $value . '&' . http_build_query( $key ); }
+		return $url . ( false !== strpos( $url, '?' ) ? '&' : '?' ) . rawurlencode( $key ) . '=' . rawurlencode( $value );
+	}
+	function wp_nonce_field( $action ) { echo '<input name="_wpnonce" value="test-nonce" />'; }
+	function check_admin_referer( $action ) { if ( 'test-nonce' !== ( $_POST['_wpnonce'] ?? '' ) ) { throw new AdminTestStop( 'nonce' ); } }
+	function checked( $v ) { echo $v ? 'checked="checked"' : ''; }
+	function selected( $a, $b ) { echo $a === $b ? 'selected="selected"' : ''; }
+	function submit_button( $s, $c, $n, $p ) { echo '<button type="submit">' . esc_html( $s ) . '</button>'; }
+	function current_user_can( $c ) { return $GLOBALS['sll_admin_allowed']; }
+	function wp_roles() { return (object) array( 'roles' => array( 'subscriber' => array( 'name' => 'Subscriber' ) ) ); }
+	function translate_user_role( $s ) { return $s; }
+	function sanitize_key( $s ) { return preg_replace( '/[^a-z0-9_]/', '', strtolower( $s ) ); }
+	function sanitize_text_field( $s ) { return trim( strip_tags( $s ) ); }
+	function wp_unslash( $s ) { return is_array( $s ) ? array_map( 'wp_unslash', $s ) : stripslashes( $s ); }
+	function get_current_user_id() { return 1; }
+	function get_transient( $key ) { return false; }
+	function delete_transient( $key ) {}
+	function is_wp_error( $value ) { return $value instanceof WP_Error; }
+	function wp_die( $message, $title, $options ) { throw new AdminTestStop( 'denied:' . $options['response'] ); }
+	function wp_safe_redirect( $url ) { throw new AdminTestStop( $url ); }
+	function admin_check( $condition, $label ) {
+		if ( ! $condition ) { throw new RuntimeException( 'FAIL: ' . $label ); }
+		++$GLOBALS['sll_admin_checks'];
+	}
+	function admin_post( $admin, $values ) {
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_POST = array_replace( array( '_wpnonce' => 'test-nonce', 'sll_scope' => 'site', 'tab' => 'connection', 'sll_task' => 'save', 'sll_settings' => array() ), $values );
+		try { $admin->handle_post(); } catch ( AdminTestStop $stop ) { return $stop->getMessage(); }
+		throw new RuntimeException( 'The handler did not redirect or reject the request.' );
+	}
+
+	require dirname( __DIR__ ) . '/src/Admin.php';
+	require dirname( __DIR__ ) . '/pro/src/Admin.php';
+	$settings = new SimpleLdapLogin\Settings();
+	$client   = new SimpleLdapLogin\Ldap_Client();
+	$admin    = new SimpleLdapLogin\Admin( $settings, $client );
+	foreach ( array( 'free', 'pro' ) as $edition ) {
+		$GLOBALS['sll_admin_hooks'] = array();
+		if ( 'pro' === $edition ) {
+			( new SimpleLdapLogin\Pro\Admin( $settings ) )->register();
+		}
+		foreach ( array( 'site', 'network' ) as $scope ) {
+			$settings->network = 'network' === $scope;
+			foreach ( array( 'connection', 'access', 'profile', 'sso', 'help' ) as $tab ) {
+				$_GET = array( 'tab' => $tab );
+				ob_start(); $admin->render(); $html = ob_get_clean();
+				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
+				admin_check( false !== strpos( $html, 'name="sll_scope" value="' . $scope . '"' ) && false !== strpos( $html, 'name="_wpnonce"' ), 'Forms have a nonce and correct scope: ' . $edition . '/' . $scope . '/' . $tab );
+				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
+				admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'tab=sso' ) ), 'Only packages with SSO add its tab.' );
+				if ( 'profile' === $tab ) {
+					admin_check( false !== strpos( $html, 'sll_settings[user_email_attribute]' ), 'Standard profile attributes stay in both packages.' );
+					admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'sll_settings[user_meta_data]' ) ), 'Only packages with metadata mappings show their controls.' );
+				}
+				if ( 'sso' === $tab ) {
+					admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'sll_settings[sso_enabled]' ) ), 'Free has no SSO controls, even with a direct tab request.' );
+					admin_check( 'pro' === $edition || false !== strpos( $html, 'name="tab" value="connection"' ), 'Free sends an unknown SSO tab to Connection.' );
+				}
+				if ( 'connection' === $tab ) {
+					admin_check( false !== strpos( $html, 'sll_settings[sso_search_user_password]' ), 'Both packages can configure a search account.' );
+				}
+			}
+		}
+	}
+	admin_check( 0 === $client->calls, 'Rendering all screens makes no LDAP request.' );
+	$settings->network = false;
+	$GLOBALS['sll_admin_allowed'] = false;
+	admin_check( 'denied:403' === admin_post( $admin, array() ), 'A user without permission cannot save or test.' );
+	$GLOBALS['sll_admin_allowed'] = true;
+	admin_check( 'nonce' === admin_post( $admin, array( '_wpnonce' => 'wrong' ) ), 'A request without a valid nonce is rejected.' );
+	admin_check( 'denied:400' === admin_post( $admin, array( 'sll_scope' => 'network' ) ), 'A request cannot change the settings scope.' );
+	admin_check( array() === $settings->saved && 0 === $client->calls, 'Rejected requests do not save settings or call LDAP.' );
+	$result = admin_post( $admin, array( 'sll_settings' => array( 'base_dn' => 'dc=example' ) ) );
+	admin_check( false !== strpos( $result, 'sll_status=saved' ) && array( 'base_dn' => 'dc=example' ) === $settings->saved, 'A save passes only submitted settings to the store.' );
+	$result = admin_post( $admin, array( 'sll_task' => 'test_connection' ) );
+	admin_check( false !== strpos( $result, 'sll_status=connection_ok' ) && 1 === $client->calls, 'An explicit connection test calls LDAP once.' );
+	$password = "a\\b'c";
+	$result = admin_post( $admin, array( 'sll_task' => 'test_login', 'sll_test_username' => 'alice', 'sll_test_password' => addslashes( $password ) ) );
+	admin_check( false !== strpos( $result, 'sll_status=login_ok' ) && array( 'alice', $password ) === $client->credentials, 'A login test retains exact password bytes.' );
+	admin_check( false === strpos( $result, $password ), 'The redirect never includes a test password.' );
+	$settings->network = true;
+	$result = admin_post( $admin, array( 'sll_scope' => 'network' ) );
+	admin_check( false !== strpos( $result, '/wp-admin/network/settings.php' ), 'A network save returns to network settings.' );
+	$GLOBALS['sll_admin_broken_secret'] = true;
+	$_GET = array( 'tab' => 'connection' );
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( false !== strpos( $html, 'The saved search account password cannot be read.' ) && false === strpos( $html, 'never-render-this-secret' ), 'An unreadable secret has a safe repair notice.' );
+	$GLOBALS['sll_admin_hooks'] = array();
+	$settings->legacy = true;
+	$_GET = array( 'tab' => 'profile' );
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( false !== strpos( $html, 'This installation can use the Legacy package at no charge.' ) && false !== strpos( $html, 'Saved settings are kept.' ), 'An eligible installation without feature code has a Legacy package notice.' );
+	admin_check( false === strpos( $html, 'sll_settings[user_meta_data]' ) && false === strpos( $html, 'tab=sso' ), 'A legacy grant does not add feature code or controls to Free.' );
+	$settings->legacy = false;
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( false === strpos( $html, 'This installation can use the Legacy package at no charge.' ), 'A new installation has no legacy grant notice.' );
+	define( 'SLL_EDITION', 'transition' );
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( false !== strpos( $html, 'remain available without payment during this transition.' ), 'The transition notice explains continued free access.' );
+	define( 'SLL_FEATURES_LOADED', true );
+	$settings->legacy = true;
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( false === strpos( $html, 'This package does not contain server sign-on' ), 'A package with feature code has no missing-feature warning.' );
+	define( 'SLL_DISABLE_LDAP', true );
+	$settings->enabled = true;
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( false !== strpos( $html, 'LDAP login is off for recovery.' ) && false === strpos( $html, 'LDAP login is on' ), 'The recovery switch shows the real runtime state.' );
+	echo 'Admin checks passed: ' . $GLOBALS['sll_admin_checks'] . ".\n";
+}

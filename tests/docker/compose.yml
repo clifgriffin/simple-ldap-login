@@ -1,0 +1,100 @@
+name: sll-lab
+
+x-wordpress: &wordpress
+  build:
+    context: .
+    dockerfile: wordpress.Dockerfile
+    args:
+      PHP_VERSION: ${SLL_PHP_VERSION:-8.4}
+  environment: &wp-environment
+    WORDPRESS_DB_HOST: db
+    WORDPRESS_DB_NAME: wordpress
+    WORDPRESS_DB_USER: wordpress
+    WORDPRESS_DB_PASSWORD: Test-Database-42!
+    WORDPRESS_CONFIG_EXTRA: |
+      define('WP_AUTO_UPDATE_CORE', false);
+      define('DISABLE_WP_CRON', true);
+    LDAPTLS_CACERT: /certs/ca.crt
+    SLL_WP_VERSION: ${SLL_WP_VERSION:-}
+    SLL_MULTISITE: ${SLL_MULTISITE:-0}
+    SLL_DIRECTORY: ol
+    SLL_LDAP_HOST: ldap
+  depends_on:
+    db:
+      condition: service_healthy
+  healthcheck:
+    test: [CMD, curl, -fsS, http://localhost/wp-includes/images/blank.gif]
+    interval: 2s
+    timeout: 5s
+    retries: 45
+
+services:
+  db:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: wordpress
+      MARIADB_USER: wordpress
+      MARIADB_PASSWORD: Test-Database-42!
+      MARIADB_ROOT_PASSWORD: Test-Root-Database-42!
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 2s
+      timeout: 5s
+      retries: 45
+
+  ldap:
+    build:
+      context: .
+      dockerfile: ldap.Dockerfile
+    volumes:
+      - ldap-data:/var/lib/ldap
+      - ldap-certs:/certs
+    networks:
+      default:
+        aliases: [ldap-wrong-name]
+    healthcheck:
+      test: [CMD, ldapsearch, -x, -H, ldap://localhost, -s, base, -b, '', namingContexts]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  free:
+    <<: *wordpress
+    image: sll-test-wordpress-free:${SLL_PHP_VERSION:-8.4}
+    environment:
+      <<: *wp-environment
+      WORDPRESS_TABLE_PREFIX: free_
+      SLL_EDITION: free
+      SLL_SITE_URL: ${SLL_TEST_URL:-http://localhost:${SLL_FREE_PORT:-8088}}
+    ports:
+      - 127.0.0.1:${SLL_FREE_PORT:-8088}:80
+    volumes:
+      - free-site:/var/www/html
+      - ldap-certs:/certs:ro
+      - ../../dist:/packages:ro
+      - .:/tests:ro
+
+  pro:
+    <<: *wordpress
+    image: sll-test-wordpress-pro:${SLL_PHP_VERSION:-8.4}
+    environment:
+      <<: *wp-environment
+      WORDPRESS_TABLE_PREFIX: pro_
+      SLL_EDITION: pro
+      SLL_SITE_URL: ${SLL_TEST_URL:-http://localhost:${SLL_PRO_PORT:-8089}}
+    ports:
+      - 127.0.0.1:${SLL_PRO_PORT:-8089}:80
+    volumes:
+      - pro-site:/var/www/html
+      - ldap-certs:/certs:ro
+      - ../../dist:/packages:ro
+      - .:/tests:ro
+
+volumes:
+  database:
+  free-site:
+  pro-site:
+  ldap-data:
+  ldap-certs:

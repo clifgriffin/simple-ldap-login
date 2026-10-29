@@ -1,0 +1,60 @@
+dn: dc=example,dc=test
+objectClass: dcObject
+objectClass: organization
+dc: example
+o: Plugin test
+
+dn: ou=people,dc=example,dc=test
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=example,dc=test
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=reader,dc=example,dc=test
+objectClass: inetOrgPerson
+cn: reader
+sn: Reader
+userPassword: Reader-Password-42!
+
+dn: uid=alice,ou=people,dc=example,dc=test
+objectClass: inetOrgPerson
+uid: alice
+cn: Alice Example
+givenName: Alice
+sn: Example
+displayName: Alice Example
+mail: alice@example.test
+telephoneNumber: +15550100
+userPassword: Test-Password-42!
+
+dn: uid=bob,ou=people,dc=example,dc=test
+objectClass: inetOrgPerson
+uid: bob
+cn: Bob Example
+givenName: Bob
+sn: Example
+mail: bob@example.test
+userPassword: Test-Password-42!
+
+dn: cn=staff,ou=groups,dc=example,dc=test
+objectClass: posixGroup
+cn: staff
+gidNumber: 1000
+memberUid: alice
+
+dn: cn=editors,ou=groups,dc=example,dc=test
+objectClass: groupOfNames
+cn: editors
+member: uid=alice,ou=people,dc=example,dc=test
+
+dn: cn=unique,ou=groups,dc=example,dc=test
+objectClass: groupOfUniqueNames
+cn: unique
+uniqueMember: uid=alice,ou=people,dc=example,dc=test
+
+dn: cn=denied,ou=groups,dc=example,dc=test
+objectClass: groupOfNames
+cn: denied
+member: uid=bob,ou=people,dc=example,dc=test
