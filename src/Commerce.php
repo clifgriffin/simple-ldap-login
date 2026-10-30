@@ -51,6 +51,7 @@ final class Commerce {
 			array(
 				'advanced' => true,
 				'help'     => true,
+				'support'  => true,
 			)
 		);
 		$tabs            = array_diff_key( $tabs, $last );

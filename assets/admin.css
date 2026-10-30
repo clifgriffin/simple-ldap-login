@@ -156,21 +156,8 @@
 	font-size: 12px;
 }
 
-.sll-admin .sll-tests {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-}
-
 .sll-admin .sll-tests form {
 	padding: 20px 28px 28px;
-}
-
-.sll-admin .sll-tests form + form {
-	border-inline-start: 1px solid #f0f0f1;
-}
-
-.sll-admin .sll-tests h3 {
-	margin-top: 0;
 }
 
 .sll-admin .sll-tests label {
@@ -201,8 +188,7 @@
 		font-size: 22px;
 	}
 
-	.sll-admin .sll-field,
-	.sll-admin .sll-tests {
+	.sll-admin .sll-field {
 		grid-template-columns: minmax(0, 1fr);
 	}
 
@@ -217,11 +203,6 @@
 	.sll-admin .sll-card-heading,
 	.sll-admin .sll-tests form {
 		padding: 20px;
-	}
-
-	.sll-admin .sll-tests form + form {
-		border-inline-start: 0;
-		border-top: 1px solid #f0f0f1;
 	}
 
 	.sll-admin .sll-save-bar {

@@ -179,6 +179,10 @@ final class Admin {
 			</nav>
 			<?php if ( has_action( 'sll_settings_page_' . $tab ) ) : ?>
 				<?php do_action( 'sll_settings_page_' . $tab, $this ); ?>
+			<?php elseif ( 'help' === $tab ) : ?>
+				<?php $this->tests( $tab ); ?>
+			<?php elseif ( 'support' === $tab ) : ?>
+				<?php $this->support(); ?>
 			<?php else : ?>
 			<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" class="sll-settings-form">
 				<?php $this->form_fields( $tab, 'save' ); ?>
@@ -192,9 +196,6 @@ final class Admin {
 						break;
 					case 'advanced':
 						$this->advanced();
-						break;
-					case 'help':
-						$this->help();
 						break;
 					default:
 						if ( 'connection' === $tab ) {
@@ -210,10 +211,16 @@ final class Admin {
 				</div>
 			</form>
 			<?php endif; ?>
-			<?php
-			if ( 'help' === $tab || 'connection' === $tab ) {
-				$this->tests( $tab ); }
-			?>
+			<?php if ( 'connection' === $tab ) : ?>
+				<p><?php esc_html_e( 'Save settings before you check the connection. The check uses saved settings.', 'simple-ldap-login' ); ?></p>
+				<div class="sll-save-bar">
+					<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
+						<?php $this->form_fields( $tab, 'test_connection' ); ?>
+						<?php submit_button( __( 'Check Connection', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
+					</form>
+					<a href="<?php echo esc_url( add_query_arg( 'tab', 'help', $this->url() ) ); ?>"><?php esc_html_e( 'Open the Testing tab for login tests and more information.', 'simple-ldap-login' ); ?></a>
+				</div>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -353,14 +360,11 @@ final class Admin {
 	}
 
 	/**
-	 * Render test and recovery instructions.
+	 * Render recovery and support instructions.
 	 */
-	private function help(): void {
-		$this->card_start( __( 'Test LDAP login', 'simple-ldap-login' ), __( 'Save your settings, then run both tests. Keep this administrator session open.', 'simple-ldap-login' ) );
+	private function support(): void {
+		$this->card_start( __( 'Recovery', 'simple-ldap-login' ), '' );
 		?>
-		<p><?php esc_html_e( 'Tests check the connection, password, and required groups. They do not create accounts or sign users in.', 'simple-ldap-login' ); ?></p>
-		<p><?php esc_html_e( 'After both tests pass, enable LDAP and try logging in from another browser.', 'simple-ldap-login' ); ?></p>
-		<h3><?php esc_html_e( 'Recovery', 'simple-ldap-login' ); ?></h3>
 		<p><?php esc_html_e( 'If you are locked out, rename the simple-ldap-login folder using your hosting file manager. Log in with a WordPress administrator password, then restore the folder and correct the settings.', 'simple-ldap-login' ); ?></p>
 		<p><?php esc_html_e( 'For certificate errors, ask your host to configure the trusted LDAP certificate authority.', 'simple-ldap-login' ); ?></p>
 		<?php
@@ -368,7 +372,7 @@ final class Admin {
 	}
 
 	/**
-	 * Render explicit tests with no calls on page load.
+	 * Render connection and login tests with no calls on page load.
 	 *
 	 * @param string $tab Current tab.
 	 */
@@ -378,17 +382,19 @@ final class Admin {
 			<div class="sll-card-heading">
 				<h2 id="sll-tests-title"><?php esc_html_e( 'LDAP tests', 'simple-ldap-login' ); ?></h2>
 				<p><?php esc_html_e( 'Tests use saved settings.', 'simple-ldap-login' ); ?></p>
+				<p><?php esc_html_e( 'Save your settings, then run both tests. Keep this administrator session open.', 'simple-ldap-login' ); ?></p>
+				<p><?php esc_html_e( 'Tests check the connection, password, and required groups. They do not create accounts or sign users in.', 'simple-ldap-login' ); ?></p>
 			</div>
 			<div class="sll-tests">
 				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 					<?php $this->form_fields( $tab, 'test_connection' ); ?>
-					<h3><?php esc_html_e( '1. Test connection', 'simple-ldap-login' ); ?></h3>
+					<h3><?php esc_html_e( 'Check Connection', 'simple-ldap-login' ); ?></h3>
 					<p><?php esc_html_e( 'Connect to LDAP and test the search account, if set.', 'simple-ldap-login' ); ?></p>
-					<?php submit_button( __( 'Test connection', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
+					<?php submit_button( __( 'Check Connection', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
 				</form>
 				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" autocomplete="off">
 					<?php $this->form_fields( $tab, 'test_login' ); ?>
-					<h3><?php esc_html_e( '2. Test login', 'simple-ldap-login' ); ?></h3>
+					<h3><?php esc_html_e( 'Test LDAP login', 'simple-ldap-login' ); ?></h3>
 					<p><?php esc_html_e( 'Check an LDAP username, password, and group membership.', 'simple-ldap-login' ); ?></p>
 					<p><label for="sll-test-username"><?php esc_html_e( 'LDAP username', 'simple-ldap-login' ); ?></label><input id="sll-test-username" name="sll_test_username" type="text" autocomplete="off" required /></p>
 					<p><label for="sll-test-password"><?php esc_html_e( 'LDAP password', 'simple-ldap-login' ); ?></label><input id="sll-test-password" name="sll_test_password" type="password" autocomplete="new-password" required /></p>
@@ -396,6 +402,7 @@ final class Admin {
 				</form>
 			</div>
 		</section>
+		<p><?php esc_html_e( 'After both tests pass, enable LDAP and try logging in from another browser.', 'simple-ldap-login' ); ?></p>
 		<?php
 	}
 
@@ -631,7 +638,8 @@ final class Admin {
 				'connection' => __( 'Connection', 'simple-ldap-login' ),
 				'access'     => __( 'Access', 'simple-ldap-login' ),
 				'advanced'   => __( 'Advanced', 'simple-ldap-login' ),
-				'help'       => __( 'Troubleshooting', 'simple-ldap-login' ),
+				'help'       => __( 'Testing', 'simple-ldap-login' ),
+				'support'    => __( 'Support', 'simple-ldap-login' ),
 			)
 		);
 	}

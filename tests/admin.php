@@ -163,12 +163,29 @@ namespace {
 		foreach ( array( 'site', 'network' ) as $scope ) {
 			$settings->network = 'network' === $scope;
 			$GLOBALS['sll_admin_multisite'] = $settings->network;
-			foreach ( array( 'connection', 'access', 'profile', 'sso', 'accounts', 'audit', 'license', 'advanced', 'help' ) as $tab ) {
+			foreach ( array( 'connection', 'access', 'profile', 'sso', 'accounts', 'audit', 'license', 'advanced', 'help', 'support' ) as $tab ) {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
-				admin_check( false !== strpos( $html, 'name="sll_scope" value="' . $scope . '"' ) && false !== strpos( $html, 'name="_wpnonce"' ), 'Forms have a nonce and correct scope: ' . $edition . '/' . $scope . '/' . $tab );
+				if ( 'support' !== $tab ) {
+					admin_check( false !== strpos( $html, 'name="sll_scope" value="' . $scope . '"' ) && false !== strpos( $html, 'name="_wpnonce"' ), 'Forms have a nonce and correct scope: ' . $edition . '/' . $scope . '/' . $tab );
+				}
 				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
+				admin_check( str_contains( $html, '>Testing</a>' ) && ! str_contains( $html, '>Troubleshooting</a>' ), 'The test tab is named Testing.' );
+				admin_check( strpos( $html, '>Testing</a>' ) < strpos( $html, '>Support</a>' ), 'Support follows Testing in both packages.' );
+				admin_check( ( 'support' === $tab ) === str_contains( $html, 'If you are locked out' ), 'Recovery instructions appear only on Support.' );
+				admin_check( ( 'support' === $tab ) === str_contains( $html, 'For certificate errors' ), 'Certificate support appears only on Support.' );
+				admin_check( ( 'help' === $tab ) === str_contains( $html, 'name="sll_test_username"' ), 'Login test fields appear only on Testing.' );
+				admin_check( ( 'help' === $tab ) === str_contains( $html, 'name="sll_test_password"' ), 'Login test passwords appear only on Testing.' );
+				admin_check( ( 'help' === $tab ) === str_contains( $html, 'value="test_login"' ), 'The login test action appears only on Testing.' );
+				$on_connection = 'connection' === $tab || ( 'free' === $edition && in_array( $tab, array( 'sso', 'accounts', 'audit' ), true ) );
+				admin_check( ( $on_connection || 'help' === $tab ? 1 : 0 ) === substr_count( $html, 'value="test_connection"' ), 'Connection and Testing each have one connection check.' );
+				if ( 'help' === $tab ) {
+					admin_check( 2 === substr_count( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ) && ! str_contains( $html, 'Recovery' ), 'Testing has two test forms without a settings save or recovery information.' );
+				}
+				if ( 'support' === $tab ) {
+					admin_check( ! str_contains( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ), 'Support contains instructions without a form.' );
+				}
 				admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'tab=sso' ) ), 'Only packages with SSO add its tab.' );
 				admin_check( ( 'pro' === $edition && 'access' === $tab ) === str_contains( $html, 'sll_settings[role_rules]' ), 'Group role rules appear only on Pro Access.' );
 				admin_check( ( 'pro' === $edition && 'profile' === $tab ) === str_contains( $html, 'sll_settings[profile_updates]' ), 'Profile updates appear only on Pro User data.' );
@@ -186,6 +203,8 @@ namespace {
 				}
 				if ( 'connection' === $tab ) {
 					admin_check( false !== strpos( $html, 'sll_settings[sso_search_user_password]' ), 'Both packages can configure a search account.' );
+					admin_check( str_contains( $html, '>Check Connection</button>' ) && str_contains( $html, 'Save settings before you check the connection.' ), 'Connection has a check button and saved settings instruction.' );
+					admin_check( str_contains( $html, 'tab=help">Open the Testing tab for login tests and more information.</a>' ), 'Connection links to Testing in the current settings scope.' );
 				}
 				$advanced_fields = array( 'timeout', 'allow_plaintext', 'ol_login', 'group_base_dn', 'ol_group', 'group_uid', 'user_first_name_attribute', 'user_last_name_attribute', 'user_email_attribute', 'user_url_attribute', 'delete_on_uninstall' );
 				$on_advanced = 'advanced' === $tab || ( 'free' === $edition && 'profile' === $tab );
@@ -296,11 +315,15 @@ namespace {
 	admin_post( $admin, array( 'tab' => 'access', 'sll_settings' => $recovery_input ) );
 	admin_check( $recovery_input === $settings->saved, 'The handler passes selected recovery IDs to settings validation.' );
 	$result = admin_post( $admin, array( 'sll_task' => 'test_connection' ) );
-	admin_check( false !== strpos( $result, 'sll_status=connection_ok' ) && 1 === $client->calls, 'An explicit connection test calls LDAP once.' );
+	admin_check( str_contains( $result, 'tab=connection' ) && false !== strpos( $result, 'sll_status=connection_ok' ) && 1 === $client->calls, 'An explicit connection test calls LDAP once and returns to Connection.' );
 	$password = "a\\b'c";
-	$result = admin_post( $admin, array( 'sll_task' => 'test_login', 'sll_test_username' => 'alice', 'sll_test_password' => addslashes( $password ) ) );
+	$result = admin_post( $admin, array( 'tab' => 'help', 'sll_task' => 'test_login', 'sll_test_username' => 'alice', 'sll_test_password' => addslashes( $password ) ) );
 	admin_check( false !== strpos( $result, 'sll_status=login_ok' ) && array( 'alice', $password ) === $client->credentials, 'A login test retains exact password bytes.' );
+	admin_check( str_contains( $result, 'tab=help' ), 'A login test returns to Testing.' );
 	admin_check( false === strpos( $result, $password ), 'The redirect never includes a test password.' );
+	$calls = $client->calls;
+	$result = admin_post( $admin, array( 'tab' => 'help', 'sll_task' => 'test_connection' ) );
+	admin_check( str_contains( $result, 'tab=help' ) && str_contains( $result, 'sll_status=connection_ok' ) && $calls + 1 === $client->calls, 'A connection check on Testing calls LDAP once and returns to Testing.' );
 	$settings->network = true;
 	$result = admin_post( $admin, array( 'sll_scope' => 'network' ) );
 	admin_check( false !== strpos( $result, '/wp-admin/network/settings.php' ), 'A network save returns to network settings.' );
