@@ -44,3 +44,14 @@ A later check restores access only when the same directory account passes all lo
 Recovery accounts and super administrators are excluded.
 License expiry and disabling the task keep current suspensions. The emergency recovery constant stops the suspension filters.
 Directory renames can cause suspension until a verified login updates the saved DN and the next scheduled check passes.
+
+## Multisite membership
+
+Activate Pro for the network. On Accounts, enter one `group:site ID:role` rule per line.
+Example: `Editors:2:editor`. Each target site must belong to the current network and have the selected role.
+The first matching rule for each site applies at login and import.
+Network site rules replace ordinary group role rules. New users receive only the memberships selected by site rules.
+When a group no longer matches, prior roles return. Memberships created by the rules are removed.
+A manual role change made after assignment is kept when the group no longer matches.
+Unrelated site memberships stay unchanged. Blank rules stop membership updates and keep existing memberships.
+Recovery accounts and super administrators are excluded. Site-only activation cannot change other sites.

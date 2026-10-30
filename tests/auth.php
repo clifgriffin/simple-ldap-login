@@ -21,7 +21,12 @@ class WP_User {
 	public string $display_name = '';
 	public string $user_url = '';
 	public array $roles = array( 'subscriber' );
-	public function set_role( $role ) { $this->roles = $role ? array( $role ) : array(); }
+	public function set_role( $role ) {
+		$this->roles = $role ? array( $role ) : array();
+		$GLOBALS['sll_test_blog_roles'][ get_current_blog_id() ][ $this->ID ] = $this->roles;
+	}
+	public function add_role( $role ) { $this->roles[] = $role; $GLOBALS['sll_test_blog_roles'][ get_current_blog_id() ][ $this->ID ] = $this->roles; }
+	public function for_site( $id ) { $this->roles = $GLOBALS['sll_test_blog_roles'][ $id ][ $this->ID ] ?? array(); }
 	public bool $spam = false;
 	public bool $deleted = false;
 	public function __construct( int $id, string $login, string $email = '', bool $admin = false ) {
@@ -62,6 +67,7 @@ function wp_insert_user( $data ) {
 	$id = count( $GLOBALS['sll_test_users'] ) + 1;
 	$GLOBALS['sll_test_inserted'] = $data;
 	$GLOBALS['sll_test_users'][] = new WP_User( $id, $data['user_login'], $data['user_email'] );
+	$GLOBALS['sll_test_users'][ array_key_last( $GLOBALS['sll_test_users'] ) ]->set_role( $data['role'] );
 	return $id;
 }
 

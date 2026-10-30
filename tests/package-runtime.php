@@ -140,7 +140,7 @@ package_check( class_exists( SimpleLdapLogin\Settings::class ), 'Shared PSR-4 cl
 package_check( 3 === $sll_settings->get( 'schema_version' ), 'Package startup applies the current settings schema.' );
 package_check( ( $sll_existing ? 'legacy' : 'selected' ) === $sll_settings->recovery_mode(), 'Fresh packages use selected recovery accounts and old packages retain the administrator rule.' );
 package_check( defined( 'SLL_FEATURES_LOADED' ) === $sll_full, 'Full package features load only in a full package.' );
-foreach ( array( 'Metadata', 'Server_Sso', 'Admin', 'Ldap_Client', 'Upgrade_Guard', 'Roles', 'Profile', 'Accounts', 'Settings_Rules' ) as $sll_class ) {
+foreach ( array( 'Metadata', 'Server_Sso', 'Admin', 'Ldap_Client', 'Upgrade_Guard', 'Roles', 'Profile', 'Accounts', 'Settings_Rules', 'Multisite' ) as $sll_class ) {
 	package_check( class_exists( 'SimpleLdapLogin\\Pro\\' . $sll_class ) === $sll_full, 'The package has the correct Pro PSR-4 classes.' );
 }
 foreach ( array( 'License', 'PaidCommunities_Client', 'Commerce' ) as $sll_class ) {
