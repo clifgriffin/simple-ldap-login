@@ -35,7 +35,7 @@ if ( ! is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
 	add_action(
 		'admin_notices',
 		static function () {
-			echo '<div class="notice notice-error"><p>' . esc_html__( 'Simple LDAP Login is incomplete. Install the release ZIP, or run Composer install in the plugin folder.', 'simple-ldap-login' ) . '</p></div>';
+			echo '<div class="notice notice-error"><p>' . esc_html__( 'Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP.', 'simple-ldap-login' ) . '</p></div>';
 		}
 	);
 	return;

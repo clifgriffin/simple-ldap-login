@@ -76,7 +76,8 @@ final class Admin {
 	 */
 	public function enqueue( string $hook ): void {
 		if ( $this->screen && $this->screen === $hook ) {
-			wp_enqueue_style( 'simple-ldap-login-admin', plugins_url( 'assets/admin.css', SLL_FILE ), array(), SLL_VERSION );
+			wp_enqueue_style( 'simple-ldap-login-admin', plugins_url( 'assets/admin.css', SLL_FILE ), array(), SLL_VERSION . '.' . filemtime( dirname( __DIR__ ) . '/assets/admin.css' ) );
+			wp_enqueue_script( 'simple-ldap-login-admin', plugins_url( 'assets/admin.js', SLL_FILE ), array(), SLL_VERSION . '.' . filemtime( dirname( __DIR__ ) . '/assets/admin.js' ), true );
 		}
 	}
 
@@ -145,14 +146,14 @@ final class Admin {
 		$enabled  = Settings::is_true( $this->settings->get( 'enabled' ) ) && ! $recovery;
 		$tabs     = $this->tabs();
 		?>
-		<div class="wrap sll-admin">
+		<div class="wrap sll-admin" data-sll-directory-type="<?php echo esc_attr( (string) $this->settings->get( 'directory' ) ); ?>">
 			<h1><?php esc_html_e( 'Simple LDAP Login', 'simple-ldap-login' ); ?></h1>
 			<?php $this->notice(); ?>
 			<div class="sll-overview">
 				<div>
 					<p class="sll-eyebrow"><?php echo $this->settings->is_network() ? esc_html__( 'Network settings', 'simple-ldap-login' ) : esc_html__( 'Site settings', 'simple-ldap-login' ); ?></p>
-					<h2><?php esc_html_e( 'LDAP settings', 'simple-ldap-login' ); ?></h2>
-					<p><?php esc_html_e( 'Set up directory access and test a login before you enable LDAP.', 'simple-ldap-login' ); ?></p>
+					<h2><?php esc_html_e( 'LDAP login settings', 'simple-ldap-login' ); ?></h2>
+					<p><?php esc_html_e( 'Connect to LDAP, then test a login before enabling authentication.', 'simple-ldap-login' ); ?></p>
 				</div>
 				<div class="sll-status" role="status">
 					<span class="sll-dot <?php echo $enabled ? 'sll-dot-on' : ''; ?>" aria-hidden="true"></span>
@@ -160,24 +161,24 @@ final class Admin {
 				</div>
 			</div>
 			<?php if ( $recovery ) : ?>
-				<div class="notice notice-warning inline"><p><?php esc_html_e( 'SLL_DISABLE_LDAP is active. LDAP login is off for recovery. Remove this constant from wp-config.php when the settings are ready. Saved settings are kept.', 'simple-ldap-login' ); ?></p></div>
+				<div class="notice notice-warning inline"><p><?php esc_html_e( 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( $this->settings->has_legacy_access() && ( ! defined( 'SLL_FEATURES_LOADED' ) || ! SLL_FEATURES_LOADED ) ) : ?>
-				<div class="notice notice-warning inline"><p><?php esc_html_e( 'This package does not contain server sign-on or custom user data mappings. This installation can use the Legacy package at no charge. Install the Legacy package to keep those features. Saved settings are kept.', 'simple-ldap-login' ); ?></p></div>
+				<div class="notice notice-warning inline"><p><?php esc_html_e( 'Use the free Legacy package to keep single sign-on and custom user fields. This Free package does not include them. Saved settings are unchanged.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( defined( 'SLL_EDITION' ) && 'transition' === SLL_EDITION ) : ?>
-				<div class="notice notice-info inline"><p><?php esc_html_e( 'Server sign-on and custom user data mappings remain available without payment during this transition. This installation can use the Legacy package at no charge when it is available.', 'simple-ldap-login' ); ?></p></div>
+				<div class="notice notice-info inline"><p><?php esc_html_e( 'Single sign-on and custom user fields are included during the transition. This site qualifies for free Legacy access.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( '' !== (string) $this->settings->get( 'sso_search_user_password' ) && is_wp_error( Secrets::decrypt( (string) $this->settings->get( 'sso_search_user_password' ) ) ) ) : ?>
-				<div class="notice notice-error inline"><p><?php esc_html_e( 'The saved search account password cannot be read. Enter it again on the Connection tab and save the settings. Searches that use this account need a valid password.', 'simple-ldap-login' ); ?></p></div>
+				<div class="notice notice-error inline"><p><?php esc_html_e( 'The saved LDAP search password cannot be read. Enter it again on the Connection tab.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( ! extension_loaded( 'ldap' ) ) : ?>
-				<div class="notice notice-error inline"><p><?php esc_html_e( 'The PHP LDAP extension is not installed. Ask your host to install it before you enable LDAP login.', 'simple-ldap-login' ); ?></p></div>
+				<div class="notice notice-error inline"><p><?php esc_html_e( 'PHP LDAP is missing. Ask your host to install it before enabling LDAP login.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( 'plain' === $this->settings->get( 'transport' ) ) : ?>
-				<div class="notice notice-warning inline"><p><?php esc_html_e( 'This connection sends passwords without encryption. Select StartTLS or LDAPS after your directory server is ready.', 'simple-ldap-login' ); ?></p></div>
+				<div class="notice notice-warning inline"><p><?php esc_html_e( 'LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your server supports it.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
-			<nav class="nav-tab-wrapper sll-tabs" aria-label="<?php esc_attr_e( 'LDAP settings', 'simple-ldap-login' ); ?>">
+			<nav class="nav-tab-wrapper sll-tabs" aria-label="<?php esc_attr_e( 'LDAP login settings', 'simple-ldap-login' ); ?>">
 				<?php foreach ( $tabs as $key => $label ) : ?>
 					<a class="nav-tab <?php echo $tab === $key ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'tab', $key, $this->url() ) ); ?>" <?php echo $tab === $key ? 'aria-current="page"' : ''; ?>><?php echo esc_html( $label ); ?></a>
 				<?php endforeach; ?>
@@ -223,8 +224,8 @@ final class Admin {
 	 * Render connection settings.
 	 */
 	private function connection(): void {
-		$this->card_start( __( 'Directory connection', 'simple-ldap-login' ), __( 'Use the details from your directory administrator. Save these settings before you run a test.', 'simple-ldap-login' ) );
-		$this->checkbox( 'enabled', __( 'Enable LDAP login', 'simple-ldap-login' ), __( 'Use your directory to check WordPress logins.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'LDAP connection', 'simple-ldap-login' ), '' );
+		$this->checkbox( 'enabled', __( 'LDAP login', 'simple-ldap-login' ), __( 'Enable LDAP authentication.', 'simple-ldap-login' ) );
 		$this->select(
 			'directory',
 			__( 'Directory type', 'simple-ldap-login' ),
@@ -233,28 +234,28 @@ final class Admin {
 				'ol' => __( 'OpenLDAP / other LDAP directory', 'simple-ldap-login' ),
 			)
 		);
-		$this->textarea( 'domain_controllers', __( 'Directory servers', 'simple-ldap-login' ), __( 'Enter one host name or IP address per line. The plugin tries these servers in order. Do not include a URL scheme or a path.', 'simple-ldap-login' ) );
-		$this->input( 'base_dn', __( 'Base DN', 'simple-ldap-login' ), __( 'Search base, for example: DC=example,DC=org.', 'simple-ldap-login' ) );
-		$this->input( 'account_suffix', __( 'Account suffix', 'simple-ldap-login' ), __( 'Active Directory example: @example.org. Leave this blank when the full login name is used.', 'simple-ldap-login' ) );
-		$this->input( 'login_domain', __( 'Login domain', 'simple-ldap-login' ), __( 'Optional domain for DOMAIN\\username logins.', 'simple-ldap-login' ) );
+		$this->textarea( 'domain_controllers', __( 'LDAP servers', 'simple-ldap-login' ), __( 'One hostname or IP address per line. Servers are tried in order.', 'simple-ldap-login' ) );
+		$this->input( 'base_dn', __( 'Base DN', 'simple-ldap-login' ), __( 'Where to search for users. Example: DC=example,DC=org.', 'simple-ldap-login' ) );
+		$this->input( 'account_suffix', __( 'Username suffix', 'simple-ldap-login' ), __( 'Added to usernames without a domain. Example: @example.org.', 'simple-ldap-login' ) );
+		$this->input( 'login_domain', __( 'Windows domain', 'simple-ldap-login' ), __( 'Short domain name, such as EXAMPLE. Takes priority over the username suffix.', 'simple-ldap-login' ) );
 		$this->card_end();
-		$this->card_start( __( 'Transport and search', 'simple-ldap-login' ), __( 'Use an encrypted connection with a trusted server certificate. Certificate checks cannot be disabled here.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Connection security', 'simple-ldap-login' ), __( 'TLS requires a trusted server certificate.', 'simple-ldap-login' ) );
 		$this->select(
 			'transport',
 			__( 'Connection security', 'simple-ldap-login' ),
 			array(
 				'starttls' => __( 'StartTLS (recommended)', 'simple-ldap-login' ),
 				'ldaps'    => __( 'LDAPS', 'simple-ldap-login' ),
-				'plain'    => __( 'Plain LDAP (no encryption)', 'simple-ldap-login' ),
+				'plain'    => __( 'Unencrypted LDAP', 'simple-ldap-login' ),
 			),
-			__( 'Plain LDAP also requires Allow plain LDAP on the Advanced tab.', 'simple-ldap-login' )
+			__( 'Unencrypted LDAP requires permission on the Advanced tab.', 'simple-ldap-login' )
 		);
-		$this->input( 'ldap_port', __( 'Port', 'simple-ldap-login' ), __( 'Usually 389 for StartTLS and 636 for LDAPS.', 'simple-ldap-login' ), 'number' );
-		$this->checkbox( 'search_sub_ous', __( 'Search child organizational units', 'simple-ldap-login' ), __( 'Include directory entries below the base DN.', 'simple-ldap-login' ) );
+		$this->input( 'ldap_port', __( 'Port', 'simple-ldap-login' ), __( '389 for StartTLS; 636 for LDAPS.', 'simple-ldap-login' ), 'number' );
+		$this->checkbox( 'search_sub_ous', __( 'Search subfolders', 'simple-ldap-login' ), __( 'Search all organizational units below the Base DN.', 'simple-ldap-login' ) );
 		$this->card_end();
-		$this->card_start( __( 'Directory search account', 'simple-ldap-login' ), __( 'Use an account with read access only. Directory searches can use this account.', 'simple-ldap-login' ) );
-		$this->input( 'sso_search_user', __( 'Search account', 'simple-ldap-login' ), __( 'Enter the bind DN or the full Active Directory account name.', 'simple-ldap-login' ) );
-		$this->input( 'sso_search_user_password', __( 'Search account password', 'simple-ldap-login' ), __( 'Leave this blank to keep the saved password. Saved passwords are never displayed.', 'simple-ldap-login' ), 'password' );
+		$this->card_start( __( 'LDAP search account', 'simple-ldap-login' ), __( 'An LDAP account with read access to users and groups.', 'simple-ldap-login' ) );
+		$this->input( 'sso_search_user', __( 'Search account', 'simple-ldap-login' ), __( 'LDAP bind DN or account name.', 'simple-ldap-login' ) );
+		$this->input( 'sso_search_user_password', __( 'Search account password', 'simple-ldap-login' ), __( 'Leave blank to keep the saved password.', 'simple-ldap-login' ), 'password' );
 		$this->card_end();
 	}
 
@@ -262,26 +263,26 @@ final class Admin {
 	 * Render access rules.
 	 */
 	private function access(): void {
-		$this->card_start( __( 'Login rules', 'simple-ldap-login' ), __( 'Choose who can log in and whether the plugin creates WordPress accounts.', 'simple-ldap-login' ) );
-		$this->checkbox( 'high_security', __( 'Require LDAP authentication', 'simple-ldap-login' ), __( 'Reject local passwords unless local recovery access permits them.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Login rules', 'simple-ldap-login' ), '' );
+		$this->checkbox( 'high_security', __( 'Require LDAP passwords', 'simple-ldap-login' ), __( 'Block WordPress passwords except for recovery access.', 'simple-ldap-login' ) );
 		$this->select(
 			'recovery_mode',
 			__( 'Local recovery access', 'simple-ldap-login' ),
 			array(
 				'selected' => __( 'Selected administrators', 'simple-ldap-login' ),
-				'legacy'   => __( 'All administrators (legacy)', 'simple-ldap-login' ),
+				'legacy'   => is_multisite() ? __( 'All super administrators (legacy)', 'simple-ldap-login' ) : __( 'All administrators (legacy)', 'simple-ldap-login' ),
 				'off'      => __( 'Off', 'simple-ldap-login' ),
 			),
-			__( 'Selected accounts use WordPress authentication directly. The legacy option keeps administrator password fallback. Off removes the administrator exception.', 'simple-ldap-login' )
+			__( 'Choose who can use a WordPress password when LDAP passwords are required.', 'simple-ldap-login' )
 		);
 		$this->recovery_accounts();
-		$this->checkbox( 'create_users', __( 'Create WordPress accounts', 'simple-ldap-login' ), __( 'Create an account after the directory password and group checks pass.', 'simple-ldap-login' ) );
+		$this->checkbox( 'create_users', __( 'Automatic account creation', 'simple-ldap-login' ), __( 'Create a WordPress account on the first successful LDAP login.', 'simple-ldap-login' ) );
 		$roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
 			$roles[ $key ] = translate_user_role( $role['name'] );
 		}
-		$this->select( 'role', __( 'New account role', 'simple-ldap-login' ), $roles, __( 'This role applies to new accounts. Existing account roles are kept.', 'simple-ldap-login' ) );
-		$this->textarea( 'groups', __( 'Required groups', 'simple-ldap-login' ), __( 'Enter one group per line. A user must belong to at least one group. Leave this blank to allow all valid directory users.', 'simple-ldap-login' ) );
+		$this->select( 'role', __( 'Default role', 'simple-ldap-login' ), $roles, __( 'For new accounts only.', 'simple-ldap-login' ) );
+		$this->textarea( 'groups', __( 'Required groups', 'simple-ldap-login' ), __( 'One group name per line. Users must belong to at least one. Leave blank to allow all LDAP users.', 'simple-ldap-login' ) );
 		$this->card_end();
 	}
 
@@ -305,7 +306,7 @@ final class Admin {
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</select>
-				<p class="description" id="sll-recovery_user_ids-help"><?php esc_html_e( 'Used only when Selected administrators is chosen. Use a separate local account for recovery. LDAP and server sign-on cannot sign in as a selected recovery account. Hold Ctrl on Windows or Command on macOS to select more than one account.', 'simple-ldap-login' ); ?></p>
+				<p class="description" id="sll-recovery_user_ids-help"><?php esc_html_e( 'For Selected administrators only. Use separate local accounts with WordPress passwords. Hold Ctrl or Command to select multiple accounts.', 'simple-ldap-login' ); ?></p>
 			</div>
 		</div>
 		<?php
@@ -320,25 +321,25 @@ final class Admin {
 
 	/** Render settings whose defaults suit most installations. */
 	private function advanced(): void {
-		$this->card_start( __( 'Connection options', 'simple-ldap-login' ), __( 'Keep the defaults unless your directory requires different values.', 'simple-ldap-login' ) );
-		$this->input( 'timeout', __( 'Connection timeout', 'simple-ldap-login' ), __( 'Maximum time in seconds for a directory operation.', 'simple-ldap-login' ), 'number' );
-		$this->input( 'ol_login', __( 'Login attribute', 'simple-ldap-login' ), __( 'OpenLDAP usually uses uid. Active Directory uses sAMAccountName.', 'simple-ldap-login' ) );
-		$this->checkbox( 'allow_plaintext', __( 'Allow plain LDAP', 'simple-ldap-login' ), __( 'I understand that plain LDAP sends passwords without encryption. Use it only on a trusted network.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Connection options', 'simple-ldap-login' ), __( 'Change these only if the default values do not work with your directory.', 'simple-ldap-login' ) );
+		$this->input( 'timeout', __( 'LDAP timeout (seconds)', 'simple-ldap-login' ), __( 'Maximum wait for an LDAP operation. Default: 5 seconds.', 'simple-ldap-login' ), 'number' );
+		$this->input( 'ol_login', __( 'Login attribute', 'simple-ldap-login' ), __( 'Attribute used to find users. Default: uid.', 'simple-ldap-login' ) );
+		$this->checkbox( 'allow_plaintext', __( 'Allow unencrypted LDAP', 'simple-ldap-login' ), __( 'Allow passwords to be sent without encryption.', 'simple-ldap-login' ) );
 		$this->card_end();
-		$this->card_start( __( 'Group search', 'simple-ldap-login' ), __( 'Change these fields only when your directory requires a different group search.', 'simple-ldap-login' ) );
-		$this->input( 'group_base_dn', __( 'Group base DN', 'simple-ldap-login' ), __( 'Optional search base for groups. Leave this blank to use the base DN.', 'simple-ldap-login' ) );
-		$this->input( 'ol_group', __( 'Group name attribute', 'simple-ldap-login' ), __( 'Usually cn.', 'simple-ldap-login' ) );
-		$this->input( 'group_uid', __( 'Group member attribute', 'simple-ldap-login' ), __( 'OpenLDAP example: memberUid. Use member or uniqueMember for groups that store user DNs.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Group search', 'simple-ldap-login' ), '' );
+		$this->input( 'group_base_dn', __( 'Group base DN', 'simple-ldap-login' ), __( 'Leave blank to use the user Base DN.', 'simple-ldap-login' ) );
+		$this->input( 'ol_group', __( 'Group name attribute', 'simple-ldap-login' ), __( 'Default: cn.', 'simple-ldap-login' ) );
+		$this->input( 'group_uid', __( 'Group member attribute', 'simple-ldap-login' ), __( 'Default: memberUid. Use member or uniqueMember if groups store user DNs.', 'simple-ldap-login' ) );
 		$this->card_end();
-		$this->card_start( __( 'Profile attributes', 'simple-ldap-login' ), __( 'Choose the LDAP attributes for new WordPress accounts.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Profile attributes', 'simple-ldap-login' ), __( 'LDAP attributes copied to new WordPress accounts.', 'simple-ldap-login' ) );
 		$this->input( 'user_first_name_attribute', __( 'First name attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_last_name_attribute', __( 'Last name attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_email_attribute', __( 'Email attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_url_attribute', __( 'Website attribute', 'simple-ldap-login' ) );
 		$this->card_end();
 		do_action( 'sll_advanced_settings', $this );
-		$this->card_start( __( 'Data retention', 'simple-ldap-login' ), __( 'Deactivation keeps your settings. Choose what happens when you delete the plugin.', 'simple-ldap-login' ) );
-		$this->checkbox( 'delete_on_uninstall', __( 'Delete settings on uninstall', 'simple-ldap-login' ), __( 'Remove plugin settings and saved credentials when the plugin is deleted. WordPress user accounts are kept.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Data retention', 'simple-ldap-login' ), '' );
+		$this->checkbox( 'delete_on_uninstall', __( 'Delete settings when removing the plugin', 'simple-ldap-login' ), __( 'Delete saved settings and LDAP credentials when WordPress deletes the plugin. Keep user accounts.', 'simple-ldap-login' ) );
 		$this->card_end();
 	}
 
@@ -346,13 +347,13 @@ final class Admin {
 	 * Render test and recovery instructions.
 	 */
 	private function help(): void {
-		$this->card_start( __( 'Test before you enable LDAP', 'simple-ldap-login' ), __( 'Keep this administrator session open. Save the connection settings, test the connection, then test a directory login below.', 'simple-ldap-login' ) );
+		$this->card_start( __( 'Test LDAP login', 'simple-ldap-login' ), __( 'Save your settings, then run both tests. Keep this administrator session open.', 'simple-ldap-login' ) );
 		?>
-		<p><?php esc_html_e( 'The login test checks the directory password and required groups. It does not create a WordPress account, change a profile, or start a login session.', 'simple-ldap-login' ); ?></p>
-		<p><?php esc_html_e( 'After the tests pass, use a second browser to test the normal WordPress login. Keep a separate local administrator account for recovery.', 'simple-ldap-login' ); ?></p>
+		<p><?php esc_html_e( 'Tests check the connection, password, and required groups. They do not create accounts or sign users in.', 'simple-ldap-login' ); ?></p>
+		<p><?php esc_html_e( 'After both tests pass, enable LDAP and try logging in from another browser.', 'simple-ldap-login' ); ?></p>
 		<h3><?php esc_html_e( 'Recovery', 'simple-ldap-login' ); ?></h3>
-		<p><?php esc_html_e( 'If you cannot log in, use your hosting file manager to rename the simple-ldap-login plugin folder. Then log in with a local administrator account. Rename the folder back and correct the settings before you activate the plugin again.', 'simple-ldap-login' ); ?></p>
-		<p><?php esc_html_e( 'LDAP protocol version 3 is required. Configure trusted certificate authorities on the server for StartTLS and LDAPS.', 'simple-ldap-login' ); ?></p>
+		<p><?php esc_html_e( 'If you are locked out, rename the simple-ldap-login folder using your hosting file manager. Log in with a WordPress administrator password, then restore the folder and correct the settings.', 'simple-ldap-login' ); ?></p>
+		<p><?php esc_html_e( 'For certificate errors, ask your host to configure the trusted LDAP certificate authority.', 'simple-ldap-login' ); ?></p>
 		<?php
 		$this->card_end();
 	}
@@ -366,23 +367,23 @@ final class Admin {
 		?>
 		<section class="sll-card" aria-labelledby="sll-tests-title">
 			<div class="sll-card-heading">
-				<h2 id="sll-tests-title"><?php esc_html_e( 'Check your connection', 'simple-ldap-login' ); ?></h2>
-				<p><?php esc_html_e( 'These tests use your saved settings and run only when you select a test button.', 'simple-ldap-login' ); ?></p>
+				<h2 id="sll-tests-title"><?php esc_html_e( 'LDAP tests', 'simple-ldap-login' ); ?></h2>
+				<p><?php esc_html_e( 'Tests use saved settings.', 'simple-ldap-login' ); ?></p>
 			</div>
 			<div class="sll-tests">
 				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 					<?php $this->form_fields( $tab, 'test_connection' ); ?>
-					<h3><?php esc_html_e( '1. Directory connection', 'simple-ldap-login' ); ?></h3>
-					<p><?php esc_html_e( 'Check the connection and the search account, if configured.', 'simple-ldap-login' ); ?></p>
+					<h3><?php esc_html_e( '1. Test connection', 'simple-ldap-login' ); ?></h3>
+					<p><?php esc_html_e( 'Connect to LDAP and test the search account, if set.', 'simple-ldap-login' ); ?></p>
 					<?php submit_button( __( 'Test connection', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
 				</form>
 				<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" autocomplete="off">
 					<?php $this->form_fields( $tab, 'test_login' ); ?>
-					<h3><?php esc_html_e( '2. Directory login', 'simple-ldap-login' ); ?></h3>
-					<p><?php esc_html_e( 'Check a directory password and the required groups.', 'simple-ldap-login' ); ?></p>
-					<p><label for="sll-test-username"><?php esc_html_e( 'Directory username', 'simple-ldap-login' ); ?></label><input id="sll-test-username" name="sll_test_username" type="text" autocomplete="off" required /></p>
-					<p><label for="sll-test-password"><?php esc_html_e( 'Directory password', 'simple-ldap-login' ); ?></label><input id="sll-test-password" name="sll_test_password" type="password" autocomplete="new-password" required /></p>
-					<?php submit_button( __( 'Test directory login', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
+					<h3><?php esc_html_e( '2. Test login', 'simple-ldap-login' ); ?></h3>
+					<p><?php esc_html_e( 'Check an LDAP username, password, and group membership.', 'simple-ldap-login' ); ?></p>
+					<p><label for="sll-test-username"><?php esc_html_e( 'LDAP username', 'simple-ldap-login' ); ?></label><input id="sll-test-username" name="sll_test_username" type="text" autocomplete="off" required /></p>
+					<p><label for="sll-test-password"><?php esc_html_e( 'LDAP password', 'simple-ldap-login' ); ?></label><input id="sll-test-password" name="sll_test_password" type="password" autocomplete="new-password" required /></p>
+					<?php submit_button( __( 'Test LDAP login', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
 				</form>
 			</div>
 		</section>
@@ -398,7 +399,7 @@ final class Admin {
 	public function card_start( string $title, string $description ): void {
 		?>
 		<section class="sll-card">
-			<div class="sll-card-heading"><h2><?php echo esc_html( $title ); ?></h2><p><?php echo esc_html( $description ); ?></p></div>
+			<div class="sll-card-heading"><h2><?php echo esc_html( $title ); ?></h2><?php if ( '' !== $description ) : ?><p><?php echo esc_html( $description ); ?></p><?php endif; ?></div>
 			<div class="sll-fields">
 		<?php
 	}
@@ -413,6 +414,21 @@ final class Admin {
 	}
 
 	/**
+	 * Mark fields that apply to one directory type. Keep their saved values.
+	 *
+	 * @param string $key Setting key.
+	 */
+	private function directory_field( string $key ): void {
+		$types = array( 'account_suffix' => 'ad', 'login_domain' => 'ad', 'search_sub_ous' => 'ol', 'ol_login' => 'ol', 'ol_group' => 'ol', 'group_uid' => 'ol' );
+		if ( isset( $types[ $key ] ) ) {
+			echo ' data-sll-directory="' . esc_attr( $types[ $key ] ) . '"';
+			if ( $types[ $key ] !== $this->settings->get( 'directory' ) ) {
+				echo ' hidden';
+			}
+		}
+	}
+
+	/**
 	 * Render an input.
 	 *
 	 * @param string $key Setting key.
@@ -422,11 +438,11 @@ final class Admin {
 	 */
 	public function input( string $key, string $label, string $description = '', string $type = 'text' ): void {
 		?>
-		<div class="sll-field">
+		<div class="sll-field"<?php $this->directory_field( $key ); ?>>
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
-				<input class="regular-text" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" type="<?php echo esc_attr( $type ); ?>" value="<?php echo 'password' === $type ? '' : esc_attr( (string) $this->settings->get( $key ) ); ?>" aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help" autocomplete="<?php echo 'password' === $type ? 'new-password' : 'off'; ?>" />
-				<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p>
+				<input class="regular-text" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" type="<?php echo esc_attr( $type ); ?>" value="<?php echo 'password' === $type ? '' : esc_attr( (string) $this->settings->get( $key ) ); ?>" <?php if ( '' !== $description ) : ?>aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?> autocomplete="<?php echo 'password' === $type ? 'new-password' : 'off'; ?>" />
+				<?php if ( '' !== $description ) : ?><p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -441,7 +457,7 @@ final class Admin {
 	 */
 	public function checkbox( string $key, string $label, string $description ): void {
 		?>
-		<div class="sll-field">
+		<div class="sll-field"<?php $this->directory_field( $key ); ?>>
 			<span class="sll-field-label" id="sll-<?php echo esc_attr( $key ); ?>-label"><?php echo esc_html( $label ); ?></span>
 			<div>
 				<input type="hidden" name="sll_settings[<?php echo esc_attr( $key ); ?>]" value="0" />
@@ -465,12 +481,12 @@ final class Admin {
 		<div class="sll-field">
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
-				<select id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help">
+				<select id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" <?php if ( '' !== $description ) : ?>aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?>>
 					<?php foreach ( $options as $value => $text ) : ?>
 						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current, $value ); ?>><?php echo esc_html( $text ); ?></option>
 					<?php endforeach; ?>
 				</select>
-				<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p>
+				<?php if ( '' !== $description ) : ?><p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -492,8 +508,8 @@ final class Admin {
 		<div class="sll-field">
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
-				<textarea class="large-text code" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" rows="4" aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_textarea( (string) $value ); ?></textarea>
-				<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p>
+				<textarea class="large-text code" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" rows="4" <?php if ( '' !== $description ) : ?>aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?>><?php echo esc_textarea( (string) $value ); ?></textarea>
+				<?php if ( '' !== $description ) : ?><p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -524,10 +540,10 @@ final class Admin {
 		$messages = array(
 			'saved'             => __( 'Settings saved.', 'simple-ldap-login' ),
 			'connection_ok'     => __( 'Connection test passed.', 'simple-ldap-login' ),
-			'connection_failed' => __( 'Connection test failed. Check the saved host, port, encryption, certificate trust, and search account.', 'simple-ldap-login' ),
-			'login_ok'          => __( 'Directory login and group checks passed. No WordPress account or session was created.', 'simple-ldap-login' ),
-			'login_failed'      => __( 'Login test failed. Check the saved settings, directory credentials, and required groups.', 'simple-ldap-login' ),
-			'error'             => __( 'The settings could not be saved. Check the fields and try again.', 'simple-ldap-login' ),
+			'connection_failed' => __( 'Cannot connect to LDAP. Check the server, port, TLS certificate, and search account.', 'simple-ldap-login' ),
+			'login_ok'          => __( 'LDAP login test passed. No account was created.', 'simple-ldap-login' ),
+			'login_failed'      => __( 'LDAP login test failed. Check the username, password, and required groups.', 'simple-ldap-login' ),
+			'error'             => __( 'Could not save settings. Check the values and try again.', 'simple-ldap-login' ),
 		);
 		if ( ! isset( $messages[ $status ] ) ) {
 			return;

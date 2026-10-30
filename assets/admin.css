@@ -244,3 +244,7 @@
 		gap: 8px;
 	}
 }
+
+.sll-admin [hidden] {
+	display: none !important;
+}

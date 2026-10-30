@@ -307,7 +307,7 @@ final class Settings {
 				}
 			}
 			if ( 'selected' === $settings['recovery_mode'] && ( self::is_true( $settings['enabled'] ) || self::is_true( $settings['sso_enabled'] ) ) && empty( $settings['recovery_user_ids'] ) ) {
-				return new \WP_Error( 'sll_recovery_required', __( 'Select at least one local recovery account, or set local recovery access to Off before you enable LDAP or server SSO.', 'simple-ldap-login' ) );
+				return new \WP_Error( 'sll_recovery_required', __( 'Select a recovery account on the Access tab, or turn local recovery access Off.', 'simple-ldap-login' ) );
 			}
 		}
 
@@ -315,7 +315,7 @@ final class Settings {
 			return $this->invalid( 'directory / transport' );
 		}
 		if ( 'plain' === $settings['transport'] && ! self::is_true( $settings['allow_plaintext'] ) ) {
-			return new \WP_Error( 'sll_plaintext', __( 'Select the option to permit an unencrypted connection, or select TLS.', 'simple-ldap-login' ) );
+			return new \WP_Error( 'sll_plaintext', __( 'Enable Allow unencrypted LDAP on the Advanced tab, or choose StartTLS or LDAPS.', 'simple-ldap-login' ) );
 		}
 		if ( isset( $input['use_tls'] ) && ! isset( $input['transport'] ) ) {
 			$settings['transport'] = $settings['use_tls'] ? 'starttls' : 'plain';
@@ -338,12 +338,12 @@ final class Settings {
 			}
 			foreach ( array( 'meta_data_suffix_ldap', 'meta_data_suffix_wp' ) as $suffix ) {
 				if ( ! self::safe_meta_key( $mapping[1] . '_' . $settings[ $suffix ] ) ) {
-					return new \WP_Error( 'sll_meta_key', __( 'A user data mapping targets a protected or invalid WordPress metadata key.', 'simple-ldap-login' ) );
+					return new \WP_Error( 'sll_meta_key', __( 'A custom field mapping uses a protected or invalid WordPress user meta key.', 'simple-ldap-login' ) );
 				}
 			}
 		}
 		if ( self::is_true( $settings['enabled'] ) && ( '' === $settings['base_dn'] || empty( $settings['domain_controllers'] ) ) ) {
-			return new \WP_Error( 'sll_connection_required', __( 'Enter the base DN and at least one directory server before you enable LDAP login.', 'simple-ldap-login' ) );
+			return new \WP_Error( 'sll_connection_required', __( 'Enter a Base DN and at least one LDAP server before enabling LDAP login.', 'simple-ldap-login' ) );
 		}
 		if ( ! $this->write( 'sll_settings', $settings ) && $this->read( 'sll_settings', array() ) !== $settings ) {
 			return new \WP_Error( 'sll_save_failed', __( 'WordPress could not save the settings. Try again.', 'simple-ldap-login' ) );
@@ -593,7 +593,38 @@ final class Settings {
 	 * @return \WP_Error
 	 */
 	private function invalid( string $key ): \WP_Error {
-		/* translators: %s: setting key. */
-		return new \WP_Error( 'sll_invalid_setting', sprintf( __( 'The value for %s is not valid. No settings were saved.', 'simple-ldap-login' ), $key ) );
+		$labels = array(
+			'directory' => __( 'Directory type', 'simple-ldap-login' ),
+			'transport' => __( 'Connection security', 'simple-ldap-login' ),
+			'domain_controllers' => __( 'LDAP servers', 'simple-ldap-login' ),
+			'base_dn' => __( 'Base DN', 'simple-ldap-login' ),
+			'account_suffix' => __( 'Username suffix', 'simple-ldap-login' ),
+			'login_domain' => __( 'Windows domain', 'simple-ldap-login' ),
+			'ldap_port' => __( 'Port', 'simple-ldap-login' ),
+			'ldap_version' => __( 'LDAP protocol version', 'simple-ldap-login' ),
+			'timeout' => __( 'LDAP timeout', 'simple-ldap-login' ),
+			'ol_login' => __( 'Login attribute', 'simple-ldap-login' ),
+			'ol_group' => __( 'Group name attribute', 'simple-ldap-login' ),
+			'group_uid' => __( 'Group member attribute', 'simple-ldap-login' ),
+			'groups' => __( 'Required groups', 'simple-ldap-login' ),
+			'group_base_dn' => __( 'Group base DN', 'simple-ldap-login' ),
+			'role' => __( 'Default role', 'simple-ldap-login' ),
+			'recovery_mode' => __( 'Local recovery access', 'simple-ldap-login' ),
+			'recovery_user_ids' => __( 'Recovery accounts', 'simple-ldap-login' ),
+			'sso_search_user_password' => __( 'Search account password', 'simple-ldap-login' ),
+			'user_meta_data' => __( 'Field mappings', 'simple-ldap-login' ),
+			'meta_data_suffix_ldap' => __( 'LDAP value suffix', 'simple-ldap-login' ),
+			'meta_data_suffix_wp' => __( 'WordPress value suffix', 'simple-ldap-login' ),
+			'user_first_name_attribute' => __( 'First name attribute', 'simple-ldap-login' ),
+			'user_last_name_attribute' => __( 'Last name attribute', 'simple-ldap-login' ),
+			'user_email_attribute' => __( 'Email attribute', 'simple-ldap-login' ),
+			'user_url_attribute' => __( 'Website attribute', 'simple-ldap-login' ),
+		);
+		$message = __( 'Check the submitted settings. No changes were saved.', 'simple-ldap-login' );
+		if ( isset( $labels[ $key ] ) ) {
+			/* translators: %s: setting label. */
+			$message = sprintf( __( 'Check %s. No changes were saved.', 'simple-ldap-login' ), $labels[ $key ] );
+		}
+		return new \WP_Error( 'sll_invalid_setting', $message );
 	}
 }

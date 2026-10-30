@@ -21,7 +21,7 @@ final class Secrets {
 			return '';
 		}
 		if ( ! function_exists( 'openssl_encrypt' ) ) {
-			return new \WP_Error( 'sll_encryption_unavailable', __( 'PHP OpenSSL is required to save the service account password.', 'simple-ldap-login' ) );
+			return new \WP_Error( 'sll_encryption_unavailable', __( 'PHP OpenSSL is required to save the LDAP search password.', 'simple-ldap-login' ) );
 		}
 		try {
 			$iv         = random_bytes( 12 );
@@ -89,6 +89,6 @@ final class Secrets {
 	 * @return \WP_Error
 	 */
 	private static function error(): \WP_Error {
-		return new \WP_Error( 'sll_secret_error', __( 'The service account password cannot be read or saved. Enter it again. Check PHP OpenSSL and the encryption key.', 'simple-ldap-login' ) );
+		return new \WP_Error( 'sll_secret_error', __( 'Could not read or save the LDAP search password. Enter it again. If this continues, ask your host to check OpenSSL and the encryption key.', 'simple-ldap-login' ) );
 	}
 }

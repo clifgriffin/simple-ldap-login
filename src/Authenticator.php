@@ -148,14 +148,14 @@ final class Authenticator {
 		}
 		if ( ! $user ) {
 			if ( ! Settings::is_true( $this->settings->get( 'create_users' ) ) ) {
-				return new WP_Error( 'sll_account', __( 'LDAP verified this account. Ask an administrator to create its WordPress account.', 'simple-ldap-login' ) );
+				return new WP_Error( 'sll_account', __( 'Your LDAP login is valid, but you need a WordPress account. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
 			if ( ! validate_username( $username ) || sanitize_user( $username, true ) !== $username ) {
-				return new WP_Error( 'sll_username', __( 'This LDAP name cannot be used as a WordPress login name.', 'simple-ldap-login' ) );
+				return new WP_Error( 'sll_username', __( 'Your LDAP username is not a valid WordPress username. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
 			$role = (string) $this->settings->get( 'role' );
 			if ( ! get_role( $role ) ) {
-				return new WP_Error( 'sll_role', __( 'The new user role is not valid.', 'simple-ldap-login' ) );
+				return new WP_Error( 'sll_role', __( 'The default WordPress role is not available. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
 			$first = $this->attribute( $entry, 'user_first_name_attribute' );
 			$last  = $this->attribute( $entry, 'user_last_name_attribute' );
@@ -172,12 +172,12 @@ final class Authenticator {
 			$data  = apply_filters( 'sll_user_data', $data );
 			$id    = wp_insert_user( $data );
 			if ( is_wp_error( $id ) ) {
-				return new WP_Error( 'sll_account', __( 'WordPress could not create this account. Ask an administrator to check the user settings.', 'simple-ldap-login' ) );
+				return new WP_Error( 'sll_account', __( 'Could not create your WordPress account. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
 			$user = get_user_by( 'id', $id );
 		}
 		if ( $this->settings->is_recovery_account( $user ) ) {
-			return new WP_Error( 'sll_local_recovery', __( 'Use the WordPress password to sign in to this recovery account.', 'simple-ldap-login' ) );
+			return new WP_Error( 'sll_local_recovery', __( 'Use your WordPress password for this recovery account.', 'simple-ldap-login' ) );
 		}
 		/**
 		 * Update data after the directory entry resolves to a WordPress account.

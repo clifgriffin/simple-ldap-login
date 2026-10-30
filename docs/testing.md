@@ -6,7 +6,7 @@ Test date: 2026-10-30.
 
 ## Source and release packages
 
-`composer check` passes all 504 checks: 218 for settings, secrets, recovery policies, authentication, and LDAP; 262 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+`composer check` passes all 520 checks: 218 for settings, secrets, recovery policies, authentication, and LDAP; 278 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
 
 LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
 
@@ -50,6 +50,8 @@ Temporary test containers and volumes were removed after each automated run. The
 ## Settings screens
 
 The Advanced tab contains connection timeouts, LDAP attribute and group search overrides, profile attributes, plain LDAP permission, and uninstall data retention. Full packages also show metadata suffixes there. Custom metadata mappings stay on the full package User data tab. Free has no empty User data tab; its old profile links open Advanced. Screen checks cover field placement in Free and Pro, site and network scope, saved-value rendering, and Advanced form submissions. Missing fields are retained by the existing settings save path.
+
+The copy review shortened labels, help text, notices, and login errors. Active Directory-only fields are hidden for OpenLDAP, and OpenLDAP-only fields are hidden for AD. Browser checks on the Herd demo verified both directory choices, the Access and Advanced screens, and the unchanged saved OpenLDAP configuration. `npm run test:admin` checks live field switching, disabled hidden controls, and retained values. Source, asset, and all four package checks pass. Authentication behavior is unchanged.
 
 ## Earlier settings-screen checks
 

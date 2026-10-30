@@ -437,6 +437,12 @@ class Ldap_Client {
 	 * @return WP_Error Error.
 	 */
 	protected function error( string $code = 'sll_credentials' ): WP_Error {
-		return new WP_Error( $code, __( 'LDAP could not verify this request. Check the connection, account, and access settings.', 'simple-ldap-login' ) );
+		$message = __( 'LDAP login failed. Check your username and password or contact your site administrator.', 'simple-ldap-login' );
+		if ( 'sll_groups' === $code ) {
+			$message = __( 'Your account is not allowed to log in to this site.', 'simple-ldap-login' );
+		} elseif ( 'sll_credentials' !== $code ) {
+			$message = __( 'LDAP login is unavailable. Contact your site administrator.', 'simple-ldap-login' );
+		}
+		return new WP_Error( $code, $message );
 	}
 }

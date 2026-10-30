@@ -44,6 +44,7 @@ jobs:
       - run: composer install --working-dir=pro --no-interaction --prefer-dist --no-plugins --no-scripts
       - run: npm ci
       - run: npm run lint
+      - run: npm run test:admin
       - run: npm run test:packages
   integration:
     runs-on: ubuntu-latest

@@ -7,13 +7,14 @@ namespace SimpleLdapLogin {
 	class Settings {
 		public bool $network = false;
 		public bool $enabled = false;
+		public string $directory = 'ad';
 		public bool $legacy = false;
 		public string $recovery = 'selected';
 		public array $recovery_ids = array( 1 );
 		public array $saved = array();
 		public function get( $key ) { return $this->all()[ $key ] ?? ''; }
 		public function all() {
-			return array( 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ), 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
+			return array( 'directory' => $this->directory, 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ), 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
 		}
 		public function is_network() { return $this->network; }
 		public function has_legacy_access() { return $this->legacy; }
@@ -59,6 +60,7 @@ namespace {
 		new WP_User( 4, 'other-site-admin', 'Other Site Admin', true, false, 2 ),
 	);
 	function get_current_blog_id() { return 1; }
+	function is_multisite() { return $GLOBALS['sll_admin_multisite'] ?? false; }
 	function get_super_admins() { return $GLOBALS['sll_admin_super_admins'] ?? array( 'network-admin' ); }
 	function get_users( $query ) {
 		$GLOBALS['sll_admin_user_queries'] = ( $GLOBALS['sll_admin_user_queries'] ?? 0 ) + 1;
@@ -135,6 +137,7 @@ namespace {
 		}
 		foreach ( array( 'site', 'network' ) as $scope ) {
 			$settings->network = 'network' === $scope;
+			$GLOBALS['sll_admin_multisite'] = $settings->network;
 			foreach ( array( 'connection', 'access', 'profile', 'sso', 'advanced', 'help' ) as $tab ) {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
@@ -163,15 +166,28 @@ namespace {
 				}
 				admin_check( ( 'pro' === $edition ) === str_contains( $html, 'tab=profile' ), 'Only the full package needs a User data tab.' );
 				if ( 'access' === $tab ) {
-					admin_check( str_contains( $html, 'sll_settings[recovery_mode]' ) && str_contains( $html, 'Selected administrators' ) && str_contains( $html, 'All administrators (legacy)' ), 'Both packages show the recovery modes in each scope.' );
+					admin_check( str_contains( $html, 'sll_settings[recovery_mode]' ) && str_contains( $html, 'Selected administrators' ) && str_contains( $html, is_multisite() ? 'All super administrators (legacy)' : 'All administrators (legacy)' ), 'Both packages show the recovery modes in each scope.' );
 					admin_check( str_contains( $html, 'name="sll_settings[recovery_user_ids][]" value=""' ) && str_contains( $html, 'multiple size="5"' ), 'The recovery picker supports multiple accounts and an empty selection.' );
 					admin_check( str_contains( $html, 'Network Admin (network-admin)' ) && ! str_contains( $html, 'Site Member (member)' ) && ! str_contains( $html, 'Other Site Admin (other-site-admin)' ), 'The picker shows only eligible accounts in its scope.' );
 					admin_check( ( 'site' === $scope ) === str_contains( $html, 'Site &lt;Admin&gt; (site-admin)' ), 'Site administrator labels are escaped and absent from network recovery choices.' );
-					admin_check( ! str_contains( $html, 'Local administrators retain a recovery login.' ) && str_contains( $html, 'LDAP and server sign-on cannot sign in as a selected recovery account.' ), 'The access text describes the selected recovery policy.' );
+					admin_check( ! str_contains( $html, 'Local administrators retain a recovery login.' ) && str_contains( $html, 'Use separate local accounts with WordPress passwords.' ), 'The access text describes the selected recovery policy.' );
 				}
 			}
 		}
 	}
+	foreach ( array( 'ad', 'ol' ) as $directory ) {
+		$settings->directory = $directory;
+		foreach ( array( 'connection', 'advanced' ) as $tab ) {
+			$_GET = array( 'tab' => $tab );
+			ob_start(); $admin->render(); $html = ob_get_clean();
+			preg_match_all( '/<div class="sll-field" data-sll-directory="(ad|ol)"( hidden)?>/', $html, $fields, PREG_SET_ORDER );
+			admin_check( count( $fields ) > 0, 'Directory-specific fields have visibility controls.' );
+			foreach ( $fields as $field ) {
+				admin_check( ( $directory !== $field[1] ) === isset( $field[2] ), 'Only relevant directory fields are visible without JavaScript.' );
+			}
+		}
+	}
+	$settings->directory = 'ad';
 	admin_check( 0 === $client->calls, 'Rendering all screens makes no LDAP request.' );
 	$settings->network = false;
 	foreach ( array( 'selected', 'legacy', 'off' ) as $mode ) {
@@ -215,26 +231,26 @@ namespace {
 	$GLOBALS['sll_admin_broken_secret'] = true;
 	$_GET = array( 'tab' => 'connection' );
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'The saved search account password cannot be read.' ) && false === strpos( $html, 'never-render-this-secret' ), 'An unreadable secret has a safe repair notice.' );
+	admin_check( false !== strpos( $html, 'The saved LDAP search password cannot be read.' ) && false === strpos( $html, 'never-render-this-secret' ), 'An unreadable secret has a safe repair notice.' );
 	$GLOBALS['sll_admin_hooks'] = array();
 	$settings->legacy = true;
 	$_GET = array( 'tab' => 'profile' );
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'This installation can use the Legacy package at no charge.' ) && false !== strpos( $html, 'Saved settings are kept.' ), 'An eligible installation without feature code has a Legacy package notice.' );
+	admin_check( false !== strpos( $html, 'Use the free Legacy package' ) && false !== strpos( $html, 'Saved settings are unchanged.' ), 'An eligible installation without feature code has a Legacy package notice.' );
 	admin_check( false === strpos( $html, 'sll_settings[user_meta_data]' ) && false === strpos( $html, 'tab=sso' ), 'A legacy grant does not add feature code or controls to Free.' );
 	$settings->legacy = false;
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false === strpos( $html, 'This installation can use the Legacy package at no charge.' ), 'A new installation has no legacy grant notice.' );
+	admin_check( false === strpos( $html, 'Use the free Legacy package' ), 'A new installation has no legacy grant notice.' );
 	define( 'SLL_EDITION', 'transition' );
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'remain available without payment during this transition.' ), 'The transition notice explains continued free access.' );
+	admin_check( false !== strpos( $html, 'included during the transition.' ), 'The transition notice explains continued free access.' );
 	define( 'SLL_FEATURES_LOADED', true );
 	$settings->legacy = true;
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false === strpos( $html, 'This package does not contain server sign-on' ), 'A package with feature code has no missing-feature warning.' );
+	admin_check( false === strpos( $html, 'This Free package does not include' ), 'A package with feature code has no missing-feature warning.' );
 	define( 'SLL_DISABLE_LDAP', true );
 	$settings->enabled = true;
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'LDAP login is off for recovery.' ) && false === strpos( $html, 'LDAP login is on' ), 'The recovery switch shows the real runtime state.' );
+	admin_check( false !== strpos( $html, 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP' ) && false === strpos( $html, 'LDAP login is on' ), 'The recovery switch shows the real runtime state.' );
 	echo 'Admin checks passed: ' . $GLOBALS['sll_admin_checks'] . ".\n";
 }

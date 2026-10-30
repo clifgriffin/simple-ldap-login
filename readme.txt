@@ -25,7 +25,7 @@ Free features include:
 * Site and network settings.
 * Connection and login tests that do not create users or sessions.
 
-Server single sign-on and custom metadata mappings move to Pro for new installations after the transition release. Existing installations retain all old capabilities through a maintained Legacy package at no charge. The Transition package keeps all old features available to everyone without a license key or payment.
+After the transition release, new sites need Pro for single sign-on (SSO) and custom user fields. Existing sites can use the free Legacy package to keep these features. Transition includes them without a license key.
 
 Install only one edition. Free, Pro, Legacy, and Transition use the same plugin folder and entry file. Pro and Legacy are full replacements, not add-ons.
 
@@ -41,7 +41,7 @@ LDAP requests go to the directory servers that an administrator sets. The free p
 4. Open Settings > Simple LDAP Login. For network activation, use Network Admin > Settings.
 5. Enter the directory connection details. Use StartTLS or LDAPS and a trusted server certificate.
 6. Save the settings and run the connection and login tests.
-7. Keep the administrator session open. Enable LDAP login and test it in a second browser.
+7. Choose local recovery access on the Access tab. Keep your administrator session open, enable LDAP login, and test it in another browser.
 
 A release ZIP includes its dependencies. Do not install an unbuilt source archive.
 
@@ -53,7 +53,7 @@ The Advanced tab contains the timeout, LDAP login and group attributes, group se
 
 = Will my existing settings work? =
 
-The plugin keeps the settings option name and its site or network scope. It backs up and migrates older settings. It records legacy eligibility before migration. Use Legacy to retain SSO, custom mappings, and their settings controls. A local eligibility record cannot restore feature code absent from a ZIP.
+Your saved settings stay in place. The plugin backs up older settings before migration. Existing sites qualify for free Legacy access. Install Legacy to keep SSO and custom user fields.
 
 Existing unencrypted connections continue to work with a warning. A failed TLS connection stops the login attempt. If the plugin cannot read a saved search password, enter it again.
 
@@ -61,18 +61,16 @@ Existing unencrypted connections continue to work with a warning. A failed TLS c
 
 Server SSO and custom metadata mappings are Pro features for new installations after transition. Existing installations retain all old features through Legacy at no charge, including features they had not enabled. The Transition package keeps them available to everyone during migration. Central network settings remain free.
 
-Multiple independent directories, group-to-role rules, scheduled account updates, audit exports, and network templates remain planned work. They are not included yet.
-
 = Does Legacy require a license key? =
 
-No. Legacy keeps the old capabilities available without a key or a remote license check during login. Before distribution, its no-cost update path and the move from old versions must pass release tests.
+No. Legacy includes the old features without a license key. Its update service still needs to be completed before public release.
 
 = What happens if LDAP is unavailable? =
 
 Local recovery access on the Access tab has three choices:
 
 * Selected administrators: the chosen accounts use WordPress authentication directly. LDAP and server SSO cannot sign in as these accounts or update their directory metadata.
-* All administrators (legacy): keep the old administrator password fallback.
+* All administrators (legacy): allow administrator WordPress passwords. On multisite, this applies to super administrators only.
 * Off: remove the administrator exception. Every account follows the normal LDAP login policy.
 
 New installations default to Selected administrators. Select at least one eligible local account, or explicitly choose Off, before enabling LDAP or server SSO. Site settings accept administrators of that site. Network settings accept only super administrators. Existing installations keep the legacy rule until an administrator changes it. Local recovery access is included in Free.
@@ -85,11 +83,11 @@ Set define( 'SLL_DISABLE_LDAP', true ); in wp-config.php before WordPress loads,
 
 = Does SSO trust a browser header? =
 
-No. Pro, Legacy, and Transition use REMOTE_USER set by a server authentication module. Do not copy client request headers into that variable. Block access paths that bypass server authentication. SSO also requires a valid read-only search account. DOMAIN\name identities must match the configured Login domain. The reduced Free package does not include server SSO.
+No. Pro, Legacy, and Transition use REMOTE_USER set by a server authentication module. Do not copy client request headers into that variable. Block access paths that bypass server authentication. SSO also requires a valid read-only search account. DOMAIN\name logins must match the Windows domain setting. The reduced Free package does not include server SSO.
 
 = What happens when I delete the plugin? =
 
-The plugin keeps settings unless an administrator selects Delete settings on uninstall for that site or network. It keeps WordPress users.
+User accounts are always kept. Settings are kept unless you enable Delete settings when removing the plugin on the Advanced tab.
 
 == Changelog ==
 
