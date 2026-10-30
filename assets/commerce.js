@@ -63,11 +63,10 @@
 	root.hidden = false;
 	document.getElementById( 'sll-license-fallback' ).hidden = true;
 
-	const button = document.getElementById( 'sll-load-pricing' );
-	if ( ! button ) {
+	const container = document.getElementById( 'sll-pricing' );
+	if ( ! container ) {
 		return;
 	}
-	const container = document.getElementById( 'sll-pricing' );
 	const status = document.getElementById( 'sll-pricing-status' );
 	const checkoutOrigin = 'https://checkout.paidcommunities.com';
 	let frame;
@@ -97,42 +96,36 @@
 		},
 		true
 	);
-	button.addEventListener( 'click', () => {
-		button.disabled = true;
+	status.hidden = false;
+	status.textContent = config.i18n.pricingLoading;
+	const previous = window.paidcommunities;
+	const script = document.createElement( 'script' );
+	// Show plans when the administrator opens Go Pro.
+	script.src = 'https://js.paidcommunities.com/v1';
+	script.referrerPolicy = 'no-referrer';
+	const failed = () => {
 		status.hidden = false;
-		status.textContent = config.i18n.pricingLoading;
-		const previous = window.paidcommunities;
-		const script = document.createElement( 'script' );
-		// Service code loads only after the administrator selects View plans.
-		script.src = 'https://js.paidcommunities.com/v1';
-		script.referrerPolicy = 'no-referrer';
-		const failed = () => {
-			status.hidden = false;
-			status.textContent = config.i18n.pricingError;
-		};
-		script.onerror = failed;
-		script.onload = () => {
-			try {
-				window.paidcommunities = {
-					...previous,
-					...window.paidcommunities,
-				};
-				const pricing = window.paidcommunities.Pricing(
-					config.product
-				);
-				const timeout = window.setTimeout( failed, 15000 );
-				pricing.on( 'onReady', () => {
-					window.clearTimeout( timeout );
-					status.hidden = true;
-					button.hidden = true;
-				} );
-				pricing.render( container );
-				frame = container.querySelector( 'iframe' );
-				frame.title = config.i18n.pricingTitle;
-			} catch {
-				failed();
-			}
-		};
-		document.head.appendChild( script );
-	} );
+		status.textContent = config.i18n.pricingError;
+	};
+	script.onerror = failed;
+	script.onload = () => {
+		try {
+			window.paidcommunities = {
+				...previous,
+				...window.paidcommunities,
+			};
+			const pricing = window.paidcommunities.Pricing( config.product );
+			const timeout = window.setTimeout( failed, 15000 );
+			pricing.on( 'onReady', () => {
+				window.clearTimeout( timeout );
+				status.hidden = true;
+			} );
+			pricing.render( container );
+			frame = container.querySelector( 'iframe' );
+			frame.title = config.i18n.pricingTitle;
+		} catch {
+			failed();
+		}
+	};
+	document.head.appendChild( script );
 } )();

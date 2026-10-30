@@ -34,7 +34,7 @@ The tests do not use a live customer license. Before release, check a real purch
 
 ## Purchases from Free
 
-The Get Pro tab loads local activation scripts only. Selecting **View plans** loads the official purchase SDK at `https://js.paidcommunities.com/v1`. The SDK renders `Pricing(License::PRODUCT)` in the page. The UI shows the data shared before the administrator loads the service. Its current plan is $499 per year for one site.
+The Go Pro tab lists all eight Pro feature groups. Without an active license, opening the tab loads the official purchase SDK at `https://js.paidcommunities.com/v1`. The SDK renders `Pricing(License::PRODUCT)` in the page without a separate load button. One small, gray notice below the license controls explains the data shared with PaidCommunities. An active license hides plans and keeps the Pro installation instructions.
 
 The purchase SDK checks message IDs. The plugin also checks the message origin and source, and permits redirects only to `https://checkout.paidcommunities.com`. The checkout then handles payment on that domain. A direct hosted pricing link remains available if the SDK cannot load. The purchase SDK and WordPress component SDK share a global name; the wrapper keeps the WordPress component namespace when the purchase SDK loads.
 

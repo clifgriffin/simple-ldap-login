@@ -176,7 +176,128 @@
 	margin: 20px 0;
 }
 
+.sll-admin .sll-pro {
+	margin-bottom: 24px;
+}
+
+.sll-admin .sll-pro-hero {
+	padding: 40px;
+	border-radius: 12px;
+	background: linear-gradient(115deg, #142d45, #254e66);
+	color: #e0eaf2;
+}
+
+.sll-admin .sll-pro-hero h2 {
+	margin: 16px 0;
+	color: #fff;
+	font-size: clamp(26px, 3vw, 38px);
+	line-height: 1.2;
+}
+
+.sll-admin .sll-pro-hero p {
+	max-width: 620px;
+	font-size: 15px;
+	line-height: 1.7;
+}
+
+.sll-admin .sll-pro-hero .sll-pro-label {
+	display: inline-block;
+	margin: 0;
+	padding: 5px 12px;
+	border: 1px solid #f4cd7c;
+	border-radius: 20px;
+	color: #ffe0a2;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.sll-admin .sll-pro-hero .button {
+	margin-top: 12px;
+	border-color: #f4cd7c;
+	background: #f4cd7c;
+	color: #142d45;
+	font-weight: 600;
+}
+
+.sll-admin .sll-pro-hero .button:hover {
+	border-color: #ffe0a2;
+	background: #ffe0a2;
+}
+
+.sll-admin .sll-pro-hero .button:focus {
+	box-shadow: 0 0 0 2px #142d45, 0 0 0 4px #ffe0a2;
+}
+
+.sll-admin .sll-pro-hero .sll-pro-note {
+	margin: 16px 0 0;
+	font-size: 12px;
+}
+
+.sll-admin .sll-pro-included {
+	margin: 28px 0 20px;
+}
+
+.sll-admin .sll-pro-included h2 {
+	margin-bottom: 8px;
+	color: var(--sll-ink);
+}
+
+.sll-admin .sll-pro-included p {
+	margin: 0;
+	color: var(--sll-muted);
+}
+
+.sll-admin .sll-pro-features {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.sll-admin .sll-pro-feature {
+	display: flex;
+	gap: 16px;
+	padding: 24px;
+	border: 1px solid var(--sll-border);
+	border-radius: 9px;
+	background: #fff;
+}
+
+.sll-admin .sll-pro-feature .dashicons {
+	flex-shrink: 0;
+	padding: 10px;
+	border-radius: 8px;
+	background: #edf5f8;
+	color: #245674;
+}
+
+.sll-admin .sll-pro-feature h3 {
+	margin: 0 0 8px;
+	color: var(--sll-ink);
+	font-size: 15px;
+}
+
+.sll-admin .sll-pro-feature p {
+	margin: 0;
+	color: var(--sll-muted);
+	line-height: 1.7;
+}
+
+.sll-admin .sll-commerce-disclaimer {
+	color: #646970;
+	font-size: 12px;
+	line-height: 1.6;
+}
+
 @media (max-width: 782px) {
+
+	.sll-admin .sll-pro-hero {
+		padding: 28px 24px;
+	}
+
+	.sll-admin .sll-pro-features {
+		grid-template-columns: minmax(0, 1fr);
+	}
 
 	.sll-admin .sll-overview {
 		align-items: flex-start;

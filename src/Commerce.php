@@ -55,7 +55,7 @@ final class Commerce {
 			)
 		);
 		$tabs            = array_diff_key( $tabs, $last );
-		$tabs['license'] = isset( $tabs['sso'] ) ? __( 'License', 'simple-ldap-login' ) : __( 'Get Pro', 'simple-ldap-login' );
+		$tabs['license'] = isset( $tabs['sso'] ) ? __( 'License', 'simple-ldap-login' ) : '✨ ' . __( 'Go Pro', 'simple-ldap-login' );
 		return array_merge( $tabs, $last );
 	}
 
@@ -90,23 +90,91 @@ final class Commerce {
 		$license = new License( $this->settings );
 		$data    = $license->data();
 		if ( ! defined( 'SLL_FEATURES_LOADED' ) ) {
-			$admin->card_start( __( 'Simple LDAP Login Pro', 'simple-ldap-login' ), __( 'Give staff fewer login prompts and keep user details in sync with LDAP.', 'simple-ldap-login' ) );
+			$features = array(
+				array(
+					'lock',
+					__( 'Single sign-on (SSO)', 'simple-ldap-login' ),
+					__( 'Give staff one less password prompt. Sign in through your web server with Kerberos, NTLM, or other server authentication.', 'simple-ldap-login' ),
+				),
+				array(
+					'groups',
+					__( 'Group roles', 'simple-ldap-login' ),
+					__( 'Turn directory groups into WordPress roles at each login. Give editors, authors, and other teams the access they need.', 'simple-ldap-login' ),
+				),
+				array(
+					'admin-users',
+					__( 'Profile updates', 'simple-ldap-login' ),
+					__( 'Keep names, email addresses, and websites current. Copy directory values to existing WordPress profiles at login.', 'simple-ldap-login' ),
+				),
+				array(
+					'id-alt',
+					__( 'Custom user fields', 'simple-ldap-login' ),
+					__( 'Put phone numbers, departments, and other LDAP fields to work in WordPress. Map text and number fields for your theme or plugins.', 'simple-ldap-login' ),
+				),
+				array(
+					'download',
+					__( 'Scheduled account import', 'simple-ldap-login' ),
+					__( 'Have accounts ready before the first login. Import directory users each hour, with filters for groups and directory location.', 'simple-ldap-login' ),
+				),
+				array(
+					'shield',
+					__( 'Scheduled access removal', 'simple-ldap-login' ),
+					__( 'Check managed accounts each hour. Suspend access and end sessions when directory checks confirm removal or lost access. Keep user content.', 'simple-ldap-login' ),
+				),
+				array(
+					'networking',
+					__( 'Multisite membership', 'simple-ldap-login' ),
+					__( 'Manage access across your WordPress network. Use directory groups to assign site membership and roles, then remove access when groups change.', 'simple-ldap-login' ),
+				),
+				array(
+					'list-view',
+					__( 'Audit history and CSV export', 'simple-ldap-login' ),
+					__( 'See login results, role changes, imports, and access changes in one place. Set record retention and export the history to CSV.', 'simple-ldap-login' ),
+				),
+			);
 			?>
-			<h3><?php esc_html_e( 'Single sign-on (SSO)', 'simple-ldap-login' ); ?></h3>
-			<p><?php esc_html_e( 'Let staff open WordPress without another login prompt. Requires authentication on your web server, such as Kerberos or NTLM.', 'simple-ldap-login' ); ?></p>
-			<h3><?php esc_html_e( 'Custom user fields', 'simple-ldap-login' ); ?></h3>
-			<p><?php esc_html_e( 'Copy phone numbers, departments, and other LDAP fields to WordPress at login. Use these values in your theme or other plugins.', 'simple-ldap-login' ); ?></p>
+			<section class="sll-pro" aria-labelledby="sll-pro-title">
+				<div class="sll-pro-hero">
+					<p class="sll-pro-label"><?php esc_html_e( 'Simple LDAP Login Pro', 'simple-ldap-login' ); ?></p>
+					<h2 id="sll-pro-title"><?php esc_html_e( 'Manage WordPress users from your directory.', 'simple-ldap-login' ); ?></h2>
+					<p><?php esc_html_e( 'Set WordPress roles from LDAP groups and update profiles from directory data. Import new accounts before the first login, and suspend access when users leave.', 'simple-ldap-login' ); ?></p>
+					<?php if ( ! $license->is_active() ) : ?>
+						<a class="button button-primary button-hero" href="#sll-pro-plans"><?php esc_html_e( 'Go Pro', 'simple-ldap-login' ); ?> <span aria-hidden="true">&rarr;</span></a>
+					<?php endif; ?>
+					<p class="sll-pro-note"><?php esc_html_e( 'Your existing LDAP settings stay in place.', 'simple-ldap-login' ); ?></p>
+				</div>
+				<div class="sll-pro-included">
+					<h2><?php esc_html_e( 'Everything you get with Pro', 'simple-ldap-login' ); ?></h2>
+					<p><?php esc_html_e( 'All eight features are included with an active Pro license.', 'simple-ldap-login' ); ?></p>
+				</div>
+				<div class="sll-pro-features">
+					<?php foreach ( $features as $feature ) : ?>
+						<div class="sll-pro-feature">
+							<span class="dashicons dashicons-<?php echo esc_attr( $feature[0] ); ?>" aria-hidden="true"></span>
+							<div>
+								<h3><?php echo esc_html( $feature[1] ); ?></h3>
+								<p><?php echo esc_html( $feature[2] ); ?></p>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<p class="description"><?php esc_html_e( 'Scheduled tasks use WordPress cron and need site traffic or a system task. Single sign-on requires web server authentication. Multisite rules require network activation.', 'simple-ldap-login' ); ?></p>
+			</section>
 			<?php
 			if ( ! $license->is_active() ) {
+				$admin->card_start( __( 'Choose your Pro plan', 'simple-ldap-login' ), __( 'Select a plan below to get started.', 'simple-ldap-login' ) );
 				?>
-			<p><button class="button button-primary" type="button" id="sll-load-pricing"><?php esc_html_e( 'View plans', 'simple-ldap-login' ); ?></button> <a href="<?php echo esc_url( self::checkout_url() ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Open checkout in a new tab', 'simple-ldap-login' ); ?></a></p>
-			<p class="description"><?php esc_html_e( 'Plans and checkout use PaidCommunities. It receives your IP address and browser details.', 'simple-ldap-login' ); ?></p>
-			<p id="sll-pricing-status" role="status" hidden></p>
-			<div id="sll-pricing"></div>
-			<?php } ?>
+			<div id="sll-pro-plans">
+				<p id="sll-pricing-status" role="status" hidden></p>
+				<div id="sll-pricing"></div>
+				<p><a href="<?php echo esc_url( self::checkout_url() ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Open checkout in a new tab', 'simple-ldap-login' ); ?></a></p>
+			</div>
+				<?php
+				$admin->card_end();
+			}
+			?>
 			<p><?php esc_html_e( 'After purchase, install the Pro ZIP from your receipt. Your LDAP settings will stay in place.', 'simple-ldap-login' ); ?></p>
 			<?php
-			$admin->card_end();
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only result notice.
 		$result = isset( $_GET['sll_license_result'] ) && is_string( $_GET['sll_license_result'] ) ? sanitize_key( wp_unslash( $_GET['sll_license_result'] ) ) : '';
@@ -123,10 +191,6 @@ final class Commerce {
 		);
 		?>
 		<p><strong><?php esc_html_e( 'License status', 'simple-ldap-login' ); ?>:</strong> <?php echo esc_html( $license->is_active() ? __( 'Active', 'simple-ldap-login' ) : ( $labels[ $data['status'] ?? '' ] ?? __( 'Not activated', 'simple-ldap-login' ) ) ); ?></p>
-		<details>
-			<summary><?php esc_html_e( 'Data shared with PaidCommunities', 'simple-ldap-login' ); ?></summary>
-			<p><?php esc_html_e( 'Activation sends your license key, site domain, plugin version, and server IP address to PaidCommunities. License checks send the same site details.', 'simple-ldap-login' ); ?></p>
-		</details>
 		<div id="sll-license-component" class="sll-license-component" hidden></div>
 		<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
 			<?php wp_nonce_field( 'sll_license' ); ?>
@@ -150,6 +214,11 @@ final class Commerce {
 		</form>
 		<?php
 		$admin->card_end();
+		?>
+		<p class="sll-commerce-disclaimer">
+			<?php esc_html_e( 'PaidCommunities handles plans, payment, and licenses. Plan requests share your IP address, browser details, and site referrer. Activation sends your license key, site domain, plugin version, and server IP address. License checks send site details. LDAP credentials and user records are not sent.', 'simple-ldap-login' ); ?>
+		</p>
+		<?php
 	}
 
 	/**
@@ -259,7 +328,7 @@ final class Commerce {
 		$assets->register_script( 'paidcommunities-wp-components', 'build/components.js' );
 		$assets->register_style( 'paidcommunities-wp-components', 'build/styles.css' );
 		wp_enqueue_style( 'paidcommunities-wp-components' );
-		wp_enqueue_script( 'simple-ldap-login-commerce', plugins_url( 'assets/commerce.js', SLL_FILE ), array( 'wp-element', 'paidcommunities-wp-components' ), SLL_VERSION, true );
+		wp_enqueue_script( 'simple-ldap-login-commerce', plugins_url( 'assets/commerce.js', SLL_FILE ), array( 'wp-element', 'paidcommunities-wp-components' ), SLL_VERSION . '.' . filemtime( dirname( __DIR__ ) . '/assets/commerce.js' ), true );
 		$config = array(
 			'basename' => plugin_basename( SLL_FILE ),
 			'nonce'    => wp_create_nonce( 'sll_license' ),

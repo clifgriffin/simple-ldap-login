@@ -152,7 +152,7 @@ Extensions can register through `sll_loaded`, which supplies the settings and au
 
 Pro includes server SSO, custom user fields, group role rules, profile updates, scheduled account import and access removal, multisite membership rules, and audit history with CSV export. A 1.x site that uses SSO or custom user fields must upgrade directly to Pro. Central network settings remain free. Multiple independent directories and network configuration templates remain planned features.
 
-PaidCommunities manages purchases, license activation, and status checks. Free has a Get Pro tab with the official pricing and activation components. Both editions use the SDK services with a checked HTTP client and license handlers. It does not register the SDK's unsafe admin handlers. Automatic updates and live account checks remain open in the [product plan](docs/product-plan.md).
+PaidCommunities manages purchases, license activation, and status checks. Free has a Go Pro tab with the full feature list and official pricing and activation components. Plans load when an administrator opens the tab without an active license. Both editions use the SDK services with a checked HTTP client and license handlers. It does not register the SDK's unsafe admin handlers. Automatic updates and live account checks remain open in the [product plan](docs/product-plan.md).
 
 All editions use GPL-2.0-or-later. Pro features require an active subscription. A service error keeps the last verified status; it does not activate an expired license. Expiry does not end existing WordPress sessions or delete settings.
 

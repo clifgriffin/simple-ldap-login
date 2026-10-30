@@ -171,6 +171,7 @@ namespace {
 					admin_check( false !== strpos( $html, 'name="sll_scope" value="' . $scope . '"' ) && false !== strpos( $html, 'name="_wpnonce"' ), 'Forms have a nonce and correct scope: ' . $edition . '/' . $scope . '/' . $tab );
 				}
 				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
+				admin_check( ( 'free' === $edition ) === str_contains( $html, '✨ Go Pro' ) && ! str_contains( $html, 'Get Pro' ), 'Free has a Go Pro tab with an accent; Pro keeps License.' );
 				admin_check( str_contains( $html, '>Testing</a>' ) && ! str_contains( $html, '>Troubleshooting</a>' ), 'The test tab is named Testing.' );
 				admin_check( strpos( $html, '>Testing</a>' ) < strpos( $html, '>Support</a>' ), 'Support follows Testing in both packages.' );
 				admin_check( ( 'support' === $tab ) === str_contains( $html, 'If you are locked out' ), 'Recovery instructions appear only on Support.' );
@@ -247,10 +248,15 @@ namespace {
 		ob_start(); $admin->render(); $html = ob_get_clean();
 		admin_check( str_contains( $html, 'Your Pro license has expired.' ) && str_contains( $html, 'Check license' ), 'Expired licenses have a clear message and a renewal check.' );
 		admin_check( ! str_contains( $html, 'never-render-license-secret' ) && 1 === substr_count( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ), 'The license page has one form and does not reveal the activation secret.' );
-		admin_check( str_contains( $html, 'View plans' ), 'Free can show plans without an active license.' );
+		admin_check( str_contains( $html, 'id="sll-pricing"' ) && ! str_contains( $html, 'sll-load-pricing' ), 'Free shows plans without a load button.' );
+		foreach ( array( 'Single sign-on (SSO)', 'Group roles', 'Profile updates', 'Custom user fields', 'Scheduled account import', 'Scheduled access removal', 'Multisite membership', 'Audit history and CSV export' ) as $feature ) {
+			admin_check( str_contains( $html, '<h3>' . $feature . '</h3>' ), 'Go Pro lists ' . $feature . '.' );
+		}
+		admin_check( 1 === substr_count( $html, 'PaidCommunities' ) && strpos( $html, 'sll-commerce-disclaimer' ) > strpos( $html, '</form>' ), 'One data sharing notice appears below all license controls.' );
+		admin_check( ! str_contains( $html, '<details>' ), 'Data sharing does not add a separate warning control.' );
 		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'active';
 		ob_start(); $admin->render(); $licensed_html = ob_get_clean();
-		admin_check( ! str_contains( $licensed_html, 'View plans' ) && str_contains( $licensed_html, 'install the Pro ZIP' ), 'An active license shows installation instructions instead of another purchase offer.' );
+		admin_check( ! str_contains( $licensed_html, 'id="sll-pricing"' ) && ! str_contains( $licensed_html, 'href="#sll-pro-plans"' ) && str_contains( $licensed_html, 'install the Pro ZIP' ), 'An active license shows installation instructions instead of another purchase offer.' );
 		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'expired';
 		$GLOBALS['sll_commerce_scripts'] = array();
 		$_GET['tab'] = 'connection';
@@ -260,7 +266,7 @@ namespace {
 		$pro_admin->enqueue( 'dashboard' );
 		admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Other admin screens do not load the SDK components.' );
 		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
-		admin_check( count( $GLOBALS['sll_commerce_scripts'] ) === 3 && ! str_contains( implode( '', $GLOBALS['sll_commerce_scripts'] ), 'https://' ), 'The license screen loads only local scripts before purchase consent.' );
+		admin_check( count( $GLOBALS['sll_commerce_scripts'] ) === 3 && ! str_contains( implode( '', $GLOBALS['sll_commerce_scripts'] ), 'https://' ), 'The license screen registers local scripts for license controls and plans.' );
 		$config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
 		admin_check( $scope === $config['scope'] && 'test-nonce' === $config['nonce'] && 'expired' === $config['license']['status'], 'The SDK receives the correct scope, nonce, and saved status.' );
 		admin_check( ! str_contains( $GLOBALS['sll_commerce_config'], 'never-render-license-secret' ), 'The SDK configuration does not contain the activation secret.' );

@@ -8,7 +8,6 @@ async function check() {
 		[
 			'sll-license-component',
 			'sll-license-fallback',
-			'sll-load-pricing',
 			'sll-pricing',
 			'sll-pricing-status',
 		].map( ( id ) => [ id, { hidden: false } ] )
@@ -21,10 +20,6 @@ async function check() {
 	const frame = { name: 'test-frame', contentWindow: {} };
 	elements[ 'sll-license-component' ].querySelector = () => input;
 	elements[ 'sll-pricing' ].querySelector = () => frame;
-	elements[ 'sll-load-pricing' ].addEventListener = ( name, callback ) => {
-		assert.equal( name, 'click' );
-		elements[ 'sll-load-pricing' ].click = callback;
-	};
 	let script;
 	let observer;
 	let guard;
@@ -99,9 +94,14 @@ async function check() {
 	} );
 	assert.equal( requests, 0 );
 	assert.equal(
-		script,
-		undefined,
-		'Opening settings does not load the purchase service.'
+		script.src,
+		'https://js.paidcommunities.com/v1',
+		'Go Pro loads plans without another button.'
+	);
+	assert.equal( script.referrerPolicy, 'no-referrer' );
+	assert.equal(
+		elements[ 'sll-pricing-status' ].textContent,
+		config.i18n.pricingLoading
 	);
 	assert.equal( elements[ 'sll-license-fallback' ].hidden, true );
 	observer();
@@ -142,8 +142,6 @@ async function check() {
 		( await props.apiService.activate( '', {} ) ).error.message,
 		config.i18n.licenseError
 	);
-	elements[ 'sll-load-pricing' ].click();
-	assert.equal( script.src, 'https://js.paidcommunities.com/v1' );
 	script.onerror();
 	assert.equal(
 		elements[ 'sll-pricing-status' ].textContent,
@@ -201,8 +199,22 @@ async function check() {
 	}
 	ready();
 	assert.equal( elements[ 'sll-pricing-status' ].hidden, true );
+	delete elements[ 'sll-pricing' ];
+	script = undefined;
+	guard = undefined;
+	vm.runInNewContext( source, { window, document, URL, URLSearchParams } );
+	assert.equal(
+		script,
+		undefined,
+		'An active license does not load the purchase service.'
+	);
+	assert.equal(
+		guard,
+		undefined,
+		'License controls work without a pricing frame.'
+	);
 	process.stdout.write(
-		'SDK component, purchase consent, API adapter, and message checks passed.\n'
+		'SDK component, automatic plans, API adapter, and message checks passed.\n'
 	);
 }
 check().catch( ( error ) => {
