@@ -16,6 +16,8 @@ class WP_User {
 	public string $user_login;
 	public string $user_email;
 	public bool $admin;
+	public array $roles = array( 'subscriber' );
+	public function set_role( $role ) { $this->roles = $role ? array( $role ) : array(); }
 	public bool $spam = false;
 	public bool $deleted = false;
 	public function __construct( int $id, string $login, string $email = '', bool $admin = false ) {

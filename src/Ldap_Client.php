@@ -368,7 +368,7 @@ class Ldap_Client {
 		if ( ! apply_filters( 'sll_user_has_groups', $this->has_groups( $connection, $entry, $this->login_name( $username ) ) ) ) {
 			return $this->error( 'sll_groups' );
 		}
-		return array_merge( $entry->getAttributes(), array( 'dn' => $entry->getDn() ) );
+		return apply_filters( 'sll_ldap_entry', array_merge( $entry->getAttributes(), array( 'dn' => $entry->getDn() ) ), $connection, $entry, $this->login_name( $username ) );
 	}
 
 	/**
@@ -377,10 +377,11 @@ class Ldap_Client {
 	 * @param Connection $connection LDAP connection.
 	 * @param Model      $entry      User model.
 	 * @param string     $username   Login name.
+	 * @param array|null $groups Optional group list from a directory module.
 	 * @return bool Access result.
 	 */
-	private function has_groups( Connection $connection, Model $entry, string $username ): bool {
-		$groups = array_filter( (array) $this->settings->get( 'groups' ), 'strlen' );
+	protected function has_groups( Connection $connection, Model $entry, string $username, ?array $groups = null ): bool {
+		$groups = array_filter( $groups ?? (array) $this->settings->get( 'groups' ), 'strlen' );
 		if ( ! $groups ) {
 			return true;
 		}

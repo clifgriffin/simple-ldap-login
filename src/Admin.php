@@ -282,6 +282,7 @@ final class Admin {
 		$this->select( 'role', __( 'Default role', 'simple-ldap-login' ), $roles, __( 'For new accounts only.', 'simple-ldap-login' ) );
 		$this->textarea( 'groups', __( 'Required groups', 'simple-ldap-login' ), __( 'One group name per line. Users must belong to at least one. Leave blank to allow all LDAP users.', 'simple-ldap-login' ) );
 		$this->card_end();
+		do_action( 'sll_access_settings', $this );
 	}
 
 	/** Render the existing administrator accounts allowed in this settings scope. */

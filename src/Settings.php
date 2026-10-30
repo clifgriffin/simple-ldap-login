@@ -220,6 +220,14 @@ final class Settings {
 		$attrs    = array( 'ol_login', 'ol_group', 'group_uid', 'user_first_name_attribute', 'user_last_name_attribute', 'user_email_attribute', 'user_url_attribute' );
 
 		foreach ( $input as $key => $value ) {
+			$custom = apply_filters( 'sll_validate_setting', null, $key, $value, $this );
+			if ( is_wp_error( $custom ) ) {
+				return $custom;
+			}
+			if ( null !== $custom ) {
+				$settings[ $key ] = $custom;
+				continue;
+			}
 			if ( ! array_key_exists( $key, $defaults ) || in_array( $key, array( 'version', 'schema_version' ), true ) ) {
 				return $this->invalid( $key );
 			}

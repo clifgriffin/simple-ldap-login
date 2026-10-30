@@ -155,3 +155,5 @@ PaidCommunities manages purchases, license activation, and status checks. Free h
 All editions use GPL-2.0-or-later. Pro features require an active subscription. A service error keeps the last verified status; it does not activate an expired license. Expiry does not end existing WordPress sessions or delete settings.
 
 The purchase service loads only after an administrator selects **View plans**. Checkout runs on PaidCommunities. After purchase, install the Pro ZIP from the receipt at the same plugin path. A license activated in Free stays active after replacement. Activation does not install or enable paid feature code in Free.
+
+See [Pro account features](docs/pro-features.md) for group role settings and behavior.

@@ -8,7 +8,7 @@ Build only Free and Pro. Server SSO and custom user fields require Pro. Central 
 
 The 1.x upgrade path is narrow. Preserve saved settings, directory credentials, login rules, administrator recovery, and user data. Sites that use SSO or custom user fields must upgrade directly to Pro. There is no separate Legacy package, Transition package, or eligibility grant.
 
-Multiple directories, role rules, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities activation and license checks are implemented. Live account tests and external updates remain required. Do not open sales or distribute the Pro preview until its release checks pass.
+Group-to-role rules are implemented. Multiple directories, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities activation and license checks are implemented. Live account tests and external updates remain required. Do not open sales or distribute the Pro preview until its release checks pass.
 
 ## Free and Pro features
 
@@ -26,8 +26,9 @@ Multiple directories, role rules, scheduled jobs, audit records, and network tem
 | Connection and login tests, and security fixes | Yes | Yes |
 | Server SSO with a trusted server identity | No | Yes |
 | Custom metadata mappings and suffix settings | No | Yes |
+| Group-to-role rules | No | Yes |
 
-Planned Pro additions are multiple independent directories and routing rules; group-to-role rules; scheduled import and profile updates; scheduled account suspension and session removal; audit retention and export; and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise the planned additions as available.
+Planned Pro additions are multiple independent directories and routing rules; scheduled import and profile updates; scheduled account suspension and session removal; audit retention and export; and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise the planned additions as available.
 
 Multiple controllers for one directory stay free. Pro is planned to support separate directories with their own connection and routing rules.
 
