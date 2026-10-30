@@ -295,8 +295,4 @@ foreach ( array( 'admin', 'admin@example.com', 'DOMAIN\\admin', 'directory-admin
 
 unset( $_SERVER['REMOTE_USER'] );
 
-define( 'SLL_DISABLE_LDAP', true );
-sll_auth_setup( array( 'enabled' => true, 'sso_enabled' => true ) );
-check( empty( $GLOBALS['sll_test_filters']['authenticate'] ) && empty( $GLOBALS['sll_test_filters']['init'] ), 'The recovery constant disables password and SSO hooks.' );
-
 echo "Authentication checks passed.\n";

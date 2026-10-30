@@ -16,7 +16,7 @@ function delete_network_option( $id, $key ) { unset( $GLOBALS['networks'][ $id ]
 function get_sites( $args ) { return array_slice( array_keys( $GLOBALS['sites'] ), $args['offset'], $args['number'] ); }
 function switch_to_blog( $id ) { $GLOBALS['site_id'] = $id; }
 function restore_current_blog() { $GLOBALS['site_id'] = 1; }
-function wp_clear_scheduled_hook( $hook ) { verify( 'sll_pro_license_check' === $hook ); }
+function wp_clear_scheduled_hook( $hook ) { verify( in_array( $hook, array( 'sll_pro_license_check', 'sll_import_users' ), true ) ); }
 function verify( $value ) { if ( ! $value ) { throw new RuntimeException( 'Data retention check failed.' ); } }
 
 $sites = array( 1 => array_fill_keys( $keys, 'keep' ) );

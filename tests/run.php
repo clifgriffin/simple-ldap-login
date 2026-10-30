@@ -259,6 +259,9 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/recovery-settings.php';
 require __DIR__ . '/ldap.php';
 require __DIR__ . '/pro.php';
+define( 'SLL_DISABLE_LDAP', true );
+sll_auth_setup( array( 'enabled' => true, 'sso_enabled' => true ) );
+check( empty( $GLOBALS['sll_test_filters']['authenticate'] ) && empty( $GLOBALS['sll_test_filters']['init'] ), 'The recovery constant disables password and SSO hooks.' );
 foreach ( array( '/src/Ldap_Client.php', '/pro/src/Ldap_Client.php' ) as $client_file ) {
 	check( ! preg_match( '/\bldap_[a-z_]+\s*\(/i', file_get_contents( dirname( __DIR__ ) . $client_file ) ), 'The application LDAP client uses library APIs: ' . $client_file );
 }

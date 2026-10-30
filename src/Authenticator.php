@@ -109,7 +109,7 @@ final class Authenticator {
 	 * @return WP_User|WP_Error WordPress account or error.
 	 */
 	public function authenticate_entry( string $username, array $entry, string $password ) {
-		$result = $this->account( $username, $entry );
+		$result = $this->provision( $username, $entry );
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}
@@ -136,9 +136,10 @@ final class Authenticator {
 	 *
 	 * @param string $username Login name.
 	 * @param array  $entry    Directory entry.
+	 * @param bool   $create Allow a scheduled import to create an account.
 	 * @return WP_User|WP_Error WordPress account or error.
 	 */
-	private function account( string $username, array $entry ) {
+	public function provision( string $username, array $entry, bool $create = false ) {
 		$user = get_user_by( 'login', $username );
 		if ( ! $user && 'ad' === $this->settings->get( 'directory' ) && ! empty( $entry['samaccountname'][0] ) ) {
 			// Use the verified account name when a UPN or DOMAIN\name was entered.
@@ -146,7 +147,7 @@ final class Authenticator {
 			$user     = get_user_by( 'login', $username );
 		}
 		if ( ! $user ) {
-			if ( ! Settings::is_true( $this->settings->get( 'create_users' ) ) ) {
+			if ( ! $create && ! Settings::is_true( $this->settings->get( 'create_users' ) ) ) {
 				return new WP_Error( 'sll_account', __( 'Your LDAP login is valid, but you need a WordPress account. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
 			if ( ! validate_username( $username ) || sanitize_user( $username, true ) !== $username ) {

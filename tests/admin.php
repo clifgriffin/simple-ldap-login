@@ -157,7 +157,7 @@ namespace {
 		foreach ( array( 'site', 'network' ) as $scope ) {
 			$settings->network = 'network' === $scope;
 			$GLOBALS['sll_admin_multisite'] = $settings->network;
-			foreach ( array( 'connection', 'access', 'profile', 'sso', 'license', 'advanced', 'help' ) as $tab ) {
+			foreach ( array( 'connection', 'access', 'profile', 'sso', 'accounts', 'license', 'advanced', 'help' ) as $tab ) {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
@@ -166,6 +166,7 @@ namespace {
 				admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'tab=sso' ) ), 'Only packages with SSO add its tab.' );
 				admin_check( ( 'pro' === $edition && 'access' === $tab ) === str_contains( $html, 'sll_settings[role_rules]' ), 'Group role rules appear only on Pro Access.' );
 				admin_check( ( 'pro' === $edition && 'profile' === $tab ) === str_contains( $html, 'sll_settings[profile_updates]' ), 'Profile updates appear only on Pro User data.' );
+				admin_check( ( 'pro' === $edition && 'accounts' === $tab ) === str_contains( $html, 'sll_settings[scheduled_import]' ), 'Scheduled import appears only on Pro Accounts.' );
 				if ( 'profile' === $tab ) {
 					admin_check( ( 'free' === $edition ) === str_contains( $html, 'sll_settings[user_email_attribute]' ), 'Old Free profile links open Advanced; Pro profile shows mappings.' );
 					admin_check( 'pro' === $edition || str_contains( $html, 'name="tab" value="advanced"' ), 'Old Free profile links retain a valid save destination.' );
