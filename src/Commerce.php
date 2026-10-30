@@ -61,11 +61,11 @@ final class Commerce {
 
 	/** Show the effect of an inactive license on the settings screen. */
 	public function license_notice(): void {
-		$license = new License( $this->settings );
-		$data    = $license->data();
-		if ( ! $data && ! defined( 'SLL_FEATURES_LOADED' ) ) {
+		if ( ! defined( 'SLL_FEATURES_LOADED' ) ) {
 			return;
 		}
+		$license = new License( $this->settings );
+		$data    = $license->data();
 		if ( $license->is_active() && empty( $data['error'] ) ) {
 			return;
 		}
@@ -82,7 +82,7 @@ final class Commerce {
 	}
 
 	/**
-	 * Render a separate form so license keys never enter LDAP settings.
+	 * Show purchases in Free and a separate license form in Pro.
 	 *
 	 * @param Admin $admin Shared form controls.
 	 */
@@ -139,7 +139,7 @@ final class Commerce {
 					<h2 id="sll-pro-title"><?php esc_html_e( 'Manage WordPress users from your directory.', 'simple-ldap-login' ); ?></h2>
 					<p><?php esc_html_e( 'Set WordPress roles from LDAP groups and update profiles from directory data. Import new accounts before the first login, and suspend access when users leave.', 'simple-ldap-login' ); ?></p>
 					<?php if ( ! $license->is_active() ) : ?>
-						<a class="button button-primary button-hero" href="#sll-pro-plans"><?php esc_html_e( 'Go Pro', 'simple-ldap-login' ); ?> <span aria-hidden="true">&rarr;</span></a>
+						<a class="button button-primary button-hero" href="<?php echo esc_url( self::checkout_url() ); ?>" rel="noreferrer"><?php esc_html_e( 'Buy Pro', 'simple-ldap-login' ); ?> <span aria-hidden="true">&rarr;</span></a>
 					<?php endif; ?>
 					<p class="sll-pro-note"><?php esc_html_e( 'Your existing LDAP settings stay in place.', 'simple-ldap-login' ); ?></p>
 				</div>
@@ -160,21 +160,13 @@ final class Commerce {
 				</div>
 				<p class="description"><?php esc_html_e( 'Scheduled tasks use WordPress cron and need site traffic or a system task. Single sign-on requires web server authentication. Multisite rules require network activation.', 'simple-ldap-login' ); ?></p>
 			</section>
+			<?php if ( ! $license->is_active() ) : ?>
+				<p><a class="button button-primary button-hero" href="<?php echo esc_url( self::checkout_url() ); ?>" rel="noreferrer"><?php esc_html_e( 'Buy Pro', 'simple-ldap-login' ); ?></a></p>
+			<?php endif; ?>
+			<p><?php esc_html_e( 'After purchase, replace Free with the Pro ZIP from your receipt. Then activate your license on the License tab in Pro. Your LDAP settings stay in place.', 'simple-ldap-login' ); ?></p>
+			<p class="sll-commerce-disclaimer"><?php esc_html_e( 'PaidCommunities handles checkout. It receives your IP address, browser details, and the information you enter at checkout. LDAP credentials and user records are not sent.', 'simple-ldap-login' ); ?></p>
 			<?php
-			if ( ! $license->is_active() ) {
-				$admin->card_start( __( 'Choose your Pro plan', 'simple-ldap-login' ), __( 'Select a plan below to get started.', 'simple-ldap-login' ) );
-				?>
-			<div id="sll-pro-plans">
-				<p id="sll-pricing-status" role="status" hidden></p>
-				<div id="sll-pricing"></div>
-				<p><a href="<?php echo esc_url( self::checkout_url() ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Open checkout in a new tab', 'simple-ldap-login' ); ?></a></p>
-			</div>
-				<?php
-				$admin->card_end();
-			}
-			?>
-			<p><?php esc_html_e( 'After purchase, install the Pro ZIP from your receipt. Your LDAP settings will stay in place.', 'simple-ldap-login' ); ?></p>
-			<?php
+			return;
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only result notice.
 		$result = isset( $_GET['sll_license_result'] ) && is_string( $_GET['sll_license_result'] ) ? sanitize_key( wp_unslash( $_GET['sll_license_result'] ) ) : '';
@@ -216,7 +208,7 @@ final class Commerce {
 		$admin->card_end();
 		?>
 		<p class="sll-commerce-disclaimer">
-			<?php esc_html_e( 'PaidCommunities handles plans, payment, and licenses. Plan requests share your IP address, browser details, and site referrer. Activation sends your license key, site domain, plugin version, and server IP address. License checks send site details. LDAP credentials and user records are not sent.', 'simple-ldap-login' ); ?>
+			<?php esc_html_e( 'PaidCommunities handles licenses. Activation sends your license key, site domain, plugin version, and server IP address. License checks send site details. LDAP credentials and user records are not sent.', 'simple-ldap-login' ); ?>
 		</p>
 		<?php
 	}
@@ -317,6 +309,9 @@ final class Commerce {
 	 * @param string $hook Admin screen hook.
 	 */
 	public function enqueue( string $hook ): void {
+		if ( ! defined( 'SLL_FEATURES_LOADED' ) ) {
+			return;
+		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only screen selection.
 		$tab = isset( $_GET['tab'] ) && is_string( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : '';
 		if ( ! str_ends_with( $hook, '_page_simple-ldap-login' ) || 'license' !== $tab || ! current_user_can( $this->settings->is_network() ? 'manage_network_options' : 'manage_options' ) ) {
@@ -334,7 +329,6 @@ final class Commerce {
 			'nonce'    => wp_create_nonce( 'sll_license' ),
 			'scope'    => $this->settings->is_network() ? 'network' : 'site',
 			'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
-			'product'  => License::PRODUCT,
 			'license'  => $this->component_license(),
 			'i18n'     => array(
 				'licenseKey'        => __( 'License key', 'simple-ldap-login' ),
@@ -345,20 +339,17 @@ final class Commerce {
 				'license_error'     => __( 'License error', 'simple-ldap-login' ),
 				'license_updated'   => __( 'License updated', 'simple-ldap-login' ),
 				'licenseError'      => __( 'Could not verify the license. Check your key and connection, then try again.', 'simple-ldap-login' ),
-				'pricingTitle'      => __( 'Pro plans', 'simple-ldap-login' ),
-				'pricingLoading'    => __( 'Loading plans…', 'simple-ldap-login' ),
-				'pricingError'      => __( 'Could not load plans. Open checkout in a new tab.', 'simple-ldap-login' ),
 			),
 		);
 		wp_add_inline_script( 'simple-ldap-login-commerce', 'window.sllCommerce = ' . wp_json_encode( $config, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
 	}
 
 	/**
-	 * Use the product pricing URL used by the official purchase SDK.
+	 * Open checkout for the single annual plan.
 	 *
-	 * @return string Hosted pricing URL.
+	 * @return string Hosted checkout URL.
 	 */
 	public static function checkout_url(): string {
-		return 'https://checkout.paidcommunities.com/product_pricing/' . License::PRODUCT;
+		return 'https://checkout.paidcommunities.com/checkout/' . License::PRODUCT . '?plan=plan_9QysG8ogD3yHM8sO';
 	}
 }

@@ -35,19 +35,18 @@ LDAP requests go to the directory servers that an administrator sets. Free LDAP 
 
 = External Services =
 
-The optional Go Pro tab uses [PaidCommunities](https://paidcommunities.com/) to show plans, process purchases, and manage Pro licenses. Free LDAP login does not require this service. Pro requires a license key from a purchase through PaidCommunities.
+The optional Go Pro tab links to [PaidCommunities](https://paidcommunities.com/) checkout. It does not load external scripts or show a license form. Pro uses PaidCommunities to manage licenses after installation. Free LDAP login does not require this service. Pro requires a license key from a purchase through PaidCommunities.
 
 The service receives data in these cases:
 
-* Open Go Pro without an active license: This action loads the pricing script from https://js.paidcommunities.com/v1 and the pricing page from https://checkout.paidcommunities.com. PaidCommunities receives the product ID, your IP address, and browser details. The script request does not send a referrer. The pricing page can receive your site origin as a referrer, subject to your browser policy.
-* Open checkout in a new tab: This link opens the product pricing page on https://checkout.paidcommunities.com without a referrer. Payment takes place on PaidCommunities. It receives the purchase and payment details that you enter there.
-* Activate license: This action sends your license key, configured site domain, plugin version, and product ID to https://api.paidcommunities.com/wordpress/v1. The plugin saves an encrypted site activation secret instead of the original license key.
-* Check license: After activation, WordPress schedules a background check once per hour. You can also select Check license. Each check sends the site activation secret, plugin version, and product ID to the same API.
-* Deactivate license: This action sends the site activation ID and secret to the same API. A successful deactivation removes the local activation record and stops background checks.
+* Buy Pro: This link opens checkout for the single annual plan on https://checkout.paidcommunities.com without a referrer. PaidCommunities receives the product and plan IDs, your IP address, and browser details. Payment takes place on PaidCommunities. It receives the purchase and payment details that you enter there.
+* Activate license in Pro: This action sends your license key, configured site domain, plugin version, and product ID to https://api.paidcommunities.com/wordpress/v1. The plugin saves an encrypted site activation secret instead of the original license key.
+* Check license in Pro: After activation, WordPress schedules a background check once per hour. You can also select Check license. Each check sends the site activation secret, plugin version, and product ID to the same API.
+* Deactivate license in Pro: This action sends the site activation ID and secret to the same API. A successful deactivation removes the local activation record and stops background checks.
 
 API requests also share your server IP address and standard WordPress HTTP headers. These headers can include your WordPress version and site URL. Login uses the saved license status and does not make a PaidCommunities request. LDAP hosts, bind credentials, passwords, and user records are not sent to PaidCommunities.
 
-Free keeps WordPress.org updates. After purchase, install the Pro ZIP from your receipt. Activating a key does not install Pro.
+Free keeps WordPress.org updates. After purchase, replace Free with the Pro ZIP from your receipt, then activate your license in Pro. Your LDAP settings stay in place. Activating a key does not install Pro.
 
 * [Service documentation](https://paidcommunities.com/documentation/sdks/wordpress-sdk/)
 * [Checkout documentation](https://paidcommunities.com/documentation/checkout/)

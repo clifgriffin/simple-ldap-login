@@ -5,39 +5,27 @@ const source = fs.readFileSync( 'assets/commerce.js', 'utf8' );
 
 async function check() {
 	const elements = Object.fromEntries(
-		[
-			'sll-license-component',
-			'sll-license-fallback',
-			'sll-pricing',
-			'sll-pricing-status',
-		].map( ( id ) => [ id, { hidden: false } ] )
+		[ 'sll-license-component', 'sll-license-fallback' ].map( ( id ) => [
+			id,
+			{ hidden: false },
+		] )
 	);
 	const input = {
 		setAttribute( name, value ) {
 			this[ name ] = value;
 		},
 	};
-	const frame = { name: 'test-frame', contentWindow: {} };
 	elements[ 'sll-license-component' ].querySelector = () => input;
-	elements[ 'sll-pricing' ].querySelector = () => frame;
-	let script;
 	let observer;
-	let guard;
 	let props;
 	let request;
-	let ready;
-	let product;
 	let requests = 0;
 	const config = {
 		ajaxUrl: '/wp-admin/admin-ajax.php',
 		scope: 'network',
-		product: 'prd_9QyrKxQpvZGrcCW8',
 		i18n: {
 			licenseKey: 'License key',
 			licenseError: 'Could not verify the license.',
-			pricingLoading: 'Loading plans.',
-			pricingError: 'Open checkout in a new tab.',
-			pricingTitle: 'Pro plans',
 		},
 	};
 	const window = {
@@ -56,13 +44,6 @@ async function check() {
 			},
 		},
 		location: { reload() {} },
-		addEventListener( event, listener, capture ) {
-			assert.equal( event, 'message' );
-			assert.equal( capture, true );
-			guard = listener;
-		},
-		setTimeout: () => 1,
-		clearTimeout() {},
 		async fetch( url, options ) {
 			++requests;
 			request = { url, options };
@@ -73,17 +54,10 @@ async function check() {
 	};
 	const document = {
 		getElementById: ( id ) => elements[ id ],
-		createElement: () => ( {} ),
-		head: {
-			appendChild: ( element ) => {
-				script = element;
-			},
-		},
 	};
 	vm.runInNewContext( source, {
 		window,
 		document,
-		URL,
 		URLSearchParams,
 		MutationObserver: ( window.MutationObserver = class {
 			constructor( callback ) {
@@ -93,16 +67,6 @@ async function check() {
 		} ),
 	} );
 	assert.equal( requests, 0 );
-	assert.equal(
-		script.src,
-		'https://js.paidcommunities.com/v1',
-		'Go Pro loads plans without another button.'
-	);
-	assert.equal( script.referrerPolicy, 'no-referrer' );
-	assert.equal(
-		elements[ 'sll-pricing-status' ].textContent,
-		config.i18n.pricingLoading
-	);
 	assert.equal( elements[ 'sll-license-fallback' ].hidden, true );
 	observer();
 	assert.equal( input.type, 'password' );
@@ -142,79 +106,10 @@ async function check() {
 		( await props.apiService.activate( '', {} ) ).error.message,
 		config.i18n.licenseError
 	);
-	script.onerror();
-	assert.equal(
-		elements[ 'sll-pricing-status' ].textContent,
-		config.i18n.pricingError
-	);
-	window.paidcommunities = {
-		Pricing( id ) {
-			product = id;
-			return {
-				on: ( name, callback ) => {
-					ready = callback;
-				},
-				render: ( container ) =>
-					assert.equal( container, elements[ 'sll-pricing' ] ),
-			};
-		},
-	};
-	script.onload();
-	assert.equal( product, config.product );
-	assert(
-		window.paidcommunities.wp,
-		'The purchase SDK preserves the WordPress SDK components.'
-	);
-	assert.equal( frame.title, config.i18n.pricingTitle );
-	for ( const [ origin, sender, url, blocked ] of [
-		[ 'https://attacker.test', frame.contentWindow, undefined, true ],
-		[ 'https://checkout.paidcommunities.com', {}, undefined, true ],
-		[
-			'https://checkout.paidcommunities.com',
-			frame.contentWindow,
-			'https://attacker.test/',
-			true,
-		],
-		[
-			'https://checkout.paidcommunities.com',
-			frame.contentWindow,
-			'https://checkout.paidcommunities.com/checkout/test',
-			false,
-		],
-	] ) {
-		let stopped = false;
-		guard( {
-			data: {
-				id: frame.name,
-				event: url ? 'redirect' : 'resize',
-				payload: { url },
-			},
-			origin,
-			source: sender,
-			stopImmediatePropagation() {
-				stopped = true;
-			},
-		} );
-		assert.equal( stopped, blocked );
-	}
-	ready();
-	assert.equal( elements[ 'sll-pricing-status' ].hidden, true );
-	delete elements[ 'sll-pricing' ];
-	script = undefined;
-	guard = undefined;
-	vm.runInNewContext( source, { window, document, URL, URLSearchParams } );
-	assert.equal(
-		script,
-		undefined,
-		'An active license does not load the purchase service.'
-	);
-	assert.equal(
-		guard,
-		undefined,
-		'License controls work without a pricing frame.'
-	);
+	delete elements[ 'sll-license-component' ];
+	vm.runInNewContext( source, { window, document, URLSearchParams } );
 	process.stdout.write(
-		'SDK component, automatic plans, API adapter, and message checks passed.\n'
+		'Pro license component and API adapter checks passed.\n'
 	);
 }
 check().catch( ( error ) => {

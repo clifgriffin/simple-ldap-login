@@ -1,6 +1,6 @@
 # Pro licenses
 
-SSO, custom LDAP user fields, group role rules, profile updates, scheduled account jobs, multisite membership rules, and audit collection and export require an active PaidCommunities license. Free includes the purchase and license client, but excludes the paid feature code. LDAP password login in Free does not require a license.
+SSO, custom LDAP user fields, group role rules, profile updates, scheduled account jobs, multisite membership rules, and audit collection and export require an active PaidCommunities license. Free has a purchase page. Pro has license controls and replaces Free in the same plugin folder. LDAP password login in Free does not require a license.
 
 | License state | Pro behavior |
 | --- | --- |
@@ -14,9 +14,9 @@ LDAP password login, account creation, group checks, and local recovery accounts
 
 ## Activation and checks
 
-Use the License tab to activate, check, or deactivate a license. Activation sends the key, the configured site domain, and the plugin version to PaidCommunities. The service also receives the server IP address. The original key is not stored. The site activation secret is encrypted with the same key source used for LDAP credentials. License data uses `sll_pro_license`, separate from the public LDAP settings API.
+Install Pro, then use its License tab to activate, check, or deactivate a license. Activation sends the key, the configured site domain, and the plugin version to PaidCommunities. The service also receives the server IP address. The original key is not stored. The site activation secret is encrypted with the same key source used for LDAP credentials. License data uses `sll_pro_license`, separate from the public LDAP settings API.
 
-The shared Composer dependency is `paidcommunities/wordpress-sdk` at `0.0.4`. The build places the SDK under `SimpleLdapLoginVendor`. Both editions use its local `LicenseActivation` React component and domain and plugin services. They do not initialize `PluginConfig`, the SDK admin handlers, or its updater. The component calls the checked `wp_ajax_sll_license` handler through its `apiService` prop. A normal form remains available if JavaScript fails. The shared HTTP client checks HTTP status and JSON data, blocks redirects, and uses a ten-second timeout. Keys, secrets, remote error bodies, LDAP settings, and directory records are not logged.
+The shared Composer dependency is `paidcommunities/wordpress-sdk` at `0.0.4`. The build places the SDK under `SimpleLdapLoginVendor`. Only Pro loads its local `LicenseActivation` React component. Neither edition initializes `PluginConfig`, the SDK admin handlers, or its updater. The component calls the checked `wp_ajax_sll_license` handler through its `apiService` prop. A normal form remains available if JavaScript fails. The shared HTTP client checks HTTP status and JSON data, blocks redirects, and uses a ten-second timeout. Keys, secrets, remote error bodies, LDAP settings, and directory records are not logged.
 
 The SDK's authenticated `plugins/update_check` endpoint returns `license.status`. Only `active`, `inactive`, and `expired` are accepted. This endpoint checks a license even though the preview does not yet install external updates. See the [SDK source](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/UpdateController.php) and [documented license states](https://paidcommunities.com/documentation/objects/license/).
 
@@ -34,10 +34,10 @@ The tests do not use a live customer license. Before release, check a real purch
 
 ## Purchases from Free
 
-The Go Pro tab lists all eight Pro feature groups. Without an active license, opening the tab loads the official purchase SDK at `https://js.paidcommunities.com/v1`. The SDK renders `Pricing(License::PRODUCT)` in the page without a separate load button. One small, gray notice below the license controls explains the data shared with PaidCommunities. An active license hides plans and keeps the Pro installation instructions.
+The Go Pro tab lists all eight Pro feature groups. Its Buy Pro buttons link directly to checkout for the single annual plan. There is no plan card, purchase SDK, or license form in Free. Opening Go Pro makes no purchase service request. One small, gray notice at the bottom explains checkout data sharing. A retained active license hides repeat purchase offers and keeps the Pro installation instructions.
 
-The purchase SDK checks message IDs. The plugin also checks the message origin and source, and permits redirects only to `https://checkout.paidcommunities.com`. The checkout then handles payment on that domain. A direct hosted pricing link remains available if the SDK cannot load. The purchase SDK and WordPress component SDK share a global name; the wrapper keeps the WordPress component namespace when the purchase SDK loads.
+The checkout URL uses the product ID and plan `plan_9QysG8ogD3yHM8sO`. Links use `rel="noreferrer"` and open in the same tab. PaidCommunities handles payment at `https://checkout.paidcommunities.com`.
 
-After purchase, install the Pro ZIP from the receipt through WordPress. Free does not download or install executable code. Activating a license in Free preserves the same encrypted record for Pro. Base LDAP login remains free in every license state.
+After purchase, replace Free with the Pro ZIP from the receipt through WordPress. Activate the license in Pro. The replacement keeps LDAP settings and any existing license record. Free does not download or install executable code. Base LDAP login remains free in every license state. Pro shows license controls without purchase offers.
 
-Browser checks confirmed that the official component shows the $499 annual plan and that Buy Now opens its checkout. The live checkout currently returns `This product is not published.` The product is Draft, its release is Pending, and payment methods are disabled. Publish a tested release, enable a payment method, and complete live account checks before sales. Automatic Pro updates remain separate unfinished work.
+Browser checks confirmed the direct checkout URL from the annual plan's Buy Now button. The live checkout currently returns `This product is not published.` The product is Draft, its release is Pending, and payment methods are disabled. Publish a tested release, enable a payment method, and complete live account checks before sales. Automatic Pro updates remain separate unfinished work.

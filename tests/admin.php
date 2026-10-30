@@ -154,6 +154,9 @@ namespace {
 	$client   = new SimpleLdapLogin\Ldap_Client();
 	$admin    = new SimpleLdapLogin\Admin( $settings, $client );
 	foreach ( array( 'free', 'pro' ) as $edition ) {
+		if ( 'pro' === $edition ) {
+			define( 'SLL_FEATURES_LOADED', true );
+		}
 		$GLOBALS['sll_admin_hooks'] = array();
 		( new SimpleLdapLogin\Commerce( $settings ) )->register();
 		if ( 'pro' === $edition ) {
@@ -167,11 +170,36 @@ namespace {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
-				if ( 'support' !== $tab ) {
+				if ( 'support' !== $tab && ! ( 'free' === $edition && 'license' === $tab ) ) {
 					admin_check( false !== strpos( $html, 'name="sll_scope" value="' . $scope . '"' ) && false !== strpos( $html, 'name="_wpnonce"' ), 'Forms have a nonce and correct scope: ' . $edition . '/' . $scope . '/' . $tab );
 				}
 				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
 				admin_check( ( 'free' === $edition ) === str_contains( $html, '✨ Go Pro' ) && ! str_contains( $html, 'Get Pro' ), 'Free has a Go Pro tab with an accent; Pro keeps License.' );
+				if ( 'license' === $tab ) {
+					admin_check( ( 'pro' === $edition ) === str_contains( $html, 'id="sll-license-component"' ), 'Only Pro has license activation controls.' );
+					admin_check( ! str_contains( $html, 'sll-pricing' ) && ! str_contains( $html, 'Open checkout in a new tab' ), 'Neither edition has a pricing frame or an extra checkout link.' );
+					admin_check( 1 === substr_count( $html, 'PaidCommunities' ), 'Each edition has one data sharing notice.' );
+					if ( 'free' === $edition ) {
+						admin_check( ! str_contains( $html, '<form ' ) && ! str_contains( $html, '<h2>Pro license</h2>' ), 'Free has no license form.' );
+						admin_check( 2 === substr_count( $html, 'href="' . esc_url( SimpleLdapLogin\Commerce::checkout_url() ) . '"' ) && str_contains( $html, 'plan=plan_9QysG8ogD3yHM8sO' ), 'Both Free purchase buttons link directly to the annual plan checkout.' );
+						foreach ( array( 'Single sign-on (SSO)', 'Group roles', 'Profile updates', 'Custom user fields', 'Scheduled account import', 'Scheduled access removal', 'Multisite membership', 'Audit history and CSV export' ) as $feature ) {
+							admin_check( str_contains( $html, '<h3>' . $feature . '</h3>' ), 'Go Pro lists ' . $feature . '.' );
+						}
+						$GLOBALS['sll_commerce_scripts'] = array();
+						( new SimpleLdapLogin\Commerce( $settings ) )->enqueue( 'settings_page_simple-ldap-login' );
+						admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Free does not load commerce scripts.' );
+						$target = $settings->network ? 'sll_admin_network_options' : 'sll_admin_options';
+						foreach ( array( 'active', 'expired' ) as $status ) {
+							$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => $status, 'secret' => 'never-render-license-secret', 'domain_id' => 'dom_test', 'site_url' => $settings->network ? network_home_url() : home_url() );
+							ob_start(); $admin->render(); $saved_license_html = ob_get_clean();
+							admin_check( ! str_contains( $saved_license_html, '<h2>Pro license</h2>' ) && ! str_contains( $saved_license_html, 'Check license' ) && str_contains( $saved_license_html, 'replace Free with the Pro ZIP' ), 'Free keeps installation instructions without license controls or notices for a retained ' . $status . ' license.' );
+							admin_check( ( 'expired' === $status ) === str_contains( $saved_license_html, '>Buy Pro' ), 'A retained active license hides repeat purchase offers.' );
+						}
+						unset( $GLOBALS[ $target ]['sll_pro_license'] );
+					} else {
+						admin_check( ! str_contains( $html, '>Buy Pro' ) && ! str_contains( $html, 'sll-pro-hero' ), 'Pro has license controls without purchase offers.' );
+					}
+				}
 				admin_check( str_contains( $html, '>Testing</a>' ) && ! str_contains( $html, '>Troubleshooting</a>' ), 'The test tab is named Testing.' );
 				admin_check( strpos( $html, '>Testing</a>' ) < strpos( $html, '>Support</a>' ), 'Support follows Testing in both packages.' );
 				admin_check( ( 'support' === $tab ) === str_contains( $html, 'If you are locked out' ), 'Recovery instructions appear only on Support.' );
@@ -224,6 +252,19 @@ namespace {
 				}
 			}
 		}
+		if ( 'free' === $edition ) {
+			$_GET = array( 'tab' => 'connection' );
+			$settings->mappings = array();
+			ob_start(); $admin->render(); $html = ob_get_clean();
+			admin_check( ! str_contains( $html, 'Your saved settings use SSO or custom user fields.' ), 'Free password-only settings do not show the Pro migration notice.' );
+			$settings->sso = true;
+			ob_start(); $admin->render(); $html = ob_get_clean();
+			admin_check( str_contains( $html, 'Install Simple LDAP Login Pro to use these features.' ), 'Free reports saved SSO settings that require Pro.' );
+			$settings->sso = false;
+			$settings->mappings = array( array( 'telephoneNumber', 'phone', 'string' ) );
+			ob_start(); $admin->render(); $html = ob_get_clean();
+			admin_check( str_contains( $html, 'Your settings are kept.' ), 'Free reports saved custom fields without deleting their settings.' );
+		}
 	}
 	$pro_admin = new SimpleLdapLogin\Commerce( $settings );
 	foreach ( array( false, true ) as $network ) {
@@ -248,15 +289,12 @@ namespace {
 		ob_start(); $admin->render(); $html = ob_get_clean();
 		admin_check( str_contains( $html, 'Your Pro license has expired.' ) && str_contains( $html, 'Check license' ), 'Expired licenses have a clear message and a renewal check.' );
 		admin_check( ! str_contains( $html, 'never-render-license-secret' ) && 1 === substr_count( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ), 'The license page has one form and does not reveal the activation secret.' );
-		admin_check( str_contains( $html, 'id="sll-pricing"' ) && ! str_contains( $html, 'sll-load-pricing' ), 'Free shows plans without a load button.' );
-		foreach ( array( 'Single sign-on (SSO)', 'Group roles', 'Profile updates', 'Custom user fields', 'Scheduled account import', 'Scheduled access removal', 'Multisite membership', 'Audit history and CSV export' ) as $feature ) {
-			admin_check( str_contains( $html, '<h3>' . $feature . '</h3>' ), 'Go Pro lists ' . $feature . '.' );
-		}
+		admin_check( ! str_contains( $html, 'sll-pro-hero' ) && ! str_contains( $html, '>Buy Pro' ), 'An expired Pro license does not show a purchase page.' );
 		admin_check( 1 === substr_count( $html, 'PaidCommunities' ) && strpos( $html, 'sll-commerce-disclaimer' ) > strpos( $html, '</form>' ), 'One data sharing notice appears below all license controls.' );
 		admin_check( ! str_contains( $html, '<details>' ), 'Data sharing does not add a separate warning control.' );
 		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'active';
 		ob_start(); $admin->render(); $licensed_html = ob_get_clean();
-		admin_check( ! str_contains( $licensed_html, 'id="sll-pricing"' ) && ! str_contains( $licensed_html, 'href="#sll-pro-plans"' ) && str_contains( $licensed_html, 'install the Pro ZIP' ), 'An active license shows installation instructions instead of another purchase offer.' );
+		admin_check( ! str_contains( $licensed_html, '>Buy Pro' ) && str_contains( $licensed_html, 'Pro license' ) && ! str_contains( $licensed_html, 'Pro ZIP' ), 'Licensed Pro has license controls without purchase or installation offers.' );
 		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'expired';
 		$GLOBALS['sll_commerce_scripts'] = array();
 		$_GET['tab'] = 'connection';
@@ -266,7 +304,7 @@ namespace {
 		$pro_admin->enqueue( 'dashboard' );
 		admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Other admin screens do not load the SDK components.' );
 		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
-		admin_check( count( $GLOBALS['sll_commerce_scripts'] ) === 3 && ! str_contains( implode( '', $GLOBALS['sll_commerce_scripts'] ), 'https://' ), 'The license screen registers local scripts for license controls and plans.' );
+		admin_check( count( $GLOBALS['sll_commerce_scripts'] ) === 3 && ! str_contains( implode( '', $GLOBALS['sll_commerce_scripts'] ), 'https://' ), 'The Pro license screen registers only local scripts for license controls.' );
 		$config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
 		admin_check( $scope === $config['scope'] && 'test-nonce' === $config['nonce'] && 'expired' === $config['license']['status'], 'The SDK receives the correct scope, nonce, and saved status.' );
 		admin_check( ! str_contains( $GLOBALS['sll_commerce_config'], 'never-render-license-secret' ), 'The SDK configuration does not contain the activation secret.' );
@@ -338,17 +376,6 @@ namespace {
 	ob_start(); $admin->render(); $html = ob_get_clean();
 	admin_check( false !== strpos( $html, 'The saved LDAP search password cannot be read.' ) && false === strpos( $html, 'never-render-this-secret' ), 'An unreadable secret has a safe repair notice.' );
 	$GLOBALS['sll_admin_hooks'] = array();
-	$settings->mappings = array();
-	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( ! str_contains( $html, 'Your saved settings use SSO or custom user fields.' ), 'Free password-only settings do not show the Pro migration notice.' );
-	$settings->sso = true;
-	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( str_contains( $html, 'Install Simple LDAP Login Pro to use these features.' ), 'Free reports saved SSO settings that require Pro.' );
-	$settings->sso = false;
-	$settings->mappings = array( array( 'telephoneNumber', 'phone', 'string' ) );
-	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( str_contains( $html, 'Your settings are kept.' ), 'Free reports saved custom fields without deleting their settings.' );
-	define( 'SLL_FEATURES_LOADED', true );
 	ob_start(); $admin->render(); $html = ob_get_clean();
 	admin_check( ! str_contains( $html, 'Your saved settings use SSO or custom user fields.' ), 'Pro does not show the missing-feature notice.' );
 	define( 'SLL_DISABLE_LDAP', true );
