@@ -1,6 +1,6 @@
 === Simple LDAP Login ===
 Contributors: clifgriffin
-Tags: ldap, authentication, login, active directory, sso
+Tags: ldap, authentication, login, active directory
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
@@ -84,6 +84,13 @@ No. Pro uses REMOTE_USER set by a server authentication module. Do not copy clie
 = What happens when I delete the plugin? =
 
 User accounts are always kept. Settings are kept unless you enable Delete settings when removing the plugin on the Advanced tab.
+
+== Screenshots ==
+
+1. Connect to OpenLDAP and choose the LDAP connection security.
+2. Set group access rules, account creation, and local recovery accounts.
+3. Set directory attributes, timeouts, and data retention.
+4. Test the LDAP connection and a user login.
 
 == Changelog ==
 

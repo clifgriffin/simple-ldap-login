@@ -1,0 +1,112 @@
+{
+  "assets": [
+    {
+      "file": ".wordpress-org/icon-128x128.png",
+      "width": 128,
+      "height": 128,
+      "bytes": 7057
+    },
+    {
+      "file": ".wordpress-org/icon-256x256.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 22007
+    },
+    {
+      "file": ".wordpress-org/banner-772x250.png",
+      "width": 772,
+      "height": 250,
+      "bytes": 178462
+    },
+    {
+      "file": ".wordpress-org/banner-1544x500.png",
+      "width": 1544,
+      "height": 500,
+      "bytes": 622542
+    },
+    {
+      "file": ".wordpress-org/screenshot-1.jpg",
+      "width": 2240,
+      "height": 4208,
+      "bytes": 428280
+    },
+    {
+      "file": ".wordpress-org/screenshot-2.jpg",
+      "width": 2240,
+      "height": 2438,
+      "bytes": 267022
+    },
+    {
+      "file": ".wordpress-org/screenshot-3.jpg",
+      "width": 2240,
+      "height": 3748,
+      "bytes": 386733
+    },
+    {
+      "file": ".wordpress-org/screenshot-4.jpg",
+      "width": 2240,
+      "height": 2292,
+      "bytes": 291302
+    },
+    {
+      "file": "marketing/paidcommunities/icon-128x128.png",
+      "width": 128,
+      "height": 128,
+      "bytes": 7057
+    },
+    {
+      "file": "marketing/paidcommunities/icon-256x256.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 22007
+    },
+    {
+      "file": "marketing/paidcommunities/banner-772x250.png",
+      "width": 772,
+      "height": 250,
+      "bytes": 199061
+    },
+    {
+      "file": "marketing/paidcommunities/banner-1544x500.png",
+      "width": 1544,
+      "height": 500,
+      "bytes": 726244
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-1.jpg",
+      "width": 2240,
+      "height": 4510,
+      "bytes": 461072
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-2.jpg",
+      "width": 2240,
+      "height": 2438,
+      "bytes": 272357
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-3.jpg",
+      "width": 2240,
+      "height": 1424,
+      "bytes": 158028
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-4.jpg",
+      "width": 2240,
+      "height": 1404,
+      "bytes": 177345
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-5.jpg",
+      "width": 2240,
+      "height": 3752,
+      "bytes": 401378
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-6.jpg",
+      "width": 2240,
+      "height": 2292,
+      "bytes": 296677
+    }
+  ]
+}

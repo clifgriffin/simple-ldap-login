@@ -1,0 +1,26 @@
+[
+  {
+    "file": "screenshot-1.jpg",
+    "caption": "Connect to Active Directory and choose the LDAP connection security."
+  },
+  {
+    "file": "screenshot-2.jpg",
+    "caption": "Set group access rules, account creation, and local recovery accounts."
+  },
+  {
+    "file": "screenshot-3.jpg",
+    "caption": "Map LDAP attributes to custom WordPress user fields."
+  },
+  {
+    "file": "screenshot-4.jpg",
+    "caption": "Enable single sign-on after web server authentication."
+  },
+  {
+    "file": "screenshot-5.jpg",
+    "caption": "Set directory attributes, timeouts, and custom field suffixes."
+  },
+  {
+    "file": "screenshot-6.jpg",
+    "caption": "Test the LDAP connection and a user login."
+  }
+]

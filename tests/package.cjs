@@ -113,7 +113,7 @@ try {
 		}
 		assert(
 			! names.some( ( name ) =>
-				/(?:^|\/)(?:tests|scripts|tools|node_modules|\.env)(?:\/|$)/.test(
+				/(?:^|\/)(?:tests|scripts|tools|node_modules|marketing|\.wordpress-org|\.env)(?:\/|$)/.test(
 					name
 				)
 			)
@@ -133,6 +133,15 @@ try {
 			)
 		);
 		const main = zip.readAsText( mainFile );
+		const readme = zip.readAsText( `${ prefix }readme.txt` );
+		assert(
+			readme.startsWith(
+				edition === 'pro'
+					? '=== Simple LDAP Login Pro ==='
+					: '=== Simple LDAP Login ==='
+			),
+			'Each package includes its own readme.'
+		);
 		assert( main.includes( `define( 'SLL_EDITION', '${ edition }' );` ) );
 		assert( ! main.includes( '<?php', 5 ), 'Keep one PHP opening tag.' );
 		if ( edition === 'free' ) {
