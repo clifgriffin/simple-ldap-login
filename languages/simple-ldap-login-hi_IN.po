@@ -1,0 +1,803 @@
+# Copyright (C) 2026 Clif Griffin Development Inc.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple LDAP Login 2.0.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/simple-ldap-login\n"
+"Last-Translator: gpt-po v1.2.3\n"
+"Language-Team: hi_IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: simple-ldap-login\n"
+"Language: hi_IN\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Simple-LDAP-Login.php src/Admin.php:64 src/Admin.php:65 src/Admin.php:149
+#. Plugin Name of the plugin
+msgid "Simple LDAP Login"
+msgstr "Simple LDAP Login"
+
+#: Simple-LDAP-Login.php
+#. Plugin URI of the plugin
+msgid "https://github.com/clifgriffin/simple-ldap-login"
+msgstr "https://github.com/clifgriffin/simple-ldap-login"
+
+#: Simple-LDAP-Login.php
+#. Description of the plugin
+msgid "Connect WordPress accounts to Active Directory or OpenLDAP."
+msgstr "WordPress खातों को Active Directory या OpenLDAP से कनेक्ट करें।"
+
+#: Simple-LDAP-Login.php
+#. Author of the plugin
+msgid "Clif Griffin Development Inc."
+msgstr "Clif Griffin Development Inc."
+
+#: Simple-LDAP-Login.php
+#. Author URI of the plugin
+msgid "https://clifgriffin.com"
+msgstr "https://clifgriffin.com"
+
+#: pro/src/Admin.php:49
+msgid "User data"
+msgstr "उपयोगकर्ता डेटा"
+
+#: pro/src/Admin.php:50
+#: pro/src/Admin.php:84
+msgid "Single sign-on"
+msgstr "एकल साइन-ऑन"
+
+#: pro/src/Admin.php:60
+msgid "Custom user fields"
+msgstr "कस्टम उपयोगकर्ता फ़ील्ड"
+
+#: pro/src/Admin.php:60
+msgid "Copy LDAP attributes to WordPress user meta fields."
+msgstr "LDAP विशेषताओं को WordPress उपयोगकर्ता मेटा फ़ील्ड में कॉपी करें।"
+
+#: pro/src/Admin.php:61
+#: src/Settings.php:615
+msgid "Field mappings"
+msgstr "फ़ील्ड मैपिंग"
+
+#: pro/src/Admin.php:62
+#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
+#, php-format
+msgid ""
+"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
+"%1$s. Types: %2$s or %3$s."
+msgstr ""
+"प्रति पंक्ति एक मैपिंग: LDAP विशेषता:WordPress मेटा कुंजी:प्रकार। उदाहरण: "
+"%1$s। प्रकार: %2$s या %3$s।"
+
+#: pro/src/Admin.php:71
+msgid "Custom field storage"
+msgstr "कस्टम फ़ील्ड भंडारण"
+
+#: pro/src/Admin.php:71
+msgid "Leave the defaults unless your integration uses different user meta keys."
+msgstr ""
+"डिफ़ॉल्ट छोड़ें जब तक आपकी एकीकरण में विभिन्न उपयोगकर्ता मेटा कुंजी का "
+"उपयोग न हो।"
+
+#: pro/src/Admin.php:72
+#: src/Settings.php:616
+msgid "LDAP value suffix"
+msgstr "LDAP मान उपसर्ग"
+
+#: pro/src/Admin.php:72
+msgid "Stores the LDAP value, such as phone_ldap."
+msgstr "LDAP मान को संग्रहीत करता है, जैसे phone_ldap।"
+
+#: pro/src/Admin.php:73
+#: src/Settings.php:617
+msgid "WordPress value suffix"
+msgstr "WordPress मान उपसर्ग"
+
+#: pro/src/Admin.php:73
+msgid "Stores the editable WordPress value, such as phone_wp."
+msgstr "संपादनीय WordPress मान को संग्रहीत करता है, जैसे phone_wp।"
+
+#: pro/src/Admin.php:83
+msgid "Single sign-on (SSO)"
+msgstr "एकल साइन-ऑन (SSO)"
+
+#: pro/src/Admin.php:83
+msgid ""
+"Your web server must authenticate users and set REMOTE_USER. Never copy a "
+"browser header into REMOTE_USER or allow access that bypasses server "
+"authentication. Set the LDAP search account on Connection."
+msgstr ""
+"आपके वेब सर्वर को उपयोगकर्ताओं को प्रमाणित करना चाहिए और REMOTE_USER सेट "
+"करना चाहिए। कभी भी REMOTE_USER में ब्राउज़र हेडर कॉपी न करें या सर्वर "
+"प्रमाणीकरण को बायपास करने की अनुमति न दें। कनेक्शन पर LDAP खोज खाता सेट "
+"करें।"
+
+#: pro/src/Admin.php:84
+msgid "Enable automatic login after web server authentication."
+msgstr "वेब सर्वर प्रमाणीकरण के बाद स्वचालित लॉगिन सक्षम करें।"
+
+#: pro/src/Admin.php:87
+msgid "Web server authentication"
+msgstr "वेब सर्वर प्रमाणीकरण"
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is present."
+msgstr "REMOTE_USER मौजूद है।"
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is missing. Check the web server configuration."
+msgstr "REMOTE_USER गायब है। वेब सर्वर कॉन्फ़िगरेशन की जांच करें।"
+
+#: pro/src/Upgrade_Guard.php:84
+msgid ""
+"The update was stopped. Activate Simple LDAP Login Pro to restore LDAP "
+"login."
+msgstr ""
+"अपडेट रोक दिया गया। LDAP लॉगिन को पुनर्स्थापित करने के लिए Simple LDAP "
+"Login Pro सक्रिय करें।"
+
+#: pro/src/Upgrade_Guard.php:86
+msgid ""
+"Update blocked: This package does not include all Pro files. To install "
+"Free, deactivate the plugin first. Your installed files and settings are "
+"unchanged."
+msgstr ""
+"अपडेट अवरुद्ध: इस पैकेज में सभी Pro फ़ाइलें शामिल नहीं हैं। Free स्थापित "
+"करने के लिए पहले प्लगइन को निष्क्रिय करें। आपके स्थापित फ़ाइलें और सेटिंग्स "
+"अपरिवर्तित हैं।"
+
+#: pro/src/Upgrade_Guard.php:113
+msgid "WordPress could not reactivate the plugin."
+msgstr "WordPress प्लगइन को फिर से सक्रिय नहीं कर सका।"
+
+#: Simple-LDAP-Login.php:29
+msgid "Simple LDAP Login needs PHP 8.1 or later."
+msgstr "Simple LDAP Login को PHP 8.1 या बाद के संस्करण की आवश्यकता है।"
+
+#: Simple-LDAP-Login.php:39
+msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
+msgstr ""
+"प्लगइन फ़ाइलें गायब हैं। रिलीज़ ZIP से Simple LDAP Login को फिर से स्थापित "
+"करें।"
+
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "इन सेटिंग्स को बदलने की अनुमति नहीं है।"
+
+#: src/Admin.php:97
+msgid "The settings scope has changed. Open the settings page and try again."
+msgstr "सेटिंग्स का दायरा बदल गया है। सेटिंग्स पृष्ठ खोलें और फिर से प्रयास करें।"
+
+#: src/Admin.php:141
+msgid "You do not have permission to view these settings."
+msgstr "इन सेटिंग्स को देखने की अनुमति नहीं है।"
+
+#: src/Admin.php:153
+msgid "Network settings"
+msgstr "नेटवर्क सेटिंग्स"
+
+#: src/Admin.php:153
+msgid "Site settings"
+msgstr "साइट सेटिंग्स"
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP लॉगिन सेटिंग्स"
+
+#: src/Admin.php:155
+msgid "Connect to LDAP, then test a login before enabling authentication."
+msgstr ""
+"LDAP से कनेक्ट करें, फिर प्रमाणीकरण सक्षम करने से पहले लॉगिन का परीक्षण "
+"करें।"
+
+#: src/Admin.php:160
+msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
+msgstr "LDAP लॉगिन और SSO wp-config.php में SLL_DISABLE_LDAP द्वारा अक्षम हैं।"
+
+#: src/Admin.php:163
+msgid ""
+"Your saved settings use SSO or custom user fields. Install Simple LDAP "
+"Login Pro to use these features. Your settings are kept."
+msgstr ""
+"आपकी सहेजी गई सेटिंग्स SSO या कस्टम उपयोगकर्ता फ़ील्ड का उपयोग करती हैं। इन "
+"सुविधाओं का उपयोग करने के लिए Simple LDAP Login Pro स्थापित करें। आपकी "
+"सेटिंग्स सुरक्षित हैं।"
+
+#: src/Admin.php:169
+msgid ""
+"The saved LDAP search password cannot be read. Enter it again on the "
+"Connection tab."
+msgstr ""
+"सहेजा गया LDAP खोज पासवर्ड पढ़ा नहीं जा सकता। इसे कनेक्शन टैब पर फिर से "
+"दर्ज करें।"
+
+#: src/Admin.php:172
+msgid "PHP LDAP is missing. Ask your host to install it before enabling LDAP login."
+msgstr ""
+"PHP LDAP अनुपस्थित है। कृपया अपने होस्ट से इसे स्थापित करने के लिए कहें "
+"इससे पहले कि LDAP लॉगिन सक्षम करें।"
+
+#: src/Admin.php:175
+msgid ""
+"LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your "
+"server supports it."
+msgstr ""
+"LDAP पासवर्ड बिना एन्क्रिप्शन के भेजे जाते हैं। यदि आपका सर्वर समर्थन करता "
+"है तो StartTLS या LDAPS का उपयोग करें।"
+
+#: src/Admin.php:207
+msgid "Save settings"
+msgstr "सेटिंग्स सहेजें"
+
+#: src/Admin.php:208
+msgid "Settings on other tabs are kept."
+msgstr "अन्य टैब पर सेटिंग्स रखी जाती हैं।"
+
+#: src/Admin.php:223
+msgid "LDAP connection"
+msgstr "LDAP कनेक्शन"
+
+#: src/Admin.php:224
+msgid "LDAP login"
+msgstr "LDAP लॉगिन"
+
+#: src/Admin.php:224
+msgid "Enable LDAP authentication."
+msgstr "LDAP प्रमाणीकरण सक्षम करें।"
+
+#: src/Admin.php:227
+#: src/Settings.php:597
+msgid "Directory type"
+msgstr "निर्देशिका प्रकार"
+
+#: src/Admin.php:229
+msgid "Active Directory"
+msgstr "एक्टिव डायरेक्टरी"
+
+#: src/Admin.php:230
+msgid "OpenLDAP / other LDAP directory"
+msgstr "OpenLDAP / अन्य LDAP निर्देशिका"
+
+#: src/Admin.php:233
+#: src/Settings.php:599
+msgid "LDAP servers"
+msgstr "LDAP सर्वर"
+
+#: src/Admin.php:233
+msgid "One hostname or IP address per line. Servers are tried in order."
+msgstr "प्रति पंक्ति एक होस्टनाम या IP पता। सर्वर क्रम में आजमाए जाते हैं।"
+
+#: src/Admin.php:234
+#: src/Settings.php:600
+msgid "Base DN"
+msgstr "बेस DN"
+
+#: src/Admin.php:234
+msgid "Where to search for users. Example: DC=example,DC=org."
+msgstr "उपयोगकर्ताओं के लिए खोजने का स्थान। उदाहरण: DC=example,DC=org।"
+
+#: src/Admin.php:235
+#: src/Settings.php:601
+msgid "Username suffix"
+msgstr "उपयोगकर्ता नाम उपसर्ग"
+
+#: src/Admin.php:235
+msgid "Added to usernames without a domain. Example: @example.org."
+msgstr "डोमेन के बिना उपयोगकर्ता नामों में जोड़ा गया। उदाहरण: @example.org।"
+
+#: src/Admin.php:236
+#: src/Settings.php:602
+msgid "Windows domain"
+msgstr "विंडोज डोमेन"
+
+#: src/Admin.php:236
+msgid "Short domain name, such as EXAMPLE. Takes priority over the username suffix."
+msgstr ""
+"संक्षिप्त डोमेन नाम, जैसे EXAMPLE। यह उपयोगकर्ता नाम उपसर्ग पर प्राथमिकता "
+"लेता है।"
+
+#: src/Admin.php:238
+#: src/Admin.php:241
+#: src/Settings.php:598
+msgid "Connection security"
+msgstr "कनेक्शन सुरक्षा"
+
+#: src/Admin.php:238
+msgid "TLS requires a trusted server certificate."
+msgstr "TLS के लिए एक विश्वसनीय सर्वर प्रमाणपत्र की आवश्यकता होती है।"
+
+#: src/Admin.php:243
+msgid "StartTLS (recommended)"
+msgstr "StartTLS (सिफारिश की गई)"
+
+#: src/Admin.php:244
+msgid "LDAPS"
+msgstr "LDAPS"
+
+#: src/Admin.php:245
+msgid "Unencrypted LDAP"
+msgstr "अनएन्क्रिप्टेड LDAP"
+
+#: src/Admin.php:247
+msgid "Unencrypted LDAP requires permission on the Advanced tab."
+msgstr "अनएन्क्रिप्टेड LDAP के लिए उन्नत टैब पर अनुमति की आवश्यकता होती है।"
+
+#: src/Admin.php:249
+#: src/Settings.php:603
+msgid "Port"
+msgstr "पोर्ट"
+
+#: src/Admin.php:249
+msgid "389 for StartTLS; 636 for LDAPS."
+msgstr "StartTLS के लिए 389; LDAPS के लिए 636।"
+
+#: src/Admin.php:250
+msgid "Search subfolders"
+msgstr "उपफोल्डरों की खोज करें"
+
+#: src/Admin.php:250
+msgid "Search all organizational units below the Base DN."
+msgstr "बेस DN के नीचे सभी संगठनात्मक इकाइयों की खोज करें।"
+
+#: src/Admin.php:252
+msgid "LDAP search account"
+msgstr "LDAP खोज खाता"
+
+#: src/Admin.php:252
+msgid "An LDAP account with read access to users and groups."
+msgstr "उपयोगकर्ताओं और समूहों के लिए पढ़ने की पहुंच वाला LDAP खाता।"
+
+#: src/Admin.php:253
+msgid "Search account"
+msgstr "खोज खाता"
+
+#: src/Admin.php:253
+msgid "LDAP bind DN or account name."
+msgstr "LDAP बाइंड DN या खाता नाम।"
+
+#: src/Admin.php:254
+#: src/Settings.php:614
+msgid "Search account password"
+msgstr "खोज खाता पासवर्ड"
+
+#: src/Admin.php:254
+msgid "Leave blank to keep the saved password."
+msgstr "सहेजे गए पासवर्ड को बनाए रखने के लिए खाली छोड़ें।"
+
+#: src/Admin.php:262
+msgid "Login rules"
+msgstr "लॉगिन नियम"
+
+#: src/Admin.php:263
+msgid "Require LDAP passwords"
+msgstr "LDAP पासवर्ड की आवश्यकता"
+
+#: src/Admin.php:263
+msgid "Block WordPress passwords except for recovery access."
+msgstr "पुनर्प्राप्ति पहुंच के अलावा वर्डप्रेस पासवर्ड को ब्लॉक करें।"
+
+#: src/Admin.php:266
+#: src/Settings.php:612
+msgid "Local recovery access"
+msgstr "स्थानीय पुनर्प्राप्ति पहुंच"
+
+#: src/Admin.php:268
+msgid "Selected administrators"
+msgstr "चुने हुए प्रशासक"
+
+#: src/Admin.php:269
+msgid "All super administrators (legacy)"
+msgstr "सभी सुपर प्रशासक (विरासत)"
+
+#: src/Admin.php:269
+msgid "All administrators (legacy)"
+msgstr "सभी प्रशासक (विरासत)"
+
+#: src/Admin.php:270
+msgid "Off"
+msgstr "बंद"
+
+#: src/Admin.php:272
+msgid "Choose who can use a WordPress password when LDAP passwords are required."
+msgstr ""
+"चुनें कि कौन LDAP पासवर्ड की आवश्यकता होने पर वर्डप्रेस पासवर्ड का उपयोग कर "
+"सकता है।"
+
+#: src/Admin.php:275
+msgid "Automatic account creation"
+msgstr "स्वचालित खाता निर्माण"
+
+#: src/Admin.php:275
+msgid "Create a WordPress account on the first successful LDAP login."
+msgstr "पहली सफल LDAP लॉगिन पर एक वर्डप्रेस खाता बनाएं।"
+
+#: src/Admin.php:280
+#: src/Settings.php:611
+msgid "Default role"
+msgstr "डिफ़ॉल्ट भूमिका"
+
+#: src/Admin.php:280
+msgid "For new accounts only."
+msgstr "केवल नए खातों के लिए।"
+
+#: src/Admin.php:281
+#: src/Settings.php:609
+msgid "Required groups"
+msgstr "आवश्यक समूह"
+
+#: src/Admin.php:281
+msgid ""
+"One group name per line. Users must belong to at least one. Leave blank to "
+"allow all LDAP users."
+msgstr ""
+"प्रति पंक्ति एक समूह नाम। उपयोगकर्ताओं को कम से कम एक में होना चाहिए। सभी "
+"LDAP उपयोगकर्ताओं की अनुमति देने के लिए खाली छोड़ें।"
+
+#: src/Admin.php:295
+#: src/Settings.php:613
+msgid "Recovery accounts"
+msgstr "पुनर्प्राप्ति खाते"
+
+#: src/Admin.php:305
+msgid ""
+"For Selected administrators only. Use separate local accounts with "
+"WordPress passwords. Hold Ctrl or Command to select multiple accounts."
+msgstr ""
+"केवल चुने हुए प्रशासकों के लिए। वर्डप्रेस पासवर्ड के साथ अलग स्थानीय खातों "
+"का उपयोग करें। कई खातों का चयन करने के लिए Ctrl या Command दबाएं।"
+
+#: src/Admin.php:320
+msgid "Connection options"
+msgstr "कनेक्शन विकल्प"
+
+#: src/Admin.php:320
+msgid "Change these only if the default values do not work with your directory."
+msgstr ""
+"इनमें केवल तब परिवर्तन करें जब डिफ़ॉल्ट मान आपके निर्देशिका के साथ काम न "
+"करें।"
+
+#: src/Admin.php:321
+msgid "LDAP timeout (seconds)"
+msgstr "LDAP टाइमआउट (सेकंड)"
+
+#: src/Admin.php:321
+msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
+msgstr "LDAP ऑपरेशन के लिए अधिकतम प्रतीक्षा। डिफ़ॉल्ट: 5 सेकंड।"
+
+#: src/Admin.php:322
+#: src/Settings.php:606
+msgid "Login attribute"
+msgstr "लॉगिन विशेषता"
+
+#: src/Admin.php:322
+msgid "Attribute used to find users. Default: uid."
+msgstr "उपयोगकर्ताओं को खोजने के लिए उपयोग की जाने वाली विशेषता। डिफ़ॉल्ट: uid।"
+
+#: src/Admin.php:323
+msgid "Allow unencrypted LDAP"
+msgstr "अनएन्क्रिप्टेड LDAP की अनुमति दें"
+
+#: src/Admin.php:323
+msgid "Allow passwords to be sent without encryption."
+msgstr "पासवर्ड को बिना एन्क्रिप्शन के भेजने की अनुमति दें।"
+
+#: src/Admin.php:325
+msgid "Group search"
+msgstr "समूह खोज"
+
+#: src/Admin.php:326
+#: src/Settings.php:610
+msgid "Group base DN"
+msgstr "समूह आधार DN"
+
+#: src/Admin.php:326
+msgid "Leave blank to use the user Base DN."
+msgstr "उपयोगकर्ता आधार DN का उपयोग करने के लिए खाली छोड़ें।"
+
+#: src/Admin.php:327
+#: src/Settings.php:607
+msgid "Group name attribute"
+msgstr "समूह नाम विशेषता"
+
+#: src/Admin.php:327
+msgid "Default: cn."
+msgstr "डिफ़ॉल्ट: cn।"
+
+#: src/Admin.php:328
+#: src/Settings.php:608
+msgid "Group member attribute"
+msgstr "समूह सदस्य विशेषता"
+
+#: src/Admin.php:328
+msgid "Default: memberUid. Use member or uniqueMember if groups store user DNs."
+msgstr ""
+"डिफ़ॉल्ट: memberUid। यदि समूह उपयोगकर्ता DN संग्रहीत करते हैं तो member या "
+"uniqueMember का उपयोग करें।"
+
+#: src/Admin.php:330
+msgid "Profile attributes"
+msgstr "प्रोफ़ाइल विशेषताएँ"
+
+#: src/Admin.php:330
+msgid "LDAP attributes copied to new WordPress accounts."
+msgstr "नए WordPress खातों में कॉपी की गई LDAP विशेषताएँ।"
+
+#: src/Admin.php:331
+#: src/Settings.php:618
+msgid "First name attribute"
+msgstr "पहला नाम विशेषता"
+
+#: src/Admin.php:332
+#: src/Settings.php:619
+msgid "Last name attribute"
+msgstr "अंतिम नाम विशेषता"
+
+#: src/Admin.php:333
+#: src/Settings.php:620
+msgid "Email attribute"
+msgstr "ईमेल विशेषता"
+
+#: src/Admin.php:334
+#: src/Settings.php:621
+msgid "Website attribute"
+msgstr "वेबसाइट विशेषता"
+
+#: src/Admin.php:337
+msgid "Data retention"
+msgstr "डेटा संरक्षण"
+
+#: src/Admin.php:338
+msgid "Delete settings when removing the plugin"
+msgstr "प्लगइन हटाते समय सेटिंग्स हटाएँ"
+
+#: src/Admin.php:338
+msgid ""
+"Delete saved settings and LDAP credentials when WordPress deletes the "
+"plugin. Keep user accounts."
+msgstr ""
+"जब WordPress प्लगइन हटाता है तो सहेजी गई सेटिंग्स और LDAP क्रेडेंशियल्स "
+"हटाएँ। उपयोगकर्ता खातों को बनाए रखें।"
+
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "LDAP लॉगिन का परीक्षण करें"
+
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"अपनी सेटिंग्स सहेजें, फिर दोनों परीक्षण चलाएँ। इस व्यवस्थापक सत्र को खुला "
+"रखें।"
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"परीक्षण कनेक्शन, पासवर्ड और आवश्यक समूहों की जांच करते हैं। वे खाते नहीं "
+"बनाते या उपयोगकर्ताओं को साइन इन नहीं करते।"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"जब दोनों परीक्षण पास हो जाएँ, LDAP सक्षम करें और किसी अन्य ब्राउज़र से "
+"लॉगिन करने का प्रयास करें।"
+
+#: src/Admin.php:350
+msgid "Recovery"
+msgstr "पुनर्प्राप्ति"
+
+#: src/Admin.php:351
+msgid ""
+"If you are locked out, rename the simple-ldap-login folder using your "
+"hosting file manager. Log in with a WordPress administrator password, then "
+"restore the folder and correct the settings."
+msgstr ""
+"यदि आप लॉक हो गए हैं, तो अपने होस्टिंग फ़ाइल प्रबंधक का उपयोग करके "
+"simple-ldap-login फ़ोल्डर का नाम बदलें। WordPress व्यवस्थापक पासवर्ड के साथ "
+"लॉगिन करें, फिर फ़ोल्डर को पुनर्स्थापित करें और सेटिंग्स को सही करें।"
+
+#: src/Admin.php:352
+msgid ""
+"For certificate errors, ask your host to configure the trusted LDAP "
+"certificate authority."
+msgstr ""
+"प्रमाणपत्र त्रुटियों के लिए, अपने होस्ट से विश्वसनीय LDAP प्रमाणपत्र "
+"प्राधिकरण को कॉन्फ़िगर करने के लिए कहें।"
+
+#: src/Admin.php:366
+msgid "LDAP tests"
+msgstr "LDAP परीक्षण"
+
+#: src/Admin.php:367
+msgid "Tests use saved settings."
+msgstr "परीक्षण सहेजी गई सेटिंग्स का उपयोग करते हैं।"
+
+#: src/Admin.php:372
+msgid "1. Test connection"
+msgstr "1. कनेक्शन का परीक्षण करें"
+
+#: src/Admin.php:373
+msgid "Connect to LDAP and test the search account, if set."
+msgstr "LDAP से कनेक्ट करें और खोज खाते का परीक्षण करें, यदि सेट किया गया हो।"
+
+#: src/Admin.php:374
+msgid "Test connection"
+msgstr "कनेक्शन का परीक्षण करें"
+
+#: src/Admin.php:378
+msgid "2. Test login"
+msgstr "2. लॉगिन का परीक्षण करें"
+
+#: src/Admin.php:379
+msgid "Check an LDAP username, password, and group membership."
+msgstr "LDAP उपयोगकर्ता नाम, पासवर्ड और समूह सदस्यता की जांच करें।"
+
+#: src/Admin.php:380
+msgid "LDAP username"
+msgstr "LDAP उपयोगकर्ता नाम"
+
+#: src/Admin.php:381
+msgid "LDAP password"
+msgstr "LDAP पासवर्ड"
+
+#: src/Admin.php:537
+msgid "Settings saved."
+msgstr "सेटिंग्स सहेजी गईं।"
+
+#: src/Admin.php:538
+msgid "Connection test passed."
+msgstr "कनेक्शन परीक्षण पास हुआ।"
+
+#: src/Admin.php:539
+msgid ""
+"Cannot connect to LDAP. Check the server, port, TLS certificate, and search "
+"account."
+msgstr ""
+"LDAP से कनेक्ट नहीं कर सकते। सर्वर, पोर्ट, TLS प्रमाणपत्र और खोज खाते की "
+"जांच करें।"
+
+#: src/Admin.php:540
+msgid "LDAP login test passed. No account was created."
+msgstr "LDAP लॉगिन परीक्षण पास हुआ। कोई खाता नहीं बनाया गया।"
+
+#: src/Admin.php:541
+msgid "LDAP login test failed. Check the username, password, and required groups."
+msgstr ""
+"LDAP लॉगिन परीक्षण विफल। उपयोगकर्ता नाम, पासवर्ड और आवश्यक समूहों की जांच "
+"करें।"
+
+#: src/Admin.php:542
+msgid "Could not save settings. Check the values and try again."
+msgstr "सेटिंग्स सहेजने में असमर्थ। मानों की जांच करें और फिर से प्रयास करें।"
+
+#: src/Admin.php:586
+msgid "Connection"
+msgstr "कनेक्शन"
+
+#: src/Admin.php:587
+msgid "Access"
+msgstr "पहुँच"
+
+#: src/Admin.php:588
+msgid "Advanced"
+msgstr "उन्नत"
+
+#: src/Admin.php:589
+msgid "Troubleshooting"
+msgstr "समस्या निवारण"
+
+#: src/Authenticator.php:151
+msgid ""
+"Your LDAP login is valid, but you need a WordPress account. Contact your "
+"site administrator."
+msgstr ""
+"आपका LDAP लॉगिन मान्य है, लेकिन आपको एक WordPress खाता चाहिए। अपने साइट "
+"व्यवस्थापक से संपर्क करें।"
+
+#: src/Authenticator.php:154
+msgid ""
+"Your LDAP username is not a valid WordPress username. Contact your site "
+"administrator."
+msgstr ""
+"आपका LDAP उपयोगकर्ता नाम एक मान्य WordPress उपयोगकर्ता नाम नहीं है। अपने "
+"साइट व्यवस्थापक से संपर्क करें।"
+
+#: src/Authenticator.php:158
+msgid ""
+"The default WordPress role is not available. Contact your site "
+"administrator."
+msgstr ""
+"डिफ़ॉल्ट WordPress भूमिका उपलब्ध नहीं है। अपने साइट व्यवस्थापक से संपर्क "
+"करें।"
+
+#: src/Authenticator.php:175
+msgid "Could not create your WordPress account. Contact your site administrator."
+msgstr "आपका WordPress खाता बनाने में असमर्थ। अपने साइट व्यवस्थापक से संपर्क करें।"
+
+#: src/Authenticator.php:180
+msgid "Use your WordPress password for this recovery account."
+msgstr "इस पुनर्प्राप्ति खाते के लिए अपना WordPress पासवर्ड उपयोग करें।"
+
+#: src/Ldap_Client.php:440
+msgid ""
+"LDAP login failed. Check your username and password or contact your site "
+"administrator."
+msgstr ""
+"LDAP लॉगिन विफल। अपने उपयोगकर्ता नाम और पासवर्ड की जांच करें या अपने साइट "
+"व्यवस्थापक से संपर्क करें।"
+
+#: src/Ldap_Client.php:442
+msgid "Your account is not allowed to log in to this site."
+msgstr "आपका खाता इस साइट पर लॉग इन करने की अनुमति नहीं है।"
+
+#: src/Ldap_Client.php:444
+msgid "LDAP login is unavailable. Contact your site administrator."
+msgstr "LDAP लॉगिन उपलब्ध नहीं है। कृपया अपने साइट व्यवस्थापक से संपर्क करें।"
+
+#: src/Secrets.php:24
+msgid "PHP OpenSSL is required to save the LDAP search password."
+msgstr "LDAP खोज पासवर्ड को सहेजने के लिए PHP OpenSSL की आवश्यकता है।"
+
+#: src/Secrets.php:92
+msgid ""
+"Could not read or save the LDAP search password. Enter it again. If this "
+"continues, ask your host to check OpenSSL and the encryption key."
+msgstr ""
+"LDAP खोज पासवर्ड को पढ़ने या सहेजने में असमर्थ। कृपया इसे फिर से दर्ज करें। "
+"यदि यह जारी रहता है, तो अपने होस्ट से OpenSSL और एन्क्रिप्शन कुंजी की जांच "
+"करने के लिए कहें।"
+
+#: src/Settings.php:310
+msgid ""
+"Select a recovery account on the Access tab, or turn local recovery access "
+"Off."
+msgstr "एक पुनर्प्राप्ति खाता चुनें, या स्थानीय पुनर्प्राप्ति पहुंच को बंद करें।"
+
+#: src/Settings.php:318
+msgid ""
+"Enable Allow unencrypted LDAP on the Advanced tab, or choose StartTLS or "
+"LDAPS."
+msgstr ""
+"उन्नत टैब पर असुरक्षित LDAP की अनुमति सक्षम करें, या StartTLS या LDAPS "
+"चुनें।"
+
+#: src/Settings.php:341
+msgid "A custom field mapping uses a protected or invalid WordPress user meta key."
+msgstr ""
+"एक कस्टम फ़ील्ड मैपिंग एक सुरक्षित या अमान्य WordPress उपयोगकर्ता मेटा "
+"कुंजी का उपयोग करती है।"
+
+#: src/Settings.php:346
+msgid "Enter a Base DN and at least one LDAP server before enabling LDAP login."
+msgstr "LDAP लॉगिन सक्षम करने से पहले एक बेस DN और कम से कम एक LDAP सर्वर दर्ज करें।"
+
+#: src/Settings.php:349
+msgid "WordPress could not save the settings. Try again."
+msgstr "WordPress सेटिंग्स को सहेजने में असमर्थ। कृपया फिर से प्रयास करें।"
+
+#: src/Settings.php:604
+msgid "LDAP protocol version"
+msgstr "LDAP प्रोटोकॉल संस्करण"
+
+#: src/Settings.php:605
+msgid "LDAP timeout"
+msgstr "LDAP टाइमआउट"
+
+#: src/Settings.php:623
+msgid "Check the submitted settings. No changes were saved."
+msgstr "जमा की गई सेटिंग्स की जांच करें। कोई परिवर्तन सहेजे नहीं गए।"
+
+#: src/Settings.php:626
+#. translators: %s: setting label.
+#, php-format
+msgid "Check %s. No changes were saved."
+msgstr "%s की जांच करें। कोई परिवर्तन सहेजे नहीं गए।"

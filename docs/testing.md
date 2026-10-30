@@ -2,17 +2,19 @@
 
 Test date: 2026-10-30.
 
-`npm run test:release` passed with exit code 0 after the LdapRecord migration and local recovery access change. All 24 core configurations passed. The later Advanced tab change passed source, asset, and package checks; it changes screen layout only. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
+After the two-package change, source checks, coding standards, assets, translations, package tests, and the full Docker matrix pass. All 24 core configurations passed with the new 1.x settings migration checks. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
+
+The two-package change removes Legacy and Transition builds and eligibility records. The current checks cover direct 1.x settings migration in both packages. SSO and custom user field sites must install Pro directly.
 
 ## Source and release packages
 
-`composer check` passes all 520 checks: 218 for settings, secrets, recovery policies, authentication, and LDAP; 278 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+`composer check` passes all 514 checks: 213 for settings, secrets, recovery policies, authentication, and LDAP; 277 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. The latest source checks ran locally on PHP 8.5. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
 
 LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
 
 `npm run lint` passes with Node 24 and `@wordpress/scripts` 37. Root, Pro, and build-tool Composer manifests pass strict validation. The Composer lock audit reported no known security advisories when LdapRecord 4.1.1 was installed. All 18 production dependencies declare MIT licenses. Their license files remain in the ZIPs.
 
-`npm run test:packages` builds Free, Pro, Legacy, and Transition from the real source. Twelve extracted-package tests cover fresh, existing, and network installations. They check PSR-4 loading, feature hooks, Legacy eligibility, metadata, syntax, file exclusions, and source preservation after successful and failed builds. Startup must not make a service request.
+`npm run test:packages` builds only Free and Pro from the real source. Ten extracted-package cases cover fresh settings, schema 2 settings, and 1.x settings in site and network scope. They check PSR-4 loading, feature hooks, metadata, syntax, file exclusions, migration backups, and source preservation. The removed Legacy and Transition build arguments must be rejected. Startup must not make a service request.
 
 Package tests also check private dependency namespaces, helper functions, Composer helper-file records, AD relation classes, SID conversion, and event names. The library must work when another plugin has already defined a helper with the same name. Release ZIPs use the `SimpleLdapLoginVendor` prefix.
 
@@ -35,7 +37,7 @@ Real OpenLDAP password changes check the literal password `0`, quotes, backslash
 
 The first migration run also found that OpenLDAP's enabled-account filter needs a password policy schema. A generic server can return no entries for its undefined attribute. The client now applies the enabled-account filter only to the AD model. The generic OpenLDAP test server and a source assertion cover this behavior.
 
-Native migrations check both old settings formats, stored false values, encryption migration, backups, repeated migration, Legacy eligibility, malformed data, and child-site scope isolation. Each package update runs in a separate WordPress request. Later requests check activation, settings, credentials, user password hashes, roles, profiles, and metadata after core shutdown work.
+The 1.x tests seed the old settings format and load the 2.0 packages. They do not run the old 1.x PHP code. The native Pro check loads those settings in a new WordPress request, then checks LDAP password login, SSO lookup, and custom metadata suffixes. Native migrations also check both old settings formats, stored false values, encryption migration, backups, repeated migration, malformed data, and child-site scope isolation. Each package update runs in a separate WordPress request. Later requests check activation, settings, credentials, user password hashes, roles, profiles, and metadata after core shutdown work.
 
 Recovery tests cover Selected administrators, All administrators (legacy), and Off. New LDAP and SSO setup needs a valid selection in selected mode. Existing schema 2 and older settings keep the legacy rule; migration preserves raw settings, backups, secrets, and explicit new policies. Site selections require current site administrator access; network selections require super administrator access.
 
@@ -51,16 +53,16 @@ Temporary test containers and volumes were removed after each automated run. The
 
 The Advanced tab contains connection timeouts, LDAP attribute and group search overrides, profile attributes, plain LDAP permission, and uninstall data retention. Full packages also show metadata suffixes there. Custom metadata mappings stay on the full package User data tab. Free has no empty User data tab; its old profile links open Advanced. Screen checks cover field placement in Free and Pro, site and network scope, saved-value rendering, and Advanced form submissions. Missing fields are retained by the existing settings save path.
 
-The copy review shortened labels, help text, notices, and login errors. Active Directory-only fields are hidden for OpenLDAP, and OpenLDAP-only fields are hidden for AD. Browser checks on the Herd demo verified both directory choices, the Access and Advanced screens, and the unchanged saved OpenLDAP configuration. `npm run test:admin` checks live field switching, disabled hidden controls, and retained values. Source, asset, and all four package checks pass. Authentication behavior is unchanged.
+The copy review shortened labels, help text, notices, and login errors. Active Directory-only fields are hidden for OpenLDAP, and OpenLDAP-only fields are hidden for AD. Browser checks on the Herd demo verified both directory choices, the Access and Advanced screens, and the unchanged saved OpenLDAP configuration. `npm run test:admin` checks live field switching, disabled hidden controls, and retained values. Source, asset, and both package checks pass. Authentication behavior is unchanged.
 
 ## Earlier settings-screen checks
 
 Before the LDAP dependency change, a WordPress 7.1.3 site passed site and network saves, section retention, nonce and scope checks, and subscriber permission denial. Desktop and 390-pixel mobile checks showed aligned controls, wrapped tabs, no horizontal overflow, and no JavaScript errors. Current admin source tests continue to cover the controls and migration notices.
 
-WordPress Plugin Check passed the earlier Free and Transition packages with zero errors. Reviewed warnings covered short naming prefixes, the preserved `str_true` function, and core hooks. Repeat Plugin Check on the new dependency packages before public release. These results do not provide formal WordPress.org approval.
+See the current [Plugin Check report](plugin-check.md) for the Free and Pro packages. Plugin Check does not provide formal WordPress.org approval.
 
 ## Checks still needed
 
 Complete the [release checklist](release-checklist.md). Microsoft AD DS, domain trusts, Kerberos negotiation, expired certificates, customer settings, and named second-factor integrations still need acceptance tests. Samba and Apache Basic authentication do not establish support for every AD policy or SSO setup.
 
-PaidCommunities licensing and automatic external updates are not implemented. Pro and Legacy remain local previews. Their update paths and the public Legacy migration process must be ready before release. The previously uploaded draft ZIP also needs replacement before release.
+PaidCommunities licensing and automatic external updates are not implemented. Pro remains a local preview. Its license and update integration must be ready before release. Sites that use SSO or custom user fields in 1.x must upgrade directly to Pro. The previously uploaded draft ZIP also needs replacement before release.

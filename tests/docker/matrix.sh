@@ -2,7 +2,7 @@
 set -eu
 cd "$(dirname "$0")/../.."
 
-for edition in free pro legacy transition; do
+for edition in free pro; do
     npm run "build:$edition"
 done
 for target in minimum current; do

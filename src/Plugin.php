@@ -12,6 +12,7 @@ final class Plugin {
 
 	/** Register hooks after other plugins load. */
 	public static function boot(): void {
+		add_action( 'init', array( self::class, 'load_translations' ) );
 		$settings = new Settings();
 		$settings->migrate();
 		$client = new Ldap_Client( $settings );
@@ -29,6 +30,11 @@ final class Plugin {
 		 * @param Authenticator $auth     Login handler.
 		 */
 		do_action( 'sll_loaded', $settings, $auth );
+	}
+
+	/** Register bundled translations after WordPress initializes. */
+	public static function load_translations(): void {
+		load_plugin_textdomain( 'simple-ldap-login', false, dirname( plugin_basename( SLL_FILE ) ) . '/languages' );
 	}
 
 	/**

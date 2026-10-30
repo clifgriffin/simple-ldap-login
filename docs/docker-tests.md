@@ -21,7 +21,7 @@ SLL_PHP_VERSION=8.1 SLL_WP_VERSION=6.5 SLL_DIRECTORY=ad npm run test:docker
 SLL_MULTISITE=1 SLL_DIRECTORY=ad npm run test:docker
 ```
 
-Each Docker test command builds all four package ZIPs, starts a separate test project, waits for healthy services, and runs the checks. A failed check returns a nonzero exit code and prints service logs. The command removes its test containers and volumes when it ends. It uses random ports bound to localhost. Images stay cached for later runs.
+Each Docker test command builds both package ZIPs, starts a separate test project, waits for healthy services, and runs the checks. A failed check returns a nonzero exit code and prints service logs. The command removes its test containers and volumes when it ends. It uses random ports bound to localhost. Images stay cached for later runs.
 
 The release matrix and GitHub Actions use PHP 8.1 with WordPress 6.5, and PHP 8.5 with the current WordPress image. Both directory servers and both packages run in single-site, network, and site-only multisite configurations. The default individual environment uses PHP 8.4. See the [coverage map](test-coverage.md) for the selected settings and limits.
 

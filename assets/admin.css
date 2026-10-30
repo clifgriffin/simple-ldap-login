@@ -43,29 +43,6 @@
 	text-transform: uppercase;
 }
 
-.sll-admin .sll-status {
-	display: flex;
-	align-items: center;
-	gap: 9px;
-	flex-shrink: 0;
-	padding: 10px 14px;
-	border: 1px solid var(--sll-border);
-	border-radius: 24px;
-	background: #fff;
-	font-weight: 600;
-}
-
-.sll-admin .sll-dot {
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: #757575;
-}
-
-.sll-admin .sll-dot-on {
-	background: #008a20;
-}
-
 .sll-admin .sll-tabs {
 	display: flex;
 	flex-wrap: wrap;

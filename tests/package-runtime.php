@@ -10,7 +10,7 @@ $sll_network_options = array();
 $sll_hooks = array();
 $sll_meta = array();
 $sll_activation = null;
-$sll_network = 'network' === $sll_scenario;
+$sll_network = in_array( $sll_scenario, array( 'network', 'v1-network' ), true );
 $sll_existing = 'fresh' !== $sll_scenario;
 
 // Other plugins can load different dependency versions before this plugin.
@@ -46,7 +46,7 @@ function do_action( $name, ...$args ) {
 	foreach ( $priorities as $callbacks ) { foreach ( $callbacks as $entry ) { call_user_func_array( $entry[0], array_slice( $args, 0, $entry[1] ) ); } }
 }
 function register_activation_hook( $file, $callback ) { $GLOBALS['sll_activation'] = $callback; }
-function get_role( $name ) { return 'subscriber' === $name ? (object) array() : null; }
+function get_role( $name ) { return in_array( $name, array( 'subscriber', 'contributor', 'editor', 'administrator' ), true ) ? (object) array() : null; }
 function metadata_exists( $type, $id, $key ) { return isset( $GLOBALS['sll_meta'][ $id ][ $key ] ); }
 function get_user_meta( $id, $key, $single = false ) { return $GLOBALS['sll_meta'][ $id ][ $key ] ?? ''; }
 function update_user_meta( $id, $key, $value ) { $GLOBALS['sll_meta'][ $id ][ $key ] = $value; return true; }
@@ -59,6 +59,13 @@ if ( $sll_network ) {
 	$sll_network_options['active_sitewide_plugins'] = array( 'simple-ldap-login/Simple-LDAP-Login.php' => 1 );
 }
 $sll_old = array( 'schema_version' => 2, 'enabled' => false, 'sso_enabled' => true, 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ), 'custom_extension' => 'keep' );
+if ( str_starts_with( $sll_scenario, 'v1' ) ) {
+	unset( $sll_old['schema_version'] );
+	$sll_old['version'] = '180';
+	$sll_old['sso_enabled'] = 'true';
+	$sll_old['meta_data_suffix_ldap'] = 'directory';
+	$sll_old['meta_data_suffix_wp'] = 'local';
+}
 if ( $sll_existing ) {
 	if ( $sll_network ) { $sll_network_options['sll_settings'] = $sll_old; } else { $sll_options['sll_settings'] = $sll_old; }
 }
@@ -115,21 +122,24 @@ foreach ( array( 'Metadata', 'Server_Sso', 'Admin', 'Ldap_Client', 'Upgrade_Guar
 package_check( ! method_exists( SimpleLdapLogin\Ldap_Client::class, 'authenticate_sso' ), 'The shared LDAP client has no SSO implementation.' );
 package_check( ! empty( $sll_hooks['sll_account_loaded'] ) === $sll_full, 'The full package registers custom metadata.' );
 package_check( ! empty( $sll_hooks['sll_settings_tabs'] ) === $sll_full, 'The full package registers its settings controls.' );
-package_check( ! empty( $sll_hooks['init'] ) === ( $sll_full && $sll_existing ), 'SSO registers only when its code and setting are present.' );
-$sll_expected_access = $sll_existing || 'transition' === $sll_edition;
-package_check( $sll_expected_access === $sll_settings->has_legacy_access(), 'Legacy access has the correct value.' );
+
+$sll_sso_init = array_filter( $sll_hooks['init'][20] ?? array(), static fn( $entry ) => is_array( $entry[0] ) && $entry[0][0] instanceof SimpleLdapLogin\Pro\Server_Sso );
+package_check( ! empty( $sll_sso_init ) === ( $sll_full && $sll_existing ), 'SSO registers only when its code and setting are present.' );
+package_check( isset( $sll_hooks['init'][10] ), 'Bundled translations register on init.' );
+$sll_before = $sll_settings->all();
 $sll_settings->migrate();
-package_check( $sll_expected_access === $sll_settings->has_legacy_access(), 'A second boot keeps the legacy access value.' );
+if ( str_starts_with( $sll_scenario, 'v1' ) ) {
+	package_check( ( $sll_network ? $sll_network_options : $sll_options )['sll_settings_backup_v1'] === $sll_old, 'The 1.x backup keeps the original settings.' );
+}
+package_check( $sll_before === $sll_settings->all(), 'A second boot preserves current settings.' );
 if ( $sll_network ) { package_check( array() === $sll_options, 'Network settings stay out of site options.' ); }
 if ( $sll_existing ) {
 	package_check( 'keep' === $sll_settings->get( 'custom_extension' ) && true === $sll_settings->get( 'sso_enabled' ), 'Old settings remain unchanged.' );
 }
 package_check( true === $sll_settings->save( array( 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) ), 'The settings store retains metadata definitions.' );
 do_action( 'sll_account_loaded', new WP_User(), array( 'telephonenumber' => array( '5551002000' ) ) );
-package_check( isset( $sll_meta[1]['phone_wp'] ) === $sll_full, 'Only a full package copies custom metadata.' );
+package_check( isset( $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_local' : 'phone_wp' ] ) === $sll_full, 'Only a full package copies custom metadata.' );
 if ( $sll_full ) {
-	package_check( '5551002000' === $sll_meta[1]['phone_wp'] && '5551002000' === $sll_meta[1]['phone_ldap'], 'The real metadata module keeps both old keys.' );
+	package_check( '5551002000' === $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_local' : 'phone_wp' ] && '5551002000' === $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_directory' : 'phone_ldap' ], 'The real metadata module keeps both old keys.' );
 }
-$sll_settings->migrate();
-package_check( $sll_expected_access === $sll_settings->has_legacy_access(), 'New settings do not create a legacy grant.' );
 echo 'Production package runtime passed: ' . $sll_edition . '/' . $sll_scenario . ".\n";

@@ -1,0 +1,789 @@
+# Copyright (C) 2026 Clif Griffin Development Inc.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple LDAP Login 2.0.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/simple-ldap-login\n"
+"Last-Translator: gpt-po v1.2.3\n"
+"Language-Team: th\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: simple-ldap-login\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: Simple-LDAP-Login.php src/Admin.php:64 src/Admin.php:65 src/Admin.php:149
+#. Plugin Name of the plugin
+msgid "Simple LDAP Login"
+msgstr "Simple LDAP Login"
+
+#: Simple-LDAP-Login.php
+#. Plugin URI of the plugin
+msgid "https://github.com/clifgriffin/simple-ldap-login"
+msgstr "https://github.com/clifgriffin/simple-ldap-login"
+
+#: Simple-LDAP-Login.php
+#. Description of the plugin
+msgid "Connect WordPress accounts to Active Directory or OpenLDAP."
+msgstr "เชื่อมต่อบัญชี WordPress กับ Active Directory หรือ OpenLDAP."
+
+#: Simple-LDAP-Login.php
+#. Author of the plugin
+msgid "Clif Griffin Development Inc."
+msgstr "Clif Griffin Development Inc."
+
+#: Simple-LDAP-Login.php
+#. Author URI of the plugin
+msgid "https://clifgriffin.com"
+msgstr "https://clifgriffin.com"
+
+#: pro/src/Admin.php:49
+msgid "User data"
+msgstr "ข้อมูลผู้ใช้"
+
+#: pro/src/Admin.php:50
+#: pro/src/Admin.php:84
+msgid "Single sign-on"
+msgstr "การเข้าสู่ระบบแบบครั้งเดียว"
+
+#: pro/src/Admin.php:60
+msgid "Custom user fields"
+msgstr "ฟิลด์ผู้ใช้ที่กำหนดเอง"
+
+#: pro/src/Admin.php:60
+msgid "Copy LDAP attributes to WordPress user meta fields."
+msgstr "คัดลอกแอตทริบิวต์ LDAP ไปยังฟิลด์เมตาผู้ใช้ WordPress."
+
+#: pro/src/Admin.php:61
+#: src/Settings.php:615
+msgid "Field mappings"
+msgstr "การแมพฟิลด์"
+
+#: pro/src/Admin.php:62
+#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
+#, php-format
+msgid ""
+"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
+"%1$s. Types: %2$s or %3$s."
+msgstr ""
+"หนึ่งการแมพต่อหนึ่งบรรทัด: คุณสมบัติ LDAP: คีย์เมตาของ WordPress: ประเภท. "
+"ตัวอย่าง: %1$s. ประเภท: %2$s หรือ %3$s."
+
+#: pro/src/Admin.php:71
+msgid "Custom field storage"
+msgstr "การจัดเก็บฟิลด์ที่กำหนดเอง"
+
+#: pro/src/Admin.php:71
+msgid "Leave the defaults unless your integration uses different user meta keys."
+msgstr "ปล่อยให้เป็นค่าเริ่มต้นเว้นแต่การรวมของคุณใช้คีย์เมตาผู้ใช้ที่แตกต่างกัน."
+
+#: pro/src/Admin.php:72
+#: src/Settings.php:616
+msgid "LDAP value suffix"
+msgstr "ซัฟฟิกซ์ค่าของ LDAP"
+
+#: pro/src/Admin.php:72
+msgid "Stores the LDAP value, such as phone_ldap."
+msgstr "เก็บค่าของ LDAP เช่น phone_ldap."
+
+#: pro/src/Admin.php:73
+#: src/Settings.php:617
+msgid "WordPress value suffix"
+msgstr "ซัฟฟิกซ์ค่าของ WordPress"
+
+#: pro/src/Admin.php:73
+msgid "Stores the editable WordPress value, such as phone_wp."
+msgstr "เก็บค่าที่แก้ไขได้ของ WordPress เช่น phone_wp."
+
+#: pro/src/Admin.php:83
+msgid "Single sign-on (SSO)"
+msgstr "การเข้าสู่ระบบแบบครั้งเดียว (SSO)"
+
+#: pro/src/Admin.php:83
+msgid ""
+"Your web server must authenticate users and set REMOTE_USER. Never copy a "
+"browser header into REMOTE_USER or allow access that bypasses server "
+"authentication. Set the LDAP search account on Connection."
+msgstr ""
+"เซิร์ฟเวอร์เว็บของคุณต้องตรวจสอบผู้ใช้และตั้งค่า REMOTE_USER. "
+"ห้ามคัดลอกส่วนหัวของเบราว์เซอร์ไปยัง REMOTE_USER "
+"หรืออนุญาตให้เข้าถึงที่ข้ามการตรวจสอบสิทธิ์ของเซิร์ฟเวอร์. "
+"ตั้งค่าบัญชีค้นหา LDAP ในการเชื่อมต่อ."
+
+#: pro/src/Admin.php:84
+msgid "Enable automatic login after web server authentication."
+msgstr "เปิดใช้งานการเข้าสู่ระบบอัตโนมัติหลังจากการตรวจสอบสิทธิ์เซิร์ฟเวอร์เว็บ."
+
+#: pro/src/Admin.php:87
+msgid "Web server authentication"
+msgstr "การตรวจสอบสิทธิ์เซิร์ฟเวอร์เว็บ"
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is present."
+msgstr "REMOTE_USER มีอยู่."
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is missing. Check the web server configuration."
+msgstr "REMOTE_USER ขาดหายไป. ตรวจสอบการกำหนดค่าของเซิร์ฟเวอร์เว็บ."
+
+#: pro/src/Upgrade_Guard.php:84
+msgid ""
+"The update was stopped. Activate Simple LDAP Login Pro to restore LDAP "
+"login."
+msgstr ""
+"การอัปเดตถูกหยุดลง เปิดใช้งาน Simple LDAP Login Pro "
+"เพื่อกู้คืนการเข้าสู่ระบบ LDAP."
+
+#: pro/src/Upgrade_Guard.php:86
+msgid ""
+"Update blocked: This package does not include all Pro files. To install "
+"Free, deactivate the plugin first. Your installed files and settings are "
+"unchanged."
+msgstr ""
+"การอัปเดตถูกบล็อก: แพ็คเกจนี้ไม่มีไฟล์ Pro ทั้งหมด หากต้องการติดตั้ง Free "
+"ให้ปิดการใช้งานปลั๊กอินก่อน "
+"ไฟล์และการตั้งค่าที่ติดตั้งของคุณจะไม่เปลี่ยนแปลง."
+
+#: pro/src/Upgrade_Guard.php:113
+msgid "WordPress could not reactivate the plugin."
+msgstr "WordPress ไม่สามารถเปิดใช้งานปลั๊กอินอีกครั้ง."
+
+#: Simple-LDAP-Login.php:29
+msgid "Simple LDAP Login needs PHP 8.1 or later."
+msgstr "Simple LDAP Login ต้องการ PHP 8.1 หรือใหม่กว่า."
+
+#: Simple-LDAP-Login.php:39
+msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
+msgstr "ไฟล์ปลั๊กอินหายไป. ติดตั้ง Simple LDAP Login ใหม่จาก ZIP ที่ปล่อยออกมา."
+
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "คุณไม่มีสิทธิ์ในการเปลี่ยนแปลงการตั้งค่าเหล่านี้."
+
+#: src/Admin.php:97
+msgid "The settings scope has changed. Open the settings page and try again."
+msgstr "ขอบเขตการตั้งค่าได้เปลี่ยนแปลง. เปิดหน้าการตั้งค่าและลองอีกครั้ง."
+
+#: src/Admin.php:141
+msgid "You do not have permission to view these settings."
+msgstr "คุณไม่มีสิทธิ์ในการดูการตั้งค่าเหล่านี้."
+
+#: src/Admin.php:153
+msgid "Network settings"
+msgstr "การตั้งค่าเครือข่าย"
+
+#: src/Admin.php:153
+msgid "Site settings"
+msgstr "การตั้งค่าไซต์"
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "การตั้งค่าการเข้าสู่ระบบ LDAP"
+
+#: src/Admin.php:155
+msgid "Connect to LDAP, then test a login before enabling authentication."
+msgstr "เชื่อมต่อกับ LDAP แล้วทดสอบการเข้าสู่ระบบก่อนเปิดใช้งานการตรวจสอบสิทธิ์."
+
+#: src/Admin.php:160
+msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
+msgstr "การเข้าสู่ระบบ LDAP และ SSO ถูกปิดโดย SLL_DISABLE_LDAP ใน wp-config.php."
+
+#: src/Admin.php:163
+msgid ""
+"Your saved settings use SSO or custom user fields. Install Simple LDAP "
+"Login Pro to use these features. Your settings are kept."
+msgstr ""
+"การตั้งค่าที่คุณบันทึกไว้ใช้ SSO หรือฟิลด์ผู้ใช้ที่กำหนดเอง ติดตั้ง Simple "
+"LDAP Login Pro เพื่อใช้ฟีเจอร์เหล่านี้ การตั้งค่าของคุณจะถูกเก็บไว้"
+
+#: src/Admin.php:169
+msgid ""
+"The saved LDAP search password cannot be read. Enter it again on the "
+"Connection tab."
+msgstr ""
+"รหัสผ่านการค้นหา LDAP ที่บันทึกไม่สามารถอ่านได้. "
+"ป้อนอีกครั้งในแท็บการเชื่อมต่อ."
+
+#: src/Admin.php:172
+msgid "PHP LDAP is missing. Ask your host to install it before enabling LDAP login."
+msgstr ""
+"PHP LDAP หายไป กรุณาขอให้โฮสต์ของคุณติดตั้งก่อนเปิดใช้งานการเข้าสู่ระบบ "
+"LDAP."
+
+#: src/Admin.php:175
+msgid ""
+"LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your "
+"server supports it."
+msgstr ""
+"รหัสผ่าน LDAP ถูกส่งโดยไม่มีการเข้ารหัส ใช้ StartTLS หรือ LDAPS "
+"หากเซิร์ฟเวอร์ของคุณรองรับ."
+
+#: src/Admin.php:207
+msgid "Save settings"
+msgstr "บันทึกการตั้งค่า"
+
+#: src/Admin.php:208
+msgid "Settings on other tabs are kept."
+msgstr "การตั้งค่าในแท็บอื่น ๆ จะถูกเก็บไว้."
+
+#: src/Admin.php:223
+msgid "LDAP connection"
+msgstr "การเชื่อมต่อ LDAP"
+
+#: src/Admin.php:224
+msgid "LDAP login"
+msgstr "การเข้าสู่ระบบ LDAP"
+
+#: src/Admin.php:224
+msgid "Enable LDAP authentication."
+msgstr "เปิดใช้งานการตรวจสอบสิทธิ์ LDAP."
+
+#: src/Admin.php:227
+#: src/Settings.php:597
+msgid "Directory type"
+msgstr "ประเภทไดเรกทอรี"
+
+#: src/Admin.php:229
+msgid "Active Directory"
+msgstr "Active Directory"
+
+#: src/Admin.php:230
+msgid "OpenLDAP / other LDAP directory"
+msgstr "OpenLDAP / ไดเรกทอรี LDAP อื่น ๆ"
+
+#: src/Admin.php:233
+#: src/Settings.php:599
+msgid "LDAP servers"
+msgstr "เซิร์ฟเวอร์ LDAP"
+
+#: src/Admin.php:233
+msgid "One hostname or IP address per line. Servers are tried in order."
+msgstr "ชื่อโฮสต์หรือที่อยู่ IP หนึ่งต่อบรรทัด เซิร์ฟเวอร์จะถูกลองในลำดับ."
+
+#: src/Admin.php:234
+#: src/Settings.php:600
+msgid "Base DN"
+msgstr "Base DN"
+
+#: src/Admin.php:234
+msgid "Where to search for users. Example: DC=example,DC=org."
+msgstr "ที่ค้นหาผู้ใช้ ตัวอย่าง: DC=example,DC=org."
+
+#: src/Admin.php:235
+#: src/Settings.php:601
+msgid "Username suffix"
+msgstr "Suffix ชื่อผู้ใช้"
+
+#: src/Admin.php:235
+msgid "Added to usernames without a domain. Example: @example.org."
+msgstr "เพิ่มไปยังชื่อผู้ใช้ที่ไม่มีโดเมน ตัวอย่าง: @example.org."
+
+#: src/Admin.php:236
+#: src/Settings.php:602
+msgid "Windows domain"
+msgstr "โดเมน Windows"
+
+#: src/Admin.php:236
+msgid "Short domain name, such as EXAMPLE. Takes priority over the username suffix."
+msgstr "ชื่อโดเมนสั้น เช่น EXAMPLE มีลำดับความสำคัญเหนือ suffix ชื่อผู้ใช้."
+
+#: src/Admin.php:238
+#: src/Admin.php:241
+#: src/Settings.php:598
+msgid "Connection security"
+msgstr "ความปลอดภัยในการเชื่อมต่อ"
+
+#: src/Admin.php:238
+msgid "TLS requires a trusted server certificate."
+msgstr "TLS ต้องการใบรับรองเซิร์ฟเวอร์ที่เชื่อถือได้."
+
+#: src/Admin.php:243
+msgid "StartTLS (recommended)"
+msgstr "StartTLS (แนะนำ)"
+
+#: src/Admin.php:244
+msgid "LDAPS"
+msgstr "LDAPS"
+
+#: src/Admin.php:245
+msgid "Unencrypted LDAP"
+msgstr "LDAP ที่ไม่มีการเข้ารหัส"
+
+#: src/Admin.php:247
+msgid "Unencrypted LDAP requires permission on the Advanced tab."
+msgstr "LDAP ที่ไม่มีการเข้ารหัสต้องการสิทธิ์ในแท็บขั้นสูง."
+
+#: src/Admin.php:249
+#: src/Settings.php:603
+msgid "Port"
+msgstr "พอร์ต"
+
+#: src/Admin.php:249
+msgid "389 for StartTLS; 636 for LDAPS."
+msgstr "389 สำหรับ StartTLS; 636 สำหรับ LDAPS."
+
+#: src/Admin.php:250
+msgid "Search subfolders"
+msgstr "ค้นหาย่อย"
+
+#: src/Admin.php:250
+msgid "Search all organizational units below the Base DN."
+msgstr "ค้นหาทุกหน่วยงานที่องค์กรด้านล่าง Base DN."
+
+#: src/Admin.php:252
+msgid "LDAP search account"
+msgstr "บัญชีค้นหา LDAP"
+
+#: src/Admin.php:252
+msgid "An LDAP account with read access to users and groups."
+msgstr "บัญชี LDAP ที่มีสิทธิ์อ่านผู้ใช้และกลุ่ม."
+
+#: src/Admin.php:253
+msgid "Search account"
+msgstr "บัญชีค้นหา"
+
+#: src/Admin.php:253
+msgid "LDAP bind DN or account name."
+msgstr "LDAP bind DN หรือชื่อบัญชี."
+
+#: src/Admin.php:254
+#: src/Settings.php:614
+msgid "Search account password"
+msgstr "รหัสผ่านบัญชีค้นหา"
+
+#: src/Admin.php:254
+msgid "Leave blank to keep the saved password."
+msgstr "ปล่อยว่างเพื่อเก็บรหัสผ่านที่บันทึกไว้."
+
+#: src/Admin.php:262
+msgid "Login rules"
+msgstr "กฎการเข้าสู่ระบบ"
+
+#: src/Admin.php:263
+msgid "Require LDAP passwords"
+msgstr "ต้องการรหัสผ่าน LDAP"
+
+#: src/Admin.php:263
+msgid "Block WordPress passwords except for recovery access."
+msgstr "บล็อกรหัสผ่าน WordPress ยกเว้นสำหรับการเข้าถึงการกู้คืน."
+
+#: src/Admin.php:266
+#: src/Settings.php:612
+msgid "Local recovery access"
+msgstr "การเข้าถึงการกู้คืนในท้องถิ่น"
+
+#: src/Admin.php:268
+msgid "Selected administrators"
+msgstr "ผู้ดูแลระบบที่เลือก"
+
+#: src/Admin.php:269
+msgid "All super administrators (legacy)"
+msgstr "ผู้ดูแลระบบซุปเปอร์ทั้งหมด (legacy)"
+
+#: src/Admin.php:269
+msgid "All administrators (legacy)"
+msgstr "ผู้ดูแลระบบทั้งหมด (legacy)"
+
+#: src/Admin.php:270
+msgid "Off"
+msgstr "ปิด"
+
+#: src/Admin.php:272
+msgid "Choose who can use a WordPress password when LDAP passwords are required."
+msgstr "เลือกผู้ที่สามารถใช้รหัสผ่าน WordPress เมื่อรหัสผ่าน LDAP ถูกต้อง."
+
+#: src/Admin.php:275
+msgid "Automatic account creation"
+msgstr "การสร้างบัญชีอัตโนมัติ"
+
+#: src/Admin.php:275
+msgid "Create a WordPress account on the first successful LDAP login."
+msgstr "สร้างบัญชี WordPress เมื่อเข้าสู่ระบบ LDAP สำเร็จครั้งแรก."
+
+#: src/Admin.php:280
+#: src/Settings.php:611
+msgid "Default role"
+msgstr "บทบาทเริ่มต้น"
+
+#: src/Admin.php:280
+msgid "For new accounts only."
+msgstr "สำหรับบัญชีใหม่เท่านั้น."
+
+#: src/Admin.php:281
+#: src/Settings.php:609
+msgid "Required groups"
+msgstr "กลุ่มที่จำเป็น"
+
+#: src/Admin.php:281
+msgid ""
+"One group name per line. Users must belong to at least one. Leave blank to "
+"allow all LDAP users."
+msgstr ""
+"ชื่อกลุ่มหนึ่งต่อบรรทัด ผู้ใช้ต้องเป็นสมาชิกของอย่างน้อยหนึ่งกลุ่ม "
+"ปล่อยว่างเพื่ออนุญาตให้ผู้ใช้ LDAP ทั้งหมด."
+
+#: src/Admin.php:295
+#: src/Settings.php:613
+msgid "Recovery accounts"
+msgstr "บัญชีการกู้คืน"
+
+#: src/Admin.php:305
+msgid ""
+"For Selected administrators only. Use separate local accounts with "
+"WordPress passwords. Hold Ctrl or Command to select multiple accounts."
+msgstr ""
+"สำหรับผู้ดูแลระบบที่เลือกเท่านั้น ใช้บัญชีท้องถิ่นแยกต่างหากที่มีรหัสผ่าน "
+"WordPress กด Ctrl หรือ Command เพื่อเลือกหลายบัญชี."
+
+#: src/Admin.php:320
+msgid "Connection options"
+msgstr "ตัวเลือกการเชื่อมต่อ"
+
+#: src/Admin.php:320
+msgid "Change these only if the default values do not work with your directory."
+msgstr "เปลี่ยนแปลงเหล่านี้เฉพาะเมื่อค่าพื้นฐานไม่ทำงานกับไดเรกทอรีของคุณ."
+
+#: src/Admin.php:321
+msgid "LDAP timeout (seconds)"
+msgstr "เวลาหมดอายุ LDAP (วินาที)"
+
+#: src/Admin.php:321
+msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
+msgstr "เวลาสูงสุดในการรอการดำเนินการ LDAP ค่าพื้นฐาน: 5 วินาที."
+
+#: src/Admin.php:322
+#: src/Settings.php:606
+msgid "Login attribute"
+msgstr "คุณลักษณะการเข้าสู่ระบบ"
+
+#: src/Admin.php:322
+msgid "Attribute used to find users. Default: uid."
+msgstr "คุณลักษณะที่ใช้ในการค้นหาผู้ใช้ ค่าพื้นฐาน: uid."
+
+#: src/Admin.php:323
+msgid "Allow unencrypted LDAP"
+msgstr "อนุญาต LDAP ที่ไม่มีการเข้ารหัส"
+
+#: src/Admin.php:323
+msgid "Allow passwords to be sent without encryption."
+msgstr "อนุญาตให้ส่งรหัสผ่านโดยไม่มีการเข้ารหัส."
+
+#: src/Admin.php:325
+msgid "Group search"
+msgstr "การค้นหากลุ่ม"
+
+#: src/Admin.php:326
+#: src/Settings.php:610
+msgid "Group base DN"
+msgstr "DN ฐานกลุ่ม"
+
+#: src/Admin.php:326
+msgid "Leave blank to use the user Base DN."
+msgstr "ปล่อยว่างเพื่อใช้ DN ฐานผู้ใช้."
+
+#: src/Admin.php:327
+#: src/Settings.php:607
+msgid "Group name attribute"
+msgstr "คุณสมบัติชื่อกลุ่ม"
+
+#: src/Admin.php:327
+msgid "Default: cn."
+msgstr "ค่าเริ่มต้น: cn."
+
+#: src/Admin.php:328
+#: src/Settings.php:608
+msgid "Group member attribute"
+msgstr "คุณสมบัติสมาชิกกลุ่ม"
+
+#: src/Admin.php:328
+msgid "Default: memberUid. Use member or uniqueMember if groups store user DNs."
+msgstr ""
+"ค่าเริ่มต้น: memberUid. ใช้ member หรือ uniqueMember หากกลุ่มเก็บ DN "
+"ของผู้ใช้."
+
+#: src/Admin.php:330
+msgid "Profile attributes"
+msgstr "คุณสมบัติโปรไฟล์"
+
+#: src/Admin.php:330
+msgid "LDAP attributes copied to new WordPress accounts."
+msgstr "คุณสมบัติ LDAP ที่คัดลอกไปยังบัญชี WordPress ใหม่."
+
+#: src/Admin.php:331
+#: src/Settings.php:618
+msgid "First name attribute"
+msgstr "คุณสมบัติชื่อจริง"
+
+#: src/Admin.php:332
+#: src/Settings.php:619
+msgid "Last name attribute"
+msgstr "คุณสมบัติชื่อสกุล"
+
+#: src/Admin.php:333
+#: src/Settings.php:620
+msgid "Email attribute"
+msgstr "คุณสมบัติอีเมล"
+
+#: src/Admin.php:334
+#: src/Settings.php:621
+msgid "Website attribute"
+msgstr "คุณสมบัติเว็บไซต์"
+
+#: src/Admin.php:337
+msgid "Data retention"
+msgstr "การเก็บข้อมูล"
+
+#: src/Admin.php:338
+msgid "Delete settings when removing the plugin"
+msgstr "ลบการตั้งค่าเมื่อถอนการติดตั้งปลั๊กอิน"
+
+#: src/Admin.php:338
+msgid ""
+"Delete saved settings and LDAP credentials when WordPress deletes the "
+"plugin. Keep user accounts."
+msgstr ""
+"ลบการตั้งค่าและข้อมูลรับรอง LDAP ที่บันทึกไว้เมื่อ WordPress ลบปลั๊กอิน "
+"เก็บบัญชีผู้ใช้ไว้."
+
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "ทดสอบการเข้าสู่ระบบ LDAP"
+
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"บันทึกการตั้งค่าของคุณ จากนั้นทำการทดสอบทั้งสองอย่าง "
+"รักษาเซสชันผู้ดูแลระบบนี้ไว้เปิดอยู่."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"การทดสอบตรวจสอบการเชื่อมต่อ รหัสผ่าน และกลุ่มที่จำเป็น "
+"ไม่สร้างบัญชีหรือเข้าสู่ระบบผู้ใช้."
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"หลังจากการทดสอบทั้งสองผ่าน เปิดใช้งาน LDAP "
+"และลองเข้าสู่ระบบจากเบราว์เซอร์อื่น."
+
+#: src/Admin.php:350
+msgid "Recovery"
+msgstr "การกู้คืน"
+
+#: src/Admin.php:351
+msgid ""
+"If you are locked out, rename the simple-ldap-login folder using your "
+"hosting file manager. Log in with a WordPress administrator password, then "
+"restore the folder and correct the settings."
+msgstr ""
+"หากคุณถูกล็อกออก เปลี่ยนชื่อโฟลเดอร์ simple-ldap-login "
+"โดยใช้ตัวจัดการไฟล์ของโฮสติ้งของคุณ เข้าสู่ระบบด้วยรหัสผ่านผู้ดูแลระบบ "
+"WordPress จากนั้นกู้คืนโฟลเดอร์และแก้ไขการตั้งค่า."
+
+#: src/Admin.php:352
+msgid ""
+"For certificate errors, ask your host to configure the trusted LDAP "
+"certificate authority."
+msgstr ""
+"สำหรับข้อผิดพลาดของใบรับรอง ให้ขอให้โฮสต์ของคุณกำหนดค่าใบรับรอง LDAP "
+"ที่เชื่อถือได้."
+
+#: src/Admin.php:366
+msgid "LDAP tests"
+msgstr "การทดสอบ LDAP"
+
+#: src/Admin.php:367
+msgid "Tests use saved settings."
+msgstr "การทดสอบใช้การตั้งค่าที่บันทึกไว้."
+
+#: src/Admin.php:372
+msgid "1. Test connection"
+msgstr "1. ทดสอบการเชื่อมต่อ"
+
+#: src/Admin.php:373
+msgid "Connect to LDAP and test the search account, if set."
+msgstr "เชื่อมต่อกับ LDAP และทดสอบบัญชีค้นหา หากตั้งค่าไว้."
+
+#: src/Admin.php:374
+msgid "Test connection"
+msgstr "ทดสอบการเชื่อมต่อ"
+
+#: src/Admin.php:378
+msgid "2. Test login"
+msgstr "2. ทดสอบการเข้าสู่ระบบ"
+
+#: src/Admin.php:379
+msgid "Check an LDAP username, password, and group membership."
+msgstr "ตรวจสอบชื่อผู้ใช้ LDAP รหัสผ่าน และการเป็นสมาชิกกลุ่ม."
+
+#: src/Admin.php:380
+msgid "LDAP username"
+msgstr "ชื่อผู้ใช้ LDAP"
+
+#: src/Admin.php:381
+msgid "LDAP password"
+msgstr "รหัสผ่าน LDAP"
+
+#: src/Admin.php:537
+msgid "Settings saved."
+msgstr "บันทึกการตั้งค่าแล้ว."
+
+#: src/Admin.php:538
+msgid "Connection test passed."
+msgstr "การทดสอบการเชื่อมต่อผ่าน."
+
+#: src/Admin.php:539
+msgid ""
+"Cannot connect to LDAP. Check the server, port, TLS certificate, and search "
+"account."
+msgstr ""
+"ไม่สามารถเชื่อมต่อกับ LDAP ได้ ตรวจสอบเซิร์ฟเวอร์ พอร์ต ใบรับรอง TLS "
+"และบัญชีค้นหา."
+
+#: src/Admin.php:540
+msgid "LDAP login test passed. No account was created."
+msgstr "การทดสอบการเข้าสู่ระบบ LDAP ผ่าน ไม่มีบัญชีถูกสร้างขึ้น."
+
+#: src/Admin.php:541
+msgid "LDAP login test failed. Check the username, password, and required groups."
+msgstr ""
+"การทดสอบการเข้าสู่ระบบ LDAP ล้มเหลว ตรวจสอบชื่อผู้ใช้ รหัสผ่าน "
+"และกลุ่มที่จำเป็น."
+
+#: src/Admin.php:542
+msgid "Could not save settings. Check the values and try again."
+msgstr "ไม่สามารถบันทึกการตั้งค่าได้ ตรวจสอบค่าและลองอีกครั้ง."
+
+#: src/Admin.php:586
+msgid "Connection"
+msgstr "การเชื่อมต่อ"
+
+#: src/Admin.php:587
+msgid "Access"
+msgstr "การเข้าถึง"
+
+#: src/Admin.php:588
+msgid "Advanced"
+msgstr "ขั้นสูง"
+
+#: src/Admin.php:589
+msgid "Troubleshooting"
+msgstr "การแก้ไขปัญหา"
+
+#: src/Authenticator.php:151
+msgid ""
+"Your LDAP login is valid, but you need a WordPress account. Contact your "
+"site administrator."
+msgstr ""
+"การเข้าสู่ระบบ LDAP ของคุณถูกต้อง แต่คุณต้องมีบัญชี WordPress "
+"ติดต่อผู้ดูแลระบบเว็บไซต์ของคุณ."
+
+#: src/Authenticator.php:154
+msgid ""
+"Your LDAP username is not a valid WordPress username. Contact your site "
+"administrator."
+msgstr ""
+"ชื่อผู้ใช้ LDAP ของคุณไม่ใช่ชื่อผู้ใช้ WordPress ที่ถูกต้อง "
+"ติดต่อผู้ดูแลระบบเว็บไซต์ของคุณ."
+
+#: src/Authenticator.php:158
+msgid ""
+"The default WordPress role is not available. Contact your site "
+"administrator."
+msgstr "บทบาท WordPress เริ่มต้นไม่สามารถใช้ได้ ติดต่อผู้ดูแลระบบเว็บไซต์ของคุณ."
+
+#: src/Authenticator.php:175
+msgid "Could not create your WordPress account. Contact your site administrator."
+msgstr "ไม่สามารถสร้างบัญชี WordPress ของคุณ ติดต่อผู้ดูแลระบบเว็บไซต์ของคุณ."
+
+#: src/Authenticator.php:180
+msgid "Use your WordPress password for this recovery account."
+msgstr "ใช้รหัสผ่าน WordPress ของคุณสำหรับบัญชีการกู้คืนนี้."
+
+#: src/Ldap_Client.php:440
+msgid ""
+"LDAP login failed. Check your username and password or contact your site "
+"administrator."
+msgstr ""
+"การเข้าสู่ระบบ LDAP ล้มเหลว ตรวจสอบชื่อผู้ใช้และรหัสผ่านของคุณหรือ "
+"ติดต่อผู้ดูแลระบบเว็บไซต์ของคุณ."
+
+#: src/Ldap_Client.php:442
+msgid "Your account is not allowed to log in to this site."
+msgstr "บัญชีของคุณไม่ได้รับอนุญาตให้เข้าสู่ระบบในเว็บไซต์นี้."
+
+#: src/Ldap_Client.php:444
+msgid "LDAP login is unavailable. Contact your site administrator."
+msgstr "การเข้าสู่ระบบ LDAP ไม่สามารถใช้งานได้ ติดต่อผู้ดูแลระบบเว็บไซต์ของคุณ."
+
+#: src/Secrets.php:24
+msgid "PHP OpenSSL is required to save the LDAP search password."
+msgstr "ต้องการ PHP OpenSSL เพื่อบันทึกรหัสผ่านการค้นหา LDAP."
+
+#: src/Secrets.php:92
+msgid ""
+"Could not read or save the LDAP search password. Enter it again. If this "
+"continues, ask your host to check OpenSSL and the encryption key."
+msgstr ""
+"ไม่สามารถอ่านหรือบันทึกรหัสผ่านการค้นหา LDAP ได้ กรุณาใส่ใหม่ "
+"หากยังคงมีปัญหา ให้ติดต่อโฮสต์ของคุณเพื่อตรวจสอบ OpenSSL และคีย์การเข้ารหัส."
+
+#: src/Settings.php:310
+msgid ""
+"Select a recovery account on the Access tab, or turn local recovery access "
+"Off."
+msgstr "เลือกบัญชีการกู้คืนในแท็บการเข้าถึง หรือปิดการเข้าถึงการกู้คืนในเครื่อง."
+
+#: src/Settings.php:318
+msgid ""
+"Enable Allow unencrypted LDAP on the Advanced tab, or choose StartTLS or "
+"LDAPS."
+msgstr ""
+"เปิดใช้งานอนุญาต LDAP ที่ไม่เข้ารหัสในแท็บขั้นสูง หรือเลือก StartTLS หรือ "
+"LDAPS."
+
+#: src/Settings.php:341
+msgid "A custom field mapping uses a protected or invalid WordPress user meta key."
+msgstr ""
+"การแมพฟิลด์ที่กำหนดเองใช้คีย์เมตาของผู้ใช้ WordPress "
+"ที่ถูกป้องกันหรือไม่ถูกต้อง."
+
+#: src/Settings.php:346
+msgid "Enter a Base DN and at least one LDAP server before enabling LDAP login."
+msgstr ""
+"กรุณาใส่ Base DN และเซิร์ฟเวอร์ LDAP "
+"อย่างน้อยหนึ่งตัวก่อนเปิดใช้งานการเข้าสู่ระบบ LDAP."
+
+#: src/Settings.php:349
+msgid "WordPress could not save the settings. Try again."
+msgstr "WordPress ไม่สามารถบันทึกการตั้งค่าได้ กรุณาลองอีกครั้ง."
+
+#: src/Settings.php:604
+msgid "LDAP protocol version"
+msgstr "เวอร์ชันโปรโตคอล LDAP"
+
+#: src/Settings.php:605
+msgid "LDAP timeout"
+msgstr "เวลาหมดอายุ LDAP"
+
+#: src/Settings.php:623
+msgid "Check the submitted settings. No changes were saved."
+msgstr "ตรวจสอบการตั้งค่าที่ส่งมา ไม่มีการเปลี่ยนแปลงที่บันทึกไว้."
+
+#: src/Settings.php:626
+#. translators: %s: setting label.
+#, php-format
+msgid "Check %s. No changes were saved."
+msgstr "ตรวจสอบ %s ไม่มีการเปลี่ยนแปลงที่บันทึกไว้."

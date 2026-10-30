@@ -41,12 +41,13 @@ try {
 	}
 	assert.throws(
 		() => buildPackage( 'other', source ),
-		/Choose .*free.*pro.*legacy.*transition/
+		/Choose free or pro/
 	);
-	for ( const edition of [ 'pro', 'legacy', 'transition' ] ) {
+	assert.throws( () => buildPackage( 'pro', source ), /source is missing/ );
+	for ( const removed of [ 'legacy', 'transition' ] ) {
 		assert.throws(
-			() => buildPackage( edition, source ),
-			/source is missing/
+			() => buildPackage( removed, source ),
+			/Choose free or pro/
 		);
 	}
 	fs.cpSync( path.join( root, 'pro' ), path.join( source, 'pro' ), {
@@ -84,7 +85,7 @@ try {
 		'PACKAGE_PRIVATE_MARKER'
 	);
 
-	for ( const edition of [ 'free', 'pro', 'legacy', 'transition' ] ) {
+	for ( const edition of [ 'free', 'pro' ] ) {
 		const archive = buildPackage( edition, source );
 		const suffix = edition === 'free' ? '' : `-${ edition }`;
 		assert.equal(
@@ -101,6 +102,9 @@ try {
 			'composer.json',
 			'composer.lock',
 			'LICENSE',
+			...fs
+				.readdirSync( path.join( root, 'languages' ) )
+				.map( ( catalog ) => `languages/${ catalog }` ),
 		] ) {
 			assert(
 				names.includes( prefix + file ),
@@ -173,13 +177,9 @@ try {
 				main.includes( "require_once __DIR__ . '/pro/bootstrap.php';" )
 			);
 		}
-		if ( [ 'pro', 'legacy' ].includes( edition ) ) {
+		if ( edition === 'pro' ) {
 			assert( main.includes( 'Update URI: false' ) );
-			assert(
-				main.includes(
-					`Plugin Name: Simple LDAP Login ${ edition === 'pro' ? 'Pro' : 'Legacy' }`
-				)
-			);
+			assert( main.includes( 'Plugin Name: Simple LDAP Login Pro' ) );
 		} else {
 			assert( ! main.includes( 'Update URI:' ) );
 		}
@@ -191,7 +191,13 @@ try {
 			[ '-l', path.join( plugin, 'Simple-LDAP-Login.php' ) ],
 			{ stdio: 'pipe', encoding: 'utf8' }
 		);
-		for ( const scenario of [ 'fresh', 'existing', 'network' ] ) {
+		for ( const scenario of [
+			'fresh',
+			'existing',
+			'network',
+			'v1',
+			'v1-network',
+		] ) {
 			execFileSync(
 				'php',
 				[
@@ -240,7 +246,7 @@ try {
 		originalProLock
 	);
 	process.stdout.write(
-		'Package checks passed: four real editions, private dependencies, PSR-4 loading, runtime hooks, legacy access, exclusions, and source preservation.\n'
+		'Package checks passed: Free and Pro, private dependencies, PSR-4 loading, runtime hooks, migration, exclusions, and source preservation.\n'
 	);
 } finally {
 	fs.rmSync( source, { recursive: true, force: true } );

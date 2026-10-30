@@ -1,0 +1,24 @@
+name: sll-demo
+
+services:
+  db:
+    extends:
+      file: ../tests/docker/compose.yml
+      service: db
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:13306:3306
+
+  ldap:
+    extends:
+      file: ../tests/docker/compose.yml
+      service: ldap
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:1389:389
+      - 127.0.0.1:1636:636
+
+volumes:
+  database:
+  ldap-data:
+  ldap-certs:

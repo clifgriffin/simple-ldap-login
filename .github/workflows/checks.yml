@@ -45,6 +45,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run test:admin
+      - run: sudo apt-get update && sudo apt-get install -y gettext
+      - run: npm run test:i18n
       - run: npm run test:packages
   integration:
     runs-on: ubuntu-latest

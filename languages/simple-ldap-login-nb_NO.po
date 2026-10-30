@@ -1,0 +1,799 @@
+# Copyright (C) 2026 Clif Griffin Development Inc.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple LDAP Login 2.0.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/simple-ldap-login\n"
+"Last-Translator: gpt-po v1.2.3\n"
+"Language-Team: nb_NO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: simple-ldap-login\n"
+"Language: nb_NO\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Simple-LDAP-Login.php src/Admin.php:64 src/Admin.php:65 src/Admin.php:149
+#. Plugin Name of the plugin
+msgid "Simple LDAP Login"
+msgstr "Simple LDAP Login"
+
+#: Simple-LDAP-Login.php
+#. Plugin URI of the plugin
+msgid "https://github.com/clifgriffin/simple-ldap-login"
+msgstr "https://github.com/clifgriffin/simple-ldap-login"
+
+#: Simple-LDAP-Login.php
+#. Description of the plugin
+msgid "Connect WordPress accounts to Active Directory or OpenLDAP."
+msgstr "Koble WordPress-kontoer til Active Directory eller OpenLDAP."
+
+#: Simple-LDAP-Login.php
+#. Author of the plugin
+msgid "Clif Griffin Development Inc."
+msgstr "Clif Griffin Development Inc."
+
+#: Simple-LDAP-Login.php
+#. Author URI of the plugin
+msgid "https://clifgriffin.com"
+msgstr "https://clifgriffin.com"
+
+#: pro/src/Admin.php:49
+msgid "User data"
+msgstr "Brukerdata"
+
+#: pro/src/Admin.php:50
+#: pro/src/Admin.php:84
+msgid "Single sign-on"
+msgstr "Én pålogging"
+
+#: pro/src/Admin.php:60
+msgid "Custom user fields"
+msgstr "Egendefinerte brukerfelt"
+
+#: pro/src/Admin.php:60
+msgid "Copy LDAP attributes to WordPress user meta fields."
+msgstr "Kopier LDAP-attributter til WordPress bruker meta-felt."
+
+#: pro/src/Admin.php:61
+#: src/Settings.php:615
+msgid "Field mappings"
+msgstr "Feltkartlegginger"
+
+#: pro/src/Admin.php:62
+#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
+#, php-format
+msgid ""
+"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
+"%1$s. Types: %2$s or %3$s."
+msgstr ""
+"Én mapping per linje: LDAP-attributt:WordPress meta-nøkkel:type. Eksempel: "
+"%1$s. Typer: %2$s eller %3$s."
+
+#: pro/src/Admin.php:71
+msgid "Custom field storage"
+msgstr "Lagring av egendefinerte felt"
+
+#: pro/src/Admin.php:71
+msgid "Leave the defaults unless your integration uses different user meta keys."
+msgstr ""
+"La standardene stå med mindre integrasjonen din bruker forskjellige bruker "
+"meta-nøkler."
+
+#: pro/src/Admin.php:72
+#: src/Settings.php:616
+msgid "LDAP value suffix"
+msgstr "LDAP verdi suffiks"
+
+#: pro/src/Admin.php:72
+msgid "Stores the LDAP value, such as phone_ldap."
+msgstr "Lagrer LDAP-verdien, som phone_ldap."
+
+#: pro/src/Admin.php:73
+#: src/Settings.php:617
+msgid "WordPress value suffix"
+msgstr "WordPress verdi suffiks"
+
+#: pro/src/Admin.php:73
+msgid "Stores the editable WordPress value, such as phone_wp."
+msgstr "Lagrer den redigerbare WordPress-verdien, som phone_wp."
+
+#: pro/src/Admin.php:83
+msgid "Single sign-on (SSO)"
+msgstr "Én pålogging (SSO)"
+
+#: pro/src/Admin.php:83
+msgid ""
+"Your web server must authenticate users and set REMOTE_USER. Never copy a "
+"browser header into REMOTE_USER or allow access that bypasses server "
+"authentication. Set the LDAP search account on Connection."
+msgstr ""
+"Webserveren din må autentisere brukere og sette REMOTE_USER. Kopier aldri "
+"en nettleserheader inn i REMOTE_USER eller tillat tilgang som omgår "
+"serverautentisering. Sett LDAP søke-kontoen på Tilkobling."
+
+#: pro/src/Admin.php:84
+msgid "Enable automatic login after web server authentication."
+msgstr "Aktiver automatisk pålogging etter webserverautentisering."
+
+#: pro/src/Admin.php:87
+msgid "Web server authentication"
+msgstr "Webserverautentisering"
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is present."
+msgstr "REMOTE_USER er til stede."
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is missing. Check the web server configuration."
+msgstr "REMOTE_USER mangler. Sjekk webserverkonfigurasjonen."
+
+#: pro/src/Upgrade_Guard.php:84
+msgid ""
+"The update was stopped. Activate Simple LDAP Login Pro to restore LDAP "
+"login."
+msgstr ""
+"Oppdateringen ble stoppet. Aktiver Simple LDAP Login Pro for å gjenopprette "
+"LDAP-pålogging."
+
+#: pro/src/Upgrade_Guard.php:86
+msgid ""
+"Update blocked: This package does not include all Pro files. To install "
+"Free, deactivate the plugin first. Your installed files and settings are "
+"unchanged."
+msgstr ""
+"Oppdatering blokkert: Denne pakken inneholder ikke alle Pro-filer. For å "
+"installere Gratis, deaktiver plugin-en først. Dine installerte filer og "
+"innstillinger er uendret."
+
+#: pro/src/Upgrade_Guard.php:113
+msgid "WordPress could not reactivate the plugin."
+msgstr "WordPress kunne ikke reaktivere pluginen."
+
+#: Simple-LDAP-Login.php:29
+msgid "Simple LDAP Login needs PHP 8.1 or later."
+msgstr "Simple LDAP Login trenger PHP 8.1 eller nyere."
+
+#: Simple-LDAP-Login.php:39
+msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
+msgstr "Plugin-filer mangler. Installer Simple LDAP Login på nytt fra ZIP-filen."
+
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "Du har ikke tillatelse til å endre disse innstillingene."
+
+#: src/Admin.php:97
+msgid "The settings scope has changed. Open the settings page and try again."
+msgstr "Innstillingsomfanget har endret seg. Åpne innstillingssiden og prøv igjen."
+
+#: src/Admin.php:141
+msgid "You do not have permission to view these settings."
+msgstr "Du har ikke tillatelse til å se disse innstillingene."
+
+#: src/Admin.php:153
+msgid "Network settings"
+msgstr "Nettverksinnstillinger"
+
+#: src/Admin.php:153
+msgid "Site settings"
+msgstr "Nettstedsinnstillinger"
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP påloggingsinnstillinger"
+
+#: src/Admin.php:155
+msgid "Connect to LDAP, then test a login before enabling authentication."
+msgstr ""
+"Koble til LDAP, og test deretter en pålogging før du aktiverer "
+"autentisering."
+
+#: src/Admin.php:160
+msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
+msgstr "LDAP-pålogging og SSO er deaktivert av SLL_DISABLE_LDAP i wp-config.php."
+
+#: src/Admin.php:163
+msgid ""
+"Your saved settings use SSO or custom user fields. Install Simple LDAP "
+"Login Pro to use these features. Your settings are kept."
+msgstr ""
+"Dine lagrede innstillinger bruker SSO eller tilpassede brukerfelt. "
+"Installer Simple LDAP Login Pro for å bruke disse funksjonene. Dine "
+"innstillinger er bevart."
+
+#: src/Admin.php:169
+msgid ""
+"The saved LDAP search password cannot be read. Enter it again on the "
+"Connection tab."
+msgstr ""
+"Det lagrede LDAP-søkepassordet kan ikke leses. Skriv det inn igjen på "
+"Tilkobling-fanen."
+
+#: src/Admin.php:172
+msgid "PHP LDAP is missing. Ask your host to install it before enabling LDAP login."
+msgstr ""
+"PHP LDAP mangler. Be om at verten din installerer det før du aktiverer "
+"LDAP-pålogging."
+
+#: src/Admin.php:175
+msgid ""
+"LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your "
+"server supports it."
+msgstr ""
+"LDAP-passord sendes uten kryptering. Bruk StartTLS eller LDAPS hvis "
+"serveren din støtter det."
+
+#: src/Admin.php:207
+msgid "Save settings"
+msgstr "Lagre innstillinger"
+
+#: src/Admin.php:208
+msgid "Settings on other tabs are kept."
+msgstr "Innstillinger på andre faner beholdes."
+
+#: src/Admin.php:223
+msgid "LDAP connection"
+msgstr "LDAP-tilkobling"
+
+#: src/Admin.php:224
+msgid "LDAP login"
+msgstr "LDAP-pålogging"
+
+#: src/Admin.php:224
+msgid "Enable LDAP authentication."
+msgstr "Aktiver LDAP-autentisering."
+
+#: src/Admin.php:227
+#: src/Settings.php:597
+msgid "Directory type"
+msgstr "Katalogtype"
+
+#: src/Admin.php:229
+msgid "Active Directory"
+msgstr "Active Directory"
+
+#: src/Admin.php:230
+msgid "OpenLDAP / other LDAP directory"
+msgstr "OpenLDAP / annen LDAP-katalog"
+
+#: src/Admin.php:233
+#: src/Settings.php:599
+msgid "LDAP servers"
+msgstr "LDAP-servere"
+
+#: src/Admin.php:233
+msgid "One hostname or IP address per line. Servers are tried in order."
+msgstr "Én vertsnavn eller IP-adresse per linje. Servere prøves i rekkefølge."
+
+#: src/Admin.php:234
+#: src/Settings.php:600
+msgid "Base DN"
+msgstr "Base DN"
+
+#: src/Admin.php:234
+msgid "Where to search for users. Example: DC=example,DC=org."
+msgstr "Hvor å søke etter brukere. Eksempel: DC=example,DC=org."
+
+#: src/Admin.php:235
+#: src/Settings.php:601
+msgid "Username suffix"
+msgstr "Brukernavn suffiks"
+
+#: src/Admin.php:235
+msgid "Added to usernames without a domain. Example: @example.org."
+msgstr "Legges til brukernavn uten domene. Eksempel: @example.org."
+
+#: src/Admin.php:236
+#: src/Settings.php:602
+msgid "Windows domain"
+msgstr "Windows-domene"
+
+#: src/Admin.php:236
+msgid "Short domain name, such as EXAMPLE. Takes priority over the username suffix."
+msgstr "Kort domenenavn, som EXAMPLE. Har prioritet over brukernavn suffikset."
+
+#: src/Admin.php:238
+#: src/Admin.php:241
+#: src/Settings.php:598
+msgid "Connection security"
+msgstr "Tilkoblingssikkerhet"
+
+#: src/Admin.php:238
+msgid "TLS requires a trusted server certificate."
+msgstr "TLS krever et pålitelig serversertifikat."
+
+#: src/Admin.php:243
+msgid "StartTLS (recommended)"
+msgstr "StartTLS (anbefalt)"
+
+#: src/Admin.php:244
+msgid "LDAPS"
+msgstr "LDAPS"
+
+#: src/Admin.php:245
+msgid "Unencrypted LDAP"
+msgstr "Uten kryptert LDAP"
+
+#: src/Admin.php:247
+msgid "Unencrypted LDAP requires permission on the Advanced tab."
+msgstr "Uten kryptert LDAP krever tillatelse på fanen Avansert."
+
+#: src/Admin.php:249
+#: src/Settings.php:603
+msgid "Port"
+msgstr "Port"
+
+#: src/Admin.php:249
+msgid "389 for StartTLS; 636 for LDAPS."
+msgstr "389 for StartTLS; 636 for LDAPS."
+
+#: src/Admin.php:250
+msgid "Search subfolders"
+msgstr "Søk i undermapper"
+
+#: src/Admin.php:250
+msgid "Search all organizational units below the Base DN."
+msgstr "Søk i alle organisatoriske enheter under Base DN."
+
+#: src/Admin.php:252
+msgid "LDAP search account"
+msgstr "LDAP søke konto"
+
+#: src/Admin.php:252
+msgid "An LDAP account with read access to users and groups."
+msgstr "En LDAP-konto med leseadgang til brukere og grupper."
+
+#: src/Admin.php:253
+msgid "Search account"
+msgstr "Søke konto"
+
+#: src/Admin.php:253
+msgid "LDAP bind DN or account name."
+msgstr "LDAP bind DN eller kontonavn."
+
+#: src/Admin.php:254
+#: src/Settings.php:614
+msgid "Search account password"
+msgstr "Passord for søke konto"
+
+#: src/Admin.php:254
+msgid "Leave blank to keep the saved password."
+msgstr "La stå tom for å beholde det lagrede passordet."
+
+#: src/Admin.php:262
+msgid "Login rules"
+msgstr "Innloggingsregler"
+
+#: src/Admin.php:263
+msgid "Require LDAP passwords"
+msgstr "Krev LDAP-passord"
+
+#: src/Admin.php:263
+msgid "Block WordPress passwords except for recovery access."
+msgstr "Blokker WordPress-passord unntatt for gjenopprettingsadgang."
+
+#: src/Admin.php:266
+#: src/Settings.php:612
+msgid "Local recovery access"
+msgstr "Lokal gjenopprettingsadgang"
+
+#: src/Admin.php:268
+msgid "Selected administrators"
+msgstr "Valgte administratorer"
+
+#: src/Admin.php:269
+msgid "All super administrators (legacy)"
+msgstr "Alle superadministratorer (legacy)"
+
+#: src/Admin.php:269
+msgid "All administrators (legacy)"
+msgstr "Alle administratorer (legacy)"
+
+#: src/Admin.php:270
+msgid "Off"
+msgstr "Av"
+
+#: src/Admin.php:272
+msgid "Choose who can use a WordPress password when LDAP passwords are required."
+msgstr "Velg hvem som kan bruke et WordPress-passord når LDAP-passord kreves."
+
+#: src/Admin.php:275
+msgid "Automatic account creation"
+msgstr "Automatisk kontoopprettelse"
+
+#: src/Admin.php:275
+msgid "Create a WordPress account on the first successful LDAP login."
+msgstr "Opprett en WordPress-konto ved første vellykkede LDAP-pålogging."
+
+#: src/Admin.php:280
+#: src/Settings.php:611
+msgid "Default role"
+msgstr "Standardrolle"
+
+#: src/Admin.php:280
+msgid "For new accounts only."
+msgstr "Kun for nye kontoer."
+
+#: src/Admin.php:281
+#: src/Settings.php:609
+msgid "Required groups"
+msgstr "Krevde grupper"
+
+#: src/Admin.php:281
+msgid ""
+"One group name per line. Users must belong to at least one. Leave blank to "
+"allow all LDAP users."
+msgstr ""
+"Én gruppenavn per linje. Brukere må tilhøre minst én. La stå tom for å "
+"tillate alle LDAP-brukere."
+
+#: src/Admin.php:295
+#: src/Settings.php:613
+msgid "Recovery accounts"
+msgstr "Gjenopprettingskontoer"
+
+#: src/Admin.php:305
+msgid ""
+"For Selected administrators only. Use separate local accounts with "
+"WordPress passwords. Hold Ctrl or Command to select multiple accounts."
+msgstr ""
+"Kun for valgte administratorer. Bruk separate lokale kontoer med "
+"WordPress-passord. Hold Ctrl eller Command for å velge flere kontoer."
+
+#: src/Admin.php:320
+msgid "Connection options"
+msgstr "Tilkoblingsalternativer"
+
+#: src/Admin.php:320
+msgid "Change these only if the default values do not work with your directory."
+msgstr "Endre disse bare hvis standardverdiene ikke fungerer med katalogen din."
+
+#: src/Admin.php:321
+msgid "LDAP timeout (seconds)"
+msgstr "LDAP timeout (sekunder)"
+
+#: src/Admin.php:321
+msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
+msgstr "Maksimal ventetid for en LDAP-operasjon. Standard: 5 sekunder."
+
+#: src/Admin.php:322
+#: src/Settings.php:606
+msgid "Login attribute"
+msgstr "Innloggingsattributt"
+
+#: src/Admin.php:322
+msgid "Attribute used to find users. Default: uid."
+msgstr "Attributt brukt for å finne brukere. Standard: uid."
+
+#: src/Admin.php:323
+msgid "Allow unencrypted LDAP"
+msgstr "Tillat uten kryptert LDAP"
+
+#: src/Admin.php:323
+msgid "Allow passwords to be sent without encryption."
+msgstr "Tillat at passord sendes uten kryptering."
+
+#: src/Admin.php:325
+msgid "Group search"
+msgstr "Gruppe søk"
+
+#: src/Admin.php:326
+#: src/Settings.php:610
+msgid "Group base DN"
+msgstr "Gruppe base DN"
+
+#: src/Admin.php:326
+msgid "Leave blank to use the user Base DN."
+msgstr "La stå tom for å bruke bruker Base DN."
+
+#: src/Admin.php:327
+#: src/Settings.php:607
+msgid "Group name attribute"
+msgstr "Gruppe navn attributt"
+
+#: src/Admin.php:327
+msgid "Default: cn."
+msgstr "Standard: cn."
+
+#: src/Admin.php:328
+#: src/Settings.php:608
+msgid "Group member attribute"
+msgstr "Gruppe medlem attributt"
+
+#: src/Admin.php:328
+msgid "Default: memberUid. Use member or uniqueMember if groups store user DNs."
+msgstr ""
+"Standard: memberUid. Bruk member eller uniqueMember hvis grupper lagrer "
+"bruker DNs."
+
+#: src/Admin.php:330
+msgid "Profile attributes"
+msgstr "Profil attributter"
+
+#: src/Admin.php:330
+msgid "LDAP attributes copied to new WordPress accounts."
+msgstr "LDAP attributter kopiert til nye WordPress-kontoer."
+
+#: src/Admin.php:331
+#: src/Settings.php:618
+msgid "First name attribute"
+msgstr "Fornavn attributt"
+
+#: src/Admin.php:332
+#: src/Settings.php:619
+msgid "Last name attribute"
+msgstr "Etternavn attributt"
+
+#: src/Admin.php:333
+#: src/Settings.php:620
+msgid "Email attribute"
+msgstr "E-post attributt"
+
+#: src/Admin.php:334
+#: src/Settings.php:621
+msgid "Website attribute"
+msgstr "Nettsted attributt"
+
+#: src/Admin.php:337
+msgid "Data retention"
+msgstr "Dataoppbevaring"
+
+#: src/Admin.php:338
+msgid "Delete settings when removing the plugin"
+msgstr "Slett innstillinger når plugin-en fjernes"
+
+#: src/Admin.php:338
+msgid ""
+"Delete saved settings and LDAP credentials when WordPress deletes the "
+"plugin. Keep user accounts."
+msgstr ""
+"Slett lagrede innstillinger og LDAP-legitimasjon når WordPress sletter "
+"plugin-en. Behold brukerkontoer."
+
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "Test LDAP-pålogging"
+
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"Lagre innstillingene dine, og kjør deretter begge testene. Hold denne "
+"administratorøkten åpen."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"Testene sjekker tilkoblingen, passordet og nødvendige grupper. De oppretter "
+"ikke kontoer eller logger inn brukere."
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"Når begge testene er bestått, aktiver LDAP og prøv å logge inn fra en annen "
+"nettleser."
+
+#: src/Admin.php:350
+msgid "Recovery"
+msgstr "Gjenoppretting"
+
+#: src/Admin.php:351
+msgid ""
+"If you are locked out, rename the simple-ldap-login folder using your "
+"hosting file manager. Log in with a WordPress administrator password, then "
+"restore the folder and correct the settings."
+msgstr ""
+"Hvis du er låst ute, gi nytt navn til mappen simple-ldap-login ved hjelp av "
+"filbehandleren til hosting. Logg inn med et WordPress-administratorpassord, "
+"gjenopprett deretter mappen og korriger innstillingene."
+
+#: src/Admin.php:352
+msgid ""
+"For certificate errors, ask your host to configure the trusted LDAP "
+"certificate authority."
+msgstr ""
+"For sertifikatfeil, be verten din om å konfigurere den betrodde "
+"LDAP-sertifikatmyndigheten."
+
+#: src/Admin.php:366
+msgid "LDAP tests"
+msgstr "LDAP-tester"
+
+#: src/Admin.php:367
+msgid "Tests use saved settings."
+msgstr "Tester bruker lagrede innstillinger."
+
+#: src/Admin.php:372
+msgid "1. Test connection"
+msgstr "1. Test tilkobling"
+
+#: src/Admin.php:373
+msgid "Connect to LDAP and test the search account, if set."
+msgstr "Koble til LDAP og test søke-kontoen, hvis angitt."
+
+#: src/Admin.php:374
+msgid "Test connection"
+msgstr "Test tilkobling"
+
+#: src/Admin.php:378
+msgid "2. Test login"
+msgstr "2. Test pålogging"
+
+#: src/Admin.php:379
+msgid "Check an LDAP username, password, and group membership."
+msgstr "Sjekk et LDAP-brukernavn, passord og gruppemedlemskap."
+
+#: src/Admin.php:380
+msgid "LDAP username"
+msgstr "LDAP-brukernavn"
+
+#: src/Admin.php:381
+msgid "LDAP password"
+msgstr "LDAP-passord"
+
+#: src/Admin.php:537
+msgid "Settings saved."
+msgstr "Innstillinger lagret."
+
+#: src/Admin.php:538
+msgid "Connection test passed."
+msgstr "Tilkoblingstest bestått."
+
+#: src/Admin.php:539
+msgid ""
+"Cannot connect to LDAP. Check the server, port, TLS certificate, and search "
+"account."
+msgstr ""
+"Kan ikke koble til LDAP. Sjekk serveren, porten, TLS-sertifikatet og "
+"søke-kontoen."
+
+#: src/Admin.php:540
+msgid "LDAP login test passed. No account was created."
+msgstr "LDAP-påloggingstest bestått. Ingen konto ble opprettet."
+
+#: src/Admin.php:541
+msgid "LDAP login test failed. Check the username, password, and required groups."
+msgstr ""
+"LDAP-påloggingstest feilet. Sjekk brukernavnet, passordet og nødvendige "
+"grupper."
+
+#: src/Admin.php:542
+msgid "Could not save settings. Check the values and try again."
+msgstr "Kunne ikke lagre innstillinger. Sjekk verdiene og prøv igjen."
+
+#: src/Admin.php:586
+msgid "Connection"
+msgstr "Tilkobling"
+
+#: src/Admin.php:587
+msgid "Access"
+msgstr "Tilgang"
+
+#: src/Admin.php:588
+msgid "Advanced"
+msgstr "Avansert"
+
+#: src/Admin.php:589
+msgid "Troubleshooting"
+msgstr "Feilsøking"
+
+#: src/Authenticator.php:151
+msgid ""
+"Your LDAP login is valid, but you need a WordPress account. Contact your "
+"site administrator."
+msgstr ""
+"Din LDAP-pålogging er gyldig, men du trenger en WordPress-konto. Kontakt "
+"nettstedadministratoren din."
+
+#: src/Authenticator.php:154
+msgid ""
+"Your LDAP username is not a valid WordPress username. Contact your site "
+"administrator."
+msgstr ""
+"Ditt LDAP-brukernavn er ikke et gyldig WordPress-brukernavn. Kontakt "
+"nettstedadministratoren din."
+
+#: src/Authenticator.php:158
+msgid ""
+"The default WordPress role is not available. Contact your site "
+"administrator."
+msgstr ""
+"Den standard WordPress-rollen er ikke tilgjengelig. Kontakt "
+"nettstedadministratoren din."
+
+#: src/Authenticator.php:175
+msgid "Could not create your WordPress account. Contact your site administrator."
+msgstr ""
+"Kunne ikke opprette din WordPress-konto. Kontakt nettstedadministratoren "
+"din."
+
+#: src/Authenticator.php:180
+msgid "Use your WordPress password for this recovery account."
+msgstr "Bruk ditt WordPress-passord for denne gjenopprettingskontoen."
+
+#: src/Ldap_Client.php:440
+msgid ""
+"LDAP login failed. Check your username and password or contact your site "
+"administrator."
+msgstr ""
+"LDAP-pålogging feilet. Sjekk brukernavnet og passordet ditt eller kontakt "
+"nettstedadministratoren din."
+
+#: src/Ldap_Client.php:442
+msgid "Your account is not allowed to log in to this site."
+msgstr "Din konto har ikke lov til å logge inn på dette nettstedet."
+
+#: src/Ldap_Client.php:444
+msgid "LDAP login is unavailable. Contact your site administrator."
+msgstr "LDAP-pålogging er utilgjengelig. Kontakt nettstedets administrator."
+
+#: src/Secrets.php:24
+msgid "PHP OpenSSL is required to save the LDAP search password."
+msgstr "PHP OpenSSL er nødvendig for å lagre LDAP-søkepassordet."
+
+#: src/Secrets.php:92
+msgid ""
+"Could not read or save the LDAP search password. Enter it again. If this "
+"continues, ask your host to check OpenSSL and the encryption key."
+msgstr ""
+"Kunne ikke lese eller lagre LDAP-søkepassordet. Skriv det inn igjen. Hvis "
+"dette fortsetter, be verten din om å sjekke OpenSSL og krypteringsnøkkelen."
+
+#: src/Settings.php:310
+msgid ""
+"Select a recovery account on the Access tab, or turn local recovery access "
+"Off."
+msgstr ""
+"Velg en gjenopprettingskonto på Tilgang-fanen, eller slå av lokal "
+"gjenopprettingsadgang."
+
+#: src/Settings.php:318
+msgid ""
+"Enable Allow unencrypted LDAP on the Advanced tab, or choose StartTLS or "
+"LDAPS."
+msgstr ""
+"Aktiver Tillat ukryptert LDAP på Avansert-fanen, eller velg StartTLS eller "
+"LDAPS."
+
+#: src/Settings.php:341
+msgid "A custom field mapping uses a protected or invalid WordPress user meta key."
+msgstr ""
+"En tilpasset feltmapping bruker en beskyttet eller ugyldig WordPress bruker "
+"meta-nøkkel."
+
+#: src/Settings.php:346
+msgid "Enter a Base DN and at least one LDAP server before enabling LDAP login."
+msgstr ""
+"Skriv inn en Base DN og minst én LDAP-server før du aktiverer "
+"LDAP-pålogging."
+
+#: src/Settings.php:349
+msgid "WordPress could not save the settings. Try again."
+msgstr "WordPress kunne ikke lagre innstillingene. Prøv igjen."
+
+#: src/Settings.php:604
+msgid "LDAP protocol version"
+msgstr "LDAP-protokollversjon"
+
+#: src/Settings.php:605
+msgid "LDAP timeout"
+msgstr "LDAP-tid"
+
+#: src/Settings.php:623
+msgid "Check the submitted settings. No changes were saved."
+msgstr "Sjekk de innsendte innstillingene. Ingen endringer ble lagret."
+
+#: src/Settings.php:626
+#. translators: %s: setting label.
+#, php-format
+msgid "Check %s. No changes were saved."
+msgstr "Sjekk %s. Ingen endringer ble lagret."

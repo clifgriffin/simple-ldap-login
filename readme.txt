@@ -2,7 +2,7 @@
 Contributors: clifgriffin
 Tags: ldap, authentication, login, active directory, sso
 Requires at least: 6.5
-Tested up to: 7.1.3
+Tested up to: 7.1
 Requires PHP: 8.1
 Stable tag: 2.0.0
 License: GPLv2 or later
@@ -25,11 +25,11 @@ Free features include:
 * Site and network settings.
 * Connection and login tests that do not create users or sessions.
 
-After the transition release, new sites need Pro for single sign-on (SSO) and custom user fields. Existing sites can use the free Legacy package to keep these features. Transition includes them without a license key.
+Pro includes single sign-on (SSO) and custom user fields. A 1.x site that uses either feature must upgrade directly to Pro.
 
-Install only one edition. Free, Pro, Legacy, and Transition use the same plugin folder and entry file. Pro and Legacy are full replacements, not add-ons.
+Install either Free or Pro. Both use the same plugin folder and entry file. Pro replaces Free and does not need an add-on.
 
-Version 2.0 is in development. Complete migration, server, and external update tests before public use. The reduced Free ZIP must not be published as an immediate update for old installations. Pro and Legacy previews have no automatic external updates; PaidCommunities is not integrated yet.
+Version 2.0 is in development. Test upgrades on a site copy before public use. Pro previews have no automatic external updates; PaidCommunities is not integrated yet.
 
 LDAP requests go to the directory servers that an administrator sets. The free plugin has no license check, external updater, tracking, or sales service.
 
@@ -53,17 +53,13 @@ The Advanced tab contains the timeout, LDAP login and group attributes, group se
 
 = Will my existing settings work? =
 
-Your saved settings stay in place. The plugin backs up older settings before migration. Existing sites qualify for free Legacy access. Install Legacy to keep SSO and custom user fields.
+Your saved settings stay in place. The plugin backs up older settings before migration. If your 1.x site uses SSO or custom user fields, install Pro directly. Free supports LDAP password login but does not run these two features.
 
 Existing unencrypted connections continue to work with a warning. A failed TLS connection stops the login attempt. If the plugin cannot read a saved search password, enter it again.
 
 = Are old features moving to Pro? =
 
-Server SSO and custom metadata mappings are Pro features for new installations after transition. Existing installations retain all old features through Legacy at no charge, including features they had not enabled. The Transition package keeps them available to everyone during migration. Central network settings remain free.
-
-= Does Legacy require a license key? =
-
-No. Legacy includes the old features without a license key. Its update service still needs to be completed before public release.
+Server SSO and custom user fields require Pro, including on sites that upgrade from 1.x. Standard profile attributes, group restrictions, recovery access, and central network settings remain free.
 
 = What happens if LDAP is unavailable? =
 
@@ -83,7 +79,7 @@ Set define( 'SLL_DISABLE_LDAP', true ); in wp-config.php before WordPress loads,
 
 = Does SSO trust a browser header? =
 
-No. Pro, Legacy, and Transition use REMOTE_USER set by a server authentication module. Do not copy client request headers into that variable. Block access paths that bypass server authentication. SSO also requires a valid read-only search account. DOMAIN\name logins must match the Windows domain setting. The reduced Free package does not include server SSO.
+No. Pro uses REMOTE_USER set by a server authentication module. Do not copy client request headers into that variable. Block access paths that bypass server authentication. SSO also requires a valid read-only search account. DOMAIN\name logins must match the Windows domain setting. The Free package does not include server SSO.
 
 = What happens when I delete the plugin? =
 
@@ -96,9 +92,8 @@ User accounts are always kept. Settings are kept unless you enable Delete settin
 * Refactor the code for PHP 8.1 and WordPress coding standards.
 * Add Composer autoloading and standard WordPress development tools.
 * Retain existing settings, migration backups, and safe extension hooks.
-* Move server SSO and custom metadata code into full Pro, Legacy, and Transition packages.
-* Record legacy eligibility before migration. Keep all old capabilities available at no charge through Legacy.
-* Add a Transition build that keeps old features available to everyone before a later reduced Free release.
+* Build Free and Pro packages. Pro includes server SSO and custom user fields.
+* Back up 1.x settings before migration and keep their site or network scope.
 * Use LdapRecord for LDAP connections, searches, and directory models.
 * Add settings screens for desktop and mobile, with permission checks and separate connection and login tests.
 * Stop after failed TLS, require verified SSO lookup, and protect account metadata.
@@ -109,4 +104,4 @@ User accounts are always kept. Settings are kept unless you enable Delete settin
 == Upgrade Notice ==
 
 = 2.0.0 =
-Requires PHP 8.1. Existing sites keep administrator password recovery. New sites select local recovery accounts or explicitly turn recovery off. Use Transition, then Legacy, to keep old SSO and metadata features. TLS failures stop login. Test on a site copy first.
+Requires PHP 8.1. Existing sites keep administrator password recovery. New sites select local recovery accounts or explicitly turn recovery off. If 1.x uses SSO or custom user fields, install Pro directly to keep them. TLS failures stop login. Test on a site copy first.

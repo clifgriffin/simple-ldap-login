@@ -143,7 +143,6 @@ final class Admin {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only navigation.
 		$tab      = $this->tab( $_GET );
 		$recovery = defined( 'SLL_DISABLE_LDAP' ) && SLL_DISABLE_LDAP;
-		$enabled  = Settings::is_true( $this->settings->get( 'enabled' ) ) && ! $recovery;
 		$tabs     = $this->tabs();
 		?>
 		<div class="wrap sll-admin" data-sll-directory-type="<?php echo esc_attr( (string) $this->settings->get( 'directory' ) ); ?>">
@@ -155,19 +154,13 @@ final class Admin {
 					<h2><?php esc_html_e( 'LDAP login settings', 'simple-ldap-login' ); ?></h2>
 					<p><?php esc_html_e( 'Connect to LDAP, then test a login before enabling authentication.', 'simple-ldap-login' ); ?></p>
 				</div>
-				<div class="sll-status" role="status">
-					<span class="sll-dot <?php echo $enabled ? 'sll-dot-on' : ''; ?>" aria-hidden="true"></span>
-					<?php echo $enabled ? esc_html__( 'LDAP login is on', 'simple-ldap-login' ) : esc_html__( 'LDAP login is off', 'simple-ldap-login' ); ?>
-				</div>
+
 			</div>
 			<?php if ( $recovery ) : ?>
 				<div class="notice notice-warning inline"><p><?php esc_html_e( 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
-			<?php if ( $this->settings->has_legacy_access() && ( ! defined( 'SLL_FEATURES_LOADED' ) || ! SLL_FEATURES_LOADED ) ) : ?>
-				<div class="notice notice-warning inline"><p><?php esc_html_e( 'Use the free Legacy package to keep single sign-on and custom user fields. This Free package does not include them. Saved settings are unchanged.', 'simple-ldap-login' ); ?></p></div>
-			<?php endif; ?>
-			<?php if ( defined( 'SLL_EDITION' ) && 'transition' === SLL_EDITION ) : ?>
-				<div class="notice notice-info inline"><p><?php esc_html_e( 'Single sign-on and custom user fields are included during the transition. This site qualifies for free Legacy access.', 'simple-ldap-login' ); ?></p></div>
+			<?php if ( ! defined( 'SLL_FEATURES_LOADED' ) && ( Settings::is_true( $this->settings->get( 'sso_enabled' ) ) || ! empty( $this->settings->get( 'user_meta_data' ) ) ) ) : ?>
+				<div class="notice notice-warning inline"><p><?php esc_html_e( 'Your saved settings use SSO or custom user fields. Install Simple LDAP Login Pro to use these features. Your settings are kept.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( '' !== (string) $this->settings->get( 'sso_search_user_password' ) && is_wp_error( Secrets::decrypt( (string) $this->settings->get( 'sso_search_user_password' ) ) ) ) : ?>
 				<div class="notice notice-error inline"><p><?php esc_html_e( 'The saved LDAP search password cannot be read. Enter it again on the Connection tab.', 'simple-ldap-login' ); ?></p></div>
@@ -590,7 +583,7 @@ final class Admin {
 				'connection' => __( 'Connection', 'simple-ldap-login' ),
 				'access'     => __( 'Access', 'simple-ldap-login' ),
 				'advanced'   => __( 'Advanced', 'simple-ldap-login' ),
-				'help'       => __( 'Tests and help', 'simple-ldap-login' ),
+				'help'       => __( 'Troubleshooting', 'simple-ldap-login' ),
 			)
 		);
 	}

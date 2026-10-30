@@ -1,0 +1,745 @@
+# Copyright (C) 2026 Clif Griffin Development Inc.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple LDAP Login 2.0.0\n"
+"Report-Msgid-Bugs-To: "
+"https://wordpress.org/support/plugin/simple-ldap-login\n"
+"Last-Translator: gpt-po v1.2.3\n"
+"Language-Team: ko_KR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: simple-ldap-login\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: Simple-LDAP-Login.php src/Admin.php:64 src/Admin.php:65 src/Admin.php:149
+#. Plugin Name of the plugin
+msgid "Simple LDAP Login"
+msgstr "Simple LDAP Login"
+
+#: Simple-LDAP-Login.php
+#. Plugin URI of the plugin
+msgid "https://github.com/clifgriffin/simple-ldap-login"
+msgstr "https://github.com/clifgriffin/simple-ldap-login"
+
+#: Simple-LDAP-Login.php
+#. Description of the plugin
+msgid "Connect WordPress accounts to Active Directory or OpenLDAP."
+msgstr "WordPress 계정을 Active Directory 또는 OpenLDAP에 연결합니다."
+
+#: Simple-LDAP-Login.php
+#. Author of the plugin
+msgid "Clif Griffin Development Inc."
+msgstr "Clif Griffin Development Inc."
+
+#: Simple-LDAP-Login.php
+#. Author URI of the plugin
+msgid "https://clifgriffin.com"
+msgstr "https://clifgriffin.com"
+
+#: pro/src/Admin.php:49
+msgid "User data"
+msgstr "사용자 데이터"
+
+#: pro/src/Admin.php:50
+#: pro/src/Admin.php:84
+msgid "Single sign-on"
+msgstr "싱글 사인온"
+
+#: pro/src/Admin.php:60
+msgid "Custom user fields"
+msgstr "사용자 정의 필드"
+
+#: pro/src/Admin.php:60
+msgid "Copy LDAP attributes to WordPress user meta fields."
+msgstr "LDAP 속성을 WordPress 사용자 메타 필드로 복사합니다."
+
+#: pro/src/Admin.php:61
+#: src/Settings.php:615
+msgid "Field mappings"
+msgstr "필드 매핑"
+
+#: pro/src/Admin.php:62
+#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
+#, php-format
+msgid ""
+"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
+"%1$s. Types: %2$s or %3$s."
+msgstr "한 줄에 하나의 매핑: LDAP 속성:WordPress 메타 키:유형. 예: %1$s. 유형: %2$s 또는 %3$s."
+
+#: pro/src/Admin.php:71
+msgid "Custom field storage"
+msgstr "사용자 정의 필드 저장소"
+
+#: pro/src/Admin.php:71
+msgid "Leave the defaults unless your integration uses different user meta keys."
+msgstr "다른 사용자 메타 키를 사용하는 통합이 아닌 경우 기본값을 유지하십시오."
+
+#: pro/src/Admin.php:72
+#: src/Settings.php:616
+msgid "LDAP value suffix"
+msgstr "LDAP 값 접미사"
+
+#: pro/src/Admin.php:72
+msgid "Stores the LDAP value, such as phone_ldap."
+msgstr "전화번호와 같은 LDAP 값을 저장합니다. phone_ldap."
+
+#: pro/src/Admin.php:73
+#: src/Settings.php:617
+msgid "WordPress value suffix"
+msgstr "WordPress 값 접미사"
+
+#: pro/src/Admin.php:73
+msgid "Stores the editable WordPress value, such as phone_wp."
+msgstr "편집 가능한 WordPress 값을 저장합니다. phone_wp."
+
+#: pro/src/Admin.php:83
+msgid "Single sign-on (SSO)"
+msgstr "싱글 사인온 (SSO)"
+
+#: pro/src/Admin.php:83
+msgid ""
+"Your web server must authenticate users and set REMOTE_USER. Never copy a "
+"browser header into REMOTE_USER or allow access that bypasses server "
+"authentication. Set the LDAP search account on Connection."
+msgstr ""
+"웹 서버는 사용자를 인증하고 REMOTE_USER를 설정해야 합니다. 브라우저 헤더를 REMOTE_USER에 복사하거나 서버 인증을 "
+"우회하는 접근을 허용하지 마십시오. 연결에서 LDAP 검색 계정을 설정하십시오."
+
+#: pro/src/Admin.php:84
+msgid "Enable automatic login after web server authentication."
+msgstr "웹 서버 인증 후 자동 로그인을 활성화합니다."
+
+#: pro/src/Admin.php:87
+msgid "Web server authentication"
+msgstr "웹 서버 인증"
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is present."
+msgstr "REMOTE_USER가 존재합니다."
+
+#: pro/src/Admin.php:88
+msgid "REMOTE_USER is missing. Check the web server configuration."
+msgstr "REMOTE_USER가 없습니다. 웹 서버 구성을 확인하십시오."
+
+#: pro/src/Upgrade_Guard.php:84
+msgid ""
+"The update was stopped. Activate Simple LDAP Login Pro to restore LDAP "
+"login."
+msgstr "업데이트가 중단되었습니다. LDAP 로그인을 복원하려면 Simple LDAP Login Pro를 활성화하세요."
+
+#: pro/src/Upgrade_Guard.php:86
+msgid ""
+"Update blocked: This package does not include all Pro files. To install "
+"Free, deactivate the plugin first. Your installed files and settings are "
+"unchanged."
+msgstr ""
+"업데이트 차단: 이 패키지에는 모든 Pro 파일이 포함되어 있지 않습니다. 무료로 설치하려면 먼저 플러그인을 비활성화하세요. 설치된 "
+"파일과 설정은 변경되지 않습니다."
+
+#: pro/src/Upgrade_Guard.php:113
+msgid "WordPress could not reactivate the plugin."
+msgstr "WordPress가 플러그인을 다시 활성화할 수 없습니다."
+
+#: Simple-LDAP-Login.php:29
+msgid "Simple LDAP Login needs PHP 8.1 or later."
+msgstr "Simple LDAP Login은 PHP 8.1 이상이 필요합니다."
+
+#: Simple-LDAP-Login.php:39
+msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
+msgstr "플러그인 파일이 누락되었습니다. 릴리스 ZIP에서 Simple LDAP Login을 다시 설치하십시오."
+
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "이 설정을 변경할 권한이 없습니다."
+
+#: src/Admin.php:97
+msgid "The settings scope has changed. Open the settings page and try again."
+msgstr "설정 범위가 변경되었습니다. 설정 페이지를 열고 다시 시도하십시오."
+
+#: src/Admin.php:141
+msgid "You do not have permission to view these settings."
+msgstr "이 설정을 볼 권한이 없습니다."
+
+#: src/Admin.php:153
+msgid "Network settings"
+msgstr "네트워크 설정"
+
+#: src/Admin.php:153
+msgid "Site settings"
+msgstr "사이트 설정"
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP 로그인 설정"
+
+#: src/Admin.php:155
+msgid "Connect to LDAP, then test a login before enabling authentication."
+msgstr "LDAP에 연결한 후 인증을 활성화하기 전에 로그인을 테스트하십시오."
+
+#: src/Admin.php:160
+msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
+msgstr "LDAP 로그인 및 SSO는 wp-config.php의 SLL_DISABLE_LDAP에 의해 비활성화되었습니다."
+
+#: src/Admin.php:163
+msgid ""
+"Your saved settings use SSO or custom user fields. Install Simple LDAP "
+"Login Pro to use these features. Your settings are kept."
+msgstr ""
+"저장된 설정은 SSO 또는 사용자 정의 필드를 사용합니다. 이러한 기능을 사용하려면 Simple LDAP Login Pro를 "
+"설치하세요. 설정은 유지됩니다."
+
+#: src/Admin.php:169
+msgid ""
+"The saved LDAP search password cannot be read. Enter it again on the "
+"Connection tab."
+msgstr "저장된 LDAP 검색 비밀번호를 읽을 수 없습니다. 연결 탭에서 다시 입력하십시오."
+
+#: src/Admin.php:172
+msgid "PHP LDAP is missing. Ask your host to install it before enabling LDAP login."
+msgstr "PHP LDAP이 없습니다. 호스트에 설치를 요청한 후 LDAP 로그인을 활성화하세요."
+
+#: src/Admin.php:175
+msgid ""
+"LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your "
+"server supports it."
+msgstr "LDAP 비밀번호는 암호화 없이 전송됩니다. 서버가 지원하는 경우 StartTLS 또는 LDAPS를 사용하세요."
+
+#: src/Admin.php:207
+msgid "Save settings"
+msgstr "설정 저장"
+
+#: src/Admin.php:208
+msgid "Settings on other tabs are kept."
+msgstr "다른 탭의 설정은 유지됩니다."
+
+#: src/Admin.php:223
+msgid "LDAP connection"
+msgstr "LDAP 연결"
+
+#: src/Admin.php:224
+msgid "LDAP login"
+msgstr "LDAP 로그인"
+
+#: src/Admin.php:224
+msgid "Enable LDAP authentication."
+msgstr "LDAP 인증을 활성화합니다."
+
+#: src/Admin.php:227
+#: src/Settings.php:597
+msgid "Directory type"
+msgstr "디렉토리 유형"
+
+#: src/Admin.php:229
+msgid "Active Directory"
+msgstr "Active Directory"
+
+#: src/Admin.php:230
+msgid "OpenLDAP / other LDAP directory"
+msgstr "OpenLDAP / 기타 LDAP 디렉토리"
+
+#: src/Admin.php:233
+#: src/Settings.php:599
+msgid "LDAP servers"
+msgstr "LDAP 서버"
+
+#: src/Admin.php:233
+msgid "One hostname or IP address per line. Servers are tried in order."
+msgstr "한 줄에 하나의 호스트 이름 또는 IP 주소. 서버는 순서대로 시도됩니다."
+
+#: src/Admin.php:234
+#: src/Settings.php:600
+msgid "Base DN"
+msgstr "기본 DN"
+
+#: src/Admin.php:234
+msgid "Where to search for users. Example: DC=example,DC=org."
+msgstr "사용자를 검색할 위치. 예: DC=example,DC=org."
+
+#: src/Admin.php:235
+#: src/Settings.php:601
+msgid "Username suffix"
+msgstr "사용자 이름 접미사"
+
+#: src/Admin.php:235
+msgid "Added to usernames without a domain. Example: @example.org."
+msgstr "도메인이 없는 사용자 이름에 추가됩니다. 예: @example.org."
+
+#: src/Admin.php:236
+#: src/Settings.php:602
+msgid "Windows domain"
+msgstr "Windows 도메인"
+
+#: src/Admin.php:236
+msgid "Short domain name, such as EXAMPLE. Takes priority over the username suffix."
+msgstr "EXAMPLE과 같은 짧은 도메인 이름. 사용자 이름 접미사보다 우선합니다."
+
+#: src/Admin.php:238
+#: src/Admin.php:241
+#: src/Settings.php:598
+msgid "Connection security"
+msgstr "연결 보안"
+
+#: src/Admin.php:238
+msgid "TLS requires a trusted server certificate."
+msgstr "TLS는 신뢰할 수 있는 서버 인증서를 요구합니다."
+
+#: src/Admin.php:243
+msgid "StartTLS (recommended)"
+msgstr "StartTLS (권장)"
+
+#: src/Admin.php:244
+msgid "LDAPS"
+msgstr "LDAPS"
+
+#: src/Admin.php:245
+msgid "Unencrypted LDAP"
+msgstr "암호화되지 않은 LDAP"
+
+#: src/Admin.php:247
+msgid "Unencrypted LDAP requires permission on the Advanced tab."
+msgstr "암호화되지 않은 LDAP는 고급 탭에서 권한이 필요합니다."
+
+#: src/Admin.php:249
+#: src/Settings.php:603
+msgid "Port"
+msgstr "포트"
+
+#: src/Admin.php:249
+msgid "389 for StartTLS; 636 for LDAPS."
+msgstr "StartTLS의 경우 389; LDAPS의 경우 636."
+
+#: src/Admin.php:250
+msgid "Search subfolders"
+msgstr "하위 폴더 검색"
+
+#: src/Admin.php:250
+msgid "Search all organizational units below the Base DN."
+msgstr "기본 DN 아래의 모든 조직 단위를 검색합니다."
+
+#: src/Admin.php:252
+msgid "LDAP search account"
+msgstr "LDAP 검색 계정"
+
+#: src/Admin.php:252
+msgid "An LDAP account with read access to users and groups."
+msgstr "사용자 및 그룹에 대한 읽기 권한이 있는 LDAP 계정."
+
+#: src/Admin.php:253
+msgid "Search account"
+msgstr "검색 계정"
+
+#: src/Admin.php:253
+msgid "LDAP bind DN or account name."
+msgstr "LDAP 바인드 DN 또는 계정 이름."
+
+#: src/Admin.php:254
+#: src/Settings.php:614
+msgid "Search account password"
+msgstr "검색 계정 비밀번호"
+
+#: src/Admin.php:254
+msgid "Leave blank to keep the saved password."
+msgstr "저장된 비밀번호를 유지하려면 비워 두세요."
+
+#: src/Admin.php:262
+msgid "Login rules"
+msgstr "로그인 규칙"
+
+#: src/Admin.php:263
+msgid "Require LDAP passwords"
+msgstr "LDAP 비밀번호 요구"
+
+#: src/Admin.php:263
+msgid "Block WordPress passwords except for recovery access."
+msgstr "복구 접근을 제외하고 WordPress 비밀번호를 차단합니다."
+
+#: src/Admin.php:266
+#: src/Settings.php:612
+msgid "Local recovery access"
+msgstr "로컬 복구 접근"
+
+#: src/Admin.php:268
+msgid "Selected administrators"
+msgstr "선택된 관리자"
+
+#: src/Admin.php:269
+msgid "All super administrators (legacy)"
+msgstr "모든 슈퍼 관리자 (레거시)"
+
+#: src/Admin.php:269
+msgid "All administrators (legacy)"
+msgstr "모든 관리자 (레거시)"
+
+#: src/Admin.php:270
+msgid "Off"
+msgstr "끄기"
+
+#: src/Admin.php:272
+msgid "Choose who can use a WordPress password when LDAP passwords are required."
+msgstr "LDAP 비밀번호가 요구될 때 WordPress 비밀번호를 사용할 수 있는 사용자를 선택하세요."
+
+#: src/Admin.php:275
+msgid "Automatic account creation"
+msgstr "자동 계정 생성"
+
+#: src/Admin.php:275
+msgid "Create a WordPress account on the first successful LDAP login."
+msgstr "첫 번째 성공적인 LDAP 로그인 시 WordPress 계정을 생성합니다."
+
+#: src/Admin.php:280
+#: src/Settings.php:611
+msgid "Default role"
+msgstr "기본 역할"
+
+#: src/Admin.php:280
+msgid "For new accounts only."
+msgstr "새 계정에만 해당합니다."
+
+#: src/Admin.php:281
+#: src/Settings.php:609
+msgid "Required groups"
+msgstr "필수 그룹"
+
+#: src/Admin.php:281
+msgid ""
+"One group name per line. Users must belong to at least one. Leave blank to "
+"allow all LDAP users."
+msgstr "한 줄에 하나의 그룹 이름. 사용자는 최소한 하나에 속해야 합니다. 모든 LDAP 사용자를 허용하려면 비워 두세요."
+
+#: src/Admin.php:295
+#: src/Settings.php:613
+msgid "Recovery accounts"
+msgstr "복구 계정"
+
+#: src/Admin.php:305
+msgid ""
+"For Selected administrators only. Use separate local accounts with "
+"WordPress passwords. Hold Ctrl or Command to select multiple accounts."
+msgstr ""
+"선택된 관리자에게만 해당합니다. WordPress 비밀번호가 있는 별도의 로컬 계정을 사용하세요. 여러 계정을 선택하려면 Ctrl 또는 "
+"Command를 누르세요."
+
+#: src/Admin.php:320
+msgid "Connection options"
+msgstr "연결 옵션"
+
+#: src/Admin.php:320
+msgid "Change these only if the default values do not work with your directory."
+msgstr "기본 값이 디렉토리와 작동하지 않는 경우에만 변경하세요."
+
+#: src/Admin.php:321
+msgid "LDAP timeout (seconds)"
+msgstr "LDAP 타임아웃 (초)"
+
+#: src/Admin.php:321
+msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
+msgstr "LDAP 작업을 위한 최대 대기 시간. 기본값: 5초."
+
+#: src/Admin.php:322
+#: src/Settings.php:606
+msgid "Login attribute"
+msgstr "로그인 속성"
+
+#: src/Admin.php:322
+msgid "Attribute used to find users. Default: uid."
+msgstr "사용자를 찾는 데 사용되는 속성. 기본값: uid."
+
+#: src/Admin.php:323
+msgid "Allow unencrypted LDAP"
+msgstr "암호화되지 않은 LDAP 허용"
+
+#: src/Admin.php:323
+msgid "Allow passwords to be sent without encryption."
+msgstr "암호화 없이 비밀번호를 전송할 수 있도록 허용합니다."
+
+#: src/Admin.php:325
+msgid "Group search"
+msgstr "그룹 검색"
+
+#: src/Admin.php:326
+#: src/Settings.php:610
+msgid "Group base DN"
+msgstr "그룹 기본 DN"
+
+#: src/Admin.php:326
+msgid "Leave blank to use the user Base DN."
+msgstr "사용자 기본 DN을 사용하려면 비워 두세요."
+
+#: src/Admin.php:327
+#: src/Settings.php:607
+msgid "Group name attribute"
+msgstr "그룹 이름 속성"
+
+#: src/Admin.php:327
+msgid "Default: cn."
+msgstr "기본값: cn."
+
+#: src/Admin.php:328
+#: src/Settings.php:608
+msgid "Group member attribute"
+msgstr "그룹 구성원 속성"
+
+#: src/Admin.php:328
+msgid "Default: memberUid. Use member or uniqueMember if groups store user DNs."
+msgstr "기본값: memberUid. 그룹이 사용자 DN을 저장하는 경우 member 또는 uniqueMember를 사용하세요."
+
+#: src/Admin.php:330
+msgid "Profile attributes"
+msgstr "프로필 속성"
+
+#: src/Admin.php:330
+msgid "LDAP attributes copied to new WordPress accounts."
+msgstr "새 WordPress 계정으로 복사된 LDAP 속성."
+
+#: src/Admin.php:331
+#: src/Settings.php:618
+msgid "First name attribute"
+msgstr "이름 속성"
+
+#: src/Admin.php:332
+#: src/Settings.php:619
+msgid "Last name attribute"
+msgstr "성 속성"
+
+#: src/Admin.php:333
+#: src/Settings.php:620
+msgid "Email attribute"
+msgstr "이메일 속성"
+
+#: src/Admin.php:334
+#: src/Settings.php:621
+msgid "Website attribute"
+msgstr "웹사이트 속성"
+
+#: src/Admin.php:337
+msgid "Data retention"
+msgstr "데이터 보존"
+
+#: src/Admin.php:338
+msgid "Delete settings when removing the plugin"
+msgstr "플러그인을 제거할 때 설정 삭제"
+
+#: src/Admin.php:338
+msgid ""
+"Delete saved settings and LDAP credentials when WordPress deletes the "
+"plugin. Keep user accounts."
+msgstr "WordPress가 플러그인을 삭제할 때 저장된 설정과 LDAP 자격 증명을 삭제합니다. 사용자 계정은 유지됩니다."
+
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "LDAP 로그인 테스트"
+
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr "설정을 저장한 후 두 가지 테스트를 실행하세요. 이 관리자 세션을 열어 두세요."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr "테스트는 연결, 비밀번호 및 필요한 그룹을 확인합니다. 계정을 생성하거나 사용자를 로그인시키지 않습니다."
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr "두 가지 테스트가 모두 통과한 후 LDAP를 활성화하고 다른 브라우저에서 로그인해 보세요."
+
+#: src/Admin.php:350
+msgid "Recovery"
+msgstr "복구"
+
+#: src/Admin.php:351
+msgid ""
+"If you are locked out, rename the simple-ldap-login folder using your "
+"hosting file manager. Log in with a WordPress administrator password, then "
+"restore the folder and correct the settings."
+msgstr ""
+"잠금 해제되지 않으면 호스팅 파일 관리자를 사용하여 simple-ldap-login 폴더 이름을 변경하세요. WordPress 관리자 "
+"비밀번호로 로그인한 후 폴더를 복원하고 설정을 수정하세요."
+
+#: src/Admin.php:352
+msgid ""
+"For certificate errors, ask your host to configure the trusted LDAP "
+"certificate authority."
+msgstr "인증서 오류가 발생하면 호스트에 신뢰할 수 있는 LDAP 인증 기관을 구성하도록 요청하세요."
+
+#: src/Admin.php:366
+msgid "LDAP tests"
+msgstr "LDAP 테스트"
+
+#: src/Admin.php:367
+msgid "Tests use saved settings."
+msgstr "테스트는 저장된 설정을 사용합니다."
+
+#: src/Admin.php:372
+msgid "1. Test connection"
+msgstr "1. 연결 테스트"
+
+#: src/Admin.php:373
+msgid "Connect to LDAP and test the search account, if set."
+msgstr "LDAP에 연결하고 설정된 경우 검색 계정을 테스트합니다."
+
+#: src/Admin.php:374
+msgid "Test connection"
+msgstr "연결 테스트"
+
+#: src/Admin.php:378
+msgid "2. Test login"
+msgstr "2. 로그인 테스트"
+
+#: src/Admin.php:379
+msgid "Check an LDAP username, password, and group membership."
+msgstr "LDAP 사용자 이름, 비밀번호 및 그룹 멤버십을 확인합니다."
+
+#: src/Admin.php:380
+msgid "LDAP username"
+msgstr "LDAP 사용자 이름"
+
+#: src/Admin.php:381
+msgid "LDAP password"
+msgstr "LDAP 비밀번호"
+
+#: src/Admin.php:537
+msgid "Settings saved."
+msgstr "설정이 저장되었습니다."
+
+#: src/Admin.php:538
+msgid "Connection test passed."
+msgstr "연결 테스트가 통과했습니다."
+
+#: src/Admin.php:539
+msgid ""
+"Cannot connect to LDAP. Check the server, port, TLS certificate, and search "
+"account."
+msgstr "LDAP에 연결할 수 없습니다. 서버, 포트, TLS 인증서 및 검색 계정을 확인하세요."
+
+#: src/Admin.php:540
+msgid "LDAP login test passed. No account was created."
+msgstr "LDAP 로그인 테스트가 통과했습니다. 계정이 생성되지 않았습니다."
+
+#: src/Admin.php:541
+msgid "LDAP login test failed. Check the username, password, and required groups."
+msgstr "LDAP 로그인 테스트가 실패했습니다. 사용자 이름, 비밀번호 및 필요한 그룹을 확인하세요."
+
+#: src/Admin.php:542
+msgid "Could not save settings. Check the values and try again."
+msgstr "설정을 저장할 수 없습니다. 값을 확인하고 다시 시도하세요."
+
+#: src/Admin.php:586
+msgid "Connection"
+msgstr "연결"
+
+#: src/Admin.php:587
+msgid "Access"
+msgstr "접근"
+
+#: src/Admin.php:588
+msgid "Advanced"
+msgstr "고급"
+
+#: src/Admin.php:589
+msgid "Troubleshooting"
+msgstr "문제 해결"
+
+#: src/Authenticator.php:151
+msgid ""
+"Your LDAP login is valid, but you need a WordPress account. Contact your "
+"site administrator."
+msgstr "귀하의 LDAP 로그인이 유효하지만 WordPress 계정이 필요합니다. 사이트 관리자에게 문의하세요."
+
+#: src/Authenticator.php:154
+msgid ""
+"Your LDAP username is not a valid WordPress username. Contact your site "
+"administrator."
+msgstr "귀하의 LDAP 사용자 이름은 유효한 WordPress 사용자 이름이 아닙니다. 사이트 관리자에게 문의하세요."
+
+#: src/Authenticator.php:158
+msgid ""
+"The default WordPress role is not available. Contact your site "
+"administrator."
+msgstr "기본 WordPress 역할을 사용할 수 없습니다. 사이트 관리자에게 문의하세요."
+
+#: src/Authenticator.php:175
+msgid "Could not create your WordPress account. Contact your site administrator."
+msgstr "귀하의 WordPress 계정을 생성할 수 없습니다. 사이트 관리자에게 문의하세요."
+
+#: src/Authenticator.php:180
+msgid "Use your WordPress password for this recovery account."
+msgstr "이 복구 계정에 대해 WordPress 비밀번호를 사용하세요."
+
+#: src/Ldap_Client.php:440
+msgid ""
+"LDAP login failed. Check your username and password or contact your site "
+"administrator."
+msgstr "LDAP 로그인에 실패했습니다. 사용자 이름과 비밀번호를 확인하거나 사이트 관리자에게 문의하세요."
+
+#: src/Ldap_Client.php:442
+msgid "Your account is not allowed to log in to this site."
+msgstr "귀하의 계정은 이 사이트에 로그인할 수 없습니다."
+
+#: src/Ldap_Client.php:444
+msgid "LDAP login is unavailable. Contact your site administrator."
+msgstr "LDAP 로그인이 사용할 수 없습니다. 사이트 관리자에게 문의하십시오."
+
+#: src/Secrets.php:24
+msgid "PHP OpenSSL is required to save the LDAP search password."
+msgstr "LDAP 검색 비밀번호를 저장하려면 PHP OpenSSL이 필요합니다."
+
+#: src/Secrets.php:92
+msgid ""
+"Could not read or save the LDAP search password. Enter it again. If this "
+"continues, ask your host to check OpenSSL and the encryption key."
+msgstr ""
+"LDAP 검색 비밀번호를 읽거나 저장할 수 없습니다. 다시 입력하십시오. 이 문제가 계속되면 호스트에게 OpenSSL 및 암호화 키를 "
+"확인하도록 요청하십시오."
+
+#: src/Settings.php:310
+msgid ""
+"Select a recovery account on the Access tab, or turn local recovery access "
+"Off."
+msgstr "액세스 탭에서 복구 계정을 선택하거나 로컬 복구 액세스를 끄십시오."
+
+#: src/Settings.php:318
+msgid ""
+"Enable Allow unencrypted LDAP on the Advanced tab, or choose StartTLS or "
+"LDAPS."
+msgstr "고급 탭에서 암호화되지 않은 LDAP 허용을 활성화하거나 StartTLS 또는 LDAPS를 선택하십시오."
+
+#: src/Settings.php:341
+msgid "A custom field mapping uses a protected or invalid WordPress user meta key."
+msgstr "사용자 정의 필드 매핑은 보호되거나 잘못된 WordPress 사용자 메타 키를 사용합니다."
+
+#: src/Settings.php:346
+msgid "Enter a Base DN and at least one LDAP server before enabling LDAP login."
+msgstr "LDAP 로그인을 활성화하기 전에 기본 DN과 최소한 하나의 LDAP 서버를 입력하십시오."
+
+#: src/Settings.php:349
+msgid "WordPress could not save the settings. Try again."
+msgstr "WordPress가 설정을 저장할 수 없습니다. 다시 시도하십시오."
+
+#: src/Settings.php:604
+msgid "LDAP protocol version"
+msgstr "LDAP 프로토콜 버전"
+
+#: src/Settings.php:605
+msgid "LDAP timeout"
+msgstr "LDAP 시간 초과"
+
+#: src/Settings.php:623
+msgid "Check the submitted settings. No changes were saved."
+msgstr "제출된 설정을 확인하십시오. 변경 사항이 저장되지 않았습니다."
+
+#: src/Settings.php:626
+#. translators: %s: setting label.
+#, php-format
+msgid "Check %s. No changes were saved."
+msgstr "%s를 확인하십시오. 변경 사항이 저장되지 않았습니다."

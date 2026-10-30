@@ -358,9 +358,6 @@ final class Settings {
 	 */
 	public function migrate(): void {
 		$stored = $this->read( 'sll_settings', null );
-		if ( ! $this->record_legacy_access( $stored ) ) {
-			return;
-		}
 		if ( is_array( $stored ) && isset( $stored['schema_version'] ) && 2 <= (int) $stored['schema_version'] ) {
 			if ( 3 > (int) $stored['schema_version'] ) {
 				if ( ! array_key_exists( 'recovery_mode', $stored ) ) {
@@ -445,43 +442,6 @@ final class Settings {
 		$settings['version']        = '200';
 		$settings['schema_version'] = 3;
 		$this->write( 'sll_settings', $settings );
-	}
-
-	/**
-	 * Check continued access to the old feature set.
-	 *
-	 * This record identifies an installation. It is not proof of purchase.
-	 * It does not load feature code that is absent from the package.
-	 *
-	 * @return bool Whether this scope qualifies for no-cost Legacy access.
-	 */
-	public function has_legacy_access(): bool {
-		$record = $this->read( 'sll_legacy_access', array() );
-		return is_array( $record ) && true === ( $record['eligible'] ?? false );
-	}
-
-	/**
-	 * Record eligibility before settings migration writes new defaults.
-	 *
-	 * @param mixed $stored Raw settings, before defaults are added.
-	 * @return bool Whether the record is saved and safe to use.
-	 */
-	private function record_legacy_access( $stored ): bool {
-		$record     = $this->read( 'sll_legacy_access', null );
-		$transition = defined( 'SLL_EDITION' ) && 'transition' === SLL_EDITION;
-		if ( is_array( $record ) && isset( $record['eligible'] ) && is_bool( $record['eligible'] ) ) {
-			if ( ! $transition || $record['eligible'] ) {
-				return true;
-			}
-		} elseif ( null !== $record ) {
-			return false;
-		}
-		$eligible = $transition || is_array( $stored );
-		foreach ( array_keys( self::LEGACY_MAP ) as $key ) {
-			$eligible = $eligible || null !== $this->read( 'simpleldap_' . $key, null );
-		}
-		$record = array( 'eligible' => $eligible );
-		return $this->write( 'sll_legacy_access', $record ) || $record === $this->read( 'sll_legacy_access', null );
 	}
 
 	/**

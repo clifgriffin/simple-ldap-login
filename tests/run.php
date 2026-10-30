@@ -107,9 +107,8 @@ check( false === $settings->get( 'enabled' ), 'A new installation has LDAP login
 check( 3 === $settings->get( 'schema_version' ) && 'selected' === $settings->recovery_mode() && array() === $settings->get( 'recovery_user_ids' ), 'A new installation selects explicit local recovery accounts.' );
 check( 'starttls' === $settings->get( 'transport' ) && false === $settings->get( 'allow_plaintext' ), 'A new installation requires TLS.' );
 check( ! isset( $GLOBALS['sll_test_options']['sll_settings_backup_v1'] ), 'A new installation does not create an empty backup.' );
-check( ! $settings->has_legacy_access(), 'A fresh Free installation does not get Legacy access.' );
 $settings->migrate();
-check( ! $settings->has_legacy_access(), 'New settings do not turn a fresh Free installation into a legacy installation.' );
+check( ! isset( $GLOBALS['sll_test_options']['sll_settings_backup_v1'] ), 'Repeat migration does not create a backup for current settings.' );
 
 $schema_two = Settings::defaults();
 $schema_two['schema_version'] = 2;
@@ -117,10 +116,9 @@ unset( $schema_two['recovery_mode'], $schema_two['recovery_user_ids'] );
 $GLOBALS['sll_test_options'] = array( 'sll_settings' => $schema_two, 'sll_settings_backup_v1' => array( 'keep' => 'original backup' ) );
 check( 'legacy' === $settings->recovery_mode(), 'Old stored settings retain administrator recovery before migration.' );
 $settings->migrate();
-check( $settings->has_legacy_access(), 'Existing schema version 2 settings qualify even when SSO and metadata are off.' );
 $expected = array_replace( $schema_two, array( 'schema_version' => 3, 'recovery_mode' => 'legacy', 'recovery_user_ids' => array() ) );
 check( $expected === $GLOBALS['sll_test_options']['sll_settings'] && array( 'keep' => 'original backup' ) === $GLOBALS['sll_test_options']['sll_settings_backup_v1'], 'Schema version 2 migration adds the recovery policy and retains all other data and the backup.' );
-$GLOBALS['sll_test_options'] = array( 'sll_settings' => $schema_two, 'sll_legacy_access' => array( 'eligible' => true ) );
+$GLOBALS['sll_test_options'] = array( 'sll_settings' => $schema_two );
 $GLOBALS['sll_test_write_fail'] = true;
 $settings->migrate();
 check( $schema_two === $GLOBALS['sll_test_options']['sll_settings'] && 'legacy' === $settings->recovery_mode(), 'A failed policy migration retains the original administrator recovery rule.' );
@@ -128,23 +126,23 @@ $GLOBALS['sll_test_write_fail'] = false;
 $settings->migrate();
 unset( $GLOBALS['sll_test_options']['sll_settings_backup_v1'] );
 $settings->migrate();
-check( $settings->has_legacy_access(), 'Removing a migration backup does not remove Legacy access.' );
+check( ! isset( $GLOBALS['sll_test_options']['sll_settings_backup_v1'] ) && 3 === $settings->get( 'schema_version' ), 'Removing a backup does not repeat a completed migration.' );
 
-$GLOBALS['sll_test_options'] = array( 'sll_legacy_access' => array( 'eligible' => false ), 'sll_settings' => Settings::defaults(), 'simpleldap_use_tls' => false );
+$GLOBALS['sll_test_options'] = array( 'sll_settings' => Settings::defaults(), 'simpleldap_use_tls' => false );
 $settings->migrate();
-check( ! $settings->has_legacy_access(), 'A saved fresh-install record does not change when old option names appear.' );
+check( false === $settings->get( 'enabled' ) && 'starttls' === $settings->get( 'transport' ), 'Old option names do not overwrite current settings.' );
 
 $GLOBALS['sll_test_options'] = array( 'simpleldap_use_tls' => false );
 $settings->migrate();
-check( $settings->has_legacy_access(), 'An old option with a false value still identifies a legacy installation.' );
+check( 'plain' === $settings->get( 'transport' ) && array_key_exists( 'simpleldap_use_tls', $GLOBALS['sll_test_options']['sll_settings_backup_v1'] ), 'Migration keeps an old false TLS value and its backup.' );
 
 $GLOBALS['sll_test_options'] = array();
 $GLOBALS['sll_test_write_fail'] = true;
 $settings->migrate();
-check( array() === $GLOBALS['sll_test_options'], 'A failed access-record write stops migration before new settings can look old.' );
+check( array() === $GLOBALS['sll_test_options'], 'A failed settings write leaves storage unchanged.' );
 $GLOBALS['sll_test_write_fail'] = false;
 $settings->migrate();
-check( ! $settings->has_legacy_access(), 'A retry after a failed fresh migration retains the correct access record.' );
+check( false === $settings->get( 'enabled' ) && 3 === $settings->get( 'schema_version' ), 'A failed new installation can retry migration safely.' );
 
 $legacy = array(
 	'version'                  => '180',
@@ -160,7 +158,6 @@ $legacy = array(
 $GLOBALS['sll_test_options'] = array( 'sll_settings' => $legacy );
 $settings->migrate();
 check( 'plain' === $settings->get( 'transport' ) && true === $settings->get( 'allow_plaintext' ), 'Migration retains an existing unencrypted connection.' );
-check( $settings->has_legacy_access(), 'Old settings retain access to all old features.' );
 check( 'legacy' === $settings->recovery_mode(), 'Old option arrays retain administrator recovery.' );
 check( $legacy === $GLOBALS['sll_test_options']['sll_settings_backup_v1'], 'Migration saves the original settings.' );
 check( 'keep this value' === $settings->get( 'custom_setting' ), 'Migration retains custom settings.' );
@@ -236,10 +233,8 @@ check( $settings->get( 'enabled' ) && $settings->get( 'create_users' ) && $setti
 check( 'legacy' === $settings->recovery_mode(), 'The oldest network options retain administrator recovery.' );
 check( array() === $GLOBALS['sll_test_options'], 'A network migration does not change site options.' );
 check( isset( $GLOBALS['sll_test_site_options']['sll_settings_backup_v1']['simpleldap_base_dn'] ), 'The oldest network settings have a backup.' );
-check( $settings->has_legacy_access() && ! isset( $GLOBALS['sll_test_options']['sll_legacy_access'] ), 'Network Legacy access stays in the network scope.' );
 $GLOBALS['sll_test_network'] = false;
 check( ! $settings->is_network() && false === $settings->get( 'enabled' ), 'Site settings remain separate from network settings.' );
-check( ! $settings->has_legacy_access(), 'A network grant does not become a separate site grant.' );
 
 $filter = static function ( $value, $key ) { return 'base_dn' === $key ? 'dc=filtered' : $value; };
 add_filter( 'sll_get_setting', $filter, 10, 2 );

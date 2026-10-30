@@ -19,7 +19,7 @@ The release matrix checks 24 core configurations:
 | Directory | OpenLDAP, Samba AD |
 | Installation | Single site; network activation; site-only activation in multisite |
 
-The source CI job also runs on each PHP minor version from 8.1 through 8.5. Package tests check Free, Pro, Legacy, and Transition with fresh, existing, and network settings.
+The source CI job also runs on each PHP minor version from 8.1 through 8.5. Package tests check Free and Pro with fresh, schema 2, and 1.x settings in site and network scope.
 
 Within each core configuration, the tests change selected settings and check their results. They cover both outcomes for important access controls and combine settings where one can affect another. They do not run every possible combination of fields.
 
@@ -40,8 +40,8 @@ Within each core configuration, the tests change selected settings and check the
 | Profile and metadata | Default and custom attributes, Pro string and number values, custom suffixes, local edit retention, changed mapped values, protected WordPress keys, Free feature absence | `tests/run.php`, `tests/auth.php`, `tests/docker/integration.php` |
 | Server SSO | SSO on/off, password login off, missing or invalid identity/service account, group denial, user and later login filter denial, existing session, password whitespace normalization | `tests/docker/http-check.php` |
 | SSO request context | GET, POST, JSON, login page, AJAX, cron, XML-RPC, CLI, forged identity headers, auth cookies set only after success | `tests/docker/http-check.php` |
-| Migration | Both old option formats, schema 2 to 3 recovery policy, false and custom values, old encrypted passwords, backup, repeat migration, Legacy eligibility, malformed data | `tests/run.php`, `tests/docker/migration.php` |
-| Package replacement | Free to Pro, full package updates and replacements, blocked reduced Free update, deliberate inactive downgrade, activation and user data retention after shutdown | `tests/upgrades.php`, `tests/docker/upgrades.php` |
+| Migration | Both old option formats, schema 2 to 3 recovery policy, false and custom values, old encrypted passwords, backup, repeat migration, malformed data | `tests/run.php`, `tests/docker/migration.php` |
+| Package replacement | 1.x settings to Pro with LDAP login, SSO lookup, and metadata updates; Free to Pro, full package updates and replacements, blocked reduced Free update, deliberate inactive downgrade, activation and user data retention after shutdown | `tests/upgrades.php`, `tests/docker/upgrades.php` |
 | Missing dependencies | LDAP absent; OpenSSL encryption functions absent; controlled errors, unchanged secrets, usable admin controls | `tests/docker/dependencies.php` |
 | Recovery settings | Fresh selected policy, existing legacy policy, explicit Off, required selection before setup, eligible IDs, site membership, network superadmin scope, atomic saves | `tests/recovery-settings.php`, `tests/admin.php`, `tests/docker/migration.php` |
 | Admin and input security | Capabilities, nonce, POST, scope, tab saves, Advanced field placement, old Free profile links, blank secret handling, malformed fields, escaping, protected metadata, no LDAP request during render | `tests/admin.php`, `tests/run.php` |

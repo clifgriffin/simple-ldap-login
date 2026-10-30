@@ -1,31 +1,31 @@
 # Product and release plan
 
-Research date: 2026-10-28.
+Research date: 2026-10-28. Package plan updated: 2026-10-30.
 
 ## Release decision
 
-Server SSO and custom LDAP-to-WordPress metadata mappings move to Pro for new installations after the transition release. Existing installations retain all old features through a maintained Legacy package at no charge. Central network settings stay free.
+Build only Free and Pro. Server SSO and custom user fields require Pro. Central network settings stay free.
 
-The package split starts with those two existing features. Multiple directories, role rules, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities licensing and external updates are not implemented. Do not open sales or distribute the external previews until their release checks pass.
+The 1.x upgrade path is narrow. Preserve saved settings, directory credentials, login rules, administrator recovery, and user data. Sites that use SSO or custom user fields must upgrade directly to Pro. There is no separate Legacy package, Transition package, or eligibility grant.
 
-Keep all old controls visible and editable in Legacy, including features that were off before migration. Do not freeze old SSO or metadata settings. Legacy needs no license key and must not contact a license service during login.
+Multiple directories, role rules, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities licensing and external updates are not implemented. Do not open sales or distribute the Pro preview until its release checks pass.
 
 ## Free and Pro features
 
-| Feature | Free after transition | Pro | Legacy |
-| --- | --- | --- | --- |
-| Active Directory and OpenLDAP sign-in | Yes | Yes | Yes |
-| Multiple controllers for one directory | Yes | Yes | Yes |
-| TLS, custom ports, DNs, and search attributes | Yes | Yes | Yes |
-| Direct, nested, and primary AD group checks | Yes | Yes | Yes |
-| OpenLDAP group checks and login restrictions | Yes | Yes | Yes |
-| Account creation and a fixed new-user role | Yes | Yes | Yes |
-| LDAP-only login and local administrator recovery | Yes | Yes | Yes |
-| Standard profile attributes | Yes | Yes | Yes |
-| Site and central network settings | Yes | Yes | Yes |
-| Connection and login tests, and security fixes | Yes | Yes | Yes |
-| Server SSO with a trusted server identity | No | Yes | Yes, at no charge |
-| Custom metadata mappings and suffix settings | No | Yes | Yes, at no charge |
+| Feature | Free | Pro |
+| --- | --- | --- |
+| Active Directory and OpenLDAP sign-in | Yes | Yes |
+| Multiple controllers for one directory | Yes | Yes |
+| TLS, custom ports, DNs, and search attributes | Yes | Yes |
+| Direct, nested, and primary AD group checks | Yes | Yes |
+| OpenLDAP group checks and login restrictions | Yes | Yes |
+| Account creation and a fixed new-user role | Yes | Yes |
+| LDAP-only login and local administrator recovery | Yes | Yes |
+| Standard profile attributes | Yes | Yes |
+| Site and central network settings | Yes | Yes |
+| Connection and login tests, and security fixes | Yes | Yes |
+| Server SSO with a trusted server identity | No | Yes |
+| Custom metadata mappings and suffix settings | No | Yes |
 
 Planned Pro additions are multiple independent directories and routing rules; group-to-role rules; scheduled import and profile updates; scheduled account suspension and session removal; audit retention and export; and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise the planned additions as available.
 
@@ -41,36 +41,26 @@ Start with one Pro package and annual access to updates and support. Plans can c
 
 The free package keeps the `simple-ldap-login` directory and `Simple-LDAP-Login.php` entry file. Continue its WordPress.org update path. Use Composer for dependency declarations, autoloading, and development checks. Include the required production files in the release ZIP; site owners must not run Composer.
 
-Maintain one codebase and build four editions:
+Maintain one codebase and build two packages:
 
-| Edition | Purpose | Update path |
+| Package | Purpose | Update path |
 | --- | --- | --- |
-| Transition | All old features, available to everyone without payment during migration | WordPress.org |
-| Free | Reduced feature set for new installations after transition | WordPress.org |
-| Pro | Free features plus SSO and custom metadata for new customers | External; not implemented |
-| Legacy | All old features for existing installations, at no charge and without a key | External; not implemented |
+| Free | LDAP password login and the shared features listed above | WordPress.org |
+| Pro | Free features plus SSO and custom user fields | PaidCommunities; integration not implemented |
 
-All editions keep the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one edition. It replaces the current package and does not need an add-on.
+Both use the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one package. Pro replaces Free and does not need an add-on.
 
-Use PaidCommunities for Pro licensing, downloads, and updates. Define and test the no-cost update path for Legacy before asking existing users to install it. Pro and Legacy previews use `Update URI: false`; they avoid WordPress.org replacement but have no automatic updates. Replace that preview setting with the tested external updater before public distribution. Free and Transition keep WordPress.org updates.
+Keep Pro code in `pro/`, outside the Free ZIP. `build:free` and `build:pro` use temporary folders and `wp-scripts plugin-zip`. The default `npm run plugin-zip` builds Free. Shared classes use the `SimpleLdapLogin\` PSR-4 namespace; Pro classes use `SimpleLdapLogin\Pro\`. Pro has its own Composer manifest and lock file.
 
-Keep SSO and custom metadata source in `pro/`, separate from the shared source. The reduced Free ZIP excludes it. `build:free`, `build:pro`, `build:legacy`, and `build:transition` use temporary folders and `wp-scripts plugin-zip`. `npm run plugin-zip` builds Transition, not reduced Free. Shared classes use the `SimpleLdapLogin\` PSR-4 namespace; feature classes use `SimpleLdapLogin\Pro\`. Pro dependencies have their own Composer manifest and lock file. See the [build instructions](../readme.md#pro-source).
+Use PaidCommunities for Pro licensing, downloads, and updates. The Pro preview uses `Update URI: false` to prevent replacement by a WordPress.org update. It has no automatic external updates. Complete and test the external updater before public distribution.
 
-## Transition for existing installations
+## Upgrades from 1.x
 
-Record `sll_legacy_access` before migration changes settings. Inspect raw `sll_settings` or old `simpleldap_*` options, not values filled from defaults. Include existing schema version 2 settings. Keep the eligibility record in the same site or network scope and retain it when a migration backup is removed.
+For LDAP password login, upgrade to Free or Pro. If SSO is enabled or custom user fields are configured, install Pro directly. Do not first install Free and assume those features will keep working. Free retains their settings and shows an administrator notice, but does not include their implementation.
 
-A fresh reduced Free installation receives a lasting false value. Its later settings writes must not turn it into a legacy installation. Transition grants eligibility to everyone who installs it, including new users, because all its old features remain available without payment.
+Test the direct upgrade on a site copy. Keep the old settings and a migration backup in their original scope. Check LDAP password login, SSO when used, metadata values and local edits, required groups, and local administrator recovery. The emergency `SLL_DISABLE_LDAP` switch remains available.
 
-The grant covers all old features, not only settings currently enabled. It is a local eligibility record, not proof of purchase. Backups and site copies can carry it. Network eligibility covers that network; it must not copy credentials into each site.
-
-Test a supported move from Transition to Legacy before publishing the reduced Free release. A local grant cannot restore SSO or metadata code absent from the installed package. An update notice cannot prevent a login failure after that code is removed. Do not publish reduced Free as an immediate update for existing installations.
-
-Full packages now reject replacement ZIPs that lack the old feature files. The guard restores the previous activation scope if WordPress deactivated the plugin before the check. Native WordPress tests cover site and network activation, rejected Free updates, and accepted Legacy replacements. An administrator can choose Free by deactivating the full package before installing Free.
-
-Users can skip a transition release and its guard. Account for that path before release; do not promise automatic preservation for every old site. Review the final distribution flow against the directory rules before upload.
-
-Use the existing hooks and shared code. Add a hook when a feature needs it. A generic module system, license service interface, or remote feature service is not needed for this release.
+An active Pro installation rejects replacement ZIPs that lack its feature files and restores activation if WordPress deactivated it before the check. Administrators can choose Free by deactivating Pro first. This guard does not exist in 1.x and cannot protect a direct 1.x-to-Free replacement.
 
 ## Settings and updates
 
@@ -96,7 +86,7 @@ External tracking needs consent. Describe service calls and their data. Keep pro
 
 A connected service can install a purchased package at the user's explicit request. The service must make its role and the external package source clear. An upgrade flow needs those controls; a license check alone does not authorize installation. [Plugins Team clarification](https://make.wordpress.org/plugins/2017/03/16/clarification-of-guideline-8-executable-code-and-installs/)
 
-The cited sources do not state a blanket rule against moving a formerly free feature to a paid edition. Providing all old capabilities to existing users at no charge is this product's policy. A legacy flag does not permit locked paid code in the directory package. Ask the Plugins Team about an uncertain model before distribution; a breaking-change notice does not establish compliance.
+The directory package excludes SSO and custom field code. Sites that need those features, including 1.x upgrades, use Pro. Review the final packages against the directory rules before distribution; an upgrade notice alone does not establish compliance.
 
 Do not include an external updater in the directory package. Include `composer.json` and required runtime files. Exclude development tools, test folders, and unused files from the distributed ZIP. [Common issues](https://developer.wordpress.org/plugins/wordpress-org/common-issues/)
 
@@ -104,7 +94,7 @@ Keep the existing directory listing for the rewrite. Do not submit a duplicate f
 
 ## Source license and commercial access
 
-Use GPL-2.0-or-later for all editions. Include the license text and third-party notices. The source license and the paid service term are separate: a commercial key gives access to updates, support, and account services. It does not remove the user's GPL rights or prevent copying. Legacy needs no key. [WordPress license](https://wordpress.org/about/license/)
+Use GPL-2.0-or-later for all editions. Include the license text and third-party notices. The source license and the paid service term are separate: a commercial key gives access to updates, support, and account services. It does not remove the user's GPL rights or prevent copying. [WordPress license](https://wordpress.org/about/license/)
 
 For this product, an expired key or a license service outage must not stop sign-in, remove active access rules, or change saved settings. Do not put license calls in the login path. Allow installed Pro features to continue. Expiry can stop new Pro downloads and support. Explain this policy before purchase.
 
@@ -166,10 +156,8 @@ For either service, request only the license data needed for updates. Never send
 
 ## Release order
 
-1. Complete and test the refactor, SSO and metadata extraction, legacy eligibility, settings migration, and security fixes.
-2. Test all four packages with real Active Directory, OpenLDAP, multisite, and trusted server SSO setups.
-3. Resolve the PaidCommunities client defect and add the Pro update path. Add and test a no-cost Legacy update path that needs no license key for login.
-4. Test moves from old versions and Transition to Legacy, including saved credentials, inactive features, settings edits, failed installs, and recovery. Test users who skip Transition.
-5. Publish Transition only after the release checks pass. Give existing users a supported route to Legacy before removing code from the WordPress.org package.
-6. Publish reduced Free and start Pro sales only after the migration plan, external update paths, and service checks pass. Do not claim the package plan has WordPress.org approval.
-7. Build the remaining Pro additions separately. Advertise each only after it is implemented and tested.
+1. Complete the refactor, settings migration, Pro extraction, and security checks.
+2. Test Free and Pro with OpenLDAP, Samba AD, multisite, and trusted server SSO. Test direct 1.x upgrades to the correct package.
+3. Correct the PaidCommunities client defect and test licensing and external Pro updates. Keep license calls outside login.
+4. Publish Free and start Pro sales after the release and service checks pass. State clearly that 1.x sites using SSO or custom user fields need Pro.
+5. Build and test later Pro features separately. Advertise each only after it is available.

@@ -27,6 +27,7 @@
 		"uninstall.php",
 		"src/",
 		"assets/",
+		"languages/",
 		"vendor/",
 		"composer.json",
 		"composer.lock",
@@ -35,25 +36,33 @@
 	],
 	"private": true,
 	"devDependencies": {
-		"@wordpress/scripts": "37.0.0"
+		"@wordpress/scripts": "37.0.0",
+		"gettext-parser": "8.0.0",
+		"gpt-po": "1.2.3"
 	},
 	"scripts": {
 		"check-engines": "wp-scripts check-engines",
 		"lint:css": "wp-scripts lint-style assets/admin.css",
-		"lint:js": "wp-scripts lint-js assets/admin.js scripts/package.cjs tests/package.cjs tests/admin-js.cjs",
+		"lint:js": "wp-scripts lint-js assets/admin.js scripts/package.cjs tests/package.cjs tests/admin-js.cjs scripts/i18n.cjs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"lint": "npm run lint:css && npm run lint:js && npm run lint:pkg-json",
 		"format:css": "wp-scripts lint-style assets/admin.css --fix",
 		"test:admin": "node tests/admin-js.cjs",
 		"test:packages": "node tests/package.cjs",
-		"test:docker": "npm run build:free && npm run build:pro && npm run build:legacy && npm run build:transition && sh tests/docker/run.sh test",
-		"test:release": "composer check && npm run lint && npm run test:admin && npm run test:packages && sh tests/docker/matrix.sh",
-		"env:up": "npm run build:free && npm run build:pro && npm run build:legacy && npm run build:transition && sh tests/docker/run.sh up",
+		"test:docker": "npm run build:free && npm run build:pro && sh tests/docker/run.sh test",
+		"test:release": "composer check && npm run lint && npm run test:admin && npm run test:i18n && npm run test:packages && sh tests/docker/matrix.sh",
+		"env:up": "npm run build:free && npm run build:pro && sh tests/docker/run.sh up",
 		"env:down": "sh tests/docker/run.sh down",
 		"build:free": "node scripts/package.cjs free",
 		"build:pro": "node scripts/package.cjs pro",
-		"build:legacy": "node scripts/package.cjs legacy",
-		"build:transition": "node scripts/package.cjs transition",
-		"plugin-zip": "npm run build:transition"
+		"plugin-zip": "npm run build:free",
+		"make:pot": "wp i18n make-pot . languages/simple-ldap-login.pot --exclude=\".*,node_modules,vendor,tests,tools,scripts,demo,dist,languages\" --domain=\"simple-ldap-login\" --slug=\"simple-ldap-login\"",
+		"make:po": "node scripts/i18n.cjs sync",
+		"translate": "node scripts/i18n.cjs translate",
+		"make:mo": "wp i18n make-mo languages",
+		"make:php": "wp i18n make-php languages",
+		"make:json": "wp i18n make-json languages --no-purge",
+		"test:i18n": "node scripts/i18n.cjs check",
+		"i18n:build": "npm run make:pot && npm run make:po && npm run make:mo && npm run make:php"
 	}
 }

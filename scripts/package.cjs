@@ -78,8 +78,8 @@ function buildPackage(
 	source = root,
 	output = path.join( source, 'dist' )
 ) {
-	if ( ! [ 'free', 'pro', 'legacy', 'transition' ].includes( edition ) ) {
-		throw new Error( 'Choose free, pro, legacy, or transition.' );
+	if ( ! [ 'free', 'pro' ].includes( edition ) ) {
+		throw new Error( 'Choose free or pro.' );
 	}
 	const full = edition !== 'free';
 	if (
@@ -132,29 +132,19 @@ function buildPackage(
 					} );
 				}
 			}
-			if ( edition !== 'transition' ) {
-				const label = edition === 'pro' ? 'Pro' : 'Legacy';
-				entry = entry.replace(
-					'Plugin Name: Simple LDAP Login',
-					`Plugin Name: Simple LDAP Login ${ label }`
-				);
-				// These are local previews until the external updater is configured.
-				entry = entry.replace(
-					' * Text Domain:',
-					' * Update URI: false\n * Text Domain:'
-				);
-				const readme = fs.readFileSync(
-					path.join( stage, 'pro/readme.txt' ),
-					'utf8'
-				);
-				fs.writeFileSync(
-					path.join( stage, 'readme.txt' ),
-					readme.replace(
-						'=== Simple LDAP Login Pro ===',
-						`=== Simple LDAP Login ${ label } ===`
-					)
-				);
-			}
+			entry = entry.replace(
+				'Plugin Name: Simple LDAP Login',
+				'Plugin Name: Simple LDAP Login Pro'
+			);
+			// This is a local preview until the external updater is configured.
+			entry = entry.replace(
+				' * Text Domain:',
+				' * Update URI: false\n * Text Domain:'
+			);
+			fs.copyFileSync(
+				path.join( stage, 'pro/readme.txt' ),
+				path.join( stage, 'readme.txt' )
+			);
 			fs.unlinkSync( path.join( stage, 'pro/readme.txt' ) );
 			entry += "\nrequire_once __DIR__ . '/pro/bootstrap.php';\n";
 			install( path.join( stage, 'pro' ) );

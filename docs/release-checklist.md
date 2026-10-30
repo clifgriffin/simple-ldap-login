@@ -13,14 +13,15 @@ Complete these checks before public release. Record completed tests separately. 
 - [ ] Run Composer validation and dependency security checks. Review all included dependency licenses.
 - [ ] Test a clean production install from the lock file with development packages excluded.
 - [ ] Confirm that required autoload and runtime files are present in the release ZIP.
-- [ ] Run `npm run test:packages`. Check all four editions, PSR-4 loading, file exclusions, and source preservation after a build.
+- [ ] Run `npm run test:packages`. Check both packages, PSR-4 loading, file exclusions, and source preservation after a build.
 - [ ] Run `npm run test:release`. All 24 core configurations and the selected settings, migration, and package replacement cases must pass. See the [coverage map](test-coverage.md).
-- [ ] Confirm that `npm run plugin-zip` builds Transition and cannot publish reduced Free by mistake.
-- [ ] Keep Pro and Legacy preview ZIPs out of public distribution until their external update paths are implemented and tested. `Update URI: false` prevents WordPress.org replacement but supplies no updates.
+- [ ] Confirm that `npm run plugin-zip` builds Free and that only Free and Pro ZIPs are produced.
+- [ ] Keep the Pro preview out of public distribution until its external update path is implemented and tested. `Update URI: false` prevents WordPress.org replacement but supplies no updates.
 - [ ] Include `composer.json`, source files, license text, third-party notices, and any required asset source.
 - [ ] Exclude development dependencies, tests, IDE files, old build scripts, obsolete setup guides, and unused libraries from the ZIP.
 - [ ] Install the ZIP on a clean site without Composer or a package download step.
-- [ ] Run WordPress Plugin Check and review its warnings and errors. Passing the check is not formal WordPress.org approval.
+- [ ] Update and compile all 24 translation catalogs. Run `npm run test:i18n` and the WordPress catalog check in the [translation guide](translations.md).
+- [ ] Run WordPress Plugin Check on the extracted release package and review its warnings and errors. See the [last results and commands](plugin-check.md). Passing the check is not formal WordPress.org approval.
 
 The WordPress.org package must include the files needed to run. Its review guidance also covers external updaters, unused files, and dependency declarations. [Common issues](https://developer.wordpress.org/plugins/wordpress-org/common-issues/)
 
@@ -30,11 +31,6 @@ The WordPress.org package must include the files needed to run. Its review guida
 - [ ] Test real `sll_settings` examples from the last public release and the unreleased repository version.
 - [ ] Test oldest `simpleldap_*` options when no current settings array exists.
 - [ ] Test site activation, network activation, and separate site settings on multisite.
-- [ ] Record `sll_legacy_access` before migration, including installations with schema version 2 settings. Retain the original site or network scope.
-- [ ] Keep a fresh Free installation ineligible on later requests after its settings have been created. Do not turn a saved false value into eligibility.
-- [ ] Grant eligibility to every Transition installation, including fresh installations. Its old features must remain available without payment.
-- [ ] Retain eligibility after backup cleanup, settings saves, updates, and deactivation. Test restoration and site copies.
-- [ ] Preserve every old capability in Legacy, including editable SSO and metadata controls for features that were previously off.
 - [ ] Retain the `sll_settings_backup_v1` backup in the original scope before migration changes saved data.
 - [ ] Run migration twice and compare the result. The second run must not overwrite the backup or change working settings.
 - [ ] Preserve explicit false values, unknown extension keys, groups, controllers, custom ports, profile attributes, and metadata suffixes.
@@ -99,30 +95,28 @@ The WordPress.org package must include the files needed to run. Its review guida
 ## Free package and product claims
 
 - [ ] Keep basic LDAP login, TLS, recovery, group restrictions, account creation, standard profiles, network settings, and multiple controllers free.
-- [ ] Exclude SSO and custom metadata feature code from reduced Free. Include those features without locks in Pro, Legacy, and Transition.
-- [ ] Keep all old capabilities available to existing installations through Legacy at no charge and without a required license key.
+- [ ] Exclude SSO and custom metadata feature code from reduced Free. Include those features without locks in Pro.
+- [ ] State that SSO and custom user fields require Pro, including on 1.x upgrades.
 - [ ] Exclude Pro feature code and the external self-updater from the free ZIP. An optional upgrade connection must not restrict free features or replace WordPress.org updates.
 - [ ] Keep promotion brief and within the plugin's own settings. Do not use repeated dashboard notices.
 - [ ] Document any external service and obtain the needed consent before optional data transmission.
 - [ ] Review the current directory rules again before upload. A notice about breaking changes does not replace this review.
 
-SSO and custom metadata become Pro features for new installations after transition. Existing installations retain all old capabilities through Legacy at no charge. A saved legacy flag does not permit locked paid code in a directory ZIP. Review the final packages and transition flow under the [Detailed Plugin Guidelines](https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/).
+SSO and custom user fields are Pro features. Keep their code outside the WordPress.org ZIP. Review the final packages under the [Detailed Plugin Guidelines](https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/).
 
-## Transition release
+## Upgrades from 1.x
 
-- [ ] Keep all old features available to everyone in Transition. Do not gate them by license, age, or usage.
-- [ ] Test the move from old releases to Transition and then Legacy, with saved credentials and both enabled and inactive features.
-- [ ] Test a direct move from an old release to Legacy. Account for users who skip Transition before publishing reduced Free.
-- [ ] Verify a no-cost Legacy download and update route. Do not require a paid subscription to retain old capabilities.
-- [ ] Preserve activation state, settings scope, credentials, and user data when replacing a package at the same plugin path.
-- [ ] Test the effect of accidentally selecting reduced Free on a site that uses SSO or metadata. Do not claim that an eligibility flag supplies missing code.
-- [ ] Do not publish reduced Free as an immediate automatic update for existing installations. Resolve the supported rollout path first.
-- [ ] Review directory compliance before upload. Package tests and this plan do not establish WordPress.org approval.
+- [ ] Test direct 1.x-to-Free upgrades with LDAP password login, required groups, and administrator recovery.
+- [ ] Test direct 1.x-to-Pro upgrades with SSO, custom user fields, stored credentials, and custom metadata suffixes.
+- [ ] Tell sites that use SSO or custom user fields to install Pro directly. Free cannot preserve functionality whose code is absent.
+- [ ] Preserve activation, settings scope, credentials, migration backup, and user data during replacement.
+- [ ] Verify the Free settings notice for saved SSO or metadata configuration. Do not delete those settings.
+- [ ] Verify that the Pro update guard rejects incomplete packages and restores the original activation scope.
 
 ## Planned Pro release
 
 - [ ] Build and test the planned Pro features before advertising them as available or opening sales.
-- [ ] Generate Free, Pro, Legacy, and Transition ZIPs from one codebase. Keep the plugin folder and entry filename stable. Test replacement upgrades and voluntary package changes without losing settings or silently changing access.
+- [ ] Generate Free and Pro ZIPs from one codebase. Keep the plugin folder and entry filename stable. Test replacement upgrades and voluntary package changes without losing settings or silently changing access.
 - [ ] Verify whether PaidCommunities generates the required packages and provides authorized Pro installation. Use its tools where available. Test the package contents and update source for each build.
 - [ ] Require explicit user authorization through the connected service before any automatic Pro installation. Test invalid authorization, cancellation, interrupted installation, and recovery. A license activation alone must not start an install.
 - [ ] Pin and test the PaidCommunities SDK on PHP 8.1 and the latest supported PHP release. Resolve the built-in deactivation handler defect documented in the product plan before use.
@@ -149,6 +143,6 @@ Service references: [EDD API](https://easydigitaldownloads.com/docs/software-lic
 - [ ] Record exact WordPress, PHP, LDAP server, and operating system versions for each result.
 - [ ] Resolve all authentication and migration failures before public release.
 - [ ] Update plugin headers, readme, stable tag, changelog, screenshots, and upgrade notice together.
-- [ ] State which features remain in Free and which need Pro for new installations. Explain no-cost Legacy access for existing installations and the supported transition. List security changes that can require administrator action.
+- [ ] State which features remain in Free and which need Pro for new installations. State that 1.x sites using SSO or custom user fields must install Pro directly. List security changes that can require administrator action.
 - [ ] Publish a recovery guide with the tested `SLL_DISABLE_LDAP` method and `sll_settings_backup_v1` backup key. Do not publish secrets or real customer settings.
 - [ ] Use the existing WordPress.org listing for the rewrite, then verify the generated package from that listing. [Plugin Developer FAQ](https://developer.wordpress.org/plugins/wordpress-org/plugin-developer-faq/)

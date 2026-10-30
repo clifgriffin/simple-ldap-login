@@ -1,14 +1,16 @@
 # Simple LDAP Login
 
+Use the [Herd demo](docs/demo.md) for manual tests with the current plugin source and Docker LDAP accounts.
+
 Use the [Docker test environments](docs/docker-tests.md) to test the Free and Pro release ZIPs with OpenLDAP or Samba AD.
 
 Use Active Directory or OpenLDAP accounts to log in to WordPress. The plugin requires WordPress 6.5 or later and PHP 8.1 or later, with LDAP, OpenSSL, and iconv.
 
 Version 2.0 is in development. Complete the [release checks](docs/release-checklist.md) before production use. Source checks use simulated directory responses. Docker tests use real WordPress, MariaDB, OpenLDAP, Samba AD, and Apache server sign-on. Microsoft AD and Kerberos still need deployment tests.
 
-Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and directory server failover. Server SSO and custom metadata mappings belong to Pro for new installations after the transition release.
+Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and directory server failover. Server SSO and custom metadata mappings belong to Pro.
 
-Existing installations keep all old features through a maintained Legacy package at no charge. The Transition package keeps those features available to everyone while users move to the correct package. Do not publish the reduced Free package as an immediate update for old installations.
+For a direct upgrade from 1.x, install Pro if the site uses server SSO or custom user fields. Install Free for LDAP password login without those features. Test the upgrade on a site copy and keep a working local administrator account.
 
 ## Development
 
@@ -26,6 +28,8 @@ npm run test:packages
 
 Run `npm run test:release` before a release. It adds the complete Docker configuration matrix, native migrations and package updates, and HTTP SSO checks. See the [coverage map](docs/test-coverage.md).
 
+See the [translation guide](docs/translations.md) for the 24 bundled locales and translation commands.
+
 Composer manages PSR-4 autoloading, WordPress Coding Standards, and PHP compatibility checks. LdapRecord provides the LDAP connection and directory model APIs. The PHP LDAP extension remains a server requirement. Plugin code uses library methods for each LDAP operation. The source checks use the library transport fake without WordPress or a directory server.
 
 The selected directory schema still controls login attributes and bind names. LdapRecord handles AD account filters, nested groups, primary groups, and SID conversion. OpenLDAP group queries use the saved schema attributes. Existing settings and WordPress hooks keep their current format.
@@ -37,8 +41,6 @@ The client has a small compatibility step for LdapRecord 4.1 password handling. 
 ```sh
 npm run build:free
 npm run build:pro
-npm run build:legacy
-npm run build:transition
 ```
 
 The ZIPs in `dist/` are:
@@ -47,14 +49,12 @@ The ZIPs in `dist/` are:
 | --- | --- | --- |
 | `build:free` | `simple-ldap-login.zip` | Basic LDAP login; excludes SSO and custom metadata code |
 | `build:pro` | `simple-ldap-login-pro.zip` | Free features, server SSO, and custom metadata mappings |
-| `build:legacy` | `simple-ldap-login-legacy.zip` | All old features, with no license key required |
-| `build:transition` | `simple-ldap-login-transition.zip` | All old features, available to everyone during migration |
 
-Every ZIP contains the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one edition. It replaces the existing package and does not require an add-on. `npm run plugin-zip` builds Transition to prevent an accidental early release of the reduced Free package.
+Every ZIP contains the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one edition. It replaces the existing package and does not require an add-on. `npm run plugin-zip` builds Free.
 
 Each build copies release files into a temporary folder, installs production dependencies from the Composer lock files, uses PHP-Scoper to put bundled dependencies under `SimpleLdapLoginVendor`, and calls `wp-scripts plugin-zip`. It then removes the temporary folder. The source files and development dependencies stay unchanged. The PHP-Scoper build tool has its own manifest and lock in `tools/scoper/` and is excluded from the ZIP. Site owners install the ZIP without Composer or Node.
 
-The Pro, Legacy, and Transition builds include the SSO and metadata classes from `pro/`. All included feature code works without a license call. There is no PaidCommunities integration yet. Pro and Legacy preview builds use `Update URI: false` to prevent replacement by a WordPress.org update. They have no automatic external updates. Add and test a safe update path before public distribution or sales.
+The Pro build includes the SSO and metadata classes from `pro/`. Installed features work without a license call. PaidCommunities licensing and updates are not integrated yet. The Pro preview uses `Update URI: false` to prevent replacement by a WordPress.org update. It has no automatic external updates. Add and test that update path before public distribution or sales.
 
 ### Pro source
 
@@ -96,7 +96,7 @@ The Pro manifest needs its own PHP platform setting. The shared manifest's setti
 
 Generate and commit `pro/composer.lock` when adding its dependencies. `pro/bootstrap.php` checks `ABSPATH`, loads `pro/vendor/autoload.php`, and registers the SSO and metadata features. Use shared services and the `sll_loaded` hook where needed. Do not check a remote license during login.
 
-The full builds include the bootstrap, Composer files, classes, assets, and production dependencies. The reduced Free ZIP excludes the entire Pro folder and keeps WordPress.org updates. Transition also uses the WordPress.org update path and makes every included feature available without payment.
+The Pro build includes the bootstrap, Composer files, classes, assets, and production dependencies. The reduced Free ZIP excludes the entire Pro folder and keeps WordPress.org updates.
 
 `npm run test:packages` checks the package contents, stable plugin path, PSR-4 class loading, production autoloaders, file exclusions, and source preservation. Test classes must not enter product ZIPs.
 
@@ -104,11 +104,9 @@ The full builds include the bootstrap, Composer files, classes, assets, and prod
 
 The plugin keeps its entry file, `Simple-LDAP-Login.php`, and settings option, `sll_settings`. It uses the original site or network scope. Migration reads the older `simpleldap_*` options, makes one `sll_settings_backup_v1` backup, and keeps the old options and unknown settings keys. A save changes only the submitted fields.
 
-Before migration, the plugin records legacy eligibility in `sll_legacy_access` in the same scope. Raw old settings identify an existing installation. A fresh Free installation gets a lasting false value; creating its settings later must not change that value. Transition grants eligibility to every installation, including new ones. This local record preserves access to old capabilities. It is not proof of purchase and does not load code absent from the installed ZIP.
+There are only two packages: Free and Pro. No eligibility flag or separate migration package is required. A 1.x site that uses SSO or custom user fields must upgrade directly to Pro to retain those features. Free keeps the saved values and shows a notice if they are configured, but it cannot run code that is absent from its ZIP.
 
-The Legacy package keeps SSO and metadata controls visible and editable, including features that were off before migration. Removing a migration backup must not remove legacy eligibility. Restored backups and site copies can carry that eligibility with them.
-
-An active full package rejects an incoming ZIP that lacks the SSO or metadata files. If WordPress deactivated the plugin before this check, the guard restores its original activation scope. To choose reduced Free, deactivate the full package before installing Free. Old versions that skip Transition do not have this guard.
+An active Pro installation rejects an incoming ZIP that lacks the Pro files. If WordPress deactivated the plugin before this check, the guard restores its original activation scope. To choose Free, deactivate Pro before installing Free.
 
 Existing plain LDAP settings continue to work and show a warning. New installs require TLS by default. TLS failure stops the connection. Install the correct certificate authority on the PHP server; the plugin has no control to disable certificate checks.
 
@@ -122,7 +120,7 @@ LDAP checks run before the core password handlers. LDAP-only mode blocks core us
 
 For Active Directory, a verified UPN or domain login uses the directory account name when no WordPress account matches the entered name. Existing exact login names are kept. New accounts receive a random local password, never the LDAP password. Standard profile values are set during account creation. In editions with custom metadata, the two original suffix keys remain. Local edits are kept until the LDAP source value changes. Mappings cannot change protected WordPress account metadata.
 
-Server SSO is included in Pro, Legacy, and Transition. It requires a web server that authenticates the user and sets `REMOTE_USER`. It also requires a nonempty search account password and a unique LDAP user result. `DOMAIN\name` identities must match the configured Login domain. See [server SSO](docs/server-sso.md).
+Server SSO is included in Pro. It requires a web server that authenticates the user and sets `REMOTE_USER`. It also requires a nonempty search account password and a unique LDAP user result. `DOMAIN\name` identities must match the configured Login domain. See [server SSO](docs/server-sso.md).
 
 The connection and login tests require an administrator action and a nonce. They do not create users or sessions. Save connection settings before running a test.
 
@@ -140,7 +138,7 @@ Deactivation keeps your settings. Uninstall removes them only if an administrato
 
 ## Extension hooks
 
-The legacy filters remain: `sll_get_setting`, `sll_force_ldap`, `sll_remove_default_authentication_hook`, `sll_ldap_auth`, `sll_user_has_groups`, and `sll_user_data`. The custom metadata feature retains `sll_user_meta_data` in Pro, Legacy, and Transition. The actions `sll_auth_success` and `sll_auth_failure` remain. A compatibility class provides the old global object and its settings methods. The old `adLDAP` object and its directory administration methods are no longer available.
+The legacy filters remain: `sll_get_setting`, `sll_force_ldap`, `sll_remove_default_authentication_hook`, `sll_ldap_auth`, `sll_user_has_groups`, and `sll_user_data`. The custom metadata feature retains `sll_user_meta_data` in Pro. The actions `sll_auth_success` and `sll_auth_failure` remain. A compatibility class provides the old global object and its settings methods. The old `adLDAP` object and its directory administration methods are no longer available.
 
 `false` from `sll_force_ldap` means that the administrator must use LDAP. This inverted legacy meaning is retained. The hook named `sll_remove_default_authentication_hook` now controls fallback policy without removing core or third-party filters. `sll_ldap_auth` can reject a successful bind; it cannot turn a failed bind into a valid identity. `sll_auth_success` now runs for both new and existing LDAP accounts.
 
@@ -148,7 +146,7 @@ Extensions can register through `sll_loaded`, which supplies the settings and au
 
 ## Product plan
 
-Pro starts with server SSO and custom metadata mappings for new installations. Existing installations retain all old capabilities through Legacy at no charge. Central network settings remain free. Multiple independent directories, group-to-role rules, scheduled account updates, audit exports, and network setup tools remain planned features.
+Pro includes server SSO and custom user fields. A 1.x site that uses either feature must upgrade directly to Pro. Central network settings remain free. Multiple independent directories, group-to-role rules, scheduled account updates, audit exports, and network setup tools remain planned features.
 
 PaidCommunities will manage Pro licenses, downloads, and updates after its SDK repair and the checks in the [product plan](docs/product-plan.md). There is no licensing client, external updater, or licensing backend in the current code.
 

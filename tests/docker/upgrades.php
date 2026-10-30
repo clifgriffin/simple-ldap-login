@@ -21,7 +21,7 @@ $check  = static function ( bool $passed, string $label ) use ( &$checks ): void
 	echo 'PASS: ' . $label . "\n";
 };
 $package = static function ( string $edition ): string {
-	if ( ! in_array( $edition, array( 'free', 'pro', 'legacy', 'transition' ), true ) ) {
+	if ( ! in_array( $edition, array( 'free', 'pro' ), true ) ) {
 		throw new RuntimeException( 'Unknown test edition.' );
 	}
 	return '/packages/simple-ldap-login' . ( 'free' === $edition ? '' : '-' . $edition ) . '.zip';
@@ -44,8 +44,8 @@ $user_state = static function ( int $id ): array {
 };
 $same_data = static function ( array $state ) use ( $read_state, $user_state ): bool {
 	$current = $read_state( $state['network'] );
-	// Transition can grant Legacy access. It must not change settings or the backup.
-	return $current['sll_settings'] === $state['options']['sll_settings'] && $current['sll_settings_backup_v1'] === $state['options']['sll_settings_backup_v1'] && $state['user'] === $user_state( $state['user_id'] );
+	// A package replacement must not change saved settings or the backup.
+	return $current === $state['options'] && $state['user'] === $user_state( $state['user_id'] );
 };
 $install = static function ( string $zip ) {
 	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
@@ -79,7 +79,44 @@ if ( 'prepare' === $phase ) {
 	$state = get_option( 'sll_test_upgrade_state' );
 	$check( is_array( $state ) && isset( $state['edition'], $state['network'], $state['options'] ), 'The upgrade snapshot exists.' );
 	$network = $state['network'];
-	if ( 'guard' === $phase ) {
+	if ( 'seed-v1' === $phase ) {
+		$check( 'pro' === SLL_EDITION && $active( $network ), 'Pro is installed before the 1.x settings test.' );
+		$old = ( new Settings() )->all();
+		unset( $old['schema_version'], $old['recovery_mode'], $old['recovery_user_ids'] );
+		$old['version'] = '180';
+		$old['enabled'] = 'true';
+		$old['sso_enabled'] = 'true';
+		$old['user_meta_data'] = array( array( 'telephoneNumber', 'phone', 'string' ) );
+		$old['meta_data_suffix_ldap'] = 'directory';
+		$old['meta_data_suffix_wp'] = 'local';
+		if ( $network ) {
+			delete_site_option( 'sll_settings_backup_v1' );
+			update_site_option( 'sll_settings', $old );
+		} else {
+			delete_option( 'sll_settings_backup_v1' );
+			update_option( 'sll_settings', $old, false );
+		}
+		update_option( 'sll_test_upgrade_v1', $old, false );
+	} elseif ( 'verify-v1' === $phase ) {
+		$old = get_option( 'sll_test_upgrade_v1' );
+		$settings = new Settings();
+		$backup = $network ? get_site_option( 'sll_settings_backup_v1' ) : get_option( 'sll_settings_backup_v1' );
+		$check( 'pro' === SLL_EDITION && $backup === $old && 3 === $settings->get( 'schema_version' ), 'Pro migrates 1.x on startup and keeps the original settings backup.' );
+		$check( $old['sso_search_user_password'] === $settings->get( 'sso_search_user_password' ) && 'legacy' === $settings->recovery_mode(), 'The upgrade retains the search password and administrator recovery.' );
+		$client = new SimpleLdapLogin\Pro\Ldap_Client( $settings );
+		$check( is_array( $client->authenticate_sso( 'alice' ) ), 'SSO lookup works with the migrated 1.x settings.' );
+		$user = wp_authenticate( 'alice', 'Test-Password-42!' );
+		$check( $user instanceof WP_User, 'LDAP password login works after the 1.x upgrade.' );
+		$check( '+15550100' === get_user_meta( $user->ID, 'phone_directory', true ) && '+15550100' === get_user_meta( $user->ID, 'phone_local', true ), 'Custom fields keep the 1.x metadata suffixes after login.' );
+		foreach ( $state['options'] as $key => $saved ) {
+			if ( $network ) {
+				$saved[0] ? update_site_option( $key, $saved[1] ) : delete_site_option( $key );
+			} else {
+				$saved[0] ? update_option( $key, $saved[1], false ) : delete_option( $key );
+			}
+		}
+		delete_option( 'sll_test_upgrade_v1' );
+	} elseif ( 'guard' === $phase ) {
 		$expected  = $args[1] ?? '';
 		$next      = $args[2] ?? '';
 		$operation = $args[3] ?? '';
@@ -89,7 +126,7 @@ if ( 'prepare' === $phase ) {
 		if ( in_array( $operation, array( 'reject-install', 'reject-update' ), true ) ) {
 			$method = 'reject-install' === $operation ? 'install' : 'update';
 			list( $result, $messages ) = 'install' === $method ? $install( $package( 'free' ) ) : $upgrade( $package( 'free' ) );
-			$check( true !== $result && str_contains( $messages, 'This package does not include server sign-on' ), $expected . ': native ' . $method . ' rejects reduced Free.' );
+			$check( true !== $result && str_contains( $messages, 'Update blocked:' ), $expected . ': native ' . $method . ' rejects reduced Free.' );
 			$check( $active( $network ) && $hash === hash_file( 'sha256', WP_PLUGIN_DIR . '/' . $plugin ) && file_exists( WP_PLUGIN_DIR . '/simple-ldap-login/pro/src/Server_Sso.php' ), $expected . ': rejected ' . $method . ' keeps the original activation and feature files.' );
 			$check( $same_data( $state ), $expected . ': rejected ' . $method . ' keeps settings and credentials.' );
 		} elseif ( 'update' === $operation ) {
@@ -130,7 +167,7 @@ if ( 'prepare' === $phase ) {
 		}
 	} elseif ( 'verify' === $phase ) {
 		$check( defined( 'SLL_EDITION' ) && $state['edition'] === SLL_EDITION && $active( $network ), 'A new request loads the original edition in the original scope.' );
-		$check( $state['options'] === $read_state( $network ), 'The original settings, credentials, backup, and Legacy record are restored.' );
+		$check( $state['options'] === $read_state( $network ), 'The original settings, credentials, backup, and stored options are restored.' );
 		$check( $state['user'] === $user_state( $state['user_id'] ), 'The user password hash, role, and metadata survive the complete package cycle.' );
 		if ( is_multisite() ) {
 			require_once ABSPATH . 'wp-admin/includes/ms.php';

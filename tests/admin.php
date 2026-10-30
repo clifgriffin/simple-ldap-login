@@ -7,17 +7,17 @@ namespace SimpleLdapLogin {
 	class Settings {
 		public bool $network = false;
 		public bool $enabled = false;
+		public bool $sso = false;
+		public array $mappings = array( array( 'telephoneNumber', 'phone', 'string' ) );
 		public string $directory = 'ad';
-		public bool $legacy = false;
 		public string $recovery = 'selected';
 		public array $recovery_ids = array( 1 );
 		public array $saved = array();
 		public function get( $key ) { return $this->all()[ $key ] ?? ''; }
 		public function all() {
-			return array( 'directory' => $this->directory, 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ), 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
+			return array( 'directory' => $this->directory, 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'sso_enabled' => $this->sso, 'user_meta_data' => $this->mappings, 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
 		}
 		public function is_network() { return $this->network; }
-		public function has_legacy_access() { return $this->legacy; }
 		public function recovery_mode() { return $this->recovery; }
 		public function can_recover( \WP_User $user ) { return $this->network ? $user->super : $user->admin && 1 === $user->blog; }
 		public static function is_true( $value ) { return true === $value || '1' === $value; }
@@ -233,24 +233,22 @@ namespace {
 	ob_start(); $admin->render(); $html = ob_get_clean();
 	admin_check( false !== strpos( $html, 'The saved LDAP search password cannot be read.' ) && false === strpos( $html, 'never-render-this-secret' ), 'An unreadable secret has a safe repair notice.' );
 	$GLOBALS['sll_admin_hooks'] = array();
-	$settings->legacy = true;
-	$_GET = array( 'tab' => 'profile' );
+	$settings->mappings = array();
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'Use the free Legacy package' ) && false !== strpos( $html, 'Saved settings are unchanged.' ), 'An eligible installation without feature code has a Legacy package notice.' );
-	admin_check( false === strpos( $html, 'sll_settings[user_meta_data]' ) && false === strpos( $html, 'tab=sso' ), 'A legacy grant does not add feature code or controls to Free.' );
-	$settings->legacy = false;
+	admin_check( ! str_contains( $html, 'Your saved settings use SSO or custom user fields.' ), 'Free password-only settings do not show the Pro migration notice.' );
+	$settings->sso = true;
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false === strpos( $html, 'Use the free Legacy package' ), 'A new installation has no legacy grant notice.' );
-	define( 'SLL_EDITION', 'transition' );
+	admin_check( str_contains( $html, 'Install Simple LDAP Login Pro to use these features.' ), 'Free reports saved SSO settings that require Pro.' );
+	$settings->sso = false;
+	$settings->mappings = array( array( 'telephoneNumber', 'phone', 'string' ) );
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'included during the transition.' ), 'The transition notice explains continued free access.' );
+	admin_check( str_contains( $html, 'Your settings are kept.' ), 'Free reports saved custom fields without deleting their settings.' );
 	define( 'SLL_FEATURES_LOADED', true );
-	$settings->legacy = true;
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false === strpos( $html, 'This Free package does not include' ), 'A package with feature code has no missing-feature warning.' );
+	admin_check( ! str_contains( $html, 'Your saved settings use SSO or custom user fields.' ), 'Pro does not show the missing-feature notice.' );
 	define( 'SLL_DISABLE_LDAP', true );
 	$settings->enabled = true;
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( false !== strpos( $html, 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP' ) && false === strpos( $html, 'LDAP login is on' ), 'The recovery switch shows the real runtime state.' );
+	admin_check( false !== strpos( $html, 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP' ), 'The recovery switch shows the real runtime state.' );
 	echo 'Admin checks passed: ' . $GLOBALS['sll_admin_checks'] . ".\n";
 }

@@ -1,8 +1,8 @@
 # Server single sign-on
 
-Server SSO is part of Pro for new installations after the transition release. Existing installations retain it through the maintained Legacy package at no charge. The Transition package also includes SSO without a key or payment. The reduced Free package does not include SSO code.
+Server SSO requires Pro. A 1.x site that uses SSO must upgrade directly to Pro. Free does not include SSO code.
 
-Install and test Legacy before replacing Transition on a site that uses SSO. A saved legacy grant cannot restore SSO code absent from a ZIP. The external package update path and the full migration process need release tests before public distribution.
+Test the Pro upgrade on a site copy before replacing 1.x. Preserve the search account, directory settings, group rules, and local administrator recovery. Pro licensing and external updates still need to be completed before public release.
 
 A server administrator must configure Kerberos, NTLM, Apache, Nginx, or the reverse proxy used for authentication. The plugin does not configure these services.
 

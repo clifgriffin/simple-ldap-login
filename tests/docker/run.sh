@@ -60,11 +60,10 @@ check_edition() {
     configure "$edition"
     wp_exec "$edition" eval-file /tests/migration.php
     wp_exec "$edition" eval-file /tests/upgrades.php prepare
-    for package in pro legacy transition; do
-        case "$package" in pro) next=legacy ;; legacy) next=transition ;; transition) next=pro ;; esac
-        for operation in reject-install reject-update update replace; do
-            wp_exec "$edition" eval-file /tests/upgrades.php guard "$package" "$next" "$operation"
-        done
+    wp_exec "$edition" eval-file /tests/upgrades.php seed-v1
+    wp_exec "$edition" eval-file /tests/upgrades.php verify-v1
+    for operation in reject-install reject-update update replace; do
+        wp_exec "$edition" eval-file /tests/upgrades.php guard pro pro "$operation"
     done
     wp_exec "$edition" eval-file /tests/upgrades.php deactivate
     wp_exec "$edition" eval-file /tests/upgrades.php choose-free
