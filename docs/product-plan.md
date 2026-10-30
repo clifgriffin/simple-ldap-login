@@ -78,6 +78,8 @@ Keep `sll_settings` as the settings key. Read and write it in the same site or n
 
 Before a migration writes data, retain the original values in `sll_settings_backup_v1` in the same scope. Make the migration safe to repeat. Keep unknown keys so that custom integrations do not lose data. Keep old options for rollback. Preserve false values, custom attributes, group restrictions, user roles, and metadata suffixes. Do not copy network credentials into each site's options.
 
+Local recovery access is a shared Free feature with three modes: Selected administrators, All administrators (legacy), and Off. Selected accounts use WordPress authentication directly and cannot be used by LDAP password login or server SSO. A network selection is limited to super administrators; a site selection is limited to administrators of that site. New setups need a selected account or an explicit Off choice before LDAP or SSO is enabled. Existing installations retain the legacy mode. Schema version 3 adds this policy without changing existing backups or secrets.
+
 For emergency access, set `define( 'SLL_DISABLE_LDAP', true );` in `wp-config.php` before WordPress loads. This skips LDAP password and SSO hooks so a local WordPress administrator can sign in. It does not recover an unknown local password. Remove the constant after the directory setup is safe.
 
 Keep the two custom metadata keys: one for the LDAP source value and one for the WordPress value. Update the WordPress value only when the LDAP source changes. Keep local edits between source changes.

@@ -35,7 +35,7 @@ LDAP requests go to the directory servers that an administrator sets. The free p
 
 == Installation ==
 
-1. Install PHP 8.1 or later with the LDAP and OpenSSL extensions.
+1. Install PHP 8.1 or later with the LDAP, OpenSSL, and iconv extensions.
 2. Upload the release ZIP through Plugins > Add New Plugin, or use the WordPress plugin directory.
 3. Activate Simple LDAP Login.
 4. Open Settings > Simple LDAP Login. For network activation, use Network Admin > Settings.
@@ -65,7 +65,15 @@ No. Legacy keeps the old capabilities available without a key or a remote licens
 
 = What happens if LDAP is unavailable? =
 
-When LDAP-only mode is off, WordPress can check local passwords. When it is on, local administrator accounts retain a recovery login. Group denial does not permit local fallback for other users. LDAP-only mode also blocks local application password fallback for other users.
+Local recovery access on the Access tab has three choices:
+
+* Selected administrators: the chosen accounts use WordPress authentication directly. LDAP and server SSO cannot sign in as these accounts or update their directory metadata.
+* All administrators (legacy): keep the old administrator password fallback.
+* Off: remove the administrator exception. Every account follows the normal LDAP login policy.
+
+New installations default to Selected administrators. Select at least one eligible local account, or explicitly choose Off, before enabling LDAP or server SSO. Site settings accept administrators of that site. Network settings accept only super administrators. Existing installations keep the legacy rule until an administrator changes it. Local recovery access is included in Free.
+
+When LDAP-only mode is off, WordPress can check local passwords for other accounts. A denied group still blocks those accounts. LDAP-only mode also blocks their local application password fallback.
 
 = How can I recover access? =
 
@@ -92,10 +100,11 @@ The plugin keeps settings unless an administrator selects Delete settings on uni
 * Use LdapRecord for LDAP connections, searches, and directory models.
 * Add settings screens for desktop and mobile, with permission checks and separate connection and login tests.
 * Stop after failed TLS, require verified SSO lookup, and protect account metadata.
-* Keep other authentication checks and local administrator recovery.
+* Add selected local recovery accounts and an Off choice. Keep the old administrator rule on existing installations.
+* Keep other WordPress authentication checks active.
 * Remove old IDE files, duplicate documentation, and obsolete server setup commands.
 
 == Upgrade Notice ==
 
 = 2.0.0 =
-Test on a site copy first. Requires PHP 8.1 and LDAP v3. Use Transition, then no-cost Legacy, to keep old SSO and metadata features. Do not update old sites directly to reduced Free. TLS failures stop login. Some search passwords need re-entry. Keep a local administrator account for recovery.
+Requires PHP 8.1. Existing sites keep administrator password recovery. New sites select local recovery accounts or explicitly turn recovery off. Use Transition, then Legacy, to keep old SSO and metadata features. TLS failures stop login. Test on a site copy first.

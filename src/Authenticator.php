@@ -79,8 +79,12 @@ final class Authenticator {
 		if ( ! $local && is_email( $username ) ) {
 			$local = get_user_by( 'email', $username );
 		}
-		// Keep the legacy filter: false forces LDAP even for an administrator.
-		$recovery  = (bool) apply_filters( 'sll_force_ldap', $local && ( user_can( $local, 'update_core' ) || is_super_admin( $local->ID ) ) );
+		if ( $local && $this->settings->is_recovery_account( $local ) ) {
+			// Core checks the local password and keeps user security filters active.
+			return $user;
+		}
+		// Keep the old filter only for the legacy administrator exception.
+		$recovery  = 'legacy' === $this->settings->recovery_mode() && (bool) apply_filters( 'sll_force_ldap', $local && ( user_can( $local, 'update_core' ) || is_super_admin( $local->ID ) ) );
 		$exclusive = (bool) apply_filters( 'sll_remove_default_authentication_hook', Settings::is_true( $this->settings->get( 'high_security' ) ) && ! $recovery );
 		$entry     = $this->client->authenticate( $username, $password );
 		if ( is_wp_error( $entry ) ) {
@@ -171,6 +175,9 @@ final class Authenticator {
 				return new WP_Error( 'sll_account', __( 'WordPress could not create this account. Ask an administrator to check the user settings.', 'simple-ldap-login' ) );
 			}
 			$user = get_user_by( 'id', $id );
+		}
+		if ( $this->settings->is_recovery_account( $user ) ) {
+			return new WP_Error( 'sll_local_recovery', __( 'Use the WordPress password to sign in to this recovery account.', 'simple-ldap-login' ) );
 		}
 		/**
 		 * Update data after the directory entry resolves to a WordPress account.

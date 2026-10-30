@@ -13,7 +13,8 @@ A server administrator must configure Kerberos, NTLM, Apache, Nginx, or the reve
 5. Set a read-only directory search account and a nonempty password in the plugin settings. Use a trusted TLS connection.
 6. For `DOMAIN\name` identities, set Login domain to the exact trusted domain. Other domains are rejected. UPN identities such as `name@example.org` are looked up in the configured directory base.
 7. Test a known user, an unknown user, a denied user, missing `REMOTE_USER`, and a failed search account. Only the known user with permitted access must receive a WordPress session.
-8. Test logout, password recovery, second-factor checks, and normal local administrator recovery before production use.
+8. Set Local recovery access on the Access tab. New installations need a selected recovery account or an explicit Off choice before SSO can be enabled. Selected recovery accounts use local WordPress authentication; a server identity cannot sign in as one of these accounts.
+9. Test logout, password recovery, second-factor checks, and the chosen local recovery policy before production use.
 
 SSO binds with the search account, finds one matching user, and checks the required groups. It then runs the normal WordPress authentication filters before starting a session. An empty password bind cannot verify a user.
 

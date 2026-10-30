@@ -64,7 +64,9 @@ The WordPress.org package must include the files needed to run. Its review guida
 - [ ] Confirm that no LDAP password is stored as a WordPress password or included in an error, URL, log, or test result.
 - [ ] Test custom metadata and both old suffix keys. Keep a local edit when the LDAP source has not changed.
 - [ ] Prevent metadata writes to capability, role, session, and other protected account keys.
-- [ ] Test local administrator recovery, LDAP-only mode, and permitted local fallback through both username and email login.
+- [ ] Test selected recovery accounts, the legacy administrator rule, Off, LDAP-only mode, and permitted local fallback through both username and email login.
+- [ ] Require a valid selection or explicit Off choice on new LDAP/SSO setup. Keep the legacy rule when schema 2 settings migrate to schema 3, without changing backups or secrets.
+- [ ] Reject directory login and server SSO aliases that resolve to a selected recovery account. Keep WordPress security checks active. Test demotion, deletion, site membership, and network superadmin scope.
 - [ ] Set `define( 'SLL_DISABLE_LDAP', true );` in `wp-config.php` before WordPress loads. Confirm that LDAP password and SSO hooks are skipped and a local administrator can sign in. Remove the constant and repeat the normal login test.
 - [ ] Confirm that authentication hooks still run on later login attempts in the same request and that other plugins retain their filters.
 - [ ] Test an application password, a second-factor plugin, and any supported external login plugin. Document each supported interaction.

@@ -88,12 +88,20 @@ $cases = array(
 	'cron'            => array( 'GET', array(), false ),
 	'xmlrpc'          => array( 'GET', array(), false ),
 	'recovery'        => array( 'GET', array(), false ),
+	'recovery-selected' => array( 'GET', array(), false ),
+	'recovery-upn'      => array( 'GET', array(), false ),
+	'recovery-domain'   => array( 'GET', array(), false ),
+	'recovery-off'      => array( 'GET', array(), 'pro' === $edition ),
+	'recovery-demoted'  => array( 'GET', array(), 'pro' === $edition ),
 );
 foreach ( $cases as $scenario => $case ) {
 	$response = $request( 'sll-test-sso.php?sll_case=' . $scenario, $case[1], true, $case[0] );
 	$body     = $response['body'];
 	$check( 200 === $response['code'] && $edition === ( $body['edition'] ?? null ) && $scenario === ( $body['scenario'] ?? null ), $scenario . ': the HTTP request loads the expected test configuration.' );
 	$check( ( $case[2] ? 'alice' : '' ) === ( $body['user'] ?? null ) && $case[2] === ( array() !== $response['cookies'] ), $scenario . ': login and auth cookies follow the access result.' );
+	if ( in_array( $scenario, array( 'recovery-selected', 'recovery-upn', 'recovery-domain' ), true ) ) {
+		$check( 0 === ( $body['account_loaded'] ?? null ), $scenario . ': a directory identity cannot run recovery account update hooks.' );
+	}
 	if ( 'password-off' === $scenario ) {
 		$check( false === $body['password_hook'] && ( 'pro' === $edition ) === $body['sso_hook'], 'SSO can run while the LDAP password hook is off.' );
 	}

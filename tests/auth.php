@@ -12,6 +12,8 @@ class WP_User {
 	public string $user_login;
 	public string $user_email;
 	public bool $admin;
+	public bool $spam = false;
+	public bool $deleted = false;
 	public function __construct( int $id, string $login, string $email = '', bool $admin = false ) {
 		$this->ID         = $id;
 		$this->user_login = $login;
@@ -30,8 +32,10 @@ function get_user_by( $field, $value ) {
 	return false;
 }
 function is_email( $email ) { return false !== filter_var( $email, FILTER_VALIDATE_EMAIL ); }
-function user_can( $user, $capability ) { return $user instanceof WP_User && $user->admin; }
-function is_super_admin( $id ) { return false; }
+function user_can( $user, $capability ) { return $user instanceof WP_User && ( 'update_core' === $capability && is_multisite() ? is_super_admin( $user->ID ) : $user->admin ); }
+function is_super_admin( $id ) { return in_array( $id, $GLOBALS['sll_test_super_admins'] ?? array(), true ); }
+function get_current_blog_id() { return $GLOBALS['sll_test_blog_id'] ?? 1; }
+function is_user_member_of_blog( $id, $blog_id = 0 ) { return in_array( $id, $GLOBALS['sll_test_memberships'][ $blog_id ?: get_current_blog_id() ] ?? array(), true ); }
 function metadata_exists( $type, $id, $key ) { return array_key_exists( $key, $GLOBALS['sll_test_meta'][ $id ] ?? array() ); }
 function get_user_meta( $id, $key, $single = false ) { return $GLOBALS['sll_test_meta'][ $id ][ $key ] ?? ( $single ? '' : array() ); }
 function update_user_meta( $id, $key, $value ) { $GLOBALS['sll_test_meta'][ $id ][ $key ] = $value; return true; }
@@ -64,7 +68,11 @@ class Sll_Test_Client extends Ldap_Client {
 function sll_auth_setup( array $changes = array(), bool $register = true ): array {
 	$GLOBALS['sll_test_filters'] = array();
 	$GLOBALS['sll_test_network'] = false;
-	$GLOBALS['sll_test_options'] = array( 'sll_settings' => array_replace( Settings::defaults(), array( 'enabled' => true, 'high_security' => true ), $changes ) );
+	$GLOBALS['sll_test_super_admins'] = array();
+	$GLOBALS['sll_test_memberships'] = array( 1 => array( 1, 2 ) );
+	$GLOBALS['sll_test_blog_id'] = 1;
+	$GLOBALS['sll_test_local_passwords'] = array();
+	$GLOBALS['sll_test_options'] = array( 'sll_settings' => array_replace( Settings::defaults(), array( 'enabled' => true, 'high_security' => true, 'recovery_mode' => 'legacy' ), $changes ) );
 	$GLOBALS['sll_test_meta']    = array();
 	$GLOBALS['sll_test_users']   = array( new WP_User( 1, 'alice', 'alice@example.com' ), new WP_User( 2, 'admin', 'admin@example.com', true ) );
 	unset( $GLOBALS['sll_test_cookie_user'], $GLOBALS['sll_test_auth_observer'] );
@@ -91,7 +99,9 @@ function sll_add_fallback( string $path ): void {
 				return $user;
 			}
 			$local = get_user_by( 'email' === $path ? 'email' : 'login', $username );
-			return $local ?: $user;
+			if ( ! $local ) { return $user; }
+			if ( isset( $GLOBALS['sll_test_local_passwords'][ $local->ID ] ) && $password !== $GLOBALS['sll_test_local_passwords'][ $local->ID ] ) { return new WP_Error( 'incorrect_password', 'The local password is not valid.' ); }
+			return apply_filters( 'wp_authenticate_user', $local, $password );
 		},
 		$priority,
 		3
@@ -120,6 +130,45 @@ check( $result instanceof WP_User && 2 === $result->ID, 'A local administrator c
 add_filter( 'sll_force_ldap', static function () { return false; } );
 $result = apply_filters( 'authenticate', null, 'admin', 'local-password' );
 check( is_wp_error( $result ), 'The original filter can require LDAP for administrators.' );
+
+// Explicit recovery accounts use core authentication without a directory request.
+foreach ( array( 'username' => 'admin', 'email' => 'admin@example.com' ) as $path => $login ) {
+	list( , $client ) = sll_auth_setup( array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( 2 ) ) );
+	$GLOBALS['sll_test_local_passwords'][2] = 'local-password';
+	sll_add_fallback( $path );
+	$result = apply_filters( 'authenticate', null, $login, 'local-password' );
+	check( $result instanceof WP_User && 2 === $result->ID && array() === $client->calls, 'Selected recovery uses local ' . $path . ' authentication without LDAP.' );
+	$result = apply_filters( 'authenticate', null, $login, 'wrong-password' );
+	check( is_wp_error( $result ) && array() === $client->calls, 'Selected recovery rejects a wrong local ' . $path . ' password without LDAP.' );
+	$denial = new WP_Error( 'recovery_mfa', 'A second factor is required.' );
+	add_filter( 'wp_authenticate_user', static function () use ( $denial ) { return $denial; } );
+	check( $denial === apply_filters( 'authenticate', null, $login, 'local-password' ), 'Core user checks can deny selected recovery by ' . $path . '.' );
+}
+foreach ( array( 'off', 'selected' ) as $mode ) {
+	list( , $client ) = sll_auth_setup( array( 'recovery_mode' => $mode ) );
+	$client->result = new WP_Error( 'sll_credentials', 'LDAP rejected this request.' );
+	sll_add_fallback( 'username' );
+	check( is_wp_error( apply_filters( 'authenticate', null, 'admin', 'local-password' ) ) && 1 === count( $client->calls ), $mode . ' mode grants no automatic administrator exception.' );
+	add_filter( 'sll_force_ldap', static function () { return true; } );
+	check( is_wp_error( apply_filters( 'authenticate', null, 'admin', 'local-password' ) ), 'The legacy exception filter cannot grant recovery in ' . $mode . ' mode.' );
+}
+list( , $client ) = sll_auth_setup( array( 'recovery_mode' => 'off', 'high_security' => false ) );
+$client->result = new WP_Error( 'sll_credentials', 'LDAP rejected this request.' );
+sll_add_fallback( 'username' );
+check( apply_filters( 'authenticate', null, 'admin', 'local-password' ) instanceof WP_User, 'Off removes the recovery exception but keeps the configured normal fallback policy.' );
+
+// A verified directory name cannot map to a selected local recovery account.
+foreach ( array( 'DOMAIN\\admin', 'directory-admin@example.com' ) as $login ) {
+	list( , $client ) = sll_auth_setup( array( 'directory' => 'ad', 'high_security' => false, 'recovery_mode' => 'selected', 'recovery_user_ids' => array( 2 ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) );
+	$client->result = array( 'dn' => 'cn=admin,dc=example,dc=com', 'samaccountname' => array( 'admin' ), 'telephonenumber' => array( '5551234' ) );
+	$result = apply_filters( 'authenticate', null, $login, 'directory-password' );
+	check( is_wp_error( $result ) && 'sll_local_recovery' === $result->get_error_code() && array() === $GLOBALS['sll_test_meta'], 'LDAP alias ' . $login . ' cannot sign in as or update a local recovery account.' );
+}
+list( $settings, , $auth ) = sll_auth_setup( array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( 2 ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) );
+$result = $auth->authenticate_entry( 'admin', array( 'dn' => 'uid=admin,dc=example,dc=com' ), 'proof' );
+check( is_wp_error( $result ) && 'sll_local_recovery' === $result->get_error_code(), 'The shared directory account path rejects a selected recovery account.' );
+( new Metadata( $settings ) )->sync( get_user_by( 'login', 'admin' ), array( 'telephonenumber' => array( '5551234' ) ) );
+check( array() === $GLOBALS['sll_test_meta'], 'Metadata sync leaves selected local recovery accounts unchanged.' );
 
 list( , $client ) = sll_auth_setup( array( 'high_security' => false ) );
 $client->result = new WP_Error( 'sll_groups', 'The account is outside the required group.' );
@@ -222,6 +271,17 @@ list( , $client, , $sso ) = sll_auth_setup( array( 'sso_enabled' => true ) );
 $client->result = new WP_Error( 'sll_groups', 'The account is outside the required group.' );
 $sso->login();
 check( ! isset( $GLOBALS['sll_test_cookie_user'] ) && array( array( 'DOMAIN\\alice', 'sso' ) ) === $client->calls, 'A failed SSO group check cannot set a login cookie.' );
+foreach ( array( 'admin', 'admin@example.com', 'DOMAIN\\admin', 'directory-admin@example.com' ) as $login ) {
+	list( , $client, , $sso ) = sll_auth_setup( array( 'directory' => 'ad', 'sso_enabled' => true, 'recovery_mode' => 'selected', 'recovery_user_ids' => array( 2 ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) );
+	$client->result = array( 'dn' => 'cn=admin,dc=example,dc=com', 'samaccountname' => array( 'admin' ), 'telephonenumber' => array( '5551234' ) );
+	$_SERVER['REMOTE_USER'] = addslashes( $login );
+	$sso->login();
+	check( ! isset( $GLOBALS['sll_test_cookie_user'] ) && array() === $GLOBALS['sll_test_meta'], 'Server SSO cannot sign in as or update a recovery account through ' . $login . '.' );
+	if ( in_array( $login, array( 'admin', 'admin@example.com' ), true ) ) {
+		check( array() === $client->calls, 'A direct recovery identity skips the SSO directory request.' );
+	}
+}
+
 unset( $_SERVER['REMOTE_USER'] );
 
 define( 'SLL_DISABLE_LDAP', true );

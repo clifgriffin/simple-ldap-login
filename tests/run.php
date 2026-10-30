@@ -104,15 +104,28 @@ use SimpleLdapLogin\Settings;
 $settings = new Settings();
 $settings->migrate();
 check( false === $settings->get( 'enabled' ), 'A new installation has LDAP login off.' );
+check( 3 === $settings->get( 'schema_version' ) && 'selected' === $settings->recovery_mode() && array() === $settings->get( 'recovery_user_ids' ), 'A new installation selects explicit local recovery accounts.' );
 check( 'starttls' === $settings->get( 'transport' ) && false === $settings->get( 'allow_plaintext' ), 'A new installation requires TLS.' );
 check( ! isset( $GLOBALS['sll_test_options']['sll_settings_backup_v1'] ), 'A new installation does not create an empty backup.' );
 check( ! $settings->has_legacy_access(), 'A fresh Free installation does not get Legacy access.' );
 $settings->migrate();
 check( ! $settings->has_legacy_access(), 'New settings do not turn a fresh Free installation into a legacy installation.' );
 
-$GLOBALS['sll_test_options'] = array( 'sll_settings' => Settings::defaults() );
+$schema_two = Settings::defaults();
+$schema_two['schema_version'] = 2;
+unset( $schema_two['recovery_mode'], $schema_two['recovery_user_ids'] );
+$GLOBALS['sll_test_options'] = array( 'sll_settings' => $schema_two, 'sll_settings_backup_v1' => array( 'keep' => 'original backup' ) );
+check( 'legacy' === $settings->recovery_mode(), 'Old stored settings retain administrator recovery before migration.' );
 $settings->migrate();
 check( $settings->has_legacy_access(), 'Existing schema version 2 settings qualify even when SSO and metadata are off.' );
+$expected = array_replace( $schema_two, array( 'schema_version' => 3, 'recovery_mode' => 'legacy', 'recovery_user_ids' => array() ) );
+check( $expected === $GLOBALS['sll_test_options']['sll_settings'] && array( 'keep' => 'original backup' ) === $GLOBALS['sll_test_options']['sll_settings_backup_v1'], 'Schema version 2 migration adds the recovery policy and retains all other data and the backup.' );
+$GLOBALS['sll_test_options'] = array( 'sll_settings' => $schema_two, 'sll_legacy_access' => array( 'eligible' => true ) );
+$GLOBALS['sll_test_write_fail'] = true;
+$settings->migrate();
+check( $schema_two === $GLOBALS['sll_test_options']['sll_settings'] && 'legacy' === $settings->recovery_mode(), 'A failed policy migration retains the original administrator recovery rule.' );
+$GLOBALS['sll_test_write_fail'] = false;
+$settings->migrate();
 unset( $GLOBALS['sll_test_options']['sll_settings_backup_v1'] );
 $settings->migrate();
 check( $settings->has_legacy_access(), 'Removing a migration backup does not remove Legacy access.' );
@@ -148,6 +161,7 @@ $GLOBALS['sll_test_options'] = array( 'sll_settings' => $legacy );
 $settings->migrate();
 check( 'plain' === $settings->get( 'transport' ) && true === $settings->get( 'allow_plaintext' ), 'Migration retains an existing unencrypted connection.' );
 check( $settings->has_legacy_access(), 'Old settings retain access to all old features.' );
+check( 'legacy' === $settings->recovery_mode(), 'Old option arrays retain administrator recovery.' );
 check( $legacy === $GLOBALS['sll_test_options']['sll_settings_backup_v1'], 'Migration saves the original settings.' );
 check( 'keep this value' === $settings->get( 'custom_setting' ), 'Migration retains custom settings.' );
 $before = $GLOBALS['sll_test_options'];
@@ -219,6 +233,7 @@ $GLOBALS['sll_test_site_options'] = array(
 $settings->migrate();
 check( $settings->is_network(), 'Network activation selects network settings.' );
 check( $settings->get( 'enabled' ) && $settings->get( 'create_users' ) && $settings->get( 'high_security' ) && 'ad' === $settings->get( 'directory' ), 'The oldest network settings retain their login mode.' );
+check( 'legacy' === $settings->recovery_mode(), 'The oldest network options retain administrator recovery.' );
 check( array() === $GLOBALS['sll_test_options'], 'A network migration does not change site options.' );
 check( isset( $GLOBALS['sll_test_site_options']['sll_settings_backup_v1']['simpleldap_base_dn'] ), 'The oldest network settings have a backup.' );
 check( $settings->has_legacy_access() && ! isset( $GLOBALS['sll_test_options']['sll_legacy_access'] ), 'Network Legacy access stays in the network scope.' );
@@ -246,6 +261,7 @@ check( false === $compat->add_setting( 'enabled', true ) && false === $settings-
 echo 'Settings and secret checks passed: ' . $GLOBALS['sll_test_count'] . ".\n";
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/recovery-settings.php';
 require __DIR__ . '/ldap.php';
 foreach ( array( '/src/Ldap_Client.php', '/pro/src/Ldap_Client.php' ) as $client_file ) {
 	check( ! preg_match( '/\bldap_[a-z_]+\s*\(/i', file_get_contents( dirname( __DIR__ ) . $client_file ) ), 'The application LDAP client uses library APIs: ' . $client_file );

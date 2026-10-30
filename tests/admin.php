@@ -8,13 +8,17 @@ namespace SimpleLdapLogin {
 		public bool $network = false;
 		public bool $enabled = false;
 		public bool $legacy = false;
+		public string $recovery = 'selected';
+		public array $recovery_ids = array( 1 );
 		public array $saved = array();
 		public function get( $key ) { return $this->all()[ $key ] ?? ''; }
 		public function all() {
-			return array( 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) );
+			return array( 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => array( 'dc.example.org' ), 'groups' => array( 'staff' ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ), 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
 		}
 		public function is_network() { return $this->network; }
 		public function has_legacy_access() { return $this->legacy; }
+		public function recovery_mode() { return $this->recovery; }
+		public function can_recover( \WP_User $user ) { return $this->network ? $user->super : $user->admin && 1 === $user->blog; }
 		public static function is_true( $value ) { return true === $value || '1' === $value; }
 		public function save( $values ) { $this->saved = $values; return true; }
 	}
@@ -45,6 +49,24 @@ namespace {
 
 	class AdminTestStop extends RuntimeException {}
 	class WP_Error {}
+	class WP_User {
+		public function __construct( public int $ID, public string $user_login, public string $display_name, public bool $admin = true, public bool $super = false, public int $blog = 1 ) {}
+	}
+	$GLOBALS['sll_admin_users'] = array(
+		new WP_User( 1, 'site-admin', 'Site <Admin>' ),
+		new WP_User( 2, 'network-admin', 'Network Admin', true, true ),
+		new WP_User( 3, 'member', 'Site Member', false ),
+		new WP_User( 4, 'other-site-admin', 'Other Site Admin', true, false, 2 ),
+	);
+	function get_current_blog_id() { return 1; }
+	function get_super_admins() { return $GLOBALS['sll_admin_super_admins'] ?? array( 'network-admin' ); }
+	function get_users( $query ) {
+		$GLOBALS['sll_admin_user_queries'] = ( $GLOBALS['sll_admin_user_queries'] ?? 0 ) + 1;
+		$GLOBALS['sll_admin_user_query'] = $query;
+		return array_values( array_filter( $GLOBALS['sll_admin_users'], static function ( $user ) use ( $query ) {
+			return ( 0 === $query['blog_id'] || $query['blog_id'] === $user->blog ) && ( ! isset( $query['capability'] ) || $user->admin ) && ( ! isset( $query['login__in'] ) || in_array( $user->user_login, $query['login__in'], true ) );
+		} ) );
+	}
 	function __( $s, $d = '' ) { return $s; }
 	function add_filter( $name, $callback, $priority = 10, $accepted = 1 ) { $GLOBALS['sll_admin_hooks'][ $name ][ $priority ][] = array( $callback, $accepted ); }
 	function add_action( $name, $callback, $priority = 10, $accepted = 1 ) { add_filter( $name, $callback, $priority, $accepted ); }
@@ -131,10 +153,32 @@ namespace {
 				if ( 'connection' === $tab ) {
 					admin_check( false !== strpos( $html, 'sll_settings[sso_search_user_password]' ), 'Both packages can configure a search account.' );
 				}
+				if ( 'access' === $tab ) {
+					admin_check( str_contains( $html, 'sll_settings[recovery_mode]' ) && str_contains( $html, 'Selected administrators' ) && str_contains( $html, 'All administrators (legacy)' ), 'Both packages show the recovery modes in each scope.' );
+					admin_check( str_contains( $html, 'name="sll_settings[recovery_user_ids][]" value=""' ) && str_contains( $html, 'multiple size="5"' ), 'The recovery picker supports multiple accounts and an empty selection.' );
+					admin_check( str_contains( $html, 'Network Admin (network-admin)' ) && ! str_contains( $html, 'Site Member (member)' ) && ! str_contains( $html, 'Other Site Admin (other-site-admin)' ), 'The picker shows only eligible accounts in its scope.' );
+					admin_check( ( 'site' === $scope ) === str_contains( $html, 'Site &lt;Admin&gt; (site-admin)' ), 'Site administrator labels are escaped and absent from network recovery choices.' );
+					admin_check( ! str_contains( $html, 'Local administrators retain a recovery login.' ) && str_contains( $html, 'LDAP and server sign-on cannot sign in as a selected recovery account.' ), 'The access text describes the selected recovery policy.' );
+				}
 			}
 		}
 	}
 	admin_check( 0 === $client->calls, 'Rendering all screens makes no LDAP request.' );
+	$settings->network = false;
+	foreach ( array( 'selected', 'legacy', 'off' ) as $mode ) {
+		$settings->recovery = $mode;
+		$_GET = array( 'tab' => 'access' );
+		ob_start(); $admin->render(); $html = ob_get_clean();
+		admin_check( str_contains( $html, 'value="' . $mode . '" selected="selected"' ), 'The recovery control displays the saved ' . $mode . ' mode.' );
+		admin_check( str_contains( $html, 'value="1" selected="selected"' ), 'Saved account choices remain visible in ' . $mode . ' mode.' );
+	}
+	$settings->recovery = 'selected';
+	$settings->network = true;
+	$GLOBALS['sll_admin_super_admins'] = array();
+	$user_queries = $GLOBALS['sll_admin_user_queries'];
+	ob_start(); $admin->render(); $html = ob_get_clean();
+	admin_check( $user_queries === $GLOBALS['sll_admin_user_queries'] && ! str_contains( $html, 'Network Admin (network-admin)' ), 'An empty network administrator list does not query all users.' );
+	unset( $GLOBALS['sll_admin_super_admins'] );
 	$settings->network = false;
 	$GLOBALS['sll_admin_allowed'] = false;
 	admin_check( 'denied:403' === admin_post( $admin, array() ), 'A user without permission cannot save or test.' );
@@ -144,6 +188,9 @@ namespace {
 	admin_check( array() === $settings->saved && 0 === $client->calls, 'Rejected requests do not save settings or call LDAP.' );
 	$result = admin_post( $admin, array( 'sll_settings' => array( 'base_dn' => 'dc=example' ) ) );
 	admin_check( false !== strpos( $result, 'sll_status=saved' ) && array( 'base_dn' => 'dc=example' ) === $settings->saved, 'A save passes only submitted settings to the store.' );
+	$recovery_input = array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( '', '1', '2' ) );
+	admin_post( $admin, array( 'tab' => 'access', 'sll_settings' => $recovery_input ) );
+	admin_check( $recovery_input === $settings->saved, 'The handler passes selected recovery IDs to settings validation.' );
 	$result = admin_post( $admin, array( 'sll_task' => 'test_connection' ) );
 	admin_check( false !== strpos( $result, 'sll_status=connection_ok' ) && 1 === $client->calls, 'An explicit connection test calls LDAP once.' );
 	$password = "a\\b'c";

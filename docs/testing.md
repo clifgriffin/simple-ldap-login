@@ -1,12 +1,12 @@
 # Checks completed
 
-Test date: 2026-10-29.
+Test date: 2026-10-30.
 
-`npm run test:release` passed with exit code 0 after the LdapRecord migration. All 24 core configurations passed. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
+`npm run test:release` passed with exit code 0 after the LdapRecord migration and local recovery access change. All 24 core configurations passed. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
 
 ## Source and release packages
 
-`composer check` passes all 297 checks: 156 for settings, secrets, authentication, and LDAP; 117 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+`composer check` passes all 387 checks: 218 for settings, secrets, recovery policies, authentication, and LDAP; 145 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
 
 LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
 
@@ -37,7 +37,11 @@ The first migration run also found that OpenLDAP's enabled-account filter needs 
 
 Native migrations check both old settings formats, stored false values, encryption migration, backups, repeated migration, Legacy eligibility, malformed data, and child-site scope isolation. Each package update runs in a separate WordPress request. Later requests check activation, settings, credentials, user password hashes, roles, profiles, and metadata after core shutdown work.
 
-The HTTP suite has 45 checks per edition and activation mode. Apache Basic authentication supplies a trusted `REMOTE_USER`; forged headers cannot create a session. Tests cover SSO on and off, password login off, recovery, invalid identities, group denials, user and later login filter denials, request contexts, and auth cookies. Separate PHP requests remove LDAP or disable encryption functions, then check controlled errors, unchanged secrets, and usable admin controls.
+Recovery tests cover Selected administrators, All administrators (legacy), and Off. New LDAP and SSO setup needs a valid selection in selected mode. Existing schema 2 and older settings keep the legacy rule; migration preserves raw settings, backups, secrets, and explicit new policies. Site selections require current site administrator access; network selections require super administrator access.
+
+Selected accounts accept local username and email login without a directory request. Wrong local passwords and WordPress security filter denials still fail. LDAP and server SSO cannot use direct names, UPNs, or domain aliases to select a recovery account or run its profile and metadata hooks. Removing, deleting, or demoting an account removes its exception. These checks pass across all 24 core configurations.
+
+The HTTP suite has 58 checks per edition and activation mode. Apache Basic authentication supplies a trusted `REMOTE_USER`; forged headers cannot create a session. Tests cover SSO on and off, password login off, recovery, invalid identities, group denials, user and later login filter denials, request contexts, and auth cookies. Separate PHP requests remove LDAP or disable encryption functions, then check controlled errors, unchanged secrets, and usable admin controls.
 
 Earlier tests found that an SSO proof made with `wp_generate_password()` could contain whitespace that core trims. The proof now uses 32 random bytes encoded as hex. Source and HTTP tests retain that regression check and verify that later authentication filters can still deny access.
 

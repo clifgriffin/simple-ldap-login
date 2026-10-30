@@ -65,8 +65,9 @@ try {
 		$settings = new Settings( $network );
 		$settings->migrate();
 		$first = $read( $network, 'sll_settings' );
-		$check( is_array( $first ) && false === $first['enabled'] && 'starttls' === $first['transport'], $scope . ': a fresh site keeps LDAP off and requires TLS.' );
+		$check( is_array( $first ) && 3 === $first['schema_version'] && false === $first['enabled'] && 'starttls' === $first['transport'], $scope . ': a fresh site keeps LDAP off and requires TLS.' );
 		$check( false === $settings->has_legacy_access(), $scope . ': a fresh Free or Pro site has no Legacy grant.' );
+		$check( 'selected' === $settings->recovery_mode() && array() === $settings->get( 'recovery_user_ids' ), $scope . ': fresh settings require selected recovery accounts.' );
 		$settings->migrate();
 		$check( $first === $read( $network, 'sll_settings' ) && false === $settings->has_legacy_access(), $scope . ': a second request does not turn new settings into a Legacy grant.' );
 
@@ -94,7 +95,7 @@ try {
 		$write( $network, 'sll_settings', $old );
 		$settings->migrate();
 		$current = $read( $network, 'sll_settings' );
-		$check( 2 === $current['schema_version'] && '200' === $current['version'], $scope . ': old settings receive the current schema.' );
+		$check( 3 === $current['schema_version'] && '200' === $current['version'], $scope . ': old settings receive the current schema.' );
 		$check( $old === $read( $network, 'sll_settings_backup_v1' ), $scope . ': the backup keeps the complete original option.' );
 		$check( false === $current['enabled'] && true === $current['sso_enabled'] && true === $current['create_users'], $scope . ': migration retains explicit feature choices.' );
 		$check( array( 'ldap-one.test', 'ldap-two.test' ) === $current['domain_controllers'] && array( 'staff', 'editors' ) === $current['groups'], $scope . ': old list formats retain all controllers and groups.' );
@@ -102,11 +103,27 @@ try {
 		$check( $old['extension_setting'] === $current['extension_setting'] && $old['user_meta_data'] === $current['user_meta_data'] && 'directory' === $current['meta_data_suffix_ldap'] && 'local' === $current['meta_data_suffix_wp'], $scope . ': custom settings and metadata mappings are retained.' );
 		$check( str_starts_with( $current['sso_search_user_password'], 'v2:' ) && $secret === Secrets::decrypt( $current['sso_search_user_password'] ), $scope . ': the legacy password is re-encrypted without changing its bytes.' );
 		$check( true === $settings->has_legacy_access(), $scope . ': old settings retain access to the old feature set.' );
+		$check( 'legacy' === $settings->recovery_mode(), $scope . ': old settings retain administrator recovery.' );
 		$settings->migrate();
 		$check( $current === $read( $network, 'sll_settings' ) && $old === $read( $network, 'sll_settings_backup_v1' ), $scope . ': repeat migration changes neither settings nor backup.' );
 		$remove( $network, 'sll_settings_backup_v1' );
 		$settings->migrate();
 		$check( $settings->has_legacy_access() && false === $read( $network, 'sll_settings_backup_v1' ), $scope . ': backup removal does not remove Legacy access or create a new backup.' );
+
+		$reset( $network );
+		$schema_two = array_replace( Settings::defaults(), array( 'schema_version' => 2, 'enabled' => true, 'base_dn' => 'dc=example,dc=test', 'domain_controllers' => array( 'ldap.test' ), 'sso_search_user_password' => $current['sso_search_user_password'], 'extension_setting' => array( 'retain' => true ) ) );
+		unset( $schema_two['recovery_mode'], $schema_two['recovery_user_ids'] );
+		$write( $network, 'sll_settings', $schema_two );
+		$backup = array( 'retain' => 'the first backup' );
+		$write( $network, 'sll_settings_backup_v1', $backup );
+		$check( 'legacy' === $settings->recovery_mode(), $scope . ': schema version 2 keeps administrator recovery before migration.' );
+		$settings->migrate();
+		$expected = array_replace( $schema_two, array( 'schema_version' => 3, 'recovery_mode' => 'legacy', 'recovery_user_ids' => array() ) );
+		$check( $expected === $read( $network, 'sll_settings' ) && $backup === $read( $network, 'sll_settings_backup_v1' ), $scope . ': schema version 2 gains only the recovery policy and keeps its backup and secret.' );
+		$check( true === $settings->save( array( 'recovery_mode' => 'off' ) ), $scope . ': an administrator can explicitly turn off the recovery exception.' );
+		$current = $read( $network, 'sll_settings' );
+		$settings->migrate();
+		$check( $current === $read( $network, 'sll_settings' ) && 'off' === $settings->recovery_mode(), $scope . ': repeat migration preserves an explicit recovery policy.' );
 
 		$reset( $network );
 		$old_options = array(
@@ -131,6 +148,7 @@ try {
 		$settings->migrate();
 		$current = $read( $network, 'sll_settings' );
 		$check( true === $current['enabled'] && 'ol' === $current['directory'] && true === $current['create_users'] && false === $current['high_security'], $scope . ': the oldest options retain their login mode and directory type.' );
+		$check( 'legacy' === $settings->recovery_mode(), $scope . ': the oldest options retain administrator recovery.' );
 		$check( 'contributor' === $current['role'] && 'uid' === $current['ol_login'] && array( 'staff', 'editors' ) === $current['groups'], $scope . ': the oldest options retain the role, login attribute, and groups.' );
 		$backup = $read( $network, 'sll_settings_backup_v1' );
 		$check( $old_options === $backup && array_key_exists( 'simpleldap_use_tls', $backup ) && ! Settings::is_true( $backup['simpleldap_use_tls'] ), $scope . ': the oldest option backup retains the stored false TLS value.' );

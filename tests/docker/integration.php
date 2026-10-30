@@ -65,6 +65,8 @@ $configuration = array(
 	'ol_group'                  => 'cn',
 	'group_uid'                 => 'memberUid',
 	'high_security'             => true,
+	'recovery_mode'             => 'legacy',
+	'recovery_user_ids'         => array(),
 	'create_users'              => true,
 	'role'                      => 'subscriber',
 	'sso_enabled'               => true,
@@ -364,6 +366,105 @@ if ( 'pro' === $edition ) {
 } else {
 	$check( ! metadata_exists( 'user', $user->ID, 'phone_ldap' ) && ! metadata_exists( 'user', $user->ID, 'phone_wp' ), 'Free keeps metadata settings without running the Pro feature.' );
 	$check( ! class_exists( 'SimpleLdapLogin\\Pro\\Metadata' ), 'The Free ZIP contains no Pro metadata code.' );
+}
+
+// Recovery accounts use WordPress directly. Directory aliases must not select them.
+$recovery_roles = $user->roles;
+$recovery_super = is_multisite() && is_super_admin( $user->ID );
+$temporary_recovery = null;
+$directory_reads = 0;
+$watch_directory = static function ( $value, $key ) use ( &$directory_reads ) {
+	if ( 'domain_controllers' === $key ) {
+		++$directory_reads;
+	}
+	return $value;
+};
+try {
+	$user->set_role( 'administrator' );
+	if ( $settings->is_network() && ! $recovery_super ) {
+		grant_super_admin( $user->ID );
+	}
+	wp_set_password( 'Local-Password-42!', $user->ID );
+	$save( array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( $user->ID ), 'domain_controllers' => array( '127.0.0.1:1' ), 'timeout' => 1 ) );
+	add_filter( 'sll_get_setting', $watch_directory, 10, 2 );
+	foreach ( array( 'alice', 'alice@example.test' ) as $login ) {
+		$result = wp_authenticate( $login, 'Local-Password-42!' );
+		$check( $result instanceof WP_User && $user->ID === $result->ID, 'A selected recovery account accepts its local password through ' . $login . '.' );
+	}
+	$check( is_wp_error( wp_authenticate( 'alice', 'wrong-local-password' ) ), 'A selected recovery account rejects an invalid local password.' );
+	$check( 0 === $directory_reads, 'Selected recovery password login makes no directory connection attempt.' );
+	remove_filter( 'sll_get_setting', $watch_directory, 10 );
+	$result = wp_authenticate( 'testadmin', 'Test-Admin-42!' );
+	$check( is_wp_error( $result ), 'A nonselected administrator follows the exclusive LDAP policy.' );
+
+	add_filter( 'wp_authenticate_user', $deny, 100 );
+	$result = wp_authenticate( 'alice', 'Local-Password-42!' );
+	remove_filter( 'wp_authenticate_user', $deny, 100 );
+	$check( is_wp_error( $result ) && 'sll_test_user_check' === $result->get_error_code(), 'WordPress user checks can deny local recovery login.' );
+	add_filter( 'authenticate', $deny, 100 );
+	$result = wp_authenticate( 'alice', 'Local-Password-42!' );
+	remove_filter( 'authenticate', $deny, 100 );
+	$check( is_wp_error( $result ) && 'sll_test_user_check' === $result->get_error_code(), 'A later authentication filter can deny local recovery login.' );
+
+	$save( array( 'domain_controllers' => array( $host ), 'timeout' => 5 ) );
+	$check( is_wp_error( wp_authenticate( 'alice', $password ) ), 'A selected recovery account cannot use its directory password.' );
+	$account_loaded = 0;
+	$watch_account = static function () use ( &$account_loaded ) { ++$account_loaded; };
+	add_action( 'sll_account_loaded', $watch_account, 100 );
+	$account_auth = new SimpleLdapLogin\Authenticator( $settings, $client );
+	foreach ( $ad ? array( 'alice', 'alice@example.test', 'EXAMPLE\\alice' ) : array( 'alice' ) as $login ) {
+		$check( is_wp_error( $account_auth->authenticate_entry( $login, $entry, 'test-proof' ) ), 'A verified directory identity cannot select recovery account ' . $login . '.' );
+	}
+	remove_action( 'sll_account_loaded', $watch_account, 100 );
+	$check( 0 === $account_loaded, 'A denied directory identity cannot run recovery account profile or metadata hooks.' );
+
+	$save( array( 'recovery_mode' => 'off', 'domain_controllers' => array( '127.0.0.1:1' ), 'timeout' => 1 ) );
+	$check( is_wp_error( wp_authenticate( 'alice', 'Local-Password-42!' ) ), 'Off removes the selected administrator exception.' );
+	$save( array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( $user->ID ) ) );
+	if ( $settings->is_network() ) {
+		revoke_super_admin( $user->ID );
+	} else {
+		$user->set_role( 'subscriber' );
+	}
+	$check( is_wp_error( wp_authenticate( 'alice', 'Local-Password-42!' ) ), 'A demoted recovery account loses its local exception.' );
+	$user->set_role( 'administrator' );
+	if ( $settings->is_network() ) {
+		grant_super_admin( $user->ID );
+	}
+	$save( array( 'recovery_user_ids' => array( $admin->ID ) ) );
+	$check( is_wp_error( wp_authenticate( 'alice', 'Local-Password-42!' ) ), 'Removing an account from the selected list removes its local exception.' );
+
+	$temporary_id = wp_insert_user( array( 'user_login' => 'sll-recovery-delete', 'user_pass' => 'Recovery-Delete-42!', 'user_email' => 'recovery-delete@example.test', 'role' => 'administrator' ) );
+	$check( ! is_wp_error( $temporary_id ), 'The disposable local recovery account is created.' );
+	$temporary_recovery = get_user_by( 'id', $temporary_id );
+	if ( $settings->is_network() ) {
+		grant_super_admin( $temporary_id );
+	}
+	$save( array( 'recovery_user_ids' => array( $temporary_id ) ) );
+	if ( $settings->is_network() ) {
+		revoke_super_admin( $temporary_id );
+	}
+	$check( $remove_fixture( $temporary_recovery ), 'The disposable recovery account is deleted.' );
+	$temporary_recovery = null;
+	$check( is_wp_error( wp_authenticate( 'sll-recovery-delete', 'Recovery-Delete-42!' ) ), 'A deleted recovery account cannot retain local access.' );
+} finally {
+	remove_filter( 'sll_get_setting', $watch_directory, 10 );
+	remove_filter( 'wp_authenticate_user', $deny, 100 );
+	remove_filter( 'authenticate', $deny, 100 );
+	if ( isset( $watch_account ) ) {
+		remove_action( 'sll_account_loaded', $watch_account, 100 );
+	}
+	if ( $temporary_recovery instanceof WP_User ) {
+		if ( $settings->is_network() ) {
+			revoke_super_admin( $temporary_recovery->ID );
+		}
+		$remove_fixture( $temporary_recovery );
+	}
+	if ( is_multisite() && ! $recovery_super ) {
+		revoke_super_admin( $user->ID );
+	}
+	$user->set_role( $recovery_roles[0] );
+	$save( $configuration );
 }
 
 $result = $settings->save( array( 'meta_data_suffix_wp' => 'capabilities', 'user_meta_data' => array( array( 'telephoneNumber', 'wp', 'string' ) ) ) );

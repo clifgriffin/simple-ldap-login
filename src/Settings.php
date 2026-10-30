@@ -48,7 +48,7 @@ final class Settings {
 	public static function defaults(): array {
 		return array(
 			'version'                   => '200',
-			'schema_version'            => 2,
+			'schema_version'            => 3,
 			'enabled'                   => false,
 			'directory'                 => 'ad',
 			'account_suffix'            => '',
@@ -68,6 +68,8 @@ final class Settings {
 			'search_sub_ous'            => false,
 			'login_domain'              => '',
 			'high_security'             => true,
+			'recovery_mode'             => 'selected',
+			'recovery_user_ids'         => array(),
 			'create_users'              => false,
 			'role'                      => 'subscriber',
 			'sso_enabled'               => false,
@@ -103,8 +105,12 @@ final class Settings {
 	 * @return array
 	 */
 	public function all(): array {
-		$stored = $this->read( 'sll_settings', array() );
-		return array_replace( self::defaults(), is_array( $stored ) ? $stored : array() );
+		$stored   = $this->read( 'sll_settings', null );
+		$settings = array_replace( self::defaults(), is_array( $stored ) ? $stored : array() );
+		if ( is_array( $stored ) && 3 > (int) ( $stored['schema_version'] ?? 0 ) && ! array_key_exists( 'recovery_mode', $stored ) ) {
+			$settings['recovery_mode'] = 'legacy';
+		}
+		return $settings;
 	}
 
 	/**
@@ -122,6 +128,43 @@ final class Settings {
 		$file   = defined( 'SLL_FILE' ) ? SLL_FILE : dirname( __DIR__ ) . '/Simple-LDAP-Login.php';
 		$active = get_site_option( 'active_sitewide_plugins', array() );
 		return is_array( $active ) && isset( $active[ plugin_basename( $file ) ] );
+	}
+
+	/**
+	 * Read the recovery policy. An invalid policy grants no exception.
+	 *
+	 * @return string Recovery mode.
+	 */
+	public function recovery_mode(): string {
+		$mode = $this->get( 'recovery_mode' );
+		return in_array( $mode, array( 'selected', 'legacy', 'off' ), true ) ? $mode : 'off';
+	}
+
+	/**
+	 * Check administrator access in this settings scope.
+	 *
+	 * @param \WP_User $user Existing WordPress user.
+	 * @return bool Whether the account can be selected for local recovery.
+	 */
+	public function can_recover( \WP_User $user ): bool {
+		if ( $user->ID < 1 || ! empty( $user->spam ) || ! empty( $user->deleted ) ) {
+			return false;
+		}
+		if ( $this->is_network() ) {
+			return is_super_admin( $user->ID );
+		}
+		return ( ! is_multisite() || is_user_member_of_blog( $user->ID, get_current_blog_id() ) ) && user_can( $user, 'manage_options' );
+	}
+
+	/**
+	 * Check selected recovery access without granting it from a role alone.
+	 *
+	 * @param \WP_User $user Existing WordPress user.
+	 * @return bool Whether the account must use local authentication.
+	 */
+	public function is_recovery_account( \WP_User $user ): bool {
+		$ids = $this->get( 'recovery_user_ids' );
+		return 'selected' === $this->recovery_mode() && is_array( $ids ) && in_array( $user->ID, $ids, true ) && $this->can_recover( $user );
 	}
 
 	/**
@@ -170,7 +213,8 @@ final class Settings {
 	 * @return true|\WP_Error
 	 */
 	public function save( array $input ) {
-		$settings = $this->all();
+		$current  = $this->all();
+		$settings = $current;
 		$defaults = self::defaults();
 		$booleans = array( 'enabled', 'allow_plaintext', 'use_tls', 'search_sub_ous', 'high_security', 'create_users', 'sso_enabled', 'delete_on_uninstall' );
 		$attrs    = array( 'ol_login', 'ol_group', 'group_uid', 'user_first_name_attribute', 'user_last_name_attribute', 'user_email_attribute', 'user_url_attribute' );
@@ -190,6 +234,21 @@ final class Settings {
 					return $this->invalid( $key );
 				}
 				$settings[ $key ] = $list;
+			} elseif ( 'recovery_user_ids' === $key ) {
+				if ( ! is_array( $value ) ) {
+					return $this->invalid( $key );
+				}
+				$ids = array();
+				foreach ( $value as $id ) {
+					if ( '' === $id ) {
+						continue;
+					}
+					if ( ( ! is_int( $id ) && ! is_string( $id ) ) || false === filter_var( $id, FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) ) ) {
+						return $this->invalid( $key );
+					}
+					$ids[] = (int) $id;
+				}
+				$settings[ $key ] = array_values( array_unique( $ids ) );
 			} elseif ( 'user_meta_data' === $key ) {
 				$mappings = $this->mappings( $value );
 				if ( is_wp_error( $mappings ) ) {
@@ -227,6 +286,28 @@ final class Settings {
 					return $this->invalid( $key );
 				}
 				$settings[ $key ] = $value;
+			}
+		}
+
+		if ( ! in_array( $settings['recovery_mode'], array( 'selected', 'legacy', 'off' ), true ) ) {
+			return $this->invalid( 'recovery_mode' );
+		}
+		$recovery_changed = array_key_exists( 'recovery_mode', $input ) || array_key_exists( 'recovery_user_ids', $input );
+		foreach ( array( 'enabled', 'sso_enabled' ) as $key ) {
+			$recovery_changed = $recovery_changed || ( self::is_true( $settings[ $key ] ) && ! self::is_true( $current[ $key ] ) );
+		}
+		if ( array_key_exists( 'recovery_user_ids', $input ) || ( $recovery_changed && 'selected' === $settings['recovery_mode'] ) ) {
+			if ( ! is_array( $settings['recovery_user_ids'] ) ) {
+				return $this->invalid( 'recovery_user_ids' );
+			}
+			foreach ( $settings['recovery_user_ids'] as $id ) {
+				$user = is_int( $id ) && $id > 0 ? get_user_by( 'id', $id ) : false;
+				if ( ! $user instanceof \WP_User || ! $this->can_recover( $user ) ) {
+					return $this->invalid( 'recovery_user_ids' );
+				}
+			}
+			if ( 'selected' === $settings['recovery_mode'] && ( self::is_true( $settings['enabled'] ) || self::is_true( $settings['sso_enabled'] ) ) && empty( $settings['recovery_user_ids'] ) ) {
+				return new \WP_Error( 'sll_recovery_required', __( 'Select at least one local recovery account, or set local recovery access to Off before you enable LDAP or server SSO.', 'simple-ldap-login' ) );
 			}
 		}
 
@@ -281,6 +362,16 @@ final class Settings {
 			return;
 		}
 		if ( is_array( $stored ) && isset( $stored['schema_version'] ) && 2 <= (int) $stored['schema_version'] ) {
+			if ( 3 > (int) $stored['schema_version'] ) {
+				if ( ! array_key_exists( 'recovery_mode', $stored ) ) {
+					$stored['recovery_mode'] = 'legacy';
+				}
+				if ( ! array_key_exists( 'recovery_user_ids', $stored ) ) {
+					$stored['recovery_user_ids'] = array();
+				}
+				$stored['schema_version']    = 3;
+				$this->write( 'sll_settings', $stored );
+			}
 			return;
 		}
 		if ( null !== $stored && false !== $stored && ! is_array( $stored ) ) {
@@ -313,6 +404,9 @@ final class Settings {
 		}
 		$settings = array_replace( self::defaults(), $legacy );
 		if ( $has_legacy ) {
+			if ( ! array_key_exists( 'recovery_mode', $legacy ) ) {
+				$settings['recovery_mode'] = 'legacy';
+			}
 			if ( ! array_key_exists( 'enabled', $legacy ) && ! empty( $old ) ) {
 				$settings['enabled'] = true;
 			}
@@ -349,7 +443,7 @@ final class Settings {
 		}
 		$settings['use_tls']        = 'starttls' === $settings['transport'];
 		$settings['version']        = '200';
-		$settings['schema_version'] = 2;
+		$settings['schema_version'] = 3;
 		$this->write( 'sll_settings', $settings );
 	}
 

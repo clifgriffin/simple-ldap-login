@@ -262,7 +262,18 @@ final class Admin {
 	 */
 	private function access(): void {
 		$this->card_start( __( 'Login rules', 'simple-ldap-login' ), __( 'Choose who can log in and whether the plugin creates WordPress accounts.', 'simple-ldap-login' ) );
-		$this->checkbox( 'high_security', __( 'Require LDAP authentication', 'simple-ldap-login' ), __( 'Reject local passwords for other users. Local administrators retain a recovery login.', 'simple-ldap-login' ) );
+		$this->checkbox( 'high_security', __( 'Require LDAP authentication', 'simple-ldap-login' ), __( 'Reject local passwords unless local recovery access permits them.', 'simple-ldap-login' ) );
+		$this->select(
+			'recovery_mode',
+			__( 'Local recovery access', 'simple-ldap-login' ),
+			array(
+				'selected' => __( 'Selected administrators', 'simple-ldap-login' ),
+				'legacy'   => __( 'All administrators (legacy)', 'simple-ldap-login' ),
+				'off'      => __( 'Off', 'simple-ldap-login' ),
+			),
+			__( 'Selected accounts use WordPress authentication directly. The legacy option keeps administrator password fallback. Off removes the administrator exception.', 'simple-ldap-login' )
+		);
+		$this->recovery_accounts();
 		$this->checkbox( 'create_users', __( 'Create WordPress accounts', 'simple-ldap-login' ), __( 'Create an account after the directory password and group checks pass.', 'simple-ldap-login' ) );
 		$roles = array();
 		foreach ( wp_roles()->roles as $key => $role ) {
@@ -276,6 +287,32 @@ final class Admin {
 		$this->input( 'ol_group', __( 'Group name attribute', 'simple-ldap-login' ), __( 'Usually cn.', 'simple-ldap-login' ) );
 		$this->input( 'group_uid', __( 'Group member attribute', 'simple-ldap-login' ), __( 'OpenLDAP example: memberUid. Use member or uniqueMember for groups that store user DNs.', 'simple-ldap-login' ) );
 		$this->card_end();
+	}
+
+	/** Render the existing administrator accounts allowed in this settings scope. */
+	private function recovery_accounts(): void {
+		$query = array( 'blog_id' => get_current_blog_id(), 'capability' => 'manage_options', 'orderby' => 'display_name', 'order' => 'ASC' );
+		if ( $this->settings->is_network() ) {
+			$query = array( 'blog_id' => 0, 'login__in' => get_super_admins(), 'orderby' => 'display_name', 'order' => 'ASC' );
+		}
+		$users = isset( $query['login__in'] ) && ! $query['login__in'] ? array() : get_users( $query );
+		$ids   = (array) $this->settings->get( 'recovery_user_ids' );
+		?>
+		<div class="sll-field">
+			<label for="sll-recovery_user_ids"><?php esc_html_e( 'Recovery accounts', 'simple-ldap-login' ); ?></label>
+			<div>
+				<input type="hidden" name="sll_settings[recovery_user_ids][]" value="" />
+				<select id="sll-recovery_user_ids" name="sll_settings[recovery_user_ids][]" multiple size="5" aria-describedby="sll-recovery_user_ids-help">
+					<?php foreach ( $users as $user ) : ?>
+						<?php if ( $this->settings->can_recover( $user ) ) : ?>
+							<option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( in_array( $user->ID, $ids, true ), true ); ?>><?php echo esc_html( $user->display_name . ' (' . $user->user_login . ')' ); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</select>
+				<p class="description" id="sll-recovery_user_ids-help"><?php esc_html_e( 'Used only when Selected administrators is chosen. Use a separate local account for recovery. LDAP and server sign-on cannot sign in as a selected recovery account. Hold Ctrl on Windows or Command on macOS to select more than one account.', 'simple-ldap-login' ); ?></p>
+			</div>
+		</div>
+		<?php
 	}
 
 	/**
@@ -412,13 +449,14 @@ final class Admin {
 	 * @param string $description Help text.
 	 */
 	private function select( string $key, string $label, array $options, string $description = '' ): void {
+		$current = 'recovery_mode' === $key ? $this->settings->recovery_mode() : $this->settings->get( $key );
 		?>
 		<div class="sll-field">
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
 				<select id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help">
 					<?php foreach ( $options as $value => $text ) : ?>
-						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $this->settings->get( $key ), $value ); ?>><?php echo esc_html( $text ); ?></option>
+						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current, $value ); ?>><?php echo esc_html( $text ); ?></option>
 					<?php endforeach; ?>
 				</select>
 				<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p>
