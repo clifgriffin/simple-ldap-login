@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ceed445ce4244da24a4c8dfbdc21f65",
+    "content-hash": "96d241f18e247aaf771ceb3d0cf711fa",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -456,6 +456,45 @@
                 }
             ],
             "time": "2026-10-25T14:32:48+00:00"
+        },
+        {
+            "name": "paidcommunities/wordpress-sdk",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paidcommunities/paidcommunities-wordpress-sdk.git",
+                "reference": "4bfaef0967c01daf720fd5182d87fe91451ca20d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paidcommunities/paidcommunities-wordpress-sdk/zipball/4bfaef0967c01daf720fd5182d87fe91451ca20d",
+                "reference": "4bfaef0967c01daf720fd5182d87fe91451ca20d",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PaidCommunities\\WordPress\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PaidCommunities"
+                }
+            ],
+            "description": "WordPress SDK for the PaidCommunities API",
+            "support": {
+                "issues": "https://github.com/paidcommunities/paidcommunities-wordpress-sdk/issues",
+                "source": "https://github.com/paidcommunities/paidcommunities-wordpress-sdk/tree/0.0.4"
+            },
+            "time": "2025-09-01T16:14:07+00:00"
         },
         {
             "name": "psr/clock",

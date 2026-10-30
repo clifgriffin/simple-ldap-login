@@ -72,6 +72,10 @@ $check( 400 === $request( 'sll-test-user.php?sll_case=invalid' )['code'], 'The t
 
 $cases = array(
 	'normal'          => array( 'GET', array(), 'pro' === $edition ),
+	'license-expired' => array( 'GET', array(), false ),
+	'license-inactive' => array( 'GET', array(), false ),
+	'license-missing' => array( 'GET', array(), false ),
+	'license-outage' => array( 'GET', array(), 'pro' === $edition ),
 	'proof-whitespace' => array( 'GET', array(), 'pro' === $edition ),
 	'password-off'    => array( 'GET', array(), 'pro' === $edition ),
 	'sso-off'         => array( 'GET', array(), false ),
@@ -105,7 +109,7 @@ foreach ( $cases as $scenario => $case ) {
 	if ( 'password-off' === $scenario ) {
 		$check( false === $body['password_hook'] && ( 'pro' === $edition ) === $body['sso_hook'], 'SSO can run while the LDAP password hook is off.' );
 	}
-	if ( 'sso-off' === $scenario || 'recovery' === $scenario ) {
+	if ( in_array( $scenario, array( 'sso-off', 'recovery', 'license-expired', 'license-inactive', 'license-missing' ), true ) ) {
 		$check( false === $body['sso_hook'], $scenario . ': no server SSO hook is registered.' );
 	}
 	if ( 'recovery' === $scenario ) {

@@ -56,8 +56,13 @@ msgid "Custom user fields"
 msgstr "Champs utilisateur personnalisés"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "Copiez les attributs LDAP dans les champs méta utilisateurs WordPress."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"Copier les champs LDAP, tels que le numéro de téléphone ou le département, "
+"vers WordPress lors de la connexion. Votre thème ou d'autres plugins "
+"peuvent utiliser ces valeurs."
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -106,20 +111,35 @@ msgstr "Stocke la valeur WordPress modifiable, comme phone_wp."
 msgid "Single sign-on (SSO)"
 msgstr "Authentification unique (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"Votre serveur web doit authentifier les utilisateurs et définir "
-"REMOTE_USER. Ne copiez jamais un en-tête de navigateur dans REMOTE_USER ou "
-"ne permettez pas un accès qui contourne l'authentification du serveur. "
-"Définissez le compte de recherche LDAP dans la connexion."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "Activer la connexion automatique après l'authentification du serveur web."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr ""
+"Connecter les utilisateurs à WordPress après que votre serveur web les a "
+"authentifiés."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "Activer l'authentification unique"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "Les utilisateurs n'ont pas besoin d'une seconde connexion pour WordPress."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"Configurez votre serveur web pour authentifier les utilisateurs et définir "
+"REMOTE_USER. Entrez un compte de recherche LDAP dans Connexion."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"Ne pas copier les en-têtes du navigateur dans REMOTE_USER. Bloquer l'accès "
+"qui contourne l'authentification du serveur web."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -738,6 +758,192 @@ msgstr ""
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "Utilisez votre mot de passe WordPress pour ce compte de récupération."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "Licence"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "Obtenir Pro"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"Impossible de vérifier votre licence. Les fonctionnalités Pro restent "
+"actives. Réessayez dans l'onglet Licence."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"Votre licence Pro a expiré. L'authentification unique et les mises à jour "
+"de champs personnalisés sont désactivées. Renouvelez votre licence, puis "
+"sélectionnez Vérifier la licence dans l'onglet Licence."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"Activez une licence Pro dans l'onglet Licence pour utiliser "
+"l'authentification unique et les champs utilisateurs personnalisés."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"Donnez au personnel moins de demandes de connexion et maintenez les détails "
+"des utilisateurs synchronisés avec LDAP."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"Permettez au personnel d'ouvrir WordPress sans autre demande de connexion. "
+"Nécessite une authentification sur votre serveur web, comme Kerberos ou "
+"NTLM."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"Copier les numéros de téléphone, départements et autres champs LDAP vers "
+"WordPress lors de la connexion. Utilisez ces valeurs dans votre thème ou "
+"d'autres plugins."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "Voir les plans"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "Ouvrir le paiement dans un nouvel onglet"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"Les plans et le paiement utilisent PaidCommunities. Il reçoit votre adresse "
+"IP et les détails de votre navigateur."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"Après l'achat, installez le ZIP Pro de votre reçu. Vos paramètres LDAP "
+"resteront en place."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "Statut de la licence mis à jour."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr ""
+"Impossible de vérifier la licence. Vérifiez votre clé et votre connexion, "
+"puis réessayez."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Licence Pro"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "Entrez la clé de licence de votre reçu d'achat."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Non activé"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "Expiré"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "Inactif"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "Statut de la licence"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "Actif"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "Données partagées avec PaidCommunities"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"L'activation envoie votre clé de licence, le domaine du site, la version du "
+"plugin et l'adresse IP du serveur à PaidCommunities. Les vérifications de "
+"licence envoient les mêmes détails du site."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Clé de licence"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Activer la licence"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Désactiver la licence"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "Vérifier la licence"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "Sélectionnez une action de licence."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "Activation de la licence…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "Désactivation de la licence…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "Erreur de licence"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "Licence mise à jour"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "Plans Pro"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "Chargement des plans…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "Impossible de charger les plans. Ouvrir le paiement dans un nouvel onglet."
 
 #: src/Ldap_Client.php:440
 msgid ""

@@ -68,6 +68,20 @@ function isolateDependencies( stage ) {
 			],
 			stage
 		);
+		if ( fs.existsSync( path.join( stage, 'pro/composer.json' ) ) ) {
+			run(
+				'composer',
+				[
+					'dump-autoload',
+					'--no-dev',
+					'--optimize',
+					'--no-interaction',
+					'--no-plugins',
+					'--no-scripts',
+				],
+				path.join( stage, 'pro' )
+			);
+		}
 	} finally {
 		fs.rmSync( scoped, { recursive: true, force: true } );
 	}

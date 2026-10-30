@@ -56,8 +56,10 @@ msgid "Custom user fields"
 msgstr "사용자 정의 필드"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "LDAP 속성을 WordPress 사용자 메타 필드로 복사합니다."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr "전화번호나 부서와 같은 LDAP 필드를 로그인 시 WordPress로 복사합니다. 테마나 다른 플러그인이 이 값을 사용할 수 있습니다."
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -102,18 +104,29 @@ msgstr "편집 가능한 WordPress 값을 저장합니다. phone_wp."
 msgid "Single sign-on (SSO)"
 msgstr "싱글 사인온 (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"웹 서버는 사용자를 인증하고 REMOTE_USER를 설정해야 합니다. 브라우저 헤더를 REMOTE_USER에 복사하거나 서버 인증을 "
-"우회하는 접근을 허용하지 마십시오. 연결에서 LDAP 검색 계정을 설정하십시오."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "웹 서버 인증 후 자동 로그인을 활성화합니다."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr "웹 서버가 사용자를 인증한 후 WordPress에 사용자를 로그인 시킵니다."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "싱글 사인온 활성화"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "사용자는 WordPress에 대해 두 번째 로그인이 필요하지 않습니다."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr "웹 서버를 구성하여 사용자를 인증하고 REMOTE_USER를 설정합니다. 연결에서 LDAP 검색 계정을 입력하세요."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr "브라우저 헤더를 REMOTE_USER로 복사하지 마십시오. 웹 서버 인증을 우회하는 접근을 차단합니다."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -675,6 +688,174 @@ msgstr "귀하의 WordPress 계정을 생성할 수 없습니다. 사이트 관�
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "이 복구 계정에 대해 WordPress 비밀번호를 사용하세요."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "라이센스"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "프로 구매"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr "라이센스를 확인할 수 없습니다. Pro 기능은 활성 상태로 유지됩니다. 라이센스 탭에서 다시 시도하십시오."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"Pro 라이센스가 만료되었습니다. 싱글 사인온 및 사용자 정의 필드 업데이트가 꺼져 있습니다. 라이센스를 갱신한 후 라이센스 탭에서 "
+"라이센스 확인을 선택하십시오."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr "싱글 사인온 및 사용자 정의 필드를 사용하려면 라이센스 탭에서 Pro 라이센스를 활성화하십시오."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr "직원에게 로그인 프롬프트를 줄이고 LDAP와 사용자 세부 정보를 동기화합니다."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"직원이 추가 로그인 프롬프트 없이 WordPress를 열 수 있도록 합니다. Kerberos 또는 NTLM과 같은 웹 서버에서 인증이 "
+"필요합니다."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr "전화번호, 부서 및 기타 LDAP 필드를 로그인 시 WordPress로 복사합니다. 테마나 다른 플러그인에서 이 값을 사용하세요."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "요금제 보기"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "새 탭에서 체크아웃 열기"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr "플랜 및 체크아웃은 PaidCommunities를 사용합니다. IP 주소와 브라우저 세부 정보를 수신합니다."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr "구매 후 영수증에서 Pro ZIP을 설치합니다. LDAP 설정은 그대로 유지됩니다."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "라이센스 상태가 업데이트되었습니다."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr "라이센스를 확인할 수 없습니다. 키와 연결을 확인한 후 다시 시도하십시오."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Pro 라이센스"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "구매 영수증에서 라이센스 키를 입력하십시오."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "활성화되지 않음"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "만료됨"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "비활성"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "라이센스 상태"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "활성"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "PaidCommunities와 공유되는 데이터"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"활성화는 라이센스 키, 사이트 도메인, 플러그인 버전 및 서버 IP 주소를 PaidCommunities에 전송합니다. 라이센스 확인은 "
+"동일한 사이트 세부 정보를 전송합니다."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "라이센스 키"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "라이센스 활성화"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "라이센스 비활성화"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "라이센스 확인"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "라이센스 작업을 선택하십시오."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "라이센스 활성화 중…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "라이센스 비활성화 중…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "라이센스 오류"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "라이센스 업데이트됨"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "Pro 요금제"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "요금제 로딩 중…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "요금제를 로드할 수 없습니다. 새 탭에서 체크아웃을 여세요."
 
 #: src/Ldap_Client.php:440
 msgid ""

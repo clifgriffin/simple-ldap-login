@@ -118,12 +118,13 @@ SSO and custom user fields are Pro features. Keep their code outside the WordPre
 - [ ] Build and test the planned Pro features before advertising them as available or opening sales.
 - [ ] Generate Free and Pro ZIPs from one codebase. Keep the plugin folder and entry filename stable. Test replacement upgrades and voluntary package changes without losing settings or silently changing access.
 - [ ] Verify whether PaidCommunities generates the required packages and provides authorized Pro installation. Use its tools where available. Test the package contents and update source for each build.
-- [ ] Require explicit user authorization through the connected service before any automatic Pro installation. Test invalid authorization, cancellation, interrupted installation, and recovery. A license activation alone must not start an install.
-- [ ] Pin and test the PaidCommunities SDK on PHP 8.1 and the latest supported PHP release. Resolve the built-in deactivation handler defect documented in the product plan before use.
+- [ ] Require explicit user authorization through the connected service before any automatic Pro installation. Free currently uses manual Pro ZIP installation after checkout. Any future service installation flow must test invalid authorization, cancellation, interrupted installation, and recovery. A license activation alone must not start an install.
+- [ ] Verify the pinned PaidCommunities SDK on PHP 8.1 and the latest supported PHP release. Keep the SDK's built-in admin handlers disabled; use the checked shared handlers.
 - [ ] Verify that failed nonce and permission checks cannot clear or change local license data. Repeat this check on activation and deactivation.
 - [ ] Test new purchases, activation, site limits, site moves, staging sites, network installations, refunds, cancellation, renewal, and expiry.
 - [ ] Test invalid responses, rate limits, service outages, and stale license data.
-- [ ] Keep sign-in and active access rules working after expiry or an update-service outage. Verify that login never calls the license server.
+- [ ] Verify that confirmed expiry stops SSO and custom field updates. Keep LDAP password login, group rules, local recovery, saved settings, and user data. Verify that login never calls the license server.
+- [ ] Verify that renewal restores Pro features and that a service error keeps the last verified status. Check hourly scheduling on a live site and network.
 - [ ] Confirm that keys and update tokens are not sent in browser URLs or retained in logs.
 - [ ] Test package download authorization and ensure that a license for a different product cannot download Pro.
 - [ ] Export and restore customer, subscription, license, and activation records before relying on the service.

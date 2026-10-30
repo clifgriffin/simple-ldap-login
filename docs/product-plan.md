@@ -8,7 +8,7 @@ Build only Free and Pro. Server SSO and custom user fields require Pro. Central 
 
 The 1.x upgrade path is narrow. Preserve saved settings, directory credentials, login rules, administrator recovery, and user data. Sites that use SSO or custom user fields must upgrade directly to Pro. There is no separate Legacy package, Transition package, or eligibility grant.
 
-Multiple directories, role rules, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities licensing and external updates are not implemented. Do not open sales or distribute the Pro preview until its release checks pass.
+Multiple directories, role rules, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities activation and license checks are implemented. Live account tests and external updates remain required. Do not open sales or distribute the Pro preview until its release checks pass.
 
 ## Free and Pro features
 
@@ -46,7 +46,7 @@ Maintain one codebase and build two packages:
 | Package | Purpose | Update path |
 | --- | --- | --- |
 | Free | LDAP password login and the shared features listed above | WordPress.org |
-| Pro | Free features plus SSO and custom user fields | PaidCommunities; integration not implemented |
+| Pro | Free features plus SSO and custom user fields with an active license | PaidCommunities; automatic updates still pending |
 
 Both use the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one package. Pro replaces Free and does not need an add-on.
 
@@ -96,7 +96,9 @@ Keep the existing directory listing for the rewrite. Do not submit a duplicate f
 
 Use GPL-2.0-or-later for all editions. Include the license text and third-party notices. The source license and the paid service term are separate: a commercial key gives access to updates, support, and account services. It does not remove the user's GPL rights or prevent copying. [WordPress license](https://wordpress.org/about/license/)
 
-For this product, an expired key or a license service outage must not stop sign-in, remove active access rules, or change saved settings. Do not put license calls in the login path. Allow installed Pro features to continue. Expiry can stop new Pro downloads and support. Explain this policy before purchase.
+SSO and custom user fields require an active Pro license. A confirmed expired or inactive license stops SSO and custom field updates. LDAP password login, group rules, and local recovery accounts still work. Keep saved settings, user data, and existing sessions. A verified renewal restores Pro features. Explain this policy before purchase.
+
+License checks run hourly through WordPress scheduled tasks. Login reads only local state. A service error keeps the last verified status, including an expired status. See the [license implementation and remaining service checks](licensing.md).
 
 This expiry policy is a product decision, not a general WordPress.org rule.
 
@@ -113,7 +115,7 @@ Confirmed on 2026-10-29:
 - Plan: Single site, USD 499 per year for one site, no trial, no sale price.
 - Release 2.0.0: Pending, named `Version 2.0.0 — internal preview`, with file `simple-ldap-login-pro-2.0.0.zip`. It has not been released or assigned for sale.
 - The preview requires WordPress 6.5 and PHP 8.0. Its `Tested up to` field is 7.1.3, the local test version recorded in `docs/testing.md`.
-- Stripe is not connected. Licensing and automatic updates still need implementation and tests before public release.
+- Stripe is not connected. License activation and checks are implemented. Live service tests and automatic updates remain required before public release.
 - The hosted preview ZIP predates the SSO proof correction found by the expanded tests. Replace it with a rebuilt Pro ZIP before release.
 
 ### Service comparison
@@ -130,13 +132,13 @@ EDD provides `activate_license`, `deactivate_license`, `check_license`, and `get
 
 EDD documents local and staging exceptions. It can export keys, status, customer details, dates, and activations. Check that an export and restore work before launch. [Staging sites](https://easydigitaldownloads.com/docs/wordpress-staging-site-support/), [license export](https://easydigitaldownloads.com/docs/software-licensing-usage-instructions/)
 
-PaidCommunities documents the Composer package `paidcommunities/wordpress-sdk`, activation controls, and update checks. Its sample uses `isActive()` to enable features. Do not apply that sample to sign-in. Its domain example includes site, version, IP address, and check times. Inspect outgoing data before use. [PaidCommunities WordPress SDK](https://paidcommunities.com/documentation/sdks/wordpress-sdk/)
+PaidCommunities documents the Composer package `paidcommunities/wordpress-sdk`, activation controls, and update checks. Pro uses its services for activation and status checks. It reads the saved status to enable SSO and custom fields. It never makes a service request during login. Its domain example includes site, version, IP address, and check times. [PaidCommunities WordPress SDK](https://paidcommunities.com/documentation/sdks/wordpress-sdk/)
 
-The target upgrade is purchase, authorization, and installation of the Pro package without a separate add-on. PaidCommunities package generation and automatic first-time Pro installation remain unverified. The reviewed SDK paths handle license activation and updates; their release scripts build the SDK itself. Check the hosted deployment tools before adding equivalent build or installation code here. This does not change the choice of PaidCommunities.
+The upgrade is purchase through the Get Pro tab, receipt download, and installation of the Pro ZIP at the existing plugin path, without a separate add-on. The official purchase SDK and activation component are integrated. First-time Pro installation uses the WordPress ZIP upload screen; a license activation does not install code. The reviewed SDK paths handle license activation and updates; their release scripts build the SDK itself. Check the hosted deployment tools before adding equivalent build or installation code here. This does not change the choice of PaidCommunities.
 
 The SDK review used commit `4bfaef0967c01daf720fd5182d87fe91451ca20d`. Its `VERSION` file says `0.0.4`. The manifest declares MIT and no minimum PHP version. Test that version on PHP 8.1. The GitHub releases list was empty when checked. [SDK source](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/tree/4bfaef0967c01daf720fd5182d87fe91451ca20d), [manifest](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/composer.json)
 
-Fix the SDK deactivation handler before use. It deletes local license data after an exception, including a failed nonce or permission check. A local test confirmed deletion with a missing nonce. Use a corrected SDK release, or replace its admin handlers with handlers that check permissions and nonces. The test covered the SDK handler, not the hosted service. [Inspected handler](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/Admin/AdminAjaxController.php)
+The SDK deactivation handler deletes local license data after an exception, including a failed nonce or permission check. A local test confirmed deletion with a missing nonce. Neither edition initializes that handler. Both use the official activation component with checked handlers that require POST, the correct site or network capability, a nonce, and a matching settings scope before calling the service. The SDK dependency is pinned at `0.0.4`. [Inspected handler](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/Admin/AdminAjaxController.php)
 
 The update controller catches API exceptions without deleting stored license data. Its default response cache lasts 60 seconds, and its HTTP client has a 30-second timeout. These values come from the source; outage tests are still required. Keep license requests outside login and keep login working during remote errors. [Update controller](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/UpdateController.php), [cache](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/Cache.php), [HTTP client](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/HttpClient/WordPressClient.php)
 
@@ -152,12 +154,12 @@ Before the PaidCommunities integration ships, confirm these points with the prov
 
 PaidCommunities states that customer data can be exported. The export fields and transfer process still need a test. The source review covered selected SDK files; it was not a full audit or a live service test. The remaining questions are open checks, not confirmed faults. [PaidCommunities data statement](https://paidcommunities.com/)
 
-For either service, request only the license data needed for updates. Never send LDAP hosts, bind credentials, user passwords, or directory records. Show the external service and data sent before the administrator activates it. Obtain any required service terms and privacy details before sales start.
+Request only the data needed for license validation and updates. Never send LDAP hosts, bind credentials, user passwords, or directory records. Show the external service and data sent before the administrator activates it. Obtain any required service terms and privacy details before sales start.
 
 ## Release order
 
 1. Complete the refactor, settings migration, Pro extraction, and security checks.
 2. Test Free and Pro with OpenLDAP, Samba AD, multisite, and trusted server SSO. Test direct 1.x upgrades to the correct package.
-3. Correct the PaidCommunities client defect and test licensing and external Pro updates. Keep license calls outside login.
+3. Complete live PaidCommunities license tests and external Pro updates. Keep license calls outside login.
 4. Publish Free and start Pro sales after the release and service checks pass. State clearly that 1.x sites using SSO or custom user fields need Pro.
 5. Build and test later Pro features separately. Advertise each only after it is available.

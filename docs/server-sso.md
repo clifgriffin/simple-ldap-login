@@ -2,7 +2,7 @@
 
 Server SSO requires Pro. A 1.x site that uses SSO must upgrade directly to Pro. Free does not include SSO code.
 
-Test the Pro upgrade on a site copy before replacing 1.x. Preserve the search account, directory settings, group rules, and local administrator recovery. Pro licensing and external updates still need to be completed before public release.
+Test the Pro upgrade on a site copy before replacing 1.x. Preserve the search account, directory settings, group rules, and local administrator recovery. SSO needs an active Pro license. Confirmed expiry stops SSO; LDAP password login and recovery remain available. Live license service tests and external updates remain required before public release.
 
 A server administrator must configure Kerberos, NTLM, Apache, Nginx, or the reverse proxy used for authentication. The plugin does not configure these services.
 

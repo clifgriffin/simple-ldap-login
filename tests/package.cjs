@@ -102,6 +102,11 @@ try {
 			'composer.json',
 			'composer.lock',
 			'LICENSE',
+			'src/Commerce.php',
+			'src/License.php',
+			'assets/commerce.js',
+			'vendor/paidcommunities/wordpress-sdk/build/components.js',
+			'vendor/paidcommunities/wordpress-sdk/build/api.js',
 			...fs
 				.readdirSync( path.join( root, 'languages' ) )
 				.map( ( catalog ) => `languages/${ catalog }` ),
@@ -206,6 +211,7 @@ try {
 			'network',
 			'v1',
 			'v1-network',
+			...( edition === 'pro' ? [ 'unlicensed', 'expired' ] : [] ),
 		] ) {
 			execFileSync(
 				'php',

@@ -1,7 +1,7 @@
 <?php
 /** Test probe. Copy only into the Docker test site, never into a release ZIP. */
 $scenario = $_GET['sll_case'] ?? 'normal';
-$allowed  = array( 'normal', 'proof-whitespace', 'sso-off', 'password-off', 'group-denied', 'service-missing', 'service-invalid', 'unknown', 'disabled', 'other-domain', 'user-denied', 'later-denied', 'login-page', 'ajax', 'cron', 'xmlrpc', 'recovery', 'recovery-selected', 'recovery-upn', 'recovery-domain', 'recovery-off', 'recovery-demoted' );
+$allowed  = array( 'normal', 'proof-whitespace', 'sso-off', 'password-off', 'group-denied', 'service-missing', 'service-invalid', 'unknown', 'disabled', 'other-domain', 'user-denied', 'later-denied', 'login-page', 'ajax', 'cron', 'xmlrpc', 'recovery', 'recovery-selected', 'recovery-upn', 'recovery-domain', 'recovery-off', 'recovery-demoted', 'license-expired', 'license-inactive', 'license-missing', 'license-outage' );
 if ( ! is_string( $scenario ) || ! in_array( $scenario, $allowed, true ) ) {
 	http_response_code( 400 );
 	exit;

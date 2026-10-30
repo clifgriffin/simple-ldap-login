@@ -15,11 +15,13 @@ final class Plugin {
 		add_action( 'init', array( self::class, 'load_translations' ) );
 		$settings = new Settings();
 		$settings->migrate();
+		( new License( $settings ) )->register();
 		$client = new Ldap_Client( $settings );
 		$auth   = new Authenticator( $settings, $client );
 		$auth->register();
 		if ( is_admin() ) {
 			( new Admin( $settings, $client ) )->register();
+			( new Commerce( $settings ) )->register();
 		}
 
 		$GLOBALS['SimpleLDAPLogin'] = new \SimpleLDAPLogin( $settings, $auth );

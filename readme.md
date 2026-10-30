@@ -54,7 +54,9 @@ Every ZIP contains the `simple-ldap-login` folder and `Simple-LDAP-Login.php` en
 
 Each build copies release files into a temporary folder, installs production dependencies from the Composer lock files, uses PHP-Scoper to put bundled dependencies under `SimpleLdapLoginVendor`, and calls `wp-scripts plugin-zip`. It then removes the temporary folder. The source files and development dependencies stay unchanged. The PHP-Scoper build tool has its own manifest and lock in `tools/scoper/` and is excluded from the ZIP. Site owners install the ZIP without Composer or Node.
 
-The Pro build includes the SSO and metadata classes from `pro/`. Installed features work without a license call. PaidCommunities licensing and updates are not integrated yet. The Pro preview uses `Update URI: false` to prevent replacement by a WordPress.org update. It has no automatic external updates. Add and test that update path before public distribution or sales.
+The Pro build includes the SSO and metadata classes from `pro/`. Both features need an active PaidCommunities license. Hourly background checks save the license status; login reads only that saved status. Confirmed expiry stops SSO and custom field updates. LDAP password login, recovery accounts, settings, and existing user data remain available. See [licensing](docs/licensing.md).
+
+The Pro preview uses `Update URI: false` to prevent replacement by a WordPress.org update. Automatic external updates and live service acceptance tests remain required before sales.
 
 ### Pro source
 
@@ -70,7 +72,7 @@ pro/
   assets/          # Optional.
 ```
 
-Use a separate Composer manifest for Pro dependencies. This keeps the PaidCommunities SDK out of the free dependency tree. When you add a Pro dependency, extend the private dependency build and its tests to include `pro/vendor/`. The current build scopes the shared dependency tree. The Pro autoload declaration must use PSR-4:
+The shared Composer manifest includes the PaidCommunities SDK so Free can show plans and activate a Pro license. Both editions use the same checked handlers and stored license record. Pro feature code stays in `pro/`. Its separate manifest uses PSR-4:
 
 ```json
 {
@@ -148,6 +150,8 @@ Extensions can register through `sll_loaded`, which supplies the settings and au
 
 Pro includes server SSO and custom user fields. A 1.x site that uses either feature must upgrade directly to Pro. Central network settings remain free. Multiple independent directories, group-to-role rules, scheduled account updates, audit exports, and network setup tools remain planned features.
 
-PaidCommunities will manage Pro licenses, downloads, and updates after its SDK repair and the checks in the [product plan](docs/product-plan.md). There is no licensing client, external updater, or licensing backend in the current code.
+PaidCommunities manages purchases, license activation, and status checks. Free has a Get Pro tab with the official pricing and activation components. Both editions use the SDK services with a checked HTTP client and license handlers. It does not register the SDK's unsafe admin handlers. Automatic updates and live account checks remain open in the [product plan](docs/product-plan.md).
 
-All editions use GPL-2.0-or-later. A Pro subscription will cover downloads, updates, and support. Installed features must continue to work after expiry or a licensing service outage.
+All editions use GPL-2.0-or-later. Pro features require an active subscription. A service error keeps the last verified status; it does not activate an expired license. Expiry does not end existing WordPress sessions or delete settings.
+
+The purchase service loads only after an administrator selects **View plans**. Checkout runs on PaidCommunities. After purchase, install the Pro ZIP from the receipt at the same plugin path. A license activated in Free stays active after replacement. Activation does not install or enable paid feature code in Free.

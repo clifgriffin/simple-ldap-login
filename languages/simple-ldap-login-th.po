@@ -56,8 +56,12 @@ msgid "Custom user fields"
 msgstr "ฟิลด์ผู้ใช้ที่กำหนดเอง"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "คัดลอกแอตทริบิวต์ LDAP ไปยังฟิลด์เมตาผู้ใช้ WordPress."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"คัดลอกฟิลด์ LDAP เช่น หมายเลขโทรศัพท์หรือแผนกไปยัง WordPress "
+"ในขณะเข้าสู่ระบบ ธีมหรือปลั๊กอินอื่น ๆ ของคุณสามารถใช้ค่เหล่านี้ได้"
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -104,20 +108,35 @@ msgstr "เก็บค่าที่แก้ไขได้ของ WordPres
 msgid "Single sign-on (SSO)"
 msgstr "การเข้าสู่ระบบแบบครั้งเดียว (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"เซิร์ฟเวอร์เว็บของคุณต้องตรวจสอบผู้ใช้และตั้งค่า REMOTE_USER. "
-"ห้ามคัดลอกส่วนหัวของเบราว์เซอร์ไปยัง REMOTE_USER "
-"หรืออนุญาตให้เข้าถึงที่ข้ามการตรวจสอบสิทธิ์ของเซิร์ฟเวอร์. "
-"ตั้งค่าบัญชีค้นหา LDAP ในการเชื่อมต่อ."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "เปิดใช้งานการเข้าสู่ระบบอัตโนมัติหลังจากการตรวจสอบสิทธิ์เซิร์ฟเวอร์เว็บ."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr ""
+"ลงชื่อเข้าใช้ผู้ใช้ใน WordPress "
+"หลังจากที่เซิร์ฟเวอร์เว็บของคุณตรวจสอบสิทธิ์พวกเขา"
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "เปิดใช้งานการเข้าสู่ระบบแบบเดี่ยว"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "ผู้ใช้ไม่จำเป็นต้องเข้าสู่ระบบครั้งที่สองสำหรับ WordPress"
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"กำหนดค่าเซิร์ฟเวอร์เว็บของคุณเพื่อตรวจสอบสิทธิ์ผู้ใช้และตั้งค่า REMOTE_USER "
+"ป้อนบัญชีค้นหา LDAP ในการเชื่อมต่อ"
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"อย่าคัดลอกส่วนหัวของเบราว์เซอร์ไปยัง REMOTE_USER "
+"ปิดกั้นการเข้าถึงที่หลีกเลี่ยงการตรวจสอบสิทธิ์ของเซิร์ฟเวอร์เว็บ"
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -711,6 +730,190 @@ msgstr "ไม่สามารถสร้างบัญชี WordPress ข�
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "ใช้รหัสผ่าน WordPress ของคุณสำหรับบัญชีการกู้คืนนี้."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "ใบอนุญาต"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "รับ Pro"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"ไม่สามารถตรวจสอบใบอนุญาตของคุณได้ ฟีเจอร์ Pro ยังคงเปิดใช้งาน "
+"ลองอีกครั้งที่แท็บใบอนุญาต"
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"ใบอนุญาต Pro ของคุณหมดอายุแล้ว "
+"การเข้าสู่ระบบแบบเดี่ยวและการอัปเดตฟิลด์ที่กำหนดเองถูกปิดใช้งาน "
+"ต่ออายุใบอนุญาตของคุณ จากนั้นเลือกตรวจสอบใบอนุญาตที่แท็บใบอนุญาต"
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"เปิดใช้งานใบอนุญาต Pro "
+"ที่แท็บใบอนุญาตเพื่อใช้การเข้าสู่ระบบแบบเดี่ยวและฟิลด์ผู้ใช้ที่กำหนดเอง"
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"ให้พนักงานมีการแจ้งเตือนการเข้าสู่ระบบน้อยลงและรักษารายละเอียดผู้ใช้ให้ตรงกั"
+"บ LDAP"
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"ให้พนักงานเปิด WordPress โดยไม่ต้องมีการแจ้งเตือนการเข้าสู่ระบบอีกครั้ง "
+"ต้องมีการตรวจสอบสิทธิ์บนเซิร์ฟเวอร์เว็บของคุณ เช่น Kerberos หรือ NTLM"
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"คัดลอกหมายเลขโทรศัพท์ แผนก และฟิลด์ LDAP อื่น ๆ ไปยัง WordPress "
+"ในขณะเข้าสู่ระบบ ใช้ค่เหล่านี้ในธีมหรือปลั๊กอินอื่น ๆ ของคุณ"
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "ดูแผน"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "เปิดการชำระเงินในแท็บใหม่"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"แผนและการชำระเงินใช้ PaidCommunities มันจะรับที่อยู่ IP "
+"และรายละเอียดเบราว์เซอร์ของคุณ"
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"หลังจากการซื้อ ให้ติดตั้ง Pro ZIP จากใบเสร็จของคุณ การตั้งค่า LDAP "
+"ของคุณจะยังคงอยู่"
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "สถานะใบอนุญาตได้รับการอัปเดตแล้ว."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr ""
+"ไม่สามารถตรวจสอบใบอนุญาตได้ ตรวจสอบคีย์และการเชื่อมต่อของคุณ "
+"จากนั้นลองอีกครั้ง."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "ใบอนุญาต Pro"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "ป้อนรหัสใบอนุญาตจากใบเสร็จการซื้อของคุณ"
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "ยังไม่ได้เปิดใช้งาน"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "หมดอายุ"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "ไม่ใช้งาน"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "สถานะใบอนุญาต"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "ใช้งานอยู่"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "ข้อมูลที่แชร์กับ PaidCommunities"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"การเปิดใช้งานจะส่งรหัสใบอนุญาตของคุณ โดเมนไซต์ เวอร์ชันปลั๊กอิน และที่อยู่ "
+"IP ของเซิร์ฟเวอร์ไปยัง PaidCommunities "
+"การตรวจสอบใบอนุญาตจะส่งรายละเอียดไซต์เดียวกัน"
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "คีย์ใบอนุญาต"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "เปิดใช้งานใบอนุญาต"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "ยกเลิกการเปิดใช้งานใบอนุญาต"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "ตรวจสอบใบอนุญาต"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "เลือกการดำเนินการใบอนุญาต."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "กำลังเปิดใช้งานใบอนุญาต…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "กำลังปิดใช้งานใบอนุญาต…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "ข้อผิดพลาดใบอนุญาต"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "ใบอนุญาตได้รับการอัปเดต"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "แผน Pro"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "กำลังโหลดแผน…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "ไม่สามารถโหลดแผนได้ เปิดการชำระเงินในแท็บใหม่"
 
 #: src/Ldap_Client.php:440
 msgid ""

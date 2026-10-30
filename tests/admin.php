@@ -72,6 +72,21 @@ namespace {
 	function __( $s, $d = '' ) { return $s; }
 	function add_filter( $name, $callback, $priority = 10, $accepted = 1 ) { $GLOBALS['sll_admin_hooks'][ $name ][ $priority ][] = array( $callback, $accepted ); }
 	function add_action( $name, $callback, $priority = 10, $accepted = 1 ) { add_filter( $name, $callback, $priority, $accepted ); }
+	function has_action( $name ) { return ! empty( $GLOBALS['sll_admin_hooks'][ $name ] ); }
+	function get_option( $name, $default = false ) { return $GLOBALS['sll_admin_options'][ $name ] ?? $default; }
+	function get_site_option( $name, $default = false ) { return $GLOBALS['sll_admin_network_options'][ $name ] ?? $default; }
+	function home_url() { return 'https://example.test'; }
+	function network_home_url() { return 'https://network.test'; }
+	function untrailingslashit( $value ) { return rtrim( $value, '/' ); }
+	function plugin_basename( $file ) { return 'simple-ldap-login/' . basename( $file ); }
+	function plugins_url( $path, $file ) { return '/wp-content/plugins/simple-ldap-login/' . $path; }
+	function wp_create_nonce( $action ) { return 'test-nonce'; }
+	function wp_json_encode( $data, $flags = 0 ) { return json_encode( $data, $flags ); }
+	function wp_register_script( $handle, $url, $deps, $version, $footer ) { $GLOBALS['sll_commerce_scripts'][ $handle ] = $url; }
+	function wp_register_style( $handle, $url, $deps, $version ) { $GLOBALS['sll_commerce_styles'][ $handle ] = $url; }
+	function wp_enqueue_script( $handle, $url, $deps, $version, $footer ) { $GLOBALS['sll_commerce_scripts'][ $handle ] = $url; }
+	function wp_enqueue_style( $handle ) {}
+	function wp_add_inline_script( $handle, $script, $position ) { $GLOBALS['sll_commerce_config'] = $script; }
 	function apply_filters( $name, $value ) {
 		$priorities = $GLOBALS['sll_admin_hooks'][ $name ] ?? array();
 		ksort( $priorities );
@@ -102,7 +117,7 @@ namespace {
 	function checked( $v ) { echo $v ? 'checked="checked"' : ''; }
 	function selected( $a, $b ) { echo $a === $b ? 'selected="selected"' : ''; }
 	function submit_button( $s, $c, $n, $p ) { echo '<button type="submit">' . esc_html( $s ) . '</button>'; }
-	function current_user_can( $c ) { return $GLOBALS['sll_admin_allowed']; }
+	function current_user_can( $c ) { $GLOBALS['sll_admin_capability'] = $c; return $GLOBALS['sll_admin_allowed']; }
 	function wp_roles() { return (object) array( 'roles' => array( 'subscriber' => array( 'name' => 'Subscriber' ) ) ); }
 	function translate_user_role( $s ) { return $s; }
 	function sanitize_key( $s ) { return preg_replace( '/[^a-z0-9_]/', '', strtolower( $s ) ); }
@@ -127,18 +142,22 @@ namespace {
 
 	require dirname( __DIR__ ) . '/src/Admin.php';
 	require dirname( __DIR__ ) . '/pro/src/Admin.php';
+	require dirname( __DIR__ ) . '/src/License.php';
+	require dirname( __DIR__ ) . '/src/Commerce.php';
+	require dirname( __DIR__ ) . '/vendor/paidcommunities/wordpress-sdk/src/Assets/AssetsApi.php';
 	$settings = new SimpleLdapLogin\Settings();
 	$client   = new SimpleLdapLogin\Ldap_Client();
 	$admin    = new SimpleLdapLogin\Admin( $settings, $client );
 	foreach ( array( 'free', 'pro' ) as $edition ) {
 		$GLOBALS['sll_admin_hooks'] = array();
+		( new SimpleLdapLogin\Commerce( $settings ) )->register();
 		if ( 'pro' === $edition ) {
 			( new SimpleLdapLogin\Pro\Admin( $settings ) )->register();
 		}
 		foreach ( array( 'site', 'network' ) as $scope ) {
 			$settings->network = 'network' === $scope;
 			$GLOBALS['sll_admin_multisite'] = $settings->network;
-			foreach ( array( 'connection', 'access', 'profile', 'sso', 'advanced', 'help' ) as $tab ) {
+			foreach ( array( 'connection', 'access', 'profile', 'sso', 'license', 'advanced', 'help' ) as $tab ) {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
@@ -174,6 +193,52 @@ namespace {
 				}
 			}
 		}
+	}
+	$pro_admin = new SimpleLdapLogin\Commerce( $settings );
+	foreach ( array( false, true ) as $network ) {
+		$settings->network = $network;
+		$scope = $network ? 'network' : 'site';
+		foreach ( array( 'activate', 'check', 'deactivate' ) as $task ) {
+			$_SERVER['REQUEST_METHOD'] = 'POST';
+			$_POST = array( '_wpnonce' => 'test-nonce', 'sll_scope' => $scope, 'sll_license_task' => $task );
+			$GLOBALS['sll_admin_allowed'] = false;
+			try { $pro_admin->handle_license(); } catch ( AdminTestStop $stop ) { admin_check( 'denied:403' === $stop->getMessage(), 'License actions require settings permissions.' ); }
+			admin_check( ( $network ? 'manage_network_options' : 'manage_options' ) === $GLOBALS['sll_admin_capability'], 'License actions check the correct capability for the scope.' );
+			$GLOBALS['sll_admin_allowed'] = true;
+			unset( $_POST['_wpnonce'] );
+			try { $pro_admin->handle_license(); } catch ( AdminTestStop $stop ) { admin_check( 'nonce' === $stop->getMessage(), 'License actions reject a missing nonce before reading credentials.' ); }
+			$_POST['_wpnonce'] = 'test-nonce';
+			$_POST['sll_scope'] = $network ? 'site' : 'network';
+			try { $pro_admin->handle_license(); } catch ( AdminTestStop $stop ) { admin_check( 'denied:400' === $stop->getMessage(), 'A changed scope cannot alter a license.' ); }
+		}
+		$target = $network ? 'sll_admin_network_options' : 'sll_admin_options';
+		$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => 'expired', 'secret' => 'never-render-license-secret', 'domain_id' => 'dom_test', 'site_url' => $network ? network_home_url() : home_url() );
+		$_GET = array( 'tab' => 'license' );
+		ob_start(); $admin->render(); $html = ob_get_clean();
+		admin_check( str_contains( $html, 'Your Pro license has expired.' ) && str_contains( $html, 'Check license' ), 'Expired licenses have a clear message and a renewal check.' );
+		admin_check( ! str_contains( $html, 'never-render-license-secret' ) && 1 === substr_count( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ), 'The license page has one form and does not reveal the activation secret.' );
+		admin_check( str_contains( $html, 'View plans' ), 'Free can show plans without an active license.' );
+		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'active';
+		ob_start(); $admin->render(); $licensed_html = ob_get_clean();
+		admin_check( ! str_contains( $licensed_html, 'View plans' ) && str_contains( $licensed_html, 'install the Pro ZIP' ), 'An active license shows installation instructions instead of another purchase offer.' );
+		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'expired';
+		$GLOBALS['sll_commerce_scripts'] = array();
+		$_GET['tab'] = 'connection';
+		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
+		admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Other tabs do not load the SDK components.' );
+		$_GET['tab'] = 'license';
+		$pro_admin->enqueue( 'dashboard' );
+		admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Other admin screens do not load the SDK components.' );
+		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
+		admin_check( count( $GLOBALS['sll_commerce_scripts'] ) === 3 && ! str_contains( implode( '', $GLOBALS['sll_commerce_scripts'] ), 'https://' ), 'The license screen loads only local scripts before purchase consent.' );
+		$config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
+		admin_check( $scope === $config['scope'] && 'test-nonce' === $config['nonce'] && 'expired' === $config['license']['status'], 'The SDK receives the correct scope, nonce, and saved status.' );
+		admin_check( ! str_contains( $GLOBALS['sll_commerce_config'], 'never-render-license-secret' ), 'The SDK configuration does not contain the activation secret.' );
+		$GLOBALS[ $target ]['sll_pro_license']['site_url'] = 'https://copied.test';
+		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
+		$config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
+		admin_check( ! $config['license']['registered'], 'A copied site can enter its own license key in the SDK component.' );
+		unset( $GLOBALS[ $target ]['sll_pro_license'] );
 	}
 	foreach ( array( 'ad', 'ol' ) as $directory ) {
 		$settings->directory = $directory;

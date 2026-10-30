@@ -11,6 +11,7 @@ $simpleldaplogin_keys        = array(
 	'sll_settings',
 	'sll_settings_backup_v1',
 	'sll_legacy_access',
+	'sll_pro_license',
 	'simpleldap_account_suffix',
 	'simpleldap_base_dn',
 	'simpleldap_domain_controllers',
@@ -23,6 +24,7 @@ $simpleldaplogin_keys        = array(
 	'simpleldap_security_mode',
 );
 $simpleldaplogin_remove_site = static function () use ( $simpleldaplogin_keys ): void {
+	wp_clear_scheduled_hook( 'sll_pro_license_check' );
 	$settings = get_option( 'sll_settings', array() );
 	if ( is_array( $settings ) && true === ( $settings['delete_on_uninstall'] ?? false ) ) {
 		foreach ( $simpleldaplogin_keys as $key ) {

@@ -1,11 +1,11 @@
 # Plugin Check
 
-Plugin Check 2.1.0 is installed and active on the Herd demo. On 30 October 2026, all default checks ran against the extracted release packages with WordPress 7.1.3 and PHP 8.4.23. This included all five runtime checks.
+Plugin Check 2.1.0 is installed and active on the Herd demo. On 30 October 2026, all default checks ran against the extracted release packages after the shared SDK integration, with PHP 8.4. This included all five runtime checks.
 
 | Package | Errors | Warnings |
 | --- | ---: | ---: |
-| Free | 0 | 18 |
-| Pro | 1 | 21 |
+| Free | 0 | 20 |
+| Pro | 1 | 23 |
 
 Free is the WordPress.org package. Pro has one `plugin_updater_detected` error because its preview header has `Update URI: false`. Pro uses external distribution. Do not submit it to WordPress.org. The header prevents WordPress.org from replacing it; an external update service is still required before release.
 
@@ -15,7 +15,7 @@ The remaining warnings are:
 - WordPress core hooks `wp_authenticate_user` and `wp_login`. Their names must match WordPress.
 - `load_plugin_textdomain()`. WordPress.org language packs can load without this call. The plugin keeps it to load its bundled catalogs, including in the external packages.
 
-No warnings were hidden. The checks also found an invalid `Tested up to` format and private uninstall variable prefixes. These are fixed. Plugin Check does not grant formal WordPress.org approval.
+No warnings were hidden. The shared purchase and license code adds two settings hooks. Permission and nonce checks run in the same method that reads submitted license data; Plugin Check reports no missing nonce checks. The checks also found an invalid `Tested up to` format and private uninstall variable prefixes. These are fixed. Plugin Check does not grant formal WordPress.org approval.
 
 ## Run the checks again
 

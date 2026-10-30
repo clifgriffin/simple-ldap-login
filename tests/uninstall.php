@@ -6,7 +6,7 @@ $network = false;
 $site_id = 1;
 $sites = array();
 $networks = array();
-$keys = array( 'sll_settings', 'sll_settings_backup_v1', 'sll_legacy_access', 'simpleldap_base_dn' );
+$keys = array( 'sll_settings', 'sll_settings_backup_v1', 'sll_legacy_access', 'sll_pro_license', 'simpleldap_base_dn' );
 function is_multisite() { return $GLOBALS['network']; }
 function get_option( $key, $default = false ) { return $GLOBALS['sites'][ $GLOBALS['site_id'] ][ $key ] ?? $default; }
 function delete_option( $key ) { unset( $GLOBALS['sites'][ $GLOBALS['site_id'] ][ $key ] ); }
@@ -16,6 +16,7 @@ function delete_network_option( $id, $key ) { unset( $GLOBALS['networks'][ $id ]
 function get_sites( $args ) { return array_slice( array_keys( $GLOBALS['sites'] ), $args['offset'], $args['number'] ); }
 function switch_to_blog( $id ) { $GLOBALS['site_id'] = $id; }
 function restore_current_blog() { $GLOBALS['site_id'] = 1; }
+function wp_clear_scheduled_hook( $hook ) { verify( 'sll_pro_license_check' === $hook ); }
 function verify( $value ) { if ( ! $value ) { throw new RuntimeException( 'Data retention check failed.' ); } }
 
 $sites = array( 1 => array_fill_keys( $keys, 'keep' ) );

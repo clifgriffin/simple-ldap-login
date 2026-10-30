@@ -31,7 +31,7 @@ $active = static function ( bool $network ) use ( $plugin ): bool {
 };
 $read_state = static function ( bool $network ): array {
 	$result = array();
-	foreach ( array( 'sll_settings', 'sll_settings_backup_v1', 'sll_legacy_access' ) as $key ) {
+	foreach ( array( 'sll_settings', 'sll_settings_backup_v1', 'sll_legacy_access', 'sll_pro_license' ) as $key ) {
 		$missing = new stdClass();
 		$value   = $network ? get_site_option( $key, $missing ) : get_option( $key, $missing );
 		$result[ $key ] = array( $missing !== $value, $missing === $value ? null : $value );

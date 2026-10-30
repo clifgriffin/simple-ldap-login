@@ -72,4 +72,4 @@ Samba provides an AD-compatible domain controller and LDAP service. It uses its 
 
 Microsoft AD DS cannot run as a Windows container role. Use a Windows Server virtual machine for a final Microsoft AD test. Keep that check for domain policy, trust relationships, and real Kerberos server SSO. [Microsoft container limits](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/lift-shift-to-containers)
 
-PaidCommunities licensing and external updates are not connected yet, so these tests do not claim to cover them.
+License tests run the packaged PaidCommunities SDK through the WordPress HTTP API with controlled service responses. They cover activation, expiry, renewal, outages, password login, recovery, and retained settings. HTTP SSO probes cover expired, inactive, missing, and last-known active licenses. Live PaidCommunities accounts and external updates still need acceptance tests.

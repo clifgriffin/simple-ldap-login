@@ -12,10 +12,13 @@ $sll_meta = array();
 $sll_activation = null;
 $sll_network = in_array( $sll_scenario, array( 'network', 'v1-network' ), true );
 $sll_existing = 'fresh' !== $sll_scenario;
+$sll_licensed = ! in_array( $sll_scenario, array( 'unlicensed', 'expired' ), true );
+define( 'HOUR_IN_SECONDS', 3600 );
 
 // Other plugins can load different dependency versions before this plugin.
 eval( 'namespace LdapRecord; class Connection {}' );
 eval( 'namespace Illuminate\\Support; class Collection {}' );
+eval( 'namespace PaidCommunities\\WordPress\\HttpClient; class WordPressClient {}' );
 function data_get() { throw new RuntimeException( 'A private dependency used another plugin\'s helper.' ); }
 $GLOBALS['__composer_autoload_files'] = array( 'another-plugin-helper' => true );
 
@@ -26,9 +29,24 @@ class WP_User {
 	public int $ID = 1;
 }
 function __( $text, $domain = '' ) { return $text; }
+function esc_html( $text ) { return htmlspecialchars( (string) $text, ENT_QUOTES ); }
+function esc_attr( $text ) { return esc_html( $text ); }
+function esc_url( $text ) { return esc_html( $text ); }
+function esc_html__( $text, $domain = '' ) { return esc_html( $text ); }
+function esc_html_e( $text, $domain = '' ) { echo esc_html( $text ); }
+function wp_nonce_field( $action ) { echo '<input name="_wpnonce" value="test-nonce" />'; }
+function admin_url( $path = '' ) { return '/wp-admin/' . $path; }
+function network_admin_url( $path = '' ) { return '/wp-admin/network/' . $path; }
 function is_wp_error( $value ) { return $value instanceof WP_Error; }
 function is_multisite() { return $GLOBALS['sll_network']; }
 function is_admin() { return true; }
+function has_action( $name ) { return ! empty( $GLOBALS['sll_hooks'][ $name ] ); }
+function is_main_site() { return true; }
+function wp_next_scheduled( $name ) { return false; }
+function wp_schedule_event( $time, $schedule, $hook ) {}
+function home_url() { return 'https://example.test'; }
+function network_home_url() { return 'https://network.test'; }
+function untrailingslashit( $value ) { return rtrim( $value, '/' ); }
 function plugin_basename( $file ) { return basename( dirname( $file ) ) . '/' . basename( $file ); }
 function get_option( $key, $fallback = false ) { return $GLOBALS['sll_options'][ $key ] ?? $fallback; }
 function get_site_option( $key, $fallback = false ) { return $GLOBALS['sll_network_options'][ $key ] ?? $fallback; }
@@ -46,6 +64,7 @@ function do_action( $name, ...$args ) {
 	foreach ( $priorities as $callbacks ) { foreach ( $callbacks as $entry ) { call_user_func_array( $entry[0], array_slice( $args, 0, $entry[1] ) ); } }
 }
 function register_activation_hook( $file, $callback ) { $GLOBALS['sll_activation'] = $callback; }
+function register_deactivation_hook( $file, $callback ) { package_check( is_callable( $callback ), 'Pro has a valid deactivation callback.' ); }
 function get_role( $name ) { return in_array( $name, array( 'subscriber', 'contributor', 'editor', 'administrator' ), true ) ? (object) array() : null; }
 function metadata_exists( $type, $id, $key ) { return isset( $GLOBALS['sll_meta'][ $id ][ $key ] ); }
 function get_user_meta( $id, $key, $single = false ) { return $GLOBALS['sll_meta'][ $id ][ $key ] ?? ''; }
@@ -68,6 +87,11 @@ if ( str_starts_with( $sll_scenario, 'v1' ) ) {
 }
 if ( $sll_existing ) {
 	if ( $sll_network ) { $sll_network_options['sll_settings'] = $sll_old; } else { $sll_options['sll_settings'] = $sll_old; }
+}
+// A test activation record. No credentials or license bypass ship in either ZIP.
+$sll_test_license = array( 'status' => $sll_licensed ? 'active' : 'expired', 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => $sll_network ? network_home_url() : home_url() );
+if ( 'unlicensed' !== $sll_scenario ) {
+	if ( $sll_network ) { $sll_network_options['sll_pro_license'] = $sll_test_license; } else { $sll_options['sll_pro_license'] = $sll_test_license; }
 }
 require $sll_package_dir . '/Simple-LDAP-Login.php';
 package_check( array( 'another-plugin-helper' => true ) === $GLOBALS['__composer_autoload_files'], 'Private dependency loading preserves other Composer helper files.' );
@@ -119,12 +143,34 @@ package_check( defined( 'SLL_FEATURES_LOADED' ) === $sll_full, 'Full package fea
 foreach ( array( 'Metadata', 'Server_Sso', 'Admin', 'Ldap_Client', 'Upgrade_Guard' ) as $sll_class ) {
 	package_check( class_exists( 'SimpleLdapLogin\\Pro\\' . $sll_class ) === $sll_full, 'The package has the correct Pro PSR-4 classes.' );
 }
+foreach ( array( 'License', 'PaidCommunities_Client', 'Commerce' ) as $sll_class ) {
+	package_check( class_exists( 'SimpleLdapLogin\\' . $sll_class ), 'Both packages include the SDK purchase and activation code.' );
+}
+package_check( class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\HttpClient\\WordPressClient' ), 'The private license SDK loads beside another version.' );
+if ( $sll_full ) {
+	$sll_pro_psr4 = require $sll_package_dir . '/pro/vendor/composer/autoload_psr4.php';
+	foreach ( array_keys( $sll_pro_psr4 ) as $sll_namespace ) {
+		package_check( 'SimpleLdapLogin\\Pro\\' === $sll_namespace || str_starts_with( $sll_namespace, 'SimpleLdapLoginVendor\\' ), 'Pro dependencies use private namespaces.' );
+	}
+	package_check( class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\HttpClient\\WordPressClient' ), 'The private license SDK loads beside another version.' );
+}
 package_check( ! method_exists( SimpleLdapLogin\Ldap_Client::class, 'authenticate_sso' ), 'The shared LDAP client has no SSO implementation.' );
 package_check( ! empty( $sll_hooks['sll_account_loaded'] ) === $sll_full, 'The full package registers custom metadata.' );
-package_check( ! empty( $sll_hooks['sll_settings_tabs'] ) === $sll_full, 'The full package registers its settings controls.' );
+package_check( ! empty( $sll_hooks['sll_settings_tabs'] ), 'Both packages register purchase and license controls.' );
+package_check( ! class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\Admin\\AdminAjaxController', false ), 'The SDK admin handlers are not initialized.' );
+$sll_commerce = new SimpleLdapLogin\Commerce( $sll_settings );
+ob_start();
+$sll_commerce->license( new SimpleLdapLogin\Admin( $sll_settings, new SimpleLdapLogin\Ldap_Client( $sll_settings ) ) );
+$sll_license_html = ob_get_clean();
+package_check( str_contains( $sll_license_html, 'install the Pro ZIP' ) === ! $sll_full, 'Only Free shows Pro installation instructions in the built SDK screen.' );
+package_check( str_contains( $sll_license_html, 'sll-license-component' ), 'Both built packages render the SDK component container.' );
+if ( 'unlicensed' === $sll_scenario && $sll_full ) {
+	ob_start(); $sll_commerce->license_notice(); $sll_notice_html = ob_get_clean();
+	package_check( str_contains( $sll_notice_html, 'Activate a Pro license' ), 'The built Pro package shows its activation notice without a key.' );
+}
 
 $sll_sso_init = array_filter( $sll_hooks['init'][20] ?? array(), static fn( $entry ) => is_array( $entry[0] ) && $entry[0][0] instanceof SimpleLdapLogin\Pro\Server_Sso );
-package_check( ! empty( $sll_sso_init ) === ( $sll_full && $sll_existing ), 'SSO registers only when its code and setting are present.' );
+package_check( ! empty( $sll_sso_init ) === ( $sll_full && $sll_existing && $sll_licensed ), 'SSO registers only when its code, setting, and active license are present.' );
 package_check( isset( $sll_hooks['init'][10] ), 'Bundled translations register on init.' );
 $sll_before = $sll_settings->all();
 $sll_settings->migrate();
@@ -138,8 +184,8 @@ if ( $sll_existing ) {
 }
 package_check( true === $sll_settings->save( array( 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) ), 'The settings store retains metadata definitions.' );
 do_action( 'sll_account_loaded', new WP_User(), array( 'telephonenumber' => array( '5551002000' ) ) );
-package_check( isset( $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_local' : 'phone_wp' ] ) === $sll_full, 'Only a full package copies custom metadata.' );
-if ( $sll_full ) {
+package_check( isset( $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_local' : 'phone_wp' ] ) === ( $sll_full && $sll_licensed ), 'Only a licensed Pro package copies custom metadata.' );
+if ( $sll_full && $sll_licensed ) {
 	package_check( '5551002000' === $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_local' : 'phone_wp' ] && '5551002000' === $sll_meta[1][ str_starts_with( $sll_scenario, 'v1' ) ? 'phone_directory' : 'phone_ldap' ], 'The real metadata module keeps both old keys.' );
 }
 echo 'Production package runtime passed: ' . $sll_edition . '/' . $sll_scenario . ".\n";

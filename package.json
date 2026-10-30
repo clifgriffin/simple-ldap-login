@@ -43,11 +43,11 @@
 	"scripts": {
 		"check-engines": "wp-scripts check-engines",
 		"lint:css": "wp-scripts lint-style assets/admin.css",
-		"lint:js": "wp-scripts lint-js assets/admin.js scripts/package.cjs tests/package.cjs tests/admin-js.cjs scripts/i18n.cjs",
+		"lint:js": "wp-scripts lint-js assets/admin.js assets/commerce.js scripts/package.cjs tests/package.cjs tests/admin-js.cjs tests/commerce-js.cjs scripts/i18n.cjs",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"lint": "npm run lint:css && npm run lint:js && npm run lint:pkg-json",
 		"format:css": "wp-scripts lint-style assets/admin.css --fix",
-		"test:admin": "node tests/admin-js.cjs",
+		"test:admin": "node tests/admin-js.cjs && node tests/commerce-js.cjs",
 		"test:packages": "node tests/package.cjs",
 		"test:docker": "npm run build:free && npm run build:pro && sh tests/docker/run.sh test",
 		"test:release": "composer check && npm run lint && npm run test:admin && npm run test:i18n && npm run test:packages && sh tests/docker/matrix.sh",

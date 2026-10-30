@@ -56,8 +56,12 @@ msgid "Custom user fields"
 msgstr "Anpassade användarfält"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "Kopiera LDAP-attribut till WordPress användarmetadatafält."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"Kopiera LDAP-fält, som telefonnummer eller avdelning, till WordPress vid "
+"inloggning. Ditt tema eller andra plugins kan använda dessa värden."
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -106,19 +110,35 @@ msgstr "Lagrar det redigerbara WordPress-värdet, som phone_wp."
 msgid "Single sign-on (SSO)"
 msgstr "Enkel inloggning (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"Din webbserver måste autentisera användare och ställa in REMOTE_USER. "
-"Kopiera aldrig en webbläsarhuvud till REMOTE_USER eller tillåt åtkomst som "
-"kringgår serverautentisering. Ställ in LDAP-sökkontot på Anslutning."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "Aktivera automatisk inloggning efter webbserverautentisering."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr ""
+"Logga in användare på WordPress efter att din webbserver har autentiserat "
+"dem."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "Aktivera enkel inloggning"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "Användare behöver ingen andra inloggning för WordPress."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"Konfigurera din webbserver för att autentisera användare och ställa in "
+"REMOTE_USER. Ange ett LDAP-sökkonto under Anslutning."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"Kopiera inte webbläsarhuvuden till REMOTE_USER. Blockera åtkomst som "
+"kringgår webbserverautentisering."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -715,6 +735,190 @@ msgstr "Kunde inte skapa ditt WordPress-konto. Kontakta din webbplatsadministrat
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "Använd ditt WordPress-lösenord för detta återställningskonto."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "Licens"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "Få Pro"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"Kunde inte kontrollera din licens. Pro-funktioner förblir aktiva. Försök "
+"igen på fliken Licens."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"Din Pro-licens har löpt ut. Enkel inloggning och anpassade "
+"fältuppdateringar är avstängda. Förnya din licens och välj sedan "
+"Kontrollera licens på fliken Licens."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"Aktivera en Pro-licens på fliken Licens för att använda enkel inloggning "
+"och anpassade användarfält."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"Ge personalen färre inloggningsuppmaningar och håll användardetaljer i synk "
+"med LDAP."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"Låt personalen öppna WordPress utan en annan inloggningsuppmaning. Kräver "
+"autentisering på din webbserver, som Kerberos eller NTLM."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"Kopiera telefonnummer, avdelningar och andra LDAP-fält till WordPress vid "
+"inloggning. Använd dessa värden i ditt tema eller andra plugins."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "Visa planer"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "Öppna kassan i en ny flik"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"Planer och kassa använder PaidCommunities. Det tar emot din IP-adress och "
+"webbläsardetaljer."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"Efter köp, installera Pro ZIP från ditt kvitto. Dina LDAP-inställningar "
+"kommer att förbli på plats."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "Licensstatus uppdaterad."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr ""
+"Kunde inte verifiera licensen. Kontrollera din nyckel och anslutning, och "
+"försök igen."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Pro-licens"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "Ange licensnyckeln från ditt inköpskvitto."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Inte aktiverad"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "Utgången"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "Licensstatus"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "Aktiv"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "Data som delas med PaidCommunities"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"Aktivering skickar din licensnyckel, webbplatsdomän, pluginversion och "
+"serverns IP-adress till PaidCommunities. Licenskontroller skickar samma "
+"webbplatsdetaljer."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Licensnyckel"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Aktivera licens"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Avaktivera licens"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "Kontrollera licens"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "Välj en licensåtgärd."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "Aktiverar licens…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "Avaktiverar licens…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "Licensfel"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "Licens uppdaterad"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "Pro-planer"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "Laddar planer…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "Kunde inte ladda planer. Öppna kassan i en ny flik."
 
 #: src/Ldap_Client.php:440
 msgid ""

@@ -45,4 +45,5 @@ if ( ! is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
 require_once __DIR__ . '/vendor/autoload.php';
 
 register_activation_hook( __FILE__, array( SimpleLdapLogin\Plugin::class, 'activate' ) );
+register_deactivation_hook( __FILE__, array( SimpleLdapLogin\License::class, 'stop_checks' ) );
 add_action( 'plugins_loaded', array( SimpleLdapLogin\Plugin::class, 'boot' ) );

@@ -56,8 +56,12 @@ msgid "Custom user fields"
 msgstr "Vlastní uživatelská pole"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "Kopírujte atributy LDAP do meta polí uživatelů WordPress."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"Zkopírujte LDAP pole, jako je telefonní číslo nebo oddělení, do WordPressu "
+"při přihlášení. Vaše téma nebo jiné pluginy mohou tyto hodnoty použít."
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -106,20 +110,33 @@ msgstr "Ukládá editovatelnou hodnotu WordPress, například phone_wp."
 msgid "Single sign-on (SSO)"
 msgstr "Jednotné přihlášení (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"Váš webový server musí autentizovat uživatele a nastavit REMOTE_USER. Nikdy "
-"nekopírujte hlavičku prohlížeče do REMOTE_USER ani neumožňujte přístup, "
-"který obchází autentizaci serveru. Nastavte účet pro vyhledávání LDAP v "
-"sekci Připojení."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "Povolit automatické přihlášení po autentizaci webového serveru."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr "Přihlaste uživatele do WordPressu poté, co je váš webový server autentizuje."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "Povolit jednotné přihlášení"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "Uživatelé nepotřebují druhé přihlášení do WordPressu."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"Nakonfigurujte svůj webový server pro autentizaci uživatelů a nastavte "
+"REMOTE_USER. Zadejte LDAP vyhledávací účet na připojení."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"Nekopírujte hlavičky prohlížeče do REMOTE_USER. Zablokujte přístup, který "
+"obchází autentizaci webového serveru."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -718,6 +735,188 @@ msgstr ""
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "Použijte své heslo WordPress pro tento účet pro obnovu."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "Licence"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "Získat Pro"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"Nepodařilo se zkontrolovat vaši licenci. Pro funkce zůstávají aktivní. "
+"Zkuste to znovu na kartě Licence."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"Vaše Pro licence vypršela. Jednotné přihlášení a aktualizace vlastních polí "
+"jsou vypnuty. Obnovte svou licenci a poté vyberte Zkontrolovat licenci na "
+"kartě Licence."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"Aktivujte Pro licenci na kartě Licence, abyste mohli používat jednotné "
+"přihlášení a vlastní uživatelská pole."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"Dejte zaměstnancům méně výzev k přihlášení a udržujte údaje o uživatelích "
+"synchronizované s LDAP."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"Nechte zaměstnance otevřít WordPress bez další výzvy k přihlášení. Vyžaduje "
+"autentizaci na vašem webovém serveru, jako je Kerberos nebo NTLM."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"Zkopírujte telefonní čísla, oddělení a další LDAP pole do WordPressu při "
+"přihlášení. Použijte tyto hodnoty ve svém tématu nebo jiných pluginech."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "Zobrazit plány"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "Otevřít pokladnu v novém panelu"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"Plány a pokladny používají PaidCommunities. Získává vaši IP adresu a "
+"podrobnosti o prohlížeči."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"Po zakoupení nainstalujte Pro ZIP z vašeho potvrzení. Vaše LDAP nastavení "
+"zůstanou na svém místě."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "Stav licence byl aktualizován."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr "Nelze ověřit licenci. Zkontrolujte svůj klíč a připojení, poté zkuste znovu."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Pro licence"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "Zadejte licenční klíč z vašeho potvrzení o nákupu."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Není aktivováno"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "Vypršela"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "Neaktivní"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "Stav licence"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "Aktivní"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "Data sdílená s PaidCommunities"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"Aktivace odešle váš licenční klíč, doménu webu, verzi pluginu a IP adresu "
+"serveru do PaidCommunities. Kontroly licence odešlou stejné podrobnosti o "
+"webu."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Licenční klíč"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Aktivovat licenci"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Deaktivovat licenci"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "Zkontrolovat licenci"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "Vyberte akci licence."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "Aktivace licence…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "Deaktivace licence…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "Chyba licence"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "Licence aktualizována"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "Pro plány"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "Načítání plánů…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "Nepodařilo se načíst plány. Otevřete pokladnu v novém panelu."
 
 #: src/Ldap_Client.php:440
 msgid ""

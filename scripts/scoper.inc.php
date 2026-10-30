@@ -3,20 +3,20 @@
 
 use Symfony\Component\Finder\Finder;
 
-$files = array( 'composer.json', 'src/Ldap_Client.php' );
+$files = array( 'composer.json', 'src/Ldap_Client.php', 'src/License.php', 'src/PaidCommunities_Client.php', 'src/Commerce.php' );
+$finders = array( Finder::create()->files()->in( 'vendor' ) );
 if ( is_file( 'pro/src/Ldap_Client.php' ) ) {
-	$files[] = 'pro/src/Ldap_Client.php';
+	$files   = array_merge( $files, array( 'pro/composer.json', 'pro/src/Ldap_Client.php' ) );
+	$finders[] = Finder::create()->files()->in( 'pro/vendor' );
 }
 
 return array(
 	'prefix'                  => 'SimpleLdapLoginVendor',
 	'php-version'             => '8.1',
-	'finders'                 => array(
-		Finder::create()->files()->in( 'vendor' ),
-		Finder::create()->append( $files ),
-	),
+	'finders'                 => array_merge( $finders, array( Finder::create()->append( $files ) ) ),
 	'exclude-namespaces'      => array( 'SimpleLdapLogin' ),
-	'exclude-classes'         => array( 'WP_Error', 'WP_User' ),
+	'exclude-constants'       => array( 'SLL_FILE', 'SLL_VERSION', 'SLL_EDITION', 'SLL_FEATURES_LOADED', 'SLL_DISABLE_LDAP', 'SLL_ENCRYPTION_KEY' ),
+	'exclude-classes'         => array( 'WP_Error', 'WP_User', 'WP_Http' ),
 	'exclude-functions'       => array( '__', 'is_wp_error', 'apply_filters', 'wp_parse_url' ),
 	'expose-global-classes'   => false,
 	'expose-global-functions' => false,

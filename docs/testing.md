@@ -2,19 +2,19 @@
 
 Test date: 2026-10-30.
 
-After the two-package change, source checks, coding standards, assets, translations, package tests, and the full Docker matrix pass. All 24 core configurations passed with the new 1.x settings migration checks. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
+After the license change, source checks, coding standards, assets, translations, package tests, and the full Docker matrix pass. All 24 core configurations passed with license expiry checks and the 1.x settings migration checks. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
 
 The two-package change removes Legacy and Transition builds and eligibility records. The current checks cover direct 1.x settings migration in both packages. SSO and custom user field sites must install Pro directly.
 
 ## Source and release packages
 
-`composer check` passes all 514 checks: 213 for settings, secrets, recovery policies, authentication, and LDAP; 277 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. The latest source checks ran locally on PHP 8.5. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+`composer check` passes 702 checks: 213 for settings, secrets, recovery policies, authentication, and LDAP; 353 for admin screens; 20 for package replacement; 112 for licenses; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. The latest source checks ran locally on PHP 8.5. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
 
 LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
 
-`npm run lint` passes with Node 24 and `@wordpress/scripts` 37. Root, Pro, and build-tool Composer manifests pass strict validation. The Composer lock audit reported no known security advisories when LdapRecord 4.1.1 was installed. All 18 production dependencies declare MIT licenses. Their license files remain in the ZIPs.
+`npm run lint` passes with Node 24 and `@wordpress/scripts` 37. Root, Pro, and build-tool Composer manifests pass strict validation. The Composer lock audit reported no known security advisories when LdapRecord 4.1.1 and PaidCommunities 0.0.4 were installed. Production dependencies declare MIT licenses. Their license files remain in the ZIPs.
 
-`npm run test:packages` builds only Free and Pro from the real source. Ten extracted-package cases cover fresh settings, schema 2 settings, and 1.x settings in site and network scope. They check PSR-4 loading, feature hooks, metadata, syntax, file exclusions, migration backups, and source preservation. The removed Legacy and Transition build arguments must be rejected. Startup must not make a service request.
+`npm run test:packages` builds only Free and Pro from the real source. Twelve extracted-package cases cover fresh settings, schema 2 settings, 1.x settings in site and network scope, and Pro with missing or expired licenses. They check PSR-4 loading, feature hooks, metadata, syntax, file exclusions, migration backups, and source preservation. The removed Legacy and Transition build arguments must be rejected. Startup must not make a service request.
 
 Package tests also check private dependency namespaces, helper functions, Composer helper-file records, AD relation classes, SID conversion, and event names. The library must work when another plugin has already defined a helper with the same name. Release ZIPs use the `SimpleLdapLoginVendor` prefix.
 
@@ -43,7 +43,7 @@ Recovery tests cover Selected administrators, All administrators (legacy), and O
 
 Selected accounts accept local username and email login without a directory request. Wrong local passwords and WordPress security filter denials still fail. LDAP and server SSO cannot use direct names, UPNs, or domain aliases to select a recovery account or run its profile and metadata hooks. Removing, deleting, or demoting an account removes its exception. These checks pass across all 24 core configurations.
 
-The HTTP suite has 58 checks per edition and activation mode. Apache Basic authentication supplies a trusted `REMOTE_USER`; forged headers cannot create a session. Tests cover SSO on and off, password login off, recovery, invalid identities, group denials, user and later login filter denials, request contexts, and auth cookies. Separate PHP requests remove LDAP or disable encryption functions, then check controlled errors, unchanged secrets, and usable admin controls.
+The HTTP suite has 69 checks per edition and activation mode. Apache Basic authentication supplies a trusted `REMOTE_USER`; forged headers cannot create a session. Tests cover SSO on and off, license states, password login off, recovery, invalid identities, group denials, user and later login filter denials, request contexts, and auth cookies. Separate PHP requests remove LDAP or disable encryption functions, then check controlled errors, unchanged secrets, and usable admin controls.
 
 Earlier tests found that an SSO proof made with `wp_generate_password()` could contain whitespace that core trims. The proof now uses 32 random bytes encoded as hex. Source and HTTP tests retain that regression check and verify that later authentication filters can still deny access.
 
@@ -65,4 +65,6 @@ See the current [Plugin Check report](plugin-check.md) for the Free and Pro pack
 
 Complete the [release checklist](release-checklist.md). Microsoft AD DS, domain trusts, Kerberos negotiation, expired certificates, customer settings, and named second-factor integrations still need acceptance tests. Samba and Apache Basic authentication do not establish support for every AD policy or SSO setup.
 
-PaidCommunities licensing and automatic external updates are not implemented. Pro remains a local preview. Its license and update integration must be ready before release. Sites that use SSO or custom user fields in 1.x must upgrade directly to Pro. The previously uploaded draft ZIP also needs replacement before release.
+PaidCommunities activation and license checks are implemented. Source and Docker tests use controlled service responses. Live account tests and automatic external updates remain required. Pro remains a local preview. Sites that use SSO or custom user fields in 1.x must upgrade directly to Pro and activate a license. The previously uploaded draft ZIP also needs replacement before release.
+
+The shared SDK integration adds the official pricing and activation components to Free. JavaScript tests cover purchase consent, the API adapter, failure responses, and checkout message validation. Browser checks verify the component and checkout navigation. Live checkout is blocked because the product is Draft; release and payment setup are still required.

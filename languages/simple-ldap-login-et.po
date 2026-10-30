@@ -56,8 +56,12 @@ msgid "Custom user fields"
 msgstr "Kohandatud kasutaja väljad"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "Kopeerige LDAP atribuudid WordPressi kasutaja meta väljadele."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"Kopeerige LDAP-i väljad, nagu telefoninumber või osakond, WordPressi "
+"sisselogimisel. Teie teema või muud pluginad saavad neid väärtusi kasutada."
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -106,20 +110,35 @@ msgstr "Salvestab muudetava WordPressi väärtuse, näiteks phone_wp."
 msgid "Single sign-on (SSO)"
 msgstr "Üksik sisselogimine (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"Teie veebiserver peab autentima kasutajad ja seadma REMOTE_USER. Ärge "
-"kunagi kopeerige brauseri päist REMOTE_USER-isse ega lubage juurdepääsu, "
-"mis möödub serveri autentimisest. Seadke LDAP otsingu konto ühenduse "
-"seadetes."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "Lubage automaatne sisselogimine pärast veebiserveri autentimist."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr ""
+"Logige kasutajad WordPressi sisse pärast seda, kui teie veebiserver neid "
+"autentib."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "Luba ühekordne sisselogimine"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "Kasutajad ei vaja WordPressi jaoks teist sisselogimist."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"Konfigureerige oma veebiserver kasutajate autentimiseks ja seadke "
+"REMOTE_USER. Sisestage ühenduse jaoks LDAP-i otsingu konto."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"Ärge kopeerige brauseri päiseid REMOTE_USER-i. Blokeerige juurdepääs, mis "
+"möödub veebiserveri autentimisest."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -726,6 +745,190 @@ msgstr ""
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "Kasutage oma WordPressi parooli selle taastamiskonto jaoks."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "Litsents"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "Hangi Pro"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"Teie litsentsi kontrollimine ebaõnnestus. Pro funktsioonid jäävad "
+"aktiivseks. Proovige uuesti Litsentsi vahekaardil."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"Teie Pro litsents on aegunud. Ühekordne sisselogimine ja kohandatud väljade "
+"värskendused on välja lülitatud. Uuendage oma litsentsi ja seejärel valige "
+"Litsentsi vahekaardil Kontrolli litsentsi."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"Aktiveerige Pro litsents Litsentsi vahekaardil, et kasutada ühekordset "
+"sisselogimist ja kohandatud kasutajavälju."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"Andke töötajatele vähem sisselogimisnõudeid ja hoidke kasutajaandmed "
+"LDAP-iga sünkroonis."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"Laske töötajatel avada WordPress ilma teise sisselogimisnõudeta. Nõuab "
+"autentimist teie veebiserveris, näiteks Kerberos või NTLM."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"Kopeerige telefoninumbrid, osakonnad ja muud LDAP-i väljad WordPressi "
+"sisselogimisel. Kasutage neid väärtusi oma teemas või muudes pluginates."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "Vaata plaane"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "Ava kassas uus vahekaart"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"Plaanimine ja kassas kasutavad PaidCommunities. See saab teie IP-aadressi "
+"ja brauseri üksikasjad."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"Pärast ostu sooritamist installige oma kviitungist Pro ZIP. Teie LDAP-i "
+"seaded jäävad kehtima."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "Litsentsi olek on uuendatud."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr ""
+"Litsentsi kontrollimine ebaõnnestus. Kontrollige oma võtit ja ühendust, "
+"seejärel proovige uuesti."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Pro litsents"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "Sisestage litsentsi võti oma ostu kviitungist."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Ei ole aktiveeritud"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "Aegunud"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "Passiivne"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "Litsentsi olek"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "Aktiivne"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "Andmed, mida jagatakse PaidCommunities'iga"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"Aktiveerimine saadab teie litsentsi võtme, saidi domeeni, plugina versiooni "
+"ja serveri IP-aadressi PaidCommunities'ile. Litsentsi kontrollid saadavad "
+"samu saidi üksikasju."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Litsentsi võti"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Aktiveeri litsents"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Deaktiveeri litsents"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "Kontrolli litsentsi"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "Valige litsentsi tegevus."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "Litsentsi aktiveerimine…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "Litsentsi deaktiveerimine…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "Litsentsi viga"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "Litsents uuendatud"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "Pro plaanid"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "Plaane laaditakse…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "Plaane ei saanud laadida. Ava kassas uus vahekaart."
 
 #: src/Ldap_Client.php:440
 msgid ""

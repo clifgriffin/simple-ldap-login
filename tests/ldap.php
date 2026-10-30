@@ -61,6 +61,7 @@ function sll_ldap_setup( array $changes = array(), bool $pro = true ): Ldap_Clie
 	$GLOBALS['sll_test_filters'] = array();
 	$GLOBALS['sll_test_network'] = false;
 	$GLOBALS['sll_test_options'] = array( 'sll_settings' => array_replace( Settings::defaults(), array( 'directory' => 'ol', 'base_dn' => 'dc=example,dc=com', 'domain_controllers' => array( 'ldap.example.com' ) ), $changes ) );
+	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => \home_url() );
 	$GLOBALS['sll_test_ldap'] = array( 'uris' => array(), 'options' => array(), 'configurations' => array(), 'tls' => true, 'certificate' => true, 'binds' => array(), 'bind_results' => array(), 'searches' => array(), 'responses' => array(), 'closed' => 0 );
 	$settings = new Settings();
 	if ( $pro ) {

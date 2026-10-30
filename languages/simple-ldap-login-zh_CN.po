@@ -56,8 +56,10 @@ msgid "Custom user fields"
 msgstr "自定义用户字段"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "将LDAP属性复制到WordPress用户元字段。"
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr "在登录时将 LDAP 字段（如电话号码或部门）复制到 WordPress。您的主题或其他插件可以使用这些值。"
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -102,18 +104,29 @@ msgstr "存储可编辑的WordPress值，例如phone_wp。"
 msgid "Single sign-on (SSO)"
 msgstr "单点登录（SSO）"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"您的Web服务器必须验证用户并设置REMOTE_USER。切勿将浏览器头复制到REMOTE_"
-"USER或允许绕过服务器身份验证的访问。在连接上设置LDAP搜索账户。"
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "在Web服务器身份验证后启用自动登录。"
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr "在您的 Web 服务器验证用户后，将用户登录到 WordPress。"
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "启用单点登录"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "用户无需为 WordPress 进行第二次登录。"
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr "配置您的 Web 服务器以验证用户并设置 REMOTE_USER。在连接中输入 LDAP 搜索帐户。"
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr "不要将浏览器头复制到 REMOTE_USER。阻止绕过 Web 服务器身份验证的访问。"
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -669,6 +682,168 @@ msgstr "无法创建您的 WordPress 账户。请联系您的网站管理员。"
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "使用您的 WordPress 密码作为此恢复账户。"
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "许可证"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "获取专业版"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr "无法检查您的许可证。专业功能保持激活状态。请在许可证选项卡上重试。"
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr "您的专业许可证已过期。单点登录和自定义字段更新已关闭。请续订您的许可证，然后在许可证选项卡上选择检查许可证。"
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr "在许可证选项卡上激活专业许可证以使用单点登录和自定义用户字段。"
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr "减少员工的登录提示，并保持用户详细信息与 LDAP 同步。"
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr "让员工无需再次登录即可打开 WordPress。需要在您的 Web 服务器上进行身份验证，例如 Kerberos 或 NTLM。"
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr "在登录时将电话号码、部门和其他 LDAP 字段复制到 WordPress。可以在您的主题或其他插件中使用这些值。"
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "查看计划"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "在新标签页中打开结账"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr "计划和结账使用 PaidCommunities。它会接收您的 IP 地址和浏览器详细信息。"
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr "购买后，从您的收据中安装专业 ZIP。您的 LDAP 设置将保持不变。"
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "许可证状态已更新。"
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr "无法验证许可证。请检查您的密钥和连接，然后重试。"
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Pro 许可证"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "输入您购买收据上的许可证密钥。"
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "未激活"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "已过期"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "未激活"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "许可证状态"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "有效"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "与 PaidCommunities 共享的数据"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr "激活时将您的许可证密钥、站点域名、插件版本和服务器 IP 地址发送给 PaidCommunities。许可证检查发送相同的站点详细信息。"
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "许可证密钥"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "激活许可证"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "停用许可证"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "检查许可证"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "选择一个许可证操作。"
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "正在激活许可证…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "正在停用许可证…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "许可证错误"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "许可证已更新"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "专业版计划"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "正在加载计划…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "无法加载计划。在新标签页中打开结账。"
 
 #: src/Ldap_Client.php:440
 msgid ""

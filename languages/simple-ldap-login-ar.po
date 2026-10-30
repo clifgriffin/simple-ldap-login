@@ -57,8 +57,12 @@ msgid "Custom user fields"
 msgstr "حقول المستخدم المخصصة"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "انسخ سمات LDAP إلى حقول بيانات المستخدم في WordPress."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"انسخ حقول LDAP، مثل رقم الهاتف أو القسم، إلى WordPress عند تسجيل الدخول. "
+"يمكن أن تستخدم القالب الخاص بك أو إضافات أخرى هذه القيم."
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -105,19 +109,35 @@ msgstr "يخزن القيمة القابلة للتعديل في WordPress، م�
 msgid "Single sign-on (SSO)"
 msgstr "تسجيل الدخول الموحد (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"يجب على خادم الويب مصادقة المستخدمين وتعيين REMOTE_USER. لا تنسخ رأس "
-"المتصفح إلى REMOTE_USER أو تسمح بالوصول الذي يتجاوز مصادقة الخادم. قم "
-"بتعيين حساب البحث LDAP في الاتصال."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "تمكين تسجيل الدخول التلقائي بعد مصادقة خادم الويب."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr ""
+"قم بتسجيل دخول المستخدمين إلى WordPress بعد أن يقوم خادم الويب الخاص بك "
+"بالتحقق من هويتهم."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "تفعيل تسجيل الدخول الأحادي"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "لا يحتاج المستخدمون إلى تسجيل دخول ثانٍ لـ WordPress."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"قم بتكوين خادم الويب الخاص بك للتحقق من هوية المستخدمين وتعيين REMOTE_USER. "
+"أدخل حساب بحث LDAP في الاتصال."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"لا تقم بنسخ رؤوس المتصفح إلى REMOTE_USER. قم بحظر الوصول الذي يتجاوز تحقق "
+"خادم الويب."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -700,6 +720,188 @@ msgstr "لم يتمكن من إنشاء حساب WordPress الخاص بك. ات
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "استخدم كلمة مرور WordPress الخاصة بك لهذا الحساب الاستردادي."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "ترخيص"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "احصل على النسخة الاحترافية"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"تعذر التحقق من ترخيصك. تظل ميزات Pro نشطة. حاول مرة أخرى في علامة التبويب "
+"الترخيص."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"انتهت صلاحية ترخيص Pro الخاص بك. تم إيقاف تسجيل الدخول الأحادي وتحديثات "
+"الحقول المخصصة. قم بتجديد ترخيصك، ثم اختر التحقق من الترخيص في علامة "
+"التبويب الترخيص."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"قم بتنشيط ترخيص Pro في علامة التبويب الترخيص لاستخدام تسجيل الدخول الأحادي "
+"وحقول المستخدم المخصصة."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"قدم للموظفين عددًا أقل من مطالبات تسجيل الدخول واحتفظ بتفاصيل المستخدم "
+"متزامنة مع LDAP."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"دع الموظفين يفتحون WordPress دون مطالبة تسجيل دخول أخرى. يتطلب التحقق من "
+"الهوية على خادم الويب الخاص بك، مثل Kerberos أو NTLM."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"انسخ أرقام الهواتف والأقسام وغيرها من حقول LDAP إلى WordPress عند تسجيل "
+"الدخول. استخدم هذه القيم في القالب الخاص بك أو إضافات أخرى."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "عرض الخطط"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "فتح صفحة الدفع في علامة تبويب جديدة"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"تستخدم الخطط والدفع PaidCommunities. يتلقى عنوان IP الخاص بك وتفاصيل "
+"المتصفح."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"بعد الشراء، قم بتثبيت ملف ZIP Pro من إيصالك. ستبقى إعدادات LDAP الخاصة بك "
+"في مكانها."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "تم تحديث حالة الترخيص."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr "تعذر التحقق من الترخيص. تحقق من مفتاحك والاتصال، ثم حاول مرة أخرى."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "ترخيص Pro"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "أدخل مفتاح الترخيص من إيصال الشراء الخاص بك."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "لم يتم تنشيطه"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "منتهية الصلاحية"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "غير نشط"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "حالة الترخيص"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "نشط"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "البيانات المشتركة مع PaidCommunities"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"تقوم عملية التفعيل بإرسال مفتاح الترخيص الخاص بك، ونطاق الموقع، وإصدار "
+"الإضافة، وعنوان IP للخادم إلى PaidCommunities. ترسل فحوصات الترخيص نفس "
+"تفاصيل الموقع."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "مفتاح الترخيص"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "تنشيط الترخيص"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "إلغاء تنشيط الترخيص"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "تحقق من الترخيص"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "اختر إجراء الترخيص."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "جارٍ تفعيل الترخيص…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "جارٍ إلغاء تفعيل الترخيص…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "خطأ في الترخيص"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "تم تحديث الترخيص"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "خطط النسخة الاحترافية"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "جارٍ تحميل الخطط…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "تعذر تحميل الخطط. افتح صفحة الدفع في علامة تبويب جديدة."
 
 #: src/Ldap_Client.php:440
 msgid ""

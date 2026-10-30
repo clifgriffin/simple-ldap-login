@@ -148,6 +148,7 @@ final class Admin {
 		<div class="wrap sll-admin" data-sll-directory-type="<?php echo esc_attr( (string) $this->settings->get( 'directory' ) ); ?>">
 			<h1><?php esc_html_e( 'Simple LDAP Login', 'simple-ldap-login' ); ?></h1>
 			<?php $this->notice(); ?>
+			<?php do_action( 'sll_settings_notices' ); ?>
 			<div class="sll-overview">
 				<div>
 					<p class="sll-eyebrow"><?php echo $this->settings->is_network() ? esc_html__( 'Network settings', 'simple-ldap-login' ) : esc_html__( 'Site settings', 'simple-ldap-login' ); ?></p>
@@ -176,6 +177,9 @@ final class Admin {
 					<a class="nav-tab <?php echo $tab === $key ? 'nav-tab-active' : ''; ?>" href="<?php echo esc_url( add_query_arg( 'tab', $key, $this->url() ) ); ?>" <?php echo $tab === $key ? 'aria-current="page"' : ''; ?>><?php echo esc_html( $label ); ?></a>
 				<?php endforeach; ?>
 			</nav>
+			<?php if ( has_action( 'sll_settings_page_' . $tab ) ) : ?>
+				<?php do_action( 'sll_settings_page_' . $tab, $this ); ?>
+			<?php else : ?>
 			<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post" class="sll-settings-form">
 				<?php $this->form_fields( $tab, 'save' ); ?>
 				<?php
@@ -205,6 +209,7 @@ final class Admin {
 					<span><?php esc_html_e( 'Settings on other tabs are kept.', 'simple-ldap-login' ); ?></span>
 				</div>
 			</form>
+			<?php endif; ?>
 			<?php
 			if ( 'help' === $tab || 'connection' === $tab ) {
 				$this->tests( $tab ); }

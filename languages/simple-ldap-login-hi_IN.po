@@ -56,8 +56,12 @@ msgid "Custom user fields"
 msgstr "कस्टम उपयोगकर्ता फ़ील्ड"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "LDAP विशेषताओं को WordPress उपयोगकर्ता मेटा फ़ील्ड में कॉपी करें।"
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"लॉगिन के समय LDAP फ़ील्ड, जैसे फोन नंबर या विभाग, को WordPress में कॉपी "
+"करें। आपका थीम या अन्य प्लगइन इन मानों का उपयोग कर सकते हैं।"
 
 #: pro/src/Admin.php:61
 #: src/Settings.php:615
@@ -106,20 +110,35 @@ msgstr "संपादनीय WordPress मान को संग्रह�
 msgid "Single sign-on (SSO)"
 msgstr "एकल साइन-ऑन (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"आपके वेब सर्वर को उपयोगकर्ताओं को प्रमाणित करना चाहिए और REMOTE_USER सेट "
-"करना चाहिए। कभी भी REMOTE_USER में ब्राउज़र हेडर कॉपी न करें या सर्वर "
-"प्रमाणीकरण को बायपास करने की अनुमति न दें। कनेक्शन पर LDAP खोज खाता सेट "
-"करें।"
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "वेब सर्वर प्रमाणीकरण के बाद स्वचालित लॉगिन सक्षम करें।"
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr ""
+"आपके वेब सर्वर द्वारा प्रमाणीकरण के बाद उपयोगकर्ताओं को WordPress में साइन "
+"इन करें।"
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "सिंगल साइन-ऑन सक्षम करें"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "उपयोगकर्ताओं को WordPress के लिए एक दूसरा लॉगिन की आवश्यकता नहीं है।"
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"अपने वेब सर्वर को उपयोगकर्ताओं को प्रमाणीकरण करने और REMOTE_USER सेट करने "
+"के लिए कॉन्फ़िगर करें। कनेक्शन पर LDAP खोज खाता दर्ज करें।"
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"REMOTE_USER में ब्राउज़र हेडर कॉपी न करें। वेब सर्वर प्रमाणीकरण को बायपास "
+"करने वाली पहुंच को ब्लॉक करें।"
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -726,6 +745,189 @@ msgstr "आपका WordPress खाता बनाने में असम�
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "इस पुनर्प्राप्ति खाते के लिए अपना WordPress पासवर्ड उपयोग करें।"
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "लाइसेंस"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "प्रो प्राप्त करें"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"आपका लाइसेंस चेक नहीं किया जा सका। प्रो सुविधाएँ सक्रिय हैं। लाइसेंस टैब पर "
+"फिर से प्रयास करें।"
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"आपका प्रो लाइसेंस समाप्त हो गया है। सिंगल साइन-ऑन और कस्टम फ़ील्ड अपडेट बंद "
+"हैं। अपना लाइसेंस नवीनीकरण करें, फिर लाइसेंस टैब पर लाइसेंस जांचें का चयन "
+"करें।"
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"सिंगल साइन-ऑन और कस्टम उपयोगकर्ता फ़ील्ड का उपयोग करने के लिए लाइसेंस टैब "
+"पर प्रो लाइसेंस सक्रिय करें।"
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "सिंपल LDAP लॉगिन प्रो"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr ""
+"कर्मचारियों को कम लॉगिन प्रॉम्प्ट दें और LDAP के साथ उपयोगकर्ता विवरण को "
+"समन्वयित रखें।"
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"कर्मचारियों को बिना किसी अन्य लॉगिन प्रॉम्प्ट के WordPress खोलने दें। आपके "
+"वेब सर्वर पर प्रमाणीकरण की आवश्यकता है, जैसे Kerberos या NTLM।"
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"लॉगिन के समय फोन नंबर, विभाग और अन्य LDAP फ़ील्ड को WordPress में कॉपी "
+"करें। अपने थीम या अन्य प्लगइन में इन मानों का उपयोग करें।"
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "योजनाएँ देखें"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "नए टैब में चेकआउट खोलें"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"योजनाएँ और चेकआउट PaidCommunities का उपयोग करते हैं। यह आपके IP पते और "
+"ब्राउज़र विवरण प्राप्त करता है।"
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"खरीद के बाद, अपनी रसीद से प्रो ZIP स्थापित करें। आपकी LDAP सेटिंग्स यथावत "
+"रहेंगी।"
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "लाइसेंस स्थिति अपडेट की गई।"
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr ""
+"लाइसेंस की सत्यापन नहीं हो सका। अपनी कुंजी और कनेक्शन की जांच करें, फिर फिर "
+"से प्रयास करें।"
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "प्रो लाइसेंस"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "अपनी खरीद रसीद से लाइसेंस कुंजी दर्ज करें।"
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "सक्रिय नहीं किया गया"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "समाप्त"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "निष्क्रिय"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "लाइसेंस स्थिति"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "सक्रिय"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "PaidCommunities के साथ साझा किया गया डेटा"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"सक्रियकरण आपकी लाइसेंस कुंजी, साइट डोमेन, प्लगइन संस्करण, और सर्वर IP पते "
+"को PaidCommunities पर भेजता है। लाइसेंस जांचें वही साइट विवरण भेजती हैं।"
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "लाइसेंस कुंजी"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "लाइसेंस सक्रिय करें"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "लाइसेंस निष्क्रिय करें"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "लाइसेंस जांचें"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "एक लाइसेंस क्रिया चुनें।"
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "लाइसेंस सक्रिय किया जा रहा है…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "लाइसेंस निष्क्रिय किया जा रहा है…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "लाइसेंस त्रुटि"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "लाइसेंस अपडेट किया गया"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "प्रो योजनाएँ"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "योजनाएँ लोड हो रही हैं…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "योजनाएँ लोड नहीं की जा सकीं। नए टैब में चेकआउट खोलें।"
 
 #: src/Ldap_Client.php:440
 msgid ""

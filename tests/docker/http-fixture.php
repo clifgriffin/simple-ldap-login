@@ -4,6 +4,17 @@ if ( ! defined( 'SLL_HTTP_TEST_CASE' ) ) {
 	return;
 }
 
+foreach ( array( 'option_sll_pro_license', 'site_option_sll_pro_license' ) as $hook ) {
+	add_filter( $hook, static function ( $value ) {
+		if ( 'license-missing' === SLL_HTTP_TEST_CASE ) { return array(); }
+		if ( ! is_array( $value ) ) { return $value; }
+		if ( 'license-expired' === SLL_HTTP_TEST_CASE ) { $value['status'] = 'expired'; }
+		if ( 'license-inactive' === SLL_HTTP_TEST_CASE ) { $value['status'] = 'inactive'; }
+		if ( 'license-outage' === SLL_HTTP_TEST_CASE ) { $value['error'] = true; }
+		return $value;
+	} );
+}
+
 if ( 'proof-whitespace' === SLL_HTTP_TEST_CASE ) {
 	add_filter(
 		'random_password',

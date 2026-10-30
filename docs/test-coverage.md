@@ -39,6 +39,7 @@ Within each core configuration, the tests change selected settings and check the
 | Recovery and fallback | Selected, legacy, and Off modes; local username/email login without LDAP; normal fallback; invalid local passwords; account removal and demotion; LDAP and SSO alias denial; WordPress security checks; recovery constant | `tests/auth.php`, `tests/docker/integration.php`, `tests/docker/http-check.php` |
 | Profile and metadata | Default and custom attributes, Pro string and number values, custom suffixes, local edit retention, changed mapped values, protected WordPress keys, Free feature absence | `tests/run.php`, `tests/auth.php`, `tests/docker/integration.php` |
 | Server SSO | SSO on/off, password login off, missing or invalid identity/service account, group denial, user and later login filter denial, existing session, password whitespace normalization | `tests/docker/http-check.php` |
+| Pro licenses | Activation, expiry, renewal, inactive and missing licenses, failed checks, encrypted secrets, site and network scope, copied sites, product families, permissions, and retained LDAP password login | `tests/licenses.php`, `tests/admin.php`, `tests/package-runtime.php`, `tests/docker/licenses.php`, `tests/docker/http-check.php` |
 | SSO request context | GET, POST, JSON, login page, AJAX, cron, XML-RPC, CLI, forged identity headers, auth cookies set only after success | `tests/docker/http-check.php` |
 | Migration | Both old option formats, schema 2 to 3 recovery policy, false and custom values, old encrypted passwords, backup, repeat migration, malformed data | `tests/run.php`, `tests/docker/migration.php` |
 | Package replacement | 1.x settings to Pro with LDAP login, SSO lookup, and metadata updates; Free to Pro, full package updates and replacements, blocked reduced Free update, deliberate inactive downgrade, activation and user data retention after shutdown | `tests/upgrades.php`, `tests/docker/upgrades.php` |
@@ -54,6 +55,6 @@ The HTTP suite uses real Apache authentication and checks the returned auth cook
 
 Keep the [release checklist](release-checklist.md) for Microsoft AD DS, domain trusts, Kerberos negotiation, expired certificates, customer configurations, and named second-factor integrations. Samba and a test user filter do not establish compatibility with every AD policy or second-factor plugin.
 
-PaidCommunities licensing and external updates still need implementation and their own service tests before release.
+Source and package tests cover PaidCommunities activation and status checks with controlled HTTP responses. They cover expiry, renewal, outages, and local feature checks. Docker checks cover the installed SDK, retained LDAP password login and recovery, and browser SSO restrictions. Live PaidCommunities account tests and external updates remain required before release.
 
 When a defect is fixed, add a test that fails with the old behavior. Update this table when support is added or removed. Keep configuration changes in the appropriate native test, rather than adding a full matrix dimension for each field.

@@ -55,8 +55,12 @@ msgid "Custom user fields"
 msgstr "Custom user fields"
 
 #: pro/src/Admin.php:60
-msgid "Copy LDAP attributes to WordPress user meta fields."
-msgstr "Copy LDAP attributes to WordPress user meta fields."
+msgid ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
+msgstr ""
+"Copy LDAP fields, such as phone number or department, to WordPress at "
+"login. Your theme or other plugins can use these values."
 
 #: pro/src/Admin.php:61 src/Settings.php:615
 msgid "Field mappings"
@@ -100,19 +104,33 @@ msgstr "Stores the editable WordPress value, such as phone_wp."
 msgid "Single sign-on (SSO)"
 msgstr "Single sign-on (SSO)"
 
-#: pro/src/Admin.php:83
-msgid ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-msgstr ""
-"Your web server must authenticate users and set REMOTE_USER. Never copy a "
-"browser header into REMOTE_USER or allow access that bypasses server "
-"authentication. Set the LDAP search account on Connection."
-
 #: pro/src/Admin.php:84
-msgid "Enable automatic login after web server authentication."
-msgstr "Enable automatic login after web server authentication."
+msgid "Sign users in to WordPress after your web server authenticates them."
+msgstr "Sign users in to WordPress after your web server authenticates them."
+
+#: pro/src/Admin.php:85
+msgid "Enable single sign-on"
+msgstr "Enable single sign-on"
+
+#: pro/src/Admin.php:85
+msgid "Users do not need a second login for WordPress."
+msgstr "Users do not need a second login for WordPress."
+
+#: pro/src/Admin.php:87
+msgid ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+msgstr ""
+"Configure your web server to authenticate users and set REMOTE_USER. Enter "
+"an LDAP search account on Connection."
+
+#: pro/src/Admin.php:88
+msgid ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
+msgstr ""
+"Do not copy browser headers into REMOTE_USER. Block access that bypasses "
+"web server authentication."
 
 #: pro/src/Admin.php:87
 msgid "Web server authentication"
@@ -677,6 +695,184 @@ msgstr "Could not create your WordPress account. Contact your site administrator
 #: src/Authenticator.php:180
 msgid "Use your WordPress password for this recovery account."
 msgstr "Use your WordPress password for this recovery account."
+
+#: pro/src/Admin.php:54
+msgid "License"
+msgstr "License"
+
+#: src/Commerce.php:51
+msgid "Get Pro"
+msgstr "Get Pro"
+
+#: src/Commerce.php:66
+msgid ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+msgstr ""
+"Could not check your license. Pro features remain active. Try again on the "
+"License tab."
+
+#: src/Commerce.php:68
+msgid ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+msgstr ""
+"Your Pro license has expired. Single sign-on and custom field updates are "
+"off. Renew your license, then select Check license on the License tab."
+
+#: src/Commerce.php:70
+msgid ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+msgstr ""
+"Activate a Pro license on the License tab to use single sign-on and custom "
+"user fields."
+
+#: src/Commerce.php:86
+msgid "Simple LDAP Login Pro"
+msgstr "Simple LDAP Login Pro"
+
+#: src/Commerce.php:86
+msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+msgstr "Give staff fewer login prompts and keep user details in sync with LDAP."
+
+#: src/Commerce.php:89
+msgid ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+msgstr ""
+"Let staff open WordPress without another login prompt. Requires "
+"authentication on your web server, such as Kerberos or NTLM."
+
+#: src/Commerce.php:91
+msgid ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+msgstr ""
+"Copy phone numbers, departments, and other LDAP fields to WordPress at "
+"login. Use these values in your theme or other plugins."
+
+#: src/Commerce.php:89
+msgid "View plans"
+msgstr "View plans"
+
+#: src/Commerce.php:89
+msgid "Open checkout in a new tab"
+msgstr "Open checkout in a new tab"
+
+#: src/Commerce.php:96
+msgid ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+msgstr ""
+"Plans and checkout use PaidCommunities. It receives your IP address and "
+"browser details."
+
+#: src/Commerce.php:100
+msgid ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+msgstr ""
+"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
+"will stay in place."
+
+#: pro/src/Admin.php:89
+msgid "License status updated."
+msgstr "License status updated."
+
+#: pro/src/Admin.php:89
+#: pro/src/License.php:210
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr "Could not verify the license. Check your key and connection, then try again."
+
+#: pro/src/Admin.php:92
+msgid "Pro license"
+msgstr "Pro license"
+
+#: src/Commerce.php:111
+msgid "Enter the license key from your purchase receipt."
+msgstr "Enter the license key from your purchase receipt."
+
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Not activated"
+
+#: pro/src/Admin.php:95
+msgid "Expired"
+msgstr "Expired"
+
+#: pro/src/Admin.php:96
+msgid "Inactive"
+msgstr "Inactive"
+
+#: pro/src/Admin.php:99
+msgid "License status"
+msgstr "License status"
+
+#: pro/src/Admin.php:99
+msgid "Active"
+msgstr "Active"
+
+#: src/Commerce.php:120
+msgid "Data shared with PaidCommunities"
+msgstr "Data shared with PaidCommunities"
+
+#: src/Commerce.php:121
+msgid ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+msgstr ""
+"Activation sends your license key, site domain, plugin version, and server "
+"IP address to PaidCommunities. License checks send the same site details."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "License key"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Activate license"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Deactivate license"
+
+#: pro/src/Admin.php:113
+msgid "Check license"
+msgstr "Check license"
+
+#: pro/src/Admin.php:144
+msgid "Select a license action."
+msgstr "Select a license action."
+
+#: src/Commerce.php:249
+msgid "Activating license…"
+msgstr "Activating license…"
+
+#: src/Commerce.php:250
+msgid "Deactivating license…"
+msgstr "Deactivating license…"
+
+#: src/Commerce.php:251
+msgid "License error"
+msgstr "License error"
+
+#: src/Commerce.php:252
+msgid "License updated"
+msgstr "License updated"
+
+#: src/Commerce.php:254
+msgid "Pro plans"
+msgstr "Pro plans"
+
+#: src/Commerce.php:255
+msgid "Loading plans…"
+msgstr "Loading plans…"
+
+#: src/Commerce.php:256
+msgid "Could not load plans. Open checkout in a new tab."
+msgstr "Could not load plans. Open checkout in a new tab."
 
 #: src/Ldap_Client.php:440
 msgid ""

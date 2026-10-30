@@ -6,6 +6,15 @@
 	padding-bottom: 36px;
 }
 
+.sll-admin .sll-license-component {
+	padding-block: 16px;
+}
+
+/* The SDK leaves its closed dialog in the page with opacity zero. */
+.settings_page_simple-ldap-login .swal-overlay:not(.swal-overlay--show-modal) {
+	visibility: hidden;
+}
+
 .sll-admin > h1 {
 	margin: 16px 0 20px;
 }

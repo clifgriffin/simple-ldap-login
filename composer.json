@@ -7,7 +7,8 @@
         "php": ">=8.1",
         "ext-ldap": "*",
         "ext-openssl": "*",
-        "directorytree/ldaprecord": "^4.1"
+        "directorytree/ldaprecord": "^4.1",
+        "paidcommunities/wordpress-sdk": "0.0.4"
     },
     "require-dev": {
         "wp-coding-standards/wpcs": "^3.3",
@@ -38,6 +39,7 @@
             "php tests/run.php",
             "php tests/admin.php",
             "php tests/upgrades.php",
+            "php tests/licenses.php",
             "php tests/uninstall.php"
         ],
         "lint": "phpcs",
