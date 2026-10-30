@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: hi_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: hi_IN\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "आपका डायरेक्टरी खाता निलंबित है। अपने साइट व्यवस्थापक से संपर्क करें।"
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "डायरेक्टरी पहचान बदल गई है। अपने साइट व्यवस्थापक से संपर्क करें।"
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "उपयोगकर्ता डेटा"
@@ -50,6 +58,39 @@ msgstr "उपयोगकर्ता डेटा"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "एकल साइन-ऑन"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "खाते"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "ऑडिट"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "प्रोफ़ाइल अपडेट"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr ""
+"लॉगिन पर मानक LDAP प्रोफ़ाइल फ़ील्ड मौजूदा WordPress खातों में कॉपी करें। "
+"पुनर्प्राप्ति खाते और सुपर व्यवस्थापक इसमें शामिल नहीं हैं।"
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "लॉगिन पर प्रोफ़ाइल अपडेट करें"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"नाम, ईमेल और वेबसाइट को डायरेक्टरी के मानों से बदलें। डायरेक्टरी के खाली "
+"मान फ़ील्ड को साफ़ कर देते हैं। ईमेल न होने या अमान्य होने पर अपडेट रुक "
+"जाता है।"
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -77,6 +118,140 @@ msgid ""
 msgstr ""
 "प्रति पंक्ति एक मैपिंग: LDAP विशेषता:WordPress मेटा कुंजी:प्रकार। उदाहरण: "
 "%1$s। प्रकार: %2$s या %3$s।"
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "समूह भूमिकाएँ"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"हर लॉगिन पर LDAP समूहों के आधार पर WordPress भूमिका तय करें। पहला मेल खाता "
+"नियम लागू होता है। कोई नियम मेल न खाने पर डिफ़ॉल्ट भूमिका इस्तेमाल होती है। "
+"पुनर्प्राप्ति खाते और सुपर व्यवस्थापक इसमें शामिल नहीं हैं।"
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "समूह से भूमिका के नियम"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr ""
+"हर पंक्ति में group:role प्रारूप में एक नियम लिखें। उदाहरण: Editors:editor. "
+"वर्तमान भूमिकाएँ बनाए रखने के लिए खाली छोड़ें।"
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "मल्टीसाइट सदस्यता"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"डायरेक्टरी समूहों के आधार पर साइट सदस्यता और भूमिकाएँ दें। हर साइट के लिए "
+"पहला मेल खाता नियम लागू होता है। नेटवर्क पर सक्रिय करने पर ये नियम समूह "
+"भूमिका नियमों की जगह लेते हैं।"
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "समूह से साइट के नियम"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"हर पंक्ति में group:site ID:role प्रारूप में एक नियम लिखें। उदाहरण: "
+"Editors:2:editor. समूह से हटने पर पिछली सदस्यता बहाल होती है या इन नियमों "
+"से बनाई गई सदस्यता हटती है। हटाने पर भूमिका में किए गए मैन्युअल बदलाव बने "
+"रहते हैं। सदस्यता अपडेट रोकने के लिए खाली छोड़ें।"
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "निर्धारित खाता आयात"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"WordPress के निर्धारित कार्यों से डायरेक्टरी खाते हर घंटे एक बार आयात करें। "
+"कनेक्शन में एक खोज खाता तय करें। साइट पर आने वाले ट्रैफ़िक या सिस्टम कार्य "
+"को WordPress cron चलाना होगा।"
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "निर्धारित आयात चालू करें"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr ""
+"पहले लॉगिन के बिना खाते बनाएँ। मौजूदा स्थानीय खाते शामिल नहीं हैं। कोई "
+"उपयोगकर्ता सत्र नहीं बनता।"
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "आयात का बेस DN"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "कनेक्शन का बेस DN इस्तेमाल करने के लिए खाली छोड़ें।"
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "आयात समूह"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"हर पंक्ति में एक समूह लिखें। इनमें से कम से कम एक समूह के उपयोगकर्ता आयात "
+"होते हैं। आयात के बेस DN के अंतर्गत सभी उपयोगकर्ता आयात करने के लिए खाली "
+"छोड़ें। लॉगिन समूह की पाबंदियाँ भी लागू होती हैं।"
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "निर्धारित पहुँच हटाना"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"प्रबंधित डायरेक्टरी खातों को हर घंटे एक बार जाँचें। खाते के न होने की "
+"पुष्टि, बंद AD खाता, बदली हुई डायरेक्टरी पहचान या लॉगिन समूह का नियम पूरा न "
+"होने पर पहुँच निलंबित होती है और सभी WordPress सत्र समाप्त हो जाते हैं। "
+"कनेक्शन त्रुटियों पर वर्तमान पहुँच की स्थिति बनी रहती है।"
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "निर्धारित पहुँच हटाना चालू करें"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"उपयोगकर्ता डेटा और सामग्री बनाए रखें। बाद में डायरेक्टरी की सफल जाँच के बाद "
+"पहुँच बहाल होती है। पुनर्प्राप्ति खाते और सुपर व्यवस्थापक इसमें शामिल नहीं "
+"हैं। कार्य रुकने या लाइसेंस निष्क्रिय होने पर मौजूदा निलंबन बने रहते हैं।"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -151,6 +326,88 @@ msgstr "REMOTE_USER मौजूद है।"
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER गायब है। वेब सर्वर कॉन्फ़िगरेशन की जांच करें।"
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "ऑडिट इतिहास"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"लॉगिन के नतीजे और खाते के बदलाव दर्ज करें। रिकॉर्ड में ईवेंट के नाम और खाता "
+"ID होते हैं। पासवर्ड, डायरेक्टरी फ़ील्ड के मान और क्रेडेंशियल शामिल नहीं "
+"हैं।"
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "ऑडिट इतिहास चालू करें"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr ""
+"निजी WordPress रिकॉर्ड सहेजें। संग्रह डिफ़ॉल्ट रूप से बंद है। संग्रह रुकने "
+"पर मौजूदा रिकॉर्ड बने रहते हैं।"
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "संग्रह अवधि (दिन)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr ""
+"डिफ़ॉल्ट: 30। सीमा: 1 से 3650। संग्रह चालू रहने पर दैनिक कार्य पुराने "
+"रिकॉर्ड हटाता है।"
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "ऑडिट इतिहास पढ़ने या निर्यात करने के लिए Pro लाइसेंस सक्रिय करें।"
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "CSV निर्यात करें"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr ""
+"नवीनतम 50 रिकॉर्ड। निर्यात में इस दायरे के सभी सुरक्षित रखे गए रिकॉर्ड "
+"शामिल हैं। समय UTC में है।"
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "समय (UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "ईवेंट"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "कार्रवाई करने वाले की ID"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "उपयोगकर्ता ID"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "साइट ID"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "आपको इन रिकॉर्ड को निर्यात करने की अनुमति नहीं है।"
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "एक Pro सेटिंग अमान्य है। प्रारूप और भूमिकाओं के नाम जाँचें।"
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: cs_CZ\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "Váš adresářový účet je pozastaven. Obraťte se na správce webu."
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "Identita v adresáři se změnila. Obraťte se na správce webu."
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "Uživatelská data"
@@ -50,6 +58,38 @@ msgstr "Uživatelská data"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "Jednotné přihlášení"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "Účty"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "Audit"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "Aktualizace profilů"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr ""
+"Při přihlášení kopírujte standardní profilová pole LDAP do stávajících účtů "
+"WordPress. Účty pro obnovení přístupu a superadministrátoři jsou vynecháni."
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "Aktualizovat profily při přihlášení"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"Nahraďte jména, e-mail a web hodnotami z adresáře. Prázdné hodnoty v "
+"adresáři vymažou pole. Chybějící nebo neplatný e-mail zastaví aktualizaci."
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -77,6 +117,142 @@ msgid ""
 msgstr ""
 "Jedno mapování na řádek: LDAP atribut:klíč meta WordPressu:typ. Příklad: "
 "%1$s. Typy: %2$s nebo %3$s."
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "Role skupin"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"Při každém přihlášení nastavte roli WordPress podle skupin LDAP. Platí "
+"první odpovídající pravidlo. Pokud žádné pravidlo neodpovídá, použije se "
+"výchozí role. Účty pro obnovení přístupu a superadministrátoři jsou "
+"vynecháni."
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "Pravidla přiřazení rolí skupinám"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr ""
+"Jedno pravidlo ve formátu group:role na řádek. Příklad: Editors:editor. Pro "
+"zachování současných rolí ponechte prázdné."
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "Členství v síti webů"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"Přiřaďte členství na webech a role podle adresářových skupin. Pro každý web "
+"platí první odpovídající pravidlo. Tato pravidla nahrazují pravidla rolí "
+"skupin při síťové aktivaci."
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "Pravidla přiřazení webů skupinám"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"Jedno pravidlo ve formátu group:site ID:role na řádek. Příklad: "
+"Editors:2:editor. Při odebrání ze skupiny se obnoví předchozí členství nebo "
+"se odstraní členství vytvořené těmito pravidly. Ruční změny rolí se při "
+"odebrání zachovají. Pro zastavení aktualizací členství ponechte prázdné."
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "Plánovaný import účtů"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"Importujte adresářové účty jednou za hodinu pomocí plánovaných úloh "
+"WordPress. Nastavte vyhledávací účet na kartě Připojení. Návštěvnost webu "
+"nebo systémová úloha musí spouštět cron WordPress."
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "Povolit plánovaný import"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr ""
+"Vytvářejte účty bez prvního přihlášení. Stávající místní účty jsou "
+"vynechány. Uživatelská relace se nevytváří."
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "Základní DN importu"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "Ponechte prázdné pro použití základního DN připojení."
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "Skupiny pro import"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"Jedna skupina na řádek. Importují se uživatelé alespoň v jedné z těchto "
+"skupin. Ponechte prázdné pro import všech uživatelů pod základním DN "
+"importu. Platí také omezení přihlašovacích skupin."
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "Plánované odebrání přístupu"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"Kontrolujte spravované adresářové účty jednou za hodinu. Potvrzená "
+"nepřítomnost účtu, zakázaný účet AD, změněná adresářová identita nebo "
+"nesplněné pravidlo přihlašovací skupiny pozastaví přístup a ukončí všechny "
+"relace WordPress. Chyby připojení zachovají aktuální stav přístupu."
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "Povolit plánované odebrání přístupu"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"Zachovejte uživatelská data a obsah. Obnovte přístup po pozdější úspěšné "
+"kontrole adresáře. Účty pro obnovení přístupu a superadministrátoři jsou "
+"vynecháni. Stávající pozastavení zůstanou, pokud se úloha zastaví nebo "
+"licence přestane být aktivní."
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -149,6 +325,88 @@ msgstr "REMOTE_USER je přítomen."
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER chybí. Zkontrolujte konfiguraci webového serveru."
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "Historie auditu"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"Zaznamenávejte výsledky přihlášení a změny účtů. Záznamy obsahují názvy "
+"událostí a ID účtů. Hesla, hodnoty adresářových polí a přihlašovací údaje "
+"jsou vynechány."
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "Povolit historii auditu"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr ""
+"Ukládejte soukromé záznamy WordPress. Shromažďování je ve výchozím "
+"nastavení vypnuto. Stávající záznamy zůstanou po zastavení shromažďování."
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "Uchovávání (dny)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr ""
+"Výchozí: 30. Rozsah: 1 až 3650. Denní úloha odstraňuje starší záznamy, "
+"pokud je shromažďování povoleno."
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "Aktivujte licenci Pro pro čtení nebo export historie auditu."
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "Exportovat CSV"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr ""
+"Posledních 50 záznamů. Export obsahuje všechny uchované záznamy v tomto "
+"rozsahu. Časy jsou v UTC."
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "Čas (UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "Událost"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "ID původce akce"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "ID uživatele"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID webu"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "Nemáte oprávnění exportovat tyto záznamy."
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "Nastavení Pro je neplatné. Zkontrolujte formát a názvy rolí."
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

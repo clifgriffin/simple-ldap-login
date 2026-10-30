@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "Your directory account is suspended. Contact your site administrator."
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "The directory identity has changed. Contact your site administrator."
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "User data"
@@ -49,6 +57,38 @@ msgstr "User data"
 #: pro/src/Admin.php:50 pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "Single sign-on"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "Accounts"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "Audit"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "Profile updates"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "Update profiles at login"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -75,6 +115,140 @@ msgid ""
 msgstr ""
 "One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
 "%1$s. Types: %2$s or %3$s."
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "Group roles"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "Group-to-role rules"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "Multisite membership"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "Group-to-site rules"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "Scheduled account import"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "Enable scheduled import"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "Import Base DN"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "Leave blank to use the connection Base DN."
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "Import groups"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "Scheduled access removal"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "Enable scheduled access removal"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -143,6 +317,88 @@ msgstr "REMOTE_USER is present."
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER is missing. Check the web server configuration."
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "Audit history"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "Enable audit history"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "Retention (days)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "Activate a Pro license to read or export audit history."
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "Export CSV"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "Time (UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "Event"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "Actor ID"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "User ID"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Site ID"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "You do not have permission to export these records."
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "A Pro setting is not valid. Check the format and role names."
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

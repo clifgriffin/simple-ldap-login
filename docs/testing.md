@@ -21,7 +21,7 @@ HTTP tests also download a CSV with a real administrator cookie and reject an in
 
 The selected native configurations use OpenLDAP with PHP 8.4.27 and WordPress 7.1.4 on a single site; Samba AD with PHP 8.1.34 and WordPress 6.5 in multisite; and OpenLDAP with PHP 8.5.12 and WordPress 7.1.4 in multisite.
 Each multisite run checks network and site-only activation in both editions. These are 10 core configurations, not a new full 24-configuration release run.
-New feature strings use English fallback. Update the translation catalogs before release.
+The translation update adds 44 messages to all 24 locales. All 241 messages per locale pass completeness, placeholder, and compiled MO checks. All 4,728 existing translations are unchanged. Rule examples and technical identifiers are retained. The native WordPress translation controller passes 11,568 checks across PHP and MO catalogs without a database connection.
 
 ## Source and release packages
 

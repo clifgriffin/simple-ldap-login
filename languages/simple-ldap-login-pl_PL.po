@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: pl_PL\n"
@@ -42,6 +42,18 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr ""
+"Twoje konto katalogowe jest zawieszone. Skontaktuj się z administratorem "
+"witryny."
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr ""
+"Tożsamość w katalogu uległa zmianie. Skontaktuj się z administratorem "
+"witryny."
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "Dane użytkownika"
@@ -50,6 +62,39 @@ msgstr "Dane użytkownika"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "Jednolity dostęp (SSO)"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "Konta"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "Audyt"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "Aktualizacje profili"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr ""
+"Kopiuj standardowe pola profilu LDAP do istniejących kont WordPress przy "
+"logowaniu. Konta odzyskiwania dostępu i superadministratorzy są wyłączeni."
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "Aktualizuj profile przy logowaniu"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"Zastąp imiona, nazwiska, adres e-mail i witrynę wartościami z katalogu. "
+"Puste wartości w katalogu czyszczą pole. Brak lub nieprawidłowy adres "
+"e-mail zatrzymuje aktualizację."
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -77,6 +122,144 @@ msgid ""
 msgstr ""
 "Jedno mapowanie na linię: atrybut LDAP:klucz meta WordPress:typ. Przykład: "
 "%1$s. Typy: %2$s lub %3$s."
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "Role grup"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"Ustawiaj rolę WordPress na podstawie grup LDAP przy każdym logowaniu. "
+"Obowiązuje pierwsza pasująca reguła. Jeśli żadna nie pasuje, używana jest "
+"rola domyślna. Konta odzyskiwania dostępu i superadministratorzy są "
+"wyłączeni."
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "Reguły grup i ról"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr ""
+"Jedna reguła w formacie group:role w wierszu. Przykład: Editors:editor. "
+"Pozostaw puste, aby zachować obecne role."
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "Członkostwo w sieci witryn"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"Przypisuj członkostwo w witrynach i role na podstawie grup katalogowych. "
+"Dla każdej witryny obowiązuje pierwsza pasująca reguła. Te reguły zastępują "
+"reguły ról grup przy aktywacji w sieci."
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "Reguły grup i witryn"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"Jedna reguła w formacie group:site ID:role w wierszu. Przykład: "
+"Editors:2:editor. Po usunięciu z grupy przywracane jest poprzednie "
+"członkostwo lub usuwane członkostwo utworzone przez te reguły. Ręczne "
+"zmiany ról są zachowywane przy usuwaniu. Pozostaw puste, aby zatrzymać "
+"aktualizacje członkostwa."
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "Zaplanowany import kont"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"Importuj konta katalogowe raz na godzinę za pomocą zaplanowanych zadań "
+"WordPress. Ustaw konto wyszukiwania na karcie Połączenie. Ruch w witrynie "
+"lub zadanie systemowe musi uruchamiać cron WordPress."
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "Włącz zaplanowany import"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr ""
+"Twórz konta bez pierwszego logowania. Istniejące konta lokalne są "
+"wyłączone. Sesja użytkownika nie jest tworzona."
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "Bazowy DN importu"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "Pozostaw puste, aby użyć bazowego DN połączenia."
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "Grupy importu"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"Jedna grupa w wierszu. Importowani są użytkownicy należący do co najmniej "
+"jednej z tych grup. Pozostaw puste, aby zaimportować wszystkich "
+"użytkowników poniżej bazowego DN importu. Obowiązują również ograniczenia "
+"grup przy logowaniu."
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "Zaplanowane odbieranie dostępu"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"Sprawdzaj zarządzane konta katalogowe raz na godzinę. Potwierdzony brak "
+"konta, wyłączone konto AD, zmiana tożsamości katalogowej lub niespełniona "
+"reguła grupy logowania zawiesza dostęp i kończy wszystkie sesje WordPress. "
+"Błędy połączenia zachowują obecny stan dostępu."
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "Włącz zaplanowane odbieranie dostępu"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"Zachowaj dane i treści użytkowników. Przywróć dostęp po późniejszym "
+"pomyślnym sprawdzeniu katalogu. Konta odzyskiwania dostępu i "
+"superadministratorzy są wyłączeni. Istniejące zawieszenia pozostają, jeśli "
+"zadanie zostanie zatrzymane lub licencja stanie się nieaktywna."
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -149,6 +332,88 @@ msgstr "REMOTE_USER jest obecny."
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER jest brakujący. Sprawdź konfigurację serwera WWW."
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "Historia audytu"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"Rejestruj wyniki logowania i zmiany kont. Wpisy zawierają nazwy zdarzeń i "
+"identyfikatory kont. Hasła, wartości pól katalogowych i dane "
+"uwierzytelniające są pomijane."
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "Włącz historię audytu"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr ""
+"Przechowuj prywatne wpisy WordPress. Zbieranie danych jest domyślnie "
+"wyłączone. Istniejące wpisy pozostają po zatrzymaniu zbierania."
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "Przechowywanie (dni)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr ""
+"Domyślnie: 30. Zakres: od 1 do 3650. Codzienne zadanie usuwa starsze wpisy, "
+"gdy zbieranie danych jest włączone."
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "Aktywuj licencję Pro, aby odczytać lub wyeksportować historię audytu."
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "Eksportuj CSV"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr ""
+"Ostatnie 50 wpisów. Eksport obejmuje wszystkie zachowane wpisy w tym "
+"zakresie. Czas jest podawany w UTC."
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "Czas (UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "Zdarzenie"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "ID wykonawcy"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "ID użytkownika"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID witryny"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "Nie masz uprawnień do eksportowania tych wpisów."
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "Ustawienie Pro jest nieprawidłowe. Sprawdź format i nazwy ról."
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

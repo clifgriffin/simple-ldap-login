@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: tr_TR\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "Dizin hesabınız askıya alındı. Site yöneticinizle iletişime geçin."
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "Dizin kimliği değişti. Site yöneticinizle iletişime geçin."
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "Kullanıcı verileri"
@@ -50,6 +58,39 @@ msgstr "Kullanıcı verileri"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "Tek oturum açma"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "Hesaplar"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "Denetim"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "Profil güncellemeleri"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr ""
+"Oturum açılırken standart LDAP profil alanlarını mevcut WordPress "
+"hesaplarına kopyalayın. Kurtarma hesapları ve süper yöneticiler hariç "
+"tutulur."
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "Oturum açılırken profilleri güncelle"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"Adları, e-postayı ve web sitesini dizin değerleriyle değiştirin. Boş dizin "
+"değerleri alanı temizler. Eksik veya geçersiz e-posta güncellemeyi durdurur."
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -77,6 +118,142 @@ msgid ""
 msgstr ""
 "Her satırda bir eşleme: LDAP niteliği: WordPress meta anahtarı: tür. Örnek: "
 "%1$s. Türler: %2$s veya %3$s."
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "Grup rolleri"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"Her oturum açılışında WordPress rolünü LDAP gruplarına göre ayarlayın. İlk "
+"eşleşen kural uygulanır. Hiçbir kural eşleşmezse varsayılan rol kullanılır. "
+"Kurtarma hesapları ve süper yöneticiler hariç tutulur."
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "Gruptan role kuralları"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr ""
+"Her satıra group:role biçiminde bir kural yazın. Örnek: Editors:editor. "
+"Mevcut rolleri korumak için boş bırakın."
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "Çoklu site üyeliği"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"Dizin gruplarına göre site üyeliği ve roller atayın. Her site için ilk "
+"eşleşen kural uygulanır. Ağ genelinde etkinleştirildiğinde bu kurallar grup "
+"rolü kurallarının yerine geçer."
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "Gruptan siteye kurallar"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"Her satıra group:site ID:role biçiminde bir kural yazın. Örnek: "
+"Editors:2:editor. Gruptan çıkarılınca önceki üyelik geri yüklenir veya bu "
+"kuralların oluşturduğu üyelik kaldırılır. Elle yapılan rol değişiklikleri "
+"kaldırma sırasında korunur. Üyelik güncellemelerini durdurmak için boş "
+"bırakın."
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "Zamanlanmış hesap içe aktarma"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"WordPress zamanlanmış görevleriyle dizin hesaplarını saatte bir içe "
+"aktarın. Bağlantı bölümünde bir arama hesabı ayarlayın. Site trafiği veya "
+"bir sistem görevi WordPress cron işlemini çalıştırmalıdır."
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "Zamanlanmış içe aktarmayı etkinleştir"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr ""
+"İlk oturum açma olmadan hesap oluşturun. Mevcut yerel hesaplar hariç "
+"tutulur. Kullanıcı oturumu oluşturulmaz."
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "İçe aktarma temel DN"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "Bağlantının temel DN değerini kullanmak için boş bırakın."
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "İçe aktarma grupları"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"Her satıra bir grup yazın. Bu gruplardan en az birindeki kullanıcıları içe "
+"aktarın. İçe aktarma temel DN altında bulunan tüm kullanıcıları içe "
+"aktarmak için boş bırakın. Oturum açma grubu kısıtlamaları da uygulanır."
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "Zamanlanmış erişim kaldırma"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"Yönetilen dizin hesaplarını saatte bir denetleyin. Yokluğu doğrulanan "
+"hesap, devre dışı AD hesabı, değişen dizin kimliği veya karşılanmayan "
+"oturum açma grubu kuralı erişimi askıya alır ve tüm WordPress oturumlarını "
+"sonlandırır. Bağlantı hataları mevcut erişim durumunu korur."
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "Zamanlanmış erişim kaldırmayı etkinleştir"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"Kullanıcı verilerini ve içeriği koruyun. Daha sonraki başarılı dizin "
+"denetiminden sonra erişimi geri yükleyin. Kurtarma hesapları ve süper "
+"yöneticiler hariç tutulur. Görev durursa veya lisans devre dışı kalırsa "
+"mevcut askıya almalar korunur."
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -147,6 +324,90 @@ msgstr "REMOTE_USER mevcut."
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER eksik. Web sunucu yapılandırmasını kontrol edin."
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "Denetim geçmişi"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"Oturum açma sonuçlarını ve hesap değişikliklerini kaydedin. Kayıtlar olay "
+"adlarını ve hesap kimliklerini içerir. Parolalar, dizin alanı değerleri ve "
+"kimlik bilgileri hariç tutulur."
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "Denetim geçmişini etkinleştir"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr ""
+"Özel WordPress kayıtlarını saklayın. Toplama varsayılan olarak kapalıdır. "
+"Toplama durduğunda mevcut kayıtlar korunur."
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "Saklama süresi (gün)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr ""
+"Varsayılan: 30. Aralık: 1 ile 3650. Toplama açıkken günlük görev eski "
+"kayıtları kaldırır."
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr ""
+"Denetim geçmişini okumak veya dışa aktarmak için bir Pro lisansı "
+"etkinleştirin."
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "CSV dışa aktar"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr ""
+"Son 50 kayıt. Dışa aktarma bu kapsamdaki tüm saklanan kayıtları içerir. "
+"Saatler UTC olarak gösterilir."
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "Saat (UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "Olay"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "İşlemi yapanın kimliği"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "Kullanıcı kimliği"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Site kimliği"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "Bu kayıtları dışa aktarma izniniz yok."
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "Bir Pro ayarı geçersiz. Biçimi ve rol adlarını denetleyin."
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

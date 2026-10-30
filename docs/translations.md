@@ -19,7 +19,7 @@ npm run test:i18n
 
 The translation command needs `OPENAI_API_KEY` in the environment. It sends plugin strings to OpenAI and has an API cost. Keep the key out of files and Git. To update only one language, use `npm run translate -- de_DE`. The tool keeps existing translations and fills empty entries. Run `make:po` again after translation to normalize catalog headers.
 
-The initial non-English translations use `gpt-po`. A native speaker should review them before release. Keep placeholders, product names, code identifiers, and LDAP examples unchanged. The project context is in `.gpt-po/context.txt`. The empty project dictionary overrides the tool's sample dictionary.
+The initial non-English translations use `gpt-po`. The Pro account feature update adds 44 messages per locale, translated with Codex without an external API call. A native speaker should review them before release. Keep placeholders, product names, code identifiers, and LDAP examples unchanged. The project context is in `.gpt-po/context.txt`. The empty project dictionary overrides the tool's sample dictionary.
 
 Commit the POT, PO, MO, and `.l10n.php` files. MO files support WordPress 6.5. Newer WordPress versions can use the PHP catalogs. The current JavaScript has no user-facing strings, so it does not need JSON catalogs. Use `npm run make:json` if translated JavaScript strings are added later.
 

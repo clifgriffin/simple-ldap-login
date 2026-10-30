@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: th\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "บัญชีไดเรกทอรีของคุณถูกระงับ โปรดติดต่อผู้ดูแลเว็บไซต์"
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "ข้อมูลระบุตัวตนในไดเรกทอรีเปลี่ยนไป โปรดติดต่อผู้ดูแลเว็บไซต์"
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "ข้อมูลผู้ใช้"
@@ -50,6 +58,39 @@ msgstr "ข้อมูลผู้ใช้"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "การเข้าสู่ระบบแบบครั้งเดียว"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "บัญชี"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "การตรวจสอบ"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "การอัปเดตโปรไฟล์"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr ""
+"คัดลอกฟิลด์โปรไฟล์ LDAP มาตรฐานไปยังบัญชี WordPress "
+"ที่มีอยู่เมื่อเข้าสู่ระบบ ยกเว้นบัญชีกู้คืนและผู้ดูแลระบบสูงสุด"
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "อัปเดตโปรไฟล์เมื่อเข้าสู่ระบบ"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"แทนที่ชื่อ อีเมล และเว็บไซต์ด้วยค่าจากไดเรกทอรี "
+"ค่าว่างในไดเรกทอรีจะล้างฟิลด์ หากไม่มีอีเมลหรืออีเมลไม่ถูกต้อง "
+"การอัปเดตจะหยุด"
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -77,6 +118,142 @@ msgid ""
 msgstr ""
 "หนึ่งการแมพต่อหนึ่งบรรทัด: คุณสมบัติ LDAP: คีย์เมตาของ WordPress: ประเภท. "
 "ตัวอย่าง: %1$s. ประเภท: %2$s หรือ %3$s."
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "บทบาทของกลุ่ม"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"กำหนดบทบาท WordPress จากกลุ่ม LDAP ทุกครั้งที่เข้าสู่ระบบ ใช้กฎแรกที่ตรงกัน "
+"หากไม่มีกฎที่ตรงกัน ให้ใช้บทบาทเริ่มต้น "
+"ยกเว้นบัญชีกู้คืนและผู้ดูแลระบบสูงสุด"
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "กฎจับคู่กลุ่มกับบทบาท"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr ""
+"หนึ่งกฎในรูปแบบ group:role ต่อบรรทัด ตัวอย่าง: Editors:editor "
+"เว้นว่างไว้เพื่อคงบทบาทปัจจุบัน"
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "สมาชิกภาพแบบหลายเว็บไซต์"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"กำหนดสมาชิกภาพของเว็บไซต์และบทบาทจากกลุ่มไดเรกทอรี "
+"ใช้กฎแรกที่ตรงกันสำหรับแต่ละเว็บไซต์ "
+"กฎเหล่านี้จะแทนที่กฎบทบาทของกลุ่มเมื่อเปิดใช้งานทั้งเครือข่าย"
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "กฎจับคู่กลุ่มกับเว็บไซต์"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"หนึ่งกฎในรูปแบบ group:site ID:role ต่อบรรทัด ตัวอย่าง: Editors:2:editor "
+"เมื่อถูกนำออกจากกลุ่ม "
+"ให้คืนสมาชิกภาพเดิมหรือลบสมาชิกภาพที่สร้างโดยกฎเหล่านี้ "
+"การเปลี่ยนบทบาทด้วยตนเองจะยังคงอยู่เมื่อถูกนำออก "
+"เว้นว่างไว้เพื่อหยุดอัปเดตสมาชิกภาพ"
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "การนำเข้าบัญชีตามกำหนดเวลา"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"นำเข้าบัญชีไดเรกทอรีชั่วโมงละครั้งผ่านงานตามกำหนดเวลาของ WordPress "
+"กำหนดบัญชีค้นหาในส่วนการเชื่อมต่อ "
+"การเข้าชมเว็บไซต์หรืองานของระบบต้องเรียกใช้ WordPress cron"
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "เปิดใช้งานการนำเข้าตามกำหนดเวลา"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr ""
+"สร้างบัญชีโดยไม่ต้องเข้าสู่ระบบครั้งแรก ยกเว้นบัญชีภายในที่มีอยู่ "
+"จะไม่สร้างเซสชันผู้ใช้"
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "Base DN สำหรับนำเข้า"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "เว้นว่างไว้เพื่อใช้ Base DN ของการเชื่อมต่อ"
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "กลุ่มสำหรับนำเข้า"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"หนึ่งกลุ่มต่อบรรทัด นำเข้าผู้ใช้ที่อยู่ในกลุ่มเหล่านี้อย่างน้อยหนึ่งกลุ่ม "
+"เว้นว่างไว้เพื่อนำเข้าผู้ใช้ทั้งหมดภายใต้ Base DN สำหรับนำเข้า "
+"ข้อจำกัดกลุ่มสำหรับเข้าสู่ระบบยังคงมีผล"
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "การเพิกถอนสิทธิ์ตามกำหนดเวลา"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"ตรวจสอบบัญชีไดเรกทอรีที่จัดการอยู่ชั่วโมงละครั้ง เมื่อยืนยันว่าบัญชีหายไป "
+"บัญชี AD ถูกปิดใช้งาน ข้อมูลระบุตัวตนในไดเรกทอรีเปลี่ยนไป "
+"หรือไม่ผ่านกฎกลุ่มสำหรับเข้าสู่ระบบ จะระงับการเข้าถึงและสิ้นสุดเซสชัน "
+"WordPress ทั้งหมด ข้อผิดพลาดในการเชื่อมต่อจะคงสถานะการเข้าถึงปัจจุบันไว้"
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "เปิดใช้งานการเพิกถอนสิทธิ์ตามกำหนดเวลา"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"เก็บข้อมูลและเนื้อหาของผู้ใช้ไว้ "
+"คืนสิทธิ์การเข้าถึงหลังจากตรวจสอบไดเรกทอรีสำเร็จในภายหลัง "
+"ยกเว้นบัญชีกู้คืนและผู้ดูแลระบบสูงสุด "
+"การระงับที่มีอยู่จะยังคงอยู่หากงานหยุดหรือใบอนุญาตไม่ทำงาน"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -149,6 +326,88 @@ msgstr "REMOTE_USER มีอยู่."
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER ขาดหายไป. ตรวจสอบการกำหนดค่าของเซิร์ฟเวอร์เว็บ."
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "ประวัติการตรวจสอบ"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"บันทึกผลการเข้าสู่ระบบและการเปลี่ยนแปลงบัญชี "
+"รายการบันทึกประกอบด้วยชื่อเหตุการณ์และ ID บัญชี ไม่รวมรหัสผ่าน "
+"ค่าฟิลด์ในไดเรกทอรี และข้อมูลรับรอง"
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "เปิดใช้งานประวัติการตรวจสอบ"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr ""
+"เก็บรายการบันทึก WordPress แบบส่วนตัว การเก็บรวบรวมปิดอยู่ตามค่าเริ่มต้น "
+"รายการบันทึกเดิมยังคงอยู่เมื่อหยุดเก็บรวบรวม"
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "ระยะเวลาเก็บรักษา (วัน)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr ""
+"ค่าเริ่มต้น: 30 ช่วง: 1 ถึง 3650 "
+"งานรายวันจะลบรายการบันทึกเก่าในระหว่างที่เปิดการเก็บรวบรวม"
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "เปิดใช้งานใบอนุญาต Pro เพื่ออ่านหรือส่งออกประวัติการตรวจสอบ"
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "ส่งออก CSV"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr ""
+"รายการบันทึกล่าสุด 50 รายการ "
+"การส่งออกจะรวมรายการบันทึกที่เก็บไว้ทั้งหมดในขอบเขตนี้ เวลาใช้ UTC"
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "เวลา (UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "เหตุการณ์"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "ID ผู้ดำเนินการ"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "ID ผู้ใช้"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID เว็บไซต์"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "คุณไม่มีสิทธิ์ส่งออกรายการบันทึกเหล่านี้"
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "การตั้งค่า Pro ไม่ถูกต้อง โปรดตรวจสอบรูปแบบและชื่อบทบาท"
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

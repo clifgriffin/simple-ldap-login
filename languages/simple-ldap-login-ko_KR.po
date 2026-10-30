@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: ko_KR\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "디렉터리 계정이 일시 중지되었습니다. 사이트 관리자에게 문의하세요."
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "디렉터리 식별 정보가 변경되었습니다. 사이트 관리자에게 문의하세요."
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "사용자 데이터"
@@ -50,6 +58,36 @@ msgstr "사용자 데이터"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "싱글 사인온"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "계정"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "감사"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "프로필 업데이트"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr "로그인할 때 표준 LDAP 프로필 필드를 기존 WordPress 계정에 복사합니다. 복구 계정과 최고 관리자는 제외됩니다."
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "로그인 시 프로필 업데이트"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"이름, 이메일, 웹사이트를 디렉터리 값으로 바꿉니다. 디렉터리 값이 비어 있으면 해당 필드를 비웁니다. 이메일이 없거나 유효하지 않으면 "
+"업데이트를 중지합니다."
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -73,6 +111,129 @@ msgid ""
 "One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
 "%1$s. Types: %2$s or %3$s."
 msgstr "한 줄에 하나의 매핑: LDAP 속성:WordPress 메타 키:유형. 예: %1$s. 유형: %2$s 또는 %3$s."
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "그룹 역할"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"로그인할 때마다 LDAP 그룹을 기준으로 WordPress 역할을 설정합니다. 처음 일치하는 규칙을 적용합니다. 일치하는 규칙이 없으면 "
+"기본 역할을 사용합니다. 복구 계정과 최고 관리자는 제외됩니다."
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "그룹별 역할 규칙"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr "줄마다 group:role 형식으로 규칙 하나를 입력하세요. 예: Editors:editor. 현재 역할을 유지하려면 비워 두세요."
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "멀티사이트 멤버십"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"디렉터리 그룹을 기준으로 사이트 멤버십과 역할을 할당합니다. 사이트마다 처음 일치하는 규칙을 적용합니다. 네트워크에서 활성화하면 이 "
+"규칙이 그룹 역할 규칙을 대체합니다."
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "그룹별 사이트 규칙"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"줄마다 group:site ID:role 형식으로 규칙 하나를 입력하세요. 예: Editors:2:editor. 그룹에서 제거되면 이전 "
+"멤버십을 복원하거나 이 규칙으로 만든 멤버십을 제거합니다. 수동으로 변경한 역할은 제거 시에도 유지합니다. 멤버십 업데이트를 중지하려면 "
+"비워 두세요."
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "예약된 계정 가져오기"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"WordPress 예약 작업을 통해 디렉터리 계정을 매시간 한 번 가져옵니다. 연결에서 검색 계정을 설정하세요. 사이트 방문이나 시스템 "
+"작업으로 WordPress cron을 실행해야 합니다."
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "예약된 가져오기 사용"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr "첫 로그인 없이 계정을 만듭니다. 기존 로컬 계정은 제외됩니다. 사용자 세션은 만들지 않습니다."
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "가져오기 기본 DN"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "연결의 기본 DN을 사용하려면 비워 두세요."
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "가져올 그룹"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"줄마다 그룹 하나를 입력하세요. 이 그룹 중 하나 이상에 속한 사용자를 가져옵니다. 가져오기 기본 DN 아래의 모든 사용자를 가져오려면 "
+"비워 두세요. 로그인 그룹 제한도 적용됩니다."
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "예약된 접근 권한 제거"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"관리되는 디렉터리 계정을 매시간 한 번 확인합니다. 계정 부재가 확인되거나 AD 계정이 비활성화되거나 디렉터리 식별 정보가 변경되거나 "
+"로그인 그룹 규칙을 충족하지 못하면 접근을 일시 중지하고 모든 WordPress 세션을 종료합니다. 연결 오류가 발생하면 현재 접근 "
+"상태를 유지합니다."
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "예약된 접근 권한 제거 사용"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"사용자 데이터와 콘텐츠를 유지합니다. 이후 디렉터리 확인에 성공하면 접근을 복원합니다. 복구 계정과 최고 관리자는 제외됩니다. 작업이 "
+"중지되거나 라이선스가 비활성화되어도 기존 일시 중지 상태는 유지됩니다."
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -139,6 +300,81 @@ msgstr "REMOTE_USER가 존재합니다."
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER가 없습니다. 웹 서버 구성을 확인하십시오."
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "감사 기록"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr ""
+"로그인 결과와 계정 변경 사항을 기록합니다. 기록에는 이벤트 이름과 계정 ID가 포함됩니다. 비밀번호, 디렉터리 필드 값, 인증 정보는 "
+"제외됩니다."
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "감사 기록 사용"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr "비공개 WordPress 기록을 저장합니다. 수집은 기본적으로 꺼져 있습니다. 수집을 중지해도 기존 기록은 유지됩니다."
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "보관 기간(일)"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr "기본값: 30. 범위: 1~3650. 수집이 켜져 있는 동안 매일 작업을 실행하여 오래된 기록을 제거합니다."
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "감사 기록을 읽거나 내보내려면 Pro 라이선스를 활성화하세요."
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "CSV 내보내기"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr "최근 50개 기록입니다. 내보내기에는 이 범위에 보관된 모든 기록이 포함됩니다. 시간은 UTC입니다."
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "시간(UTC)"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "이벤트"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "작업자 ID"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "사용자 ID"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "사이트 ID"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "이 기록을 내보낼 권한이 없습니다."
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "Pro 설정이 유효하지 않습니다. 형식과 역할 이름을 확인하세요."
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

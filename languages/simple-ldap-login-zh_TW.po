@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: zh_TW\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "您的目錄帳戶已停用。請聯絡網站管理員。"
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "目錄身分已變更。請聯絡網站管理員。"
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "用戶數據"
@@ -50,6 +58,34 @@ msgstr "用戶數據"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "單一登入"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "帳戶"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "稽核"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "個人資料更新"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr "登入時將標準 LDAP 個人資料欄位複製到現有的 WordPress 帳戶。復原帳戶和超級管理員不在處理範圍內。"
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "登入時更新個人資料"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr "以目錄值取代姓名、電子郵件和網站。目錄值為空時會清空對應欄位。電子郵件缺漏或無效時會停止更新。"
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -73,6 +109,118 @@ msgid ""
 "One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
 "%1$s. Types: %2$s or %3$s."
 msgstr "每行一個映射：LDAP 屬性：WordPress 元數據鍵：類型。範例：%1$s。類型：%2$s 或 %3$s。"
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "群組角色"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr "每次登入時依 LDAP 群組設定 WordPress 角色。套用第一條符合的規則。若沒有規則符合，則使用預設角色。復原帳戶和超級管理員不在處理範圍內。"
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "群組對應角色規則"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr "每行輸入一條 group:role 格式的規則。例如：Editors:editor。留空可保留目前的角色。"
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "多站台成員資格"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr "依目錄群組指派網站成員資格與角色。每個網站套用第一條符合的規則。在整個網誌網路啟用時，這些規則會取代群組角色規則。"
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "群組對應網站規則"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"每行輸入一條 group:site ID:role "
+"格式的規則。例如：Editors:2"
+":editor。退出群組時，還原原有成員資格，或移除由這些規則建立的成員資格。移除時會保留手動變更的角色。留空可停止更新成員資格。"
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "排程匯入帳戶"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr "透過 WordPress 排程工作每小時匯入一次目錄帳戶。請在「連線」設定搜尋帳戶。需要透過網站流量或系統工作執行 WordPress cron。"
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "啟用排程匯入"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr "不必首次登入即可建立帳戶。現有本機帳戶不在處理範圍內。不會建立使用者工作階段。"
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "匯入基底 DN"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "留空可使用連線的基底 DN。"
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "匯入群組"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr "每行輸入一個群組。匯入至少屬於其中一個群組的使用者。留空可匯入「匯入基底 DN」之下的所有使用者。登入群組限制同樣適用。"
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "排程移除存取權"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"每小時檢查一次受管理的目錄帳戶。確認帳戶不存在、AD 帳戶已停用、目錄身分已變更或不符合登入群組規則時，會停用存取權並結束所有 WordPress "
+"工作階段。連線錯誤不會變更目前的存取狀態。"
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "啟用排程移除存取權"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr "保留使用者資料和內容。後續目錄檢查成功後會還原存取權。復原帳戶和超級管理員不在處理範圍內。如果工作停止或授權失效，現有停用狀態仍會保留。"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -139,6 +287,79 @@ msgstr "REMOTE_USER 存在。"
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER 缺失。檢查網絡伺服器配置。"
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "稽核記錄"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr "記錄登入結果和帳戶變更。記錄包含事件名稱與帳戶 ID。不記錄密碼、目錄欄位值或認證資訊。"
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "啟用稽核記錄"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr "儲存不公開的 WordPress 記錄。預設關閉收集。停止收集時會保留現有記錄。"
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "保留期限（天）"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr "預設值：30。範圍：1 到 3650。啟用收集期間，每日工作會移除過期記錄。"
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "請啟用 Pro 授權以檢視或匯出稽核記錄。"
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "匯出 CSV"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr "最近 50 筆記錄。匯出包含目前範圍內保留的所有記錄。時間使用 UTC。"
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "時間（UTC）"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "事件"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "操作人員 ID"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "使用者 ID"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "網站 ID"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "您沒有匯出這些記錄的權限。"
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "某項 Pro 設定無效。請檢查格式與角色名稱。"
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

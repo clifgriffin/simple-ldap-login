@@ -5,13 +5,13 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: gpt-po v1.2.3\n"
+"Last-Translator: Codex\n"
 "Language-Team: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-10-30T15:26:17+00:00\n"
-"PO-Revision-Date: 2026-10-30T15:26:17+00:00\n"
+"PO-Revision-Date: 2026-10-30 00:00+0000\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
 "Language: ja\n"
@@ -42,6 +42,14 @@ msgstr "Clif Griffin Development Inc."
 msgid "https://clifgriffin.com"
 msgstr "https://clifgriffin.com"
 
+#: pro/src/Accounts.php:205
+msgid "Your directory account is suspended. Contact your site administrator."
+msgstr "ディレクトリアカウントは停止されています。サイト管理者にお問い合わせください。"
+
+#: pro/src/Accounts.php:249
+msgid "The directory identity has changed. Contact your site administrator."
+msgstr "ディレクトリの識別情報が変更されました。サイト管理者にお問い合わせください。"
+
 #: pro/src/Admin.php:49
 msgid "User data"
 msgstr "ユーザーデータ"
@@ -50,6 +58,36 @@ msgstr "ユーザーデータ"
 #: pro/src/Admin.php:84
 msgid "Single sign-on"
 msgstr "シングルサインオン"
+
+#: pro/src/Admin.php:59
+msgid "Accounts"
+msgstr "アカウント"
+
+#: pro/src/Admin.php:60
+msgid "Audit"
+msgstr "監査"
+
+#: pro/src/Admin.php:70
+msgid "Profile updates"
+msgstr "プロフィールの更新"
+
+#: pro/src/Admin.php:70
+msgid ""
+"Copy standard LDAP profile fields to existing WordPress accounts at login. "
+"Recovery accounts and super administrators are excluded."
+msgstr "ログイン時に LDAP の標準プロフィール項目を既存の WordPress アカウントにコピーします。復旧用アカウントと特権管理者は対象外です。"
+
+#: pro/src/Admin.php:71
+msgid "Update profiles at login"
+msgstr "ログイン時にプロフィールを更新"
+
+#: pro/src/Admin.php:71
+msgid ""
+"Replace names, email, and website with directory values. Empty directory "
+"values clear the field. A missing or invalid email stops the update."
+msgstr ""
+"名前、メールアドレス、ウェブサイトをディレクトリの値で置き換えます。ディレクトリの値が空の場合、その項目を空にします。メールアドレスがない場合や無効な場"
+"合は更新を停止します。"
 
 #: pro/src/Admin.php:60
 msgid "Custom user fields"
@@ -73,6 +111,133 @@ msgid ""
 "One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
 "%1$s. Types: %2$s or %3$s."
 msgstr "1行につき1つのマッピング: LDAP属性:WordPressメタキー:タイプ。例: %1$s。タイプ: %2$s または %3$s。"
+
+#: pro/src/Admin.php:85
+msgid "Group roles"
+msgstr "グループの権限グループ"
+
+#: pro/src/Admin.php:85
+msgid ""
+"Set the WordPress role from LDAP groups at each login. The first matching "
+"rule applies. If no rule matches, use the default role. Recovery accounts "
+"and super administrators are excluded."
+msgstr ""
+"ログインのたびに LDAP グループに基づいて WordPress "
+"の権限グループを設定します。最初に一致したルールを適用します。一致するルールがない場合は既定の権限グループを使用します。復旧用アカウントと特権管理者は対"
+"象外です。"
+
+#: pro/src/Admin.php:86
+msgid "Group-to-role rules"
+msgstr "グループと権限グループのルール"
+
+#: pro/src/Admin.php:86
+msgid ""
+"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
+"current roles."
+msgstr "1行につき group:role 形式でルールを1つ入力します。例: Editors:editor。現在の権限グループを維持する場合は空にしてください。"
+
+#: pro/src/Admin.php:97
+msgid "Multisite membership"
+msgstr "マルチサイトのメンバーシップ"
+
+#: pro/src/Admin.php:97
+msgid ""
+"Assign site membership and roles from directory groups. The first matching "
+"rule for each site applies. These rules replace the group role rules for "
+"network activation."
+msgstr ""
+"ディレクトリグループに基づいてサイトのメンバーシップと権限グループを割り当てます。各サイトに最初に一致したルールを適用します。ネットワークで有効化した場"
+"合、これらのルールがグループの権限グループルールに優先します。"
+
+#: pro/src/Admin.php:98
+msgid "Group-to-site rules"
+msgstr "グループとサイトのルール"
+
+#: pro/src/Admin.php:98
+msgid ""
+"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
+"removal, restore prior membership or remove a membership created by these "
+"rules. Manual role changes are kept on removal. Leave blank to stop "
+"membership updates."
+msgstr ""
+"1行につき group:site ID:role 形式でルールを1つ入力します。例: "
+"Editors:2"
+":editor。グループから外れた場合は以前のメンバーシップを復元するか、このルールで作成したメンバーシップを削除します。手動による権限グループの変更は"
+"削除時も維持します。メンバーシップの更新を停止する場合は空にしてください。"
+
+#: pro/src/Admin.php:101
+msgid "Scheduled account import"
+msgstr "アカウントの定期インポート"
+
+#: pro/src/Admin.php:101
+msgid ""
+"Import directory accounts once per hour through WordPress scheduled tasks. "
+"Set a search account on Connection. Site traffic or a system task must run "
+"WordPress cron."
+msgstr ""
+"WordPress "
+"の予約タスクで、ディレクトリアカウントを1時間に1"
+"回インポートします。「接続」で検索用アカウントを設定してください。サイトへのアクセスまたはシステムタスクで WordPress cron "
+"を実行する必要があります。"
+
+#: pro/src/Admin.php:102
+msgid "Enable scheduled import"
+msgstr "定期インポートを有効化"
+
+#: pro/src/Admin.php:102
+msgid ""
+"Create accounts without a first login. Existing local accounts are "
+"excluded. No user session is created."
+msgstr "初回ログインなしでアカウントを作成します。既存のローカルアカウントは対象外です。ユーザーセッションは作成しません。"
+
+#: pro/src/Admin.php:103
+msgid "Import Base DN"
+msgstr "インポートのベース DN"
+
+#: pro/src/Admin.php:103
+msgid "Leave blank to use the connection Base DN."
+msgstr "接続のベース DN を使用する場合は空にしてください。"
+
+#: pro/src/Admin.php:104
+msgid "Import groups"
+msgstr "インポート対象グループ"
+
+#: pro/src/Admin.php:104
+msgid ""
+"One group per line. Import users in at least one group. Leave blank to "
+"import all users below the Import Base DN. Login group restrictions also "
+"apply."
+msgstr ""
+"1行につきグループを1つ入力します。いずれかのグループに所属するユーザーをインポートします。インポートのベース DN "
+"配下にあるすべてのユーザーをインポートする場合は空にしてください。ログイングループの制限も適用します。"
+
+#: pro/src/Admin.php:106
+msgid "Scheduled access removal"
+msgstr "アクセス権の定期削除"
+
+#: pro/src/Admin.php:106
+msgid ""
+"Check managed directory accounts once per hour. A confirmed missing "
+"account, disabled AD account, changed directory identity, or failed login "
+"group rule suspends access and ends all WordPress sessions. Connection "
+"errors keep the current access state."
+msgstr ""
+"管理対象のディレクトリアカウントを1時間に1回確認します。アカウントの不在が確認された場合、AD "
+"アカウントが無効な場合、ディレクトリの識別情報が変わった場合、またはログイングループのルールを満たさない場合に、アクセスを停止し、すべての "
+"WordPress セッションを終了します。接続エラーの場合は現在のアクセス状態を維持します。"
+
+#: pro/src/Admin.php:107
+msgid "Enable scheduled access removal"
+msgstr "アクセス権の定期削除を有効化"
+
+#: pro/src/Admin.php:107
+msgid ""
+"Keep user data and content. Restore access after a later successful "
+"directory check. Recovery accounts and super administrators are excluded. "
+"Existing suspensions remain if the task or license stops."
+msgstr ""
+"ユーザーデータとコンテンツを維持します。後のディレクトリ確認に成功するとアクセスを復元します。復旧用アカウントと特権管理者は対象外です。タスクが停止した"
+"場合やライセンスが無効になった場合も、既存の停止状態は維持します。"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -139,6 +304,79 @@ msgstr "REMOTE_USERが存在します。"
 #: pro/src/Admin.php:88
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USERがありません。ウェブサーバーの設定を確認してください。"
+
+#: pro/src/Audit.php:211
+msgid "Audit history"
+msgstr "監査履歴"
+
+#: pro/src/Audit.php:211
+msgid ""
+"Record login results and account changes. Records contain event names and "
+"account IDs. Passwords, directory field values, and credentials are "
+"excluded."
+msgstr "ログイン結果とアカウントの変更を記録します。記録にはイベント名とアカウント ID が含まれます。パスワード、ディレクトリ項目の値、認証情報は含みません。"
+
+#: pro/src/Audit.php:212
+msgid "Enable audit history"
+msgstr "監査履歴を有効化"
+
+#: pro/src/Audit.php:212
+msgid ""
+"Store private WordPress records. Collection is off by default. Existing "
+"records remain when collection stops."
+msgstr "非公開の WordPress 記録を保存します。収集は既定で無効です。収集を停止しても既存の記録は維持します。"
+
+#: pro/src/Audit.php:213
+msgid "Retention (days)"
+msgstr "保存期間（日）"
+
+#: pro/src/Audit.php:213
+msgid ""
+"Default: 30. Range: 1 to 3650. A daily task removes older records while "
+"collection is enabled."
+msgstr "既定値: 30。範囲: 1～3650。収集が有効な間は、毎日のタスクで古い記録を削除します。"
+
+#: pro/src/Audit.php:216
+msgid "Activate a Pro license to read or export audit history."
+msgstr "監査履歴の表示またはエクスポートには Pro ライセンスを有効化してください。"
+
+#: pro/src/Audit.php:229
+msgid "Export CSV"
+msgstr "CSV をエクスポート"
+
+#: pro/src/Audit.php:230
+msgid ""
+"Latest 50 records. The export includes all retained records in this scope. "
+"Times use UTC."
+msgstr "最新の50件です。この範囲で保存されているすべての記録をエクスポートします。時刻は UTC です。"
+
+#: pro/src/Audit.php:231
+msgid "Time (UTC)"
+msgstr "時刻（UTC）"
+
+#: pro/src/Audit.php:231
+msgid "Event"
+msgstr "イベント"
+
+#: pro/src/Audit.php:231
+msgid "Actor ID"
+msgstr "操作実行者 ID"
+
+#: pro/src/Audit.php:231
+msgid "User ID"
+msgstr "ユーザー ID"
+
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "サイト ID"
+
+#: pro/src/Audit.php:253
+msgid "You do not have permission to export these records."
+msgstr "これらの記録をエクスポートする権限がありません。"
+
+#: pro/src/Settings_Rules.php:130
+msgid "A Pro setting is not valid. Check the format and role names."
+msgstr "Pro の設定が無効です。形式と権限グループ名を確認してください。"
 
 #: pro/src/Upgrade_Guard.php:84
 msgid ""

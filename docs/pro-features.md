@@ -69,4 +69,4 @@ Private WordPress posts store the records. They have no public page or REST API.
 Network records stay on the main site and retain the source site ID. Site records remain separate.
 Retention defaults to 30 days. Set 1 to 3650 days. A daily WordPress task removes expired records in batches.
 Turning off collection or losing a license keeps existing records. Deactivation clears scheduled tasks.
-Uninstall keeps audit records, user data, and content. New interface text uses English until translations are updated.
+Uninstall keeps audit records, user data, and content.
