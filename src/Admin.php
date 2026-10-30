@@ -192,6 +192,9 @@ final class Admin {
 					case 'profile':
 						$this->profile();
 						break;
+					case 'advanced':
+						$this->advanced();
+						break;
 					case 'help':
 						$this->help();
 						break;
@@ -243,12 +246,10 @@ final class Admin {
 				'starttls' => __( 'StartTLS (recommended)', 'simple-ldap-login' ),
 				'ldaps'    => __( 'LDAPS', 'simple-ldap-login' ),
 				'plain'    => __( 'Plain LDAP (no encryption)', 'simple-ldap-login' ),
-			)
+			),
+			__( 'Plain LDAP also requires Allow plain LDAP on the Advanced tab.', 'simple-ldap-login' )
 		);
-		$this->checkbox( 'allow_plaintext', __( 'Allow plain LDAP', 'simple-ldap-login' ), __( 'I understand that plain LDAP sends passwords without encryption. Use it only on a trusted network.', 'simple-ldap-login' ) );
 		$this->input( 'ldap_port', __( 'Port', 'simple-ldap-login' ), __( 'Usually 389 for StartTLS and 636 for LDAPS.', 'simple-ldap-login' ), 'number' );
-		$this->input( 'timeout', __( 'Connection timeout', 'simple-ldap-login' ), __( 'Maximum time in seconds for a directory operation.', 'simple-ldap-login' ), 'number' );
-		$this->input( 'ol_login', __( 'Login attribute', 'simple-ldap-login' ), __( 'OpenLDAP usually uses uid. Active Directory uses sAMAccountName.', 'simple-ldap-login' ) );
 		$this->checkbox( 'search_sub_ous', __( 'Search child organizational units', 'simple-ldap-login' ), __( 'Include directory entries below the base DN.', 'simple-ldap-login' ) );
 		$this->card_end();
 		$this->card_start( __( 'Directory search account', 'simple-ldap-login' ), __( 'Use an account with read access only. Directory searches can use this account.', 'simple-ldap-login' ) );
@@ -282,11 +283,6 @@ final class Admin {
 		$this->select( 'role', __( 'New account role', 'simple-ldap-login' ), $roles, __( 'This role applies to new accounts. Existing account roles are kept.', 'simple-ldap-login' ) );
 		$this->textarea( 'groups', __( 'Required groups', 'simple-ldap-login' ), __( 'Enter one group per line. A user must belong to at least one group. Leave this blank to allow all valid directory users.', 'simple-ldap-login' ) );
 		$this->card_end();
-		$this->card_start( __( 'Group search', 'simple-ldap-login' ), __( 'Change these fields only when your directory requires a different group search.', 'simple-ldap-login' ) );
-		$this->input( 'group_base_dn', __( 'Group base DN', 'simple-ldap-login' ), __( 'Optional search base for groups. Leave this blank to use the base DN.', 'simple-ldap-login' ) );
-		$this->input( 'ol_group', __( 'Group name attribute', 'simple-ldap-login' ), __( 'Usually cn.', 'simple-ldap-login' ) );
-		$this->input( 'group_uid', __( 'Group member attribute', 'simple-ldap-login' ), __( 'OpenLDAP example: memberUid. Use member or uniqueMember for groups that store user DNs.', 'simple-ldap-login' ) );
-		$this->card_end();
 	}
 
 	/** Render the existing administrator accounts allowed in this settings scope. */
@@ -319,17 +315,35 @@ final class Admin {
 	 * Render user data mappings.
 	 */
 	private function profile(): void {
+		do_action( 'sll_profile_settings', $this );
+	}
+
+	/** Render settings whose defaults suit most installations. */
+	private function advanced(): void {
+		$this->card_start( __( 'Connection options', 'simple-ldap-login' ), __( 'Keep the defaults unless your directory requires different values.', 'simple-ldap-login' ) );
+		$this->input( 'timeout', __( 'Connection timeout', 'simple-ldap-login' ), __( 'Maximum time in seconds for a directory operation.', 'simple-ldap-login' ), 'number' );
+		$this->input( 'ol_login', __( 'Login attribute', 'simple-ldap-login' ), __( 'OpenLDAP usually uses uid. Active Directory uses sAMAccountName.', 'simple-ldap-login' ) );
+		$this->checkbox( 'allow_plaintext', __( 'Allow plain LDAP', 'simple-ldap-login' ), __( 'I understand that plain LDAP sends passwords without encryption. Use it only on a trusted network.', 'simple-ldap-login' ) );
+		$this->card_end();
+		$this->card_start( __( 'Group search', 'simple-ldap-login' ), __( 'Change these fields only when your directory requires a different group search.', 'simple-ldap-login' ) );
+		$this->input( 'group_base_dn', __( 'Group base DN', 'simple-ldap-login' ), __( 'Optional search base for groups. Leave this blank to use the base DN.', 'simple-ldap-login' ) );
+		$this->input( 'ol_group', __( 'Group name attribute', 'simple-ldap-login' ), __( 'Usually cn.', 'simple-ldap-login' ) );
+		$this->input( 'group_uid', __( 'Group member attribute', 'simple-ldap-login' ), __( 'OpenLDAP example: memberUid. Use member or uniqueMember for groups that store user DNs.', 'simple-ldap-login' ) );
+		$this->card_end();
 		$this->card_start( __( 'Profile attributes', 'simple-ldap-login' ), __( 'Choose the LDAP attributes for new WordPress accounts.', 'simple-ldap-login' ) );
 		$this->input( 'user_first_name_attribute', __( 'First name attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_last_name_attribute', __( 'Last name attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_email_attribute', __( 'Email attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_url_attribute', __( 'Website attribute', 'simple-ldap-login' ) );
 		$this->card_end();
-		do_action( 'sll_profile_settings', $this );
+		do_action( 'sll_advanced_settings', $this );
+		$this->card_start( __( 'Data retention', 'simple-ldap-login' ), __( 'Deactivation keeps your settings. Choose what happens when you delete the plugin.', 'simple-ldap-login' ) );
+		$this->checkbox( 'delete_on_uninstall', __( 'Delete settings on uninstall', 'simple-ldap-login' ), __( 'Remove plugin settings and saved credentials when the plugin is deleted. WordPress user accounts are kept.', 'simple-ldap-login' ) );
+		$this->card_end();
 	}
 
 	/**
-	 * Render test instructions and data retention.
+	 * Render test and recovery instructions.
 	 */
 	private function help(): void {
 		$this->card_start( __( 'Test before you enable LDAP', 'simple-ldap-login' ), __( 'Keep this administrator session open. Save the connection settings, test the connection, then test a directory login below.', 'simple-ldap-login' ) );
@@ -340,9 +354,6 @@ final class Admin {
 		<p><?php esc_html_e( 'If you cannot log in, use your hosting file manager to rename the simple-ldap-login plugin folder. Then log in with a local administrator account. Rename the folder back and correct the settings before you activate the plugin again.', 'simple-ldap-login' ); ?></p>
 		<p><?php esc_html_e( 'LDAP protocol version 3 is required. Configure trusted certificate authorities on the server for StartTLS and LDAPS.', 'simple-ldap-login' ); ?></p>
 		<?php
-		$this->card_end();
-		$this->card_start( __( 'Data retention', 'simple-ldap-login' ), __( 'Deactivation keeps your settings. Choose what happens when you delete the plugin.', 'simple-ldap-login' ) );
-		$this->checkbox( 'delete_on_uninstall', __( 'Delete settings on uninstall', 'simple-ldap-login' ), __( 'Remove plugin settings and saved credentials when the plugin is deleted. WordPress user accounts are kept.', 'simple-ldap-login' ) );
 		$this->card_end();
 	}
 
@@ -543,7 +554,12 @@ final class Admin {
 	 */
 	private function tab( array $request ): string {
 		$tab = isset( $request['tab'] ) && is_string( $request['tab'] ) ? sanitize_key( wp_unslash( $request['tab'] ) ) : '';
-		return array_key_exists( $tab, $this->tabs() ) ? $tab : 'connection';
+		$tabs = $this->tabs();
+		// Keep old Free profile links useful after moving its attributes.
+		if ( 'profile' === $tab && ! array_key_exists( 'profile', $tabs ) ) {
+			return 'advanced';
+		}
+		return array_key_exists( $tab, $tabs ) ? $tab : 'connection';
 	}
 
 	/**
@@ -557,7 +573,7 @@ final class Admin {
 			array(
 				'connection' => __( 'Connection', 'simple-ldap-login' ),
 				'access'     => __( 'Access', 'simple-ldap-login' ),
-				'profile'    => __( 'User data', 'simple-ldap-login' ),
+				'advanced'   => __( 'Advanced', 'simple-ldap-login' ),
 				'help'       => __( 'Tests and help', 'simple-ldap-login' ),
 			)
 		);

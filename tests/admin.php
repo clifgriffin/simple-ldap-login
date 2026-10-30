@@ -135,7 +135,7 @@ namespace {
 		}
 		foreach ( array( 'site', 'network' ) as $scope ) {
 			$settings->network = 'network' === $scope;
-			foreach ( array( 'connection', 'access', 'profile', 'sso', 'help' ) as $tab ) {
+			foreach ( array( 'connection', 'access', 'profile', 'sso', 'advanced', 'help' ) as $tab ) {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
@@ -143,7 +143,8 @@ namespace {
 				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
 				admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'tab=sso' ) ), 'Only packages with SSO add its tab.' );
 				if ( 'profile' === $tab ) {
-					admin_check( false !== strpos( $html, 'sll_settings[user_email_attribute]' ), 'Standard profile attributes stay in both packages.' );
+					admin_check( ( 'free' === $edition ) === str_contains( $html, 'sll_settings[user_email_attribute]' ), 'Old Free profile links open Advanced; Pro profile shows mappings.' );
+					admin_check( 'pro' === $edition || str_contains( $html, 'name="tab" value="advanced"' ), 'Old Free profile links retain a valid save destination.' );
 					admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'sll_settings[user_meta_data]' ) ), 'Only packages with metadata mappings show their controls.' );
 				}
 				if ( 'sso' === $tab ) {
@@ -153,6 +154,14 @@ namespace {
 				if ( 'connection' === $tab ) {
 					admin_check( false !== strpos( $html, 'sll_settings[sso_search_user_password]' ), 'Both packages can configure a search account.' );
 				}
+				$advanced_fields = array( 'timeout', 'allow_plaintext', 'ol_login', 'group_base_dn', 'ol_group', 'group_uid', 'user_first_name_attribute', 'user_last_name_attribute', 'user_email_attribute', 'user_url_attribute', 'delete_on_uninstall' );
+				$on_advanced = 'advanced' === $tab || ( 'free' === $edition && 'profile' === $tab );
+				$visible_advanced = array_filter( $advanced_fields, static fn( $field ) => str_contains( $html, 'sll_settings[' . $field . ']' ) );
+				admin_check( $visible_advanced === ( $on_advanced ? $advanced_fields : array() ), 'Default-based settings appear only on Advanced in ' . $edition . '/' . $scope . '/' . $tab );
+				foreach ( array( 'meta_data_suffix_ldap', 'meta_data_suffix_wp' ) as $field ) {
+					admin_check( ( 'pro' === $edition && 'advanced' === $tab ) === str_contains( $html, 'sll_settings[' . $field . ']' ), 'Metadata suffixes appear only on Pro Advanced.' );
+				}
+				admin_check( ( 'pro' === $edition ) === str_contains( $html, 'tab=profile' ), 'Only the full package needs a User data tab.' );
 				if ( 'access' === $tab ) {
 					admin_check( str_contains( $html, 'sll_settings[recovery_mode]' ) && str_contains( $html, 'Selected administrators' ) && str_contains( $html, 'All administrators (legacy)' ), 'Both packages show the recovery modes in each scope.' );
 					admin_check( str_contains( $html, 'name="sll_settings[recovery_user_ids][]" value=""' ) && str_contains( $html, 'multiple size="5"' ), 'The recovery picker supports multiple accounts and an empty selection.' );
@@ -188,6 +197,9 @@ namespace {
 	admin_check( array() === $settings->saved && 0 === $client->calls, 'Rejected requests do not save settings or call LDAP.' );
 	$result = admin_post( $admin, array( 'sll_settings' => array( 'base_dn' => 'dc=example' ) ) );
 	admin_check( false !== strpos( $result, 'sll_status=saved' ) && array( 'base_dn' => 'dc=example' ) === $settings->saved, 'A save passes only submitted settings to the store.' );
+	$advanced_input = array( 'timeout' => '10', 'allow_plaintext' => '0' );
+	$result = admin_post( $admin, array( 'tab' => 'advanced', 'sll_settings' => $advanced_input ) );
+	admin_check( $advanced_input === $settings->saved && str_contains( $result, 'tab=advanced' ), 'An Advanced save submits only its fields and returns to Advanced.' );
 	$recovery_input = array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( '', '1', '2' ) );
 	admin_post( $admin, array( 'tab' => 'access', 'sll_settings' => $recovery_input ) );
 	admin_check( $recovery_input === $settings->saved, 'The handler passes selected recovery IDs to settings validation.' );

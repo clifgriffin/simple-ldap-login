@@ -44,7 +44,7 @@ Within each core configuration, the tests change selected settings and check the
 | Package replacement | Free to Pro, full package updates and replacements, blocked reduced Free update, deliberate inactive downgrade, activation and user data retention after shutdown | `tests/upgrades.php`, `tests/docker/upgrades.php` |
 | Missing dependencies | LDAP absent; OpenSSL encryption functions absent; controlled errors, unchanged secrets, usable admin controls | `tests/docker/dependencies.php` |
 | Recovery settings | Fresh selected policy, existing legacy policy, explicit Off, required selection before setup, eligible IDs, site membership, network superadmin scope, atomic saves | `tests/recovery-settings.php`, `tests/admin.php`, `tests/docker/migration.php` |
-| Admin and input security | Capabilities, nonce, POST, scope, tab saves, blank secret handling, malformed fields, escaping, protected metadata, no LDAP request during render | `tests/admin.php`, `tests/run.php` |
+| Admin and input security | Capabilities, nonce, POST, scope, tab saves, Advanced field placement, old Free profile links, blank secret handling, malformed fields, escaping, protected metadata, no LDAP request during render | `tests/admin.php`, `tests/run.php` |
 
 Each native update runs in a separate WordPress request. The following request checks the installed edition, activation, and saved data after WordPress finishes its shutdown work. Update checks also compare the user password hash, role, profile, and metadata.
 

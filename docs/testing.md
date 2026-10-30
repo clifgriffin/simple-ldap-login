@@ -2,11 +2,11 @@
 
 Test date: 2026-10-30.
 
-`npm run test:release` passed with exit code 0 after the LdapRecord migration and local recovery access change. All 24 core configurations passed. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
+`npm run test:release` passed with exit code 0 after the LdapRecord migration and local recovery access change. All 24 core configurations passed. The later Advanced tab change passed source, asset, and package checks; it changes screen layout only. See the [coverage map](test-coverage.md) and [Docker test guide](docker-tests.md).
 
 ## Source and release packages
 
-`composer check` passes all 387 checks: 218 for settings, secrets, recovery policies, authentication, and LDAP; 145 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+`composer check` passes all 504 checks: 218 for settings, secrets, recovery policies, authentication, and LDAP; 262 for admin screens; 20 for package replacement; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Source checks ran locally on PHP 8.4. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
 
 LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
 
@@ -46,6 +46,10 @@ The HTTP suite has 58 checks per edition and activation mode. Apache Basic authe
 Earlier tests found that an SSO proof made with `wp_generate_password()` could contain whitespace that core trims. The proof now uses 32 random bytes encoded as hex. Source and HTTP tests retain that regression check and verify that later authentication filters can still deny access.
 
 Temporary test containers and volumes were removed after each automated run. The kept Samba domain, configuration, and CA remain in named volumes.
+
+## Settings screens
+
+The Advanced tab contains connection timeouts, LDAP attribute and group search overrides, profile attributes, plain LDAP permission, and uninstall data retention. Full packages also show metadata suffixes there. Custom metadata mappings stay on the full package User data tab. Free has no empty User data tab; its old profile links open Advanced. Screen checks cover field placement in Free and Pro, site and network scope, saved-value rendering, and Advanced form submissions. Missing fields are retained by the existing settings save path.
 
 ## Earlier settings-screen checks
 

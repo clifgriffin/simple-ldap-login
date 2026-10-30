@@ -47,6 +47,10 @@ A release ZIP includes its dependencies. Do not install an unbuilt source archiv
 
 == Frequently Asked Questions ==
 
+= Where are the advanced settings? =
+
+The Advanced tab contains the timeout, LDAP login and group attributes, group search base, profile attributes, plain LDAP permission, and uninstall data setting. Full packages also show metadata suffixes there. Common connection and access settings stay on their main tabs. Saved values are kept when you save another tab.
+
 = Will my existing settings work? =
 
 The plugin keeps the settings option name and its site or network scope. It backs up and migrates older settings. It records legacy eligibility before migration. Use Legacy to retain SSO, custom mappings, and their settings controls. A local eligibility record cannot restore feature code absent from a ZIP.
