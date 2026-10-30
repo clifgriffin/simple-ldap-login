@@ -163,7 +163,13 @@ class Ldap_Client {
 		return new Connection(
 			$configuration,
 			new class() extends Ldap {
-				/** Keep the configured port; the library otherwise changes 389 to 636 for LDAPS. */
+				/**
+				 * Keep the configured port.
+				 *
+				 * @param array|string $hosts LDAP hosts.
+				 * @param string|int   $port LDAP port.
+				 * @return string Connection URIs.
+				 */
 				protected function makeConnectionUris( array|string $hosts, string|int $port ): string {
 					return implode( ' ', $this->assembleHostUris( $hosts, $port ) );
 				}
@@ -351,7 +357,7 @@ class Ldap_Client {
 		 *
 		 * @param array $attributes Attribute names.
 		 */
-		$filtered = apply_filters( 'sll_ldap_attributes', $attributes );
+		$filtered   = apply_filters( 'sll_ldap_attributes', $attributes );
 		$attributes = is_array( $filtered ) ? $filtered : $attributes;
 		return array_values( array_unique( array_filter( $attributes, array( Settings::class, 'validate_attribute' ) ) ) );
 	}
@@ -393,7 +399,7 @@ class Ldap_Client {
 			if ( $primary instanceof Group ) {
 				$memberships = $memberships->merge( $primary->groups()->recursive()->get( $attributes ) );
 			}
-			$base_parts  = array_map( 'strtolower', DistinguishedName::make( $base )->components() );
+			$base_parts = array_map( 'strtolower', DistinguishedName::make( $base )->components() );
 			if ( ! $base_parts || 0 !== $connection->getLdapConnection()->errNo() ) {
 				return false;
 			}

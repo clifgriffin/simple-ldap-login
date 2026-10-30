@@ -52,7 +52,6 @@ final class Authenticator {
 			add_filter( 'authenticate', array( $this, 'authenticate' ), 10, 3 );
 			add_filter( 'authenticate', array( $this, 'enforce_access' ), 99 );
 		}
-
 	}
 
 	/**
@@ -157,20 +156,19 @@ final class Authenticator {
 			if ( ! get_role( $role ) ) {
 				return new WP_Error( 'sll_role', __( 'The default WordPress role is not available. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
-			$first = $this->attribute( $entry, 'user_first_name_attribute' );
-			$last  = $this->attribute( $entry, 'user_last_name_attribute' );
-			$data  = array(
-				'user_login'   => $username,
-				'user_pass'    => wp_generate_password( 64, true, true ),
-				'user_email'   => sanitize_email( $this->attribute( $entry, 'user_email_attribute' ) ),
-				'first_name'   => sanitize_text_field( $first ),
-				'last_name'    => sanitize_text_field( $last ),
-				'display_name' => trim( $first . ' ' . $last ) ? sanitize_text_field( trim( $first . ' ' . $last ) ) : $username,
-				'user_url'     => esc_url_raw( $this->attribute( $entry, 'user_url_attribute' ), array( 'http', 'https' ) ),
-				'role'         => $role,
+			$data = array_merge(
+				$this->profile_data( $entry ),
+				array(
+					'user_login' => $username,
+					'user_pass'  => wp_generate_password( 64, true, true ),
+					'role'       => $role,
+				)
 			);
-			$data  = apply_filters( 'sll_user_data', $data );
-			$id    = wp_insert_user( $data );
+			if ( '' === $data['display_name'] ) {
+				$data['display_name'] = $username;
+			}
+			$data = apply_filters( 'sll_user_data', $data );
+			$id   = wp_insert_user( $data );
 			if ( is_wp_error( $id ) ) {
 				return new WP_Error( 'sll_account', __( 'Could not create your WordPress account. Contact your site administrator.', 'simple-ldap-login' ) );
 			}
@@ -190,6 +188,24 @@ final class Authenticator {
 	}
 
 	/**
+	 * Build standard profile values for account creation or updates.
+	 *
+	 * @param array $entry Verified directory entry.
+	 * @return array Safe WordPress profile fields.
+	 */
+	public function profile_data( array $entry ): array {
+		$first = sanitize_text_field( $this->attribute( $entry, 'user_first_name_attribute' ) );
+		$last  = sanitize_text_field( $this->attribute( $entry, 'user_last_name_attribute' ) );
+		return array(
+			'user_email'   => sanitize_email( $this->attribute( $entry, 'user_email_attribute' ) ),
+			'first_name'   => $first,
+			'last_name'    => $last,
+			'display_name' => trim( $first . ' ' . $last ),
+			'user_url'     => esc_url_raw( $this->attribute( $entry, 'user_url_attribute' ), array( 'http', 'https' ) ),
+		);
+	}
+
+	/**
 	 * Read the first value of a configured LDAP attribute.
 	 *
 	 * @param array  $entry Directory entry.
@@ -199,5 +215,4 @@ final class Authenticator {
 	private function attribute( array $entry, string $key ): string {
 		return (string) ( $entry[ strtolower( (string) $this->settings->get( $key ) ) ][0] ?? '' );
 	}
-
 }

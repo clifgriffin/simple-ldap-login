@@ -165,6 +165,7 @@ namespace {
 				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
 				admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'tab=sso' ) ), 'Only packages with SSO add its tab.' );
 				admin_check( ( 'pro' === $edition && 'access' === $tab ) === str_contains( $html, 'sll_settings[role_rules]' ), 'Group role rules appear only on Pro Access.' );
+				admin_check( ( 'pro' === $edition && 'profile' === $tab ) === str_contains( $html, 'sll_settings[profile_updates]' ), 'Profile updates appear only on Pro User data.' );
 				if ( 'profile' === $tab ) {
 					admin_check( ( 'free' === $edition ) === str_contains( $html, 'sll_settings[user_email_attribute]' ), 'Old Free profile links open Advanced; Pro profile shows mappings.' );
 					admin_check( 'pro' === $edition || str_contains( $html, 'name="tab" value="advanced"' ), 'Old Free profile links retain a valid save destination.' );

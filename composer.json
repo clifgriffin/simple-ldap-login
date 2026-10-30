@@ -42,8 +42,8 @@
             "php tests/licenses.php",
             "php tests/uninstall.php"
         ],
-        "lint": "phpcs",
-        "format": "phpcbf",
+        "lint": "php -r \"define('ABSPATH', getcwd() . '/'); require 'vendor/bin/phpcs';\" --",
+        "format": "php -r \"define('ABSPATH', getcwd() . '/'); require 'vendor/bin/phpcbf';\" --",
         "check": [
             "@test",
             "@lint"

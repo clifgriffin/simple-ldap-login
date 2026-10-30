@@ -374,7 +374,7 @@ final class Settings {
 				if ( ! array_key_exists( 'recovery_user_ids', $stored ) ) {
 					$stored['recovery_user_ids'] = array();
 				}
-				$stored['schema_version']    = 3;
+				$stored['schema_version'] = 3;
 				$this->write( 'sll_settings', $stored );
 			}
 			return;
@@ -561,32 +561,32 @@ final class Settings {
 	 * @return \WP_Error
 	 */
 	private function invalid( string $key ): \WP_Error {
-		$labels = array(
-			'directory' => __( 'Directory type', 'simple-ldap-login' ),
-			'transport' => __( 'Connection security', 'simple-ldap-login' ),
-			'domain_controllers' => __( 'LDAP servers', 'simple-ldap-login' ),
-			'base_dn' => __( 'Base DN', 'simple-ldap-login' ),
-			'account_suffix' => __( 'Username suffix', 'simple-ldap-login' ),
-			'login_domain' => __( 'Windows domain', 'simple-ldap-login' ),
-			'ldap_port' => __( 'Port', 'simple-ldap-login' ),
-			'ldap_version' => __( 'LDAP protocol version', 'simple-ldap-login' ),
-			'timeout' => __( 'LDAP timeout', 'simple-ldap-login' ),
-			'ol_login' => __( 'Login attribute', 'simple-ldap-login' ),
-			'ol_group' => __( 'Group name attribute', 'simple-ldap-login' ),
-			'group_uid' => __( 'Group member attribute', 'simple-ldap-login' ),
-			'groups' => __( 'Required groups', 'simple-ldap-login' ),
-			'group_base_dn' => __( 'Group base DN', 'simple-ldap-login' ),
-			'role' => __( 'Default role', 'simple-ldap-login' ),
-			'recovery_mode' => __( 'Local recovery access', 'simple-ldap-login' ),
-			'recovery_user_ids' => __( 'Recovery accounts', 'simple-ldap-login' ),
-			'sso_search_user_password' => __( 'Search account password', 'simple-ldap-login' ),
-			'user_meta_data' => __( 'Field mappings', 'simple-ldap-login' ),
-			'meta_data_suffix_ldap' => __( 'LDAP value suffix', 'simple-ldap-login' ),
-			'meta_data_suffix_wp' => __( 'WordPress value suffix', 'simple-ldap-login' ),
+		$labels  = array(
+			'directory'                 => __( 'Directory type', 'simple-ldap-login' ),
+			'transport'                 => __( 'Connection security', 'simple-ldap-login' ),
+			'domain_controllers'        => __( 'LDAP servers', 'simple-ldap-login' ),
+			'base_dn'                   => __( 'Base DN', 'simple-ldap-login' ),
+			'account_suffix'            => __( 'Username suffix', 'simple-ldap-login' ),
+			'login_domain'              => __( 'Windows domain', 'simple-ldap-login' ),
+			'ldap_port'                 => __( 'Port', 'simple-ldap-login' ),
+			'ldap_version'              => __( 'LDAP protocol version', 'simple-ldap-login' ),
+			'timeout'                   => __( 'LDAP timeout', 'simple-ldap-login' ),
+			'ol_login'                  => __( 'Login attribute', 'simple-ldap-login' ),
+			'ol_group'                  => __( 'Group name attribute', 'simple-ldap-login' ),
+			'group_uid'                 => __( 'Group member attribute', 'simple-ldap-login' ),
+			'groups'                    => __( 'Required groups', 'simple-ldap-login' ),
+			'group_base_dn'             => __( 'Group base DN', 'simple-ldap-login' ),
+			'role'                      => __( 'Default role', 'simple-ldap-login' ),
+			'recovery_mode'             => __( 'Local recovery access', 'simple-ldap-login' ),
+			'recovery_user_ids'         => __( 'Recovery accounts', 'simple-ldap-login' ),
+			'sso_search_user_password'  => __( 'Search account password', 'simple-ldap-login' ),
+			'user_meta_data'            => __( 'Field mappings', 'simple-ldap-login' ),
+			'meta_data_suffix_ldap'     => __( 'LDAP value suffix', 'simple-ldap-login' ),
+			'meta_data_suffix_wp'       => __( 'WordPress value suffix', 'simple-ldap-login' ),
 			'user_first_name_attribute' => __( 'First name attribute', 'simple-ldap-login' ),
-			'user_last_name_attribute' => __( 'Last name attribute', 'simple-ldap-login' ),
-			'user_email_attribute' => __( 'Email attribute', 'simple-ldap-login' ),
-			'user_url_attribute' => __( 'Website attribute', 'simple-ldap-login' ),
+			'user_last_name_attribute'  => __( 'Last name attribute', 'simple-ldap-login' ),
+			'user_email_attribute'      => __( 'Email attribute', 'simple-ldap-login' ),
+			'user_url_attribute'        => __( 'Website attribute', 'simple-ldap-login' ),
 		);
 		$message = __( 'Check the submitted settings. No changes were saved.', 'simple-ldap-login' );
 		if ( isset( $labels[ $key ] ) ) {

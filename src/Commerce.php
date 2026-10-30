@@ -46,8 +46,14 @@ final class Commerce {
 	 * @return array Settings tabs.
 	 */
 	public function tabs( array $tabs ): array {
-		$last = array_intersect_key( $tabs, array( 'advanced' => true, 'help' => true ) );
-		$tabs = array_diff_key( $tabs, $last );
+		$last            = array_intersect_key(
+			$tabs,
+			array(
+				'advanced' => true,
+				'help'     => true,
+			)
+		);
+		$tabs            = array_diff_key( $tabs, $last );
 		$tabs['license'] = isset( $tabs['sso'] ) ? __( 'License', 'simple-ldap-login' ) : __( 'Get Pro', 'simple-ldap-login' );
 		return array_merge( $tabs, $last );
 	}
@@ -91,7 +97,7 @@ final class Commerce {
 			<p><?php esc_html_e( 'Copy phone numbers, departments, and other LDAP fields to WordPress at login. Use these values in your theme or other plugins.', 'simple-ldap-login' ); ?></p>
 			<?php
 			if ( ! $license->is_active() ) {
-			?>
+				?>
 			<p><button class="button button-primary" type="button" id="sll-load-pricing"><?php esc_html_e( 'View plans', 'simple-ldap-login' ); ?></button> <a href="<?php echo esc_url( self::checkout_url() ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Open checkout in a new tab', 'simple-ldap-login' ); ?></a></p>
 			<p class="description"><?php esc_html_e( 'Plans and checkout use PaidCommunities. It receives your IP address and browser details.', 'simple-ldap-login' ); ?></p>
 			<p id="sll-pricing-status" role="status" hidden></p>
@@ -162,14 +168,14 @@ final class Commerce {
 			check_admin_referer( 'sll_license' );
 		}
 		$scope = isset( $_POST['sll_scope'] ) && is_string( $_POST['sll_scope'] ) ? sanitize_key( wp_unslash( $_POST['sll_scope'] ) ) : '';
-		if ( $scope !== ( $this->settings->is_network() ? 'network' : 'site' ) ) {
+		if ( ( $this->settings->is_network() ? 'network' : 'site' ) !== $scope ) {
 			wp_die( esc_html__( 'The settings scope has changed. Open the settings page and try again.', 'simple-ldap-login' ), '', array( 'response' => 400 ) );
 		}
 		$task    = isset( $_POST['sll_license_task'] ) && is_string( $_POST['sll_license_task'] ) ? sanitize_key( wp_unslash( $_POST['sll_license_task'] ) ) : '';
 		$license = new License( $this->settings );
 		if ( 'activate' === $task ) {
 			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- License validates the exact key before sending it.
-			$key    = isset( $_POST['sll_license_key'] ) && is_string( $_POST['sll_license_key'] ) ? trim( wp_unslash( $_POST['sll_license_key'] ) ) : '';
+			$key = isset( $_POST['sll_license_key'] ) && is_string( $_POST['sll_license_key'] ) ? trim( wp_unslash( $_POST['sll_license_key'] ) ) : '';
 			return $license->activate( $key );
 		} elseif ( 'check' === $task ) {
 			return $license->refresh();
@@ -183,8 +189,16 @@ final class Commerce {
 	/** Handle the form when JavaScript is unavailable. */
 	public function handle_license(): void {
 		$result = $this->run_task( false );
-		$url = $this->settings->is_network() ? network_admin_url( 'settings.php?page=simple-ldap-login' ) : admin_url( 'options-general.php?page=simple-ldap-login' );
-		wp_safe_redirect( add_query_arg( array( 'tab' => 'license', 'sll_license_result' => is_wp_error( $result ) ? 'error' : 'ok' ), $url ) );
+		$url    = $this->settings->is_network() ? network_admin_url( 'settings.php?page=simple-ldap-login' ) : admin_url( 'options-general.php?page=simple-ldap-login' );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'tab'                => 'license',
+					'sll_license_result' => is_wp_error( $result ) ? 'error' : 'ok',
+				),
+				$url
+			)
+		);
 		exit;
 	}
 
@@ -192,12 +206,21 @@ final class Commerce {
 	public function ajax(): void {
 		$result = $this->run_task( true );
 		if ( is_wp_error( $result ) ) {
-			wp_send_json_error( array( 'code' => 'license_error', 'message' => $result->get_error_message() ), 400 );
+			wp_send_json_error(
+				array(
+					'code'    => 'license_error',
+					'message' => $result->get_error_message(),
+				),
+				400
+			);
 		}
 		wp_send_json_success(
 			array(
 				'license' => $this->component_license(),
-				'notice'  => array( 'code' => 'license_updated', 'message' => __( 'License status updated.', 'simple-ldap-login' ) ),
+				'notice'  => array(
+					'code'    => 'license_updated',
+					'message' => __( 'License status updated.', 'simple-ldap-login' ),
+				),
 			)
 		);
 	}
@@ -210,7 +233,7 @@ final class Commerce {
 	private function component_license(): array {
 		$data       = ( new License( $this->settings ) )->data();
 		$site       = untrailingslashit( $this->settings->is_network() ? network_home_url() : home_url() );
-		$registered = ! empty( $data['domain_id'] ) && $site === ( $data['site_url'] ?? '' );
+		$registered = ! empty( $data['domain_id'] ) && ( $data['site_url'] ?? '' ) === $site;
 		return array(
 			'status'      => $registered ? ( $data['status'] ?? 'inactive' ) : 'inactive',
 			'registered'  => $registered,
@@ -249,12 +272,12 @@ final class Commerce {
 				'deactivateLicense' => __( 'Deactivate license', 'simple-ldap-login' ),
 				'activateMsg'       => __( 'Activating license…', 'simple-ldap-login' ),
 				'deactivateMsg'     => __( 'Deactivating license…', 'simple-ldap-login' ),
-				'license_error'    => __( 'License error', 'simple-ldap-login' ),
-				'license_updated'  => __( 'License updated', 'simple-ldap-login' ),
-				'licenseError'     => __( 'Could not verify the license. Check your key and connection, then try again.', 'simple-ldap-login' ),
-				'pricingTitle'     => __( 'Pro plans', 'simple-ldap-login' ),
-				'pricingLoading'   => __( 'Loading plans…', 'simple-ldap-login' ),
-				'pricingError'     => __( 'Could not load plans. Open checkout in a new tab.', 'simple-ldap-login' ),
+				'license_error'     => __( 'License error', 'simple-ldap-login' ),
+				'license_updated'   => __( 'License updated', 'simple-ldap-login' ),
+				'licenseError'      => __( 'Could not verify the license. Check your key and connection, then try again.', 'simple-ldap-login' ),
+				'pricingTitle'      => __( 'Pro plans', 'simple-ldap-login' ),
+				'pricingLoading'    => __( 'Loading plans…', 'simple-ldap-login' ),
+				'pricingError'      => __( 'Could not load plans. Open checkout in a new tab.', 'simple-ldap-login' ),
 			),
 		);
 		wp_add_inline_script( 'simple-ldap-login-commerce', 'window.sllCommerce = ' . wp_json_encode( $config, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );

@@ -186,7 +186,12 @@ final class License {
 	 * @return string License status.
 	 */
 	private function status( PaidCommunities_Client $client ): string {
-		$response = $client->plugins->updateCheck( array( 'version' => SLL_VERSION, 'product_id' => self::PRODUCT ) );
+		$response = $client->plugins->updateCheck(
+			array(
+				'version'    => SLL_VERSION,
+				'product_id' => self::PRODUCT,
+			)
+		);
 		$status   = $response->license->status ?? null;
 		$products = $response->license->product_ids ?? array();
 		$products = is_array( $products ) ? $products : array();

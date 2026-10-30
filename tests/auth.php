@@ -16,6 +16,10 @@ class WP_User {
 	public string $user_login;
 	public string $user_email;
 	public bool $admin;
+	public string $first_name = '';
+	public string $last_name = '';
+	public string $display_name = '';
+	public string $user_url = '';
 	public array $roles = array( 'subscriber' );
 	public function set_role( $role ) { $this->roles = $role ? array( $role ) : array(); }
 	public bool $spam = false;

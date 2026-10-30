@@ -287,9 +287,19 @@ final class Admin {
 
 	/** Render the existing administrator accounts allowed in this settings scope. */
 	private function recovery_accounts(): void {
-		$query = array( 'blog_id' => get_current_blog_id(), 'capability' => 'manage_options', 'orderby' => 'display_name', 'order' => 'ASC' );
+		$query = array(
+			'blog_id'    => get_current_blog_id(),
+			'capability' => 'manage_options',
+			'orderby'    => 'display_name',
+			'order'      => 'ASC',
+		);
 		if ( $this->settings->is_network() ) {
-			$query = array( 'blog_id' => 0, 'login__in' => get_super_admins(), 'orderby' => 'display_name', 'order' => 'ASC' );
+			$query = array(
+				'blog_id'   => 0,
+				'login__in' => get_super_admins(),
+				'orderby'   => 'display_name',
+				'order'     => 'ASC',
+			);
 		}
 		$users = isset( $query['login__in'] ) && ! $query['login__in'] ? array() : get_users( $query );
 		$ids   = (array) $this->settings->get( 'recovery_user_ids' );
@@ -398,7 +408,11 @@ final class Admin {
 	public function card_start( string $title, string $description ): void {
 		?>
 		<section class="sll-card">
-			<div class="sll-card-heading"><h2><?php echo esc_html( $title ); ?></h2><?php if ( '' !== $description ) : ?><p><?php echo esc_html( $description ); ?></p><?php endif; ?></div>
+			<div class="sll-card-heading"><h2><?php echo esc_html( $title ); ?></h2>
+			<?php
+			if ( '' !== $description ) :
+				?>
+				<p><?php echo esc_html( $description ); ?></p><?php endif; ?></div>
 			<div class="sll-fields">
 		<?php
 	}
@@ -418,7 +432,14 @@ final class Admin {
 	 * @param string $key Setting key.
 	 */
 	private function directory_field( string $key ): void {
-		$types = array( 'account_suffix' => 'ad', 'login_domain' => 'ad', 'search_sub_ous' => 'ol', 'ol_login' => 'ol', 'ol_group' => 'ol', 'group_uid' => 'ol' );
+		$types = array(
+			'account_suffix' => 'ad',
+			'login_domain'   => 'ad',
+			'search_sub_ous' => 'ol',
+			'ol_login'       => 'ol',
+			'ol_group'       => 'ol',
+			'group_uid'      => 'ol',
+		);
 		if ( isset( $types[ $key ] ) ) {
 			echo ' data-sll-directory="' . esc_attr( $types[ $key ] ) . '"';
 			if ( $types[ $key ] !== $this->settings->get( 'directory' ) ) {
@@ -440,8 +461,15 @@ final class Admin {
 		<div class="sll-field"<?php $this->directory_field( $key ); ?>>
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
-				<input class="regular-text" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" type="<?php echo esc_attr( $type ); ?>" value="<?php echo 'password' === $type ? '' : esc_attr( (string) $this->settings->get( $key ) ); ?>" <?php if ( '' !== $description ) : ?>aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?> autocomplete="<?php echo 'password' === $type ? 'new-password' : 'off'; ?>" />
-				<?php if ( '' !== $description ) : ?><p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
+				<input class="regular-text" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" type="<?php echo esc_attr( $type ); ?>" value="<?php echo 'password' === $type ? '' : esc_attr( (string) $this->settings->get( $key ) ); ?>"
+				<?php
+				if ( '' !== $description ) :
+					?>
+					aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?> autocomplete="<?php echo 'password' === $type ? 'new-password' : 'off'; ?>" />
+				<?php
+				if ( '' !== $description ) :
+					?>
+					<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -480,12 +508,19 @@ final class Admin {
 		<div class="sll-field">
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
-				<select id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" <?php if ( '' !== $description ) : ?>aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?>>
+				<select id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]"
+				<?php
+				if ( '' !== $description ) :
+					?>
+					aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?>>
 					<?php foreach ( $options as $value => $text ) : ?>
 						<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $current, $value ); ?>><?php echo esc_html( $text ); ?></option>
 					<?php endforeach; ?>
 				</select>
-				<?php if ( '' !== $description ) : ?><p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
+				<?php
+				if ( '' !== $description ) :
+					?>
+					<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -507,8 +542,15 @@ final class Admin {
 		<div class="sll-field">
 			<label for="sll-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $label ); ?></label>
 			<div>
-				<textarea class="large-text code" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" rows="4" <?php if ( '' !== $description ) : ?>aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?>><?php echo esc_textarea( (string) $value ); ?></textarea>
-				<?php if ( '' !== $description ) : ?><p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
+				<textarea class="large-text code" id="sll-<?php echo esc_attr( $key ); ?>" name="sll_settings[<?php echo esc_attr( $key ); ?>]" rows="4"
+				<?php
+				if ( '' !== $description ) :
+					?>
+					aria-describedby="sll-<?php echo esc_attr( $key ); ?>-help"<?php endif; ?>><?php echo esc_textarea( (string) $value ); ?></textarea>
+				<?php
+				if ( '' !== $description ) :
+					?>
+					<p class="description" id="sll-<?php echo esc_attr( $key ); ?>-help"><?php echo esc_html( $description ); ?></p><?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -568,7 +610,7 @@ final class Admin {
 	 * @return string
 	 */
 	private function tab( array $request ): string {
-		$tab = isset( $request['tab'] ) && is_string( $request['tab'] ) ? sanitize_key( wp_unslash( $request['tab'] ) ) : '';
+		$tab  = isset( $request['tab'] ) && is_string( $request['tab'] ) ? sanitize_key( wp_unslash( $request['tab'] ) ) : '';
 		$tabs = $this->tabs();
 		// Keep old Free profile links useful after moving its attributes.
 		if ( 'profile' === $tab && ! array_key_exists( 'profile', $tabs ) ) {
