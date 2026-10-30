@@ -28,6 +28,7 @@ class Sll_Recording_Ldap extends LdapFake {
 	protected function resolveExpectation( string $method, array $args = array() ): mixed {
 		if ( in_array( $method, array( 'search', 'read', 'list' ), true ) ) {
 			$GLOBALS['sll_test_ldap']['searches'][] = array( 'read' => 'read' === $method, 'base' => $args[0], 'filter' => $args[1], 'attributes' => $args[2], 'size_limit' => $args[4] ?? 0 );
+			if ( ( $GLOBALS['sll_test_ldap']['search_error_at'] ?? 0 ) === count( $GLOBALS['sll_test_ldap']['searches'] ) ) { $this->shouldReturnErrorNumber( 1 ); }
 			return array_shift( $GLOBALS['sll_test_ldap']['responses'] ) ?: array();
 		}
 		if ( 'bind' === $method ) {

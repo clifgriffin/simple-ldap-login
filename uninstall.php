@@ -27,6 +27,7 @@ $simpleldaplogin_remove_site = static function () use ( $simpleldaplogin_keys ):
 	wp_clear_scheduled_hook( 'sll_pro_license_check' );
 	wp_clear_scheduled_hook( 'sll_import_users' );
 	wp_clear_scheduled_hook( 'sll_remove_access' );
+	wp_clear_scheduled_hook( 'sll_audit_cleanup' );
 	delete_option( 'sll_removal_lock' );
 	delete_option( 'sll_import_lock' );
 	$settings = get_option( 'sll_settings', array() );

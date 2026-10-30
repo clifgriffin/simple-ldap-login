@@ -64,6 +64,9 @@ Test runs reset the fixture WordPress users and plugin settings. Do not put usef
 - OpenLDAP sub-OU lookup and the three supported group membership attributes.
 - Samba account names, UPNs, domain names, direct groups, nested groups, primary groups, and disabled accounts.
 - Pro custom metadata and SSO lookup; absence of those features in Free.
+- Pro role rules, profile updates, repeated paged imports, managed account suspension and restoration, and real session removal.
+- Pro network membership rules, target site roles, membership removal, and credential scope isolation.
+- Private audit storage, CSV output, and retention with real WordPress posts.
 - HTTP sign-on through Apache, and rejection of a forged user header.
 
 ## Active Directory limits

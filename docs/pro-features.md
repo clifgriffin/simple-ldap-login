@@ -55,3 +55,18 @@ When a group no longer matches, prior roles return. Memberships created by the r
 A manual role change made after assignment is kept when the group no longer matches.
 Unrelated site memberships stay unchanged. Blank rules stop membership updates and keep existing memberships.
 Recovery accounts and super administrators are excluded. Site-only activation cannot change other sites.
+
+## Audit history and CSV export
+
+On Audit, select **Enable audit history**. Collection is off by default.
+The screen shows the latest 50 records. Export CSV downloads all retained records in the current scope.
+Export requires the settings administrator capability, the current scope, a valid nonce, and an active license.
+Records contain a UTC time, a fixed event name, and actor, user, and site IDs.
+Events include completed WordPress logins, failed login or directory checks, role changes, profile updates, imports, access changes, membership changes, and settings changes.
+A directory check that passes before a later login denial does not produce a successful login record.
+Passwords, credentials, directory field values, request headers, and attempted account names are excluded.
+Private WordPress posts store the records. They have no public page or REST API.
+Network records stay on the main site and retain the source site ID. Site records remain separate.
+Retention defaults to 30 days. Set 1 to 3650 days. A daily WordPress task removes expired records in batches.
+Turning off collection or losing a license keeps existing records. Deactivation clears scheduled tasks.
+Uninstall keeps audit records, user data, and content. New interface text uses English until translations are updated.

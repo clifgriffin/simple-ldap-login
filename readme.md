@@ -8,7 +8,7 @@ Use Active Directory or OpenLDAP accounts to log in to WordPress. The plugin req
 
 Version 2.0 is in development. Complete the [release checks](docs/release-checklist.md) before production use. Source checks use simulated directory responses. Docker tests use real WordPress, MariaDB, OpenLDAP, Samba AD, and Apache server sign-on. Microsoft AD and Kerberos still need deployment tests.
 
-Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and directory server failover. Server SSO and custom metadata mappings belong to Pro.
+Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and directory server failover. Pro adds server SSO, custom metadata mappings, group role rules, profile updates, scheduled account import and access removal, multisite membership rules, and audit history with CSV export.
 
 For a direct upgrade from 1.x, install Pro if the site uses server SSO or custom user fields. Install Free for LDAP password login without those features. Test the upgrade on a site copy and keep a working local administrator account.
 
@@ -48,13 +48,13 @@ The ZIPs in `dist/` are:
 | Command | ZIP | Contents |
 | --- | --- | --- |
 | `build:free` | `simple-ldap-login.zip` | Basic LDAP login; excludes SSO and custom metadata code |
-| `build:pro` | `simple-ldap-login-pro.zip` | Free features, server SSO, and custom metadata mappings |
+| `build:pro` | `simple-ldap-login-pro.zip` | Free features, SSO, custom fields, account management, and audit history |
 
 Every ZIP contains the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one edition. It replaces the existing package and does not require an add-on. `npm run plugin-zip` builds Free.
 
 Each build copies release files into a temporary folder, installs production dependencies from the Composer lock files, uses PHP-Scoper to put bundled dependencies under `SimpleLdapLoginVendor`, and calls `wp-scripts plugin-zip`. It then removes the temporary folder. The source files and development dependencies stay unchanged. The PHP-Scoper build tool has its own manifest and lock in `tools/scoper/` and is excluded from the ZIP. Site owners install the ZIP without Composer or Node.
 
-The Pro build includes the SSO and metadata classes from `pro/`. Both features need an active PaidCommunities license. Hourly background checks save the license status; login reads only that saved status. Confirmed expiry stops SSO and custom field updates. LDAP password login, recovery accounts, settings, and existing user data remain available. See [licensing](docs/licensing.md).
+The Pro build includes feature classes from `pro/`. Pro features need an active PaidCommunities license. Hourly background checks save the license status; login reads only that saved status. Confirmed expiry stops Pro features. Existing suspensions and directory identity checks remain enforced. LDAP password login, recovery accounts, settings, and existing user data remain available. See [licensing](docs/licensing.md).
 
 The Pro preview uses `Update URI: false` to prevent replacement by a WordPress.org update. Automatic external updates and live service acceptance tests remain required before sales.
 
@@ -144,11 +144,13 @@ The legacy filters remain: `sll_get_setting`, `sll_force_ldap`, `sll_remove_defa
 
 `false` from `sll_force_ldap` means that the administrator must use LDAP. This inverted legacy meaning is retained. The hook named `sll_remove_default_authentication_hook` now controls fallback policy without removing core or third-party filters. `sll_ldap_auth` can reject a successful bind; it cannot turn a failed bind into a valid identity. `sll_auth_success` now runs for both new and existing LDAP accounts.
 
+Directory modules can use `sll_ldap_entry` to add checked group data and `sll_account_verified` to reject an identity before account update actions. `sll_settings_defaults` and `sll_validate_setting` add module defaults and input validation. `sll_settings_saved` reports a successful settings write with the scope and before/after arrays. These are local hooks; they do not send data to an external service.
+
 Extensions can register through `sll_loaded`, which supplies the settings and authentication services. Do not call a licensing service during login.
 
 ## Product plan
 
-Pro includes server SSO and custom user fields. A 1.x site that uses either feature must upgrade directly to Pro. Central network settings remain free. Multiple independent directories, group-to-role rules, scheduled account updates, audit exports, and network setup tools remain planned features.
+Pro includes server SSO, custom user fields, group role rules, profile updates, scheduled account import and access removal, multisite membership rules, and audit history with CSV export. A 1.x site that uses SSO or custom user fields must upgrade directly to Pro. Central network settings remain free. Multiple independent directories and network configuration templates remain planned features.
 
 PaidCommunities manages purchases, license activation, and status checks. Free has a Get Pro tab with the official pricing and activation components. Both editions use the SDK services with a checked HTTP client and license handlers. It does not register the SDK's unsafe admin handlers. Automatic updates and live account checks remain open in the [product plan](docs/product-plan.md).
 
@@ -156,4 +158,4 @@ All editions use GPL-2.0-or-later. Pro features require an active subscription. 
 
 The purchase service loads only after an administrator selects **View plans**. Checkout runs on PaidCommunities. After purchase, install the Pro ZIP from the receipt at the same plugin path. A license activated in Free stays active after replacement. Activation does not install or enable paid feature code in Free.
 
-See [Pro account features](docs/pro-features.md) for group role settings and behavior.
+See [Pro account features](docs/pro-features.md) for feature settings, scheduled task requirements, and access rules.

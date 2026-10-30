@@ -80,6 +80,10 @@ namespace {
 	function untrailingslashit( $value ) { return rtrim( $value, '/' ); }
 	function plugin_basename( $file ) { return 'simple-ldap-login/' . basename( $file ); }
 	function plugins_url( $path, $file ) { return '/wp-content/plugins/simple-ldap-login/' . $path; }
+	function get_posts( $args ) { return array(); }
+	function get_current_network_id() { return 1; }
+	function get_main_site_id() { return 1; }
+	function wp_nonce_url( $url, $action ) { return $url . '&_wpnonce=test-nonce'; }
 	function wp_create_nonce( $action ) { return 'test-nonce'; }
 	function wp_json_encode( $data, $flags = 0 ) { return json_encode( $data, $flags ); }
 	function wp_register_script( $handle, $url, $deps, $version, $footer ) { $GLOBALS['sll_commerce_scripts'][ $handle ] = $url; }
@@ -142,6 +146,7 @@ namespace {
 
 	require dirname( __DIR__ ) . '/src/Admin.php';
 	require dirname( __DIR__ ) . '/pro/src/Admin.php';
+	require dirname( __DIR__ ) . '/pro/src/Audit.php';
 	require dirname( __DIR__ ) . '/src/License.php';
 	require dirname( __DIR__ ) . '/src/Commerce.php';
 	require dirname( __DIR__ ) . '/vendor/paidcommunities/wordpress-sdk/src/Assets/AssetsApi.php';
@@ -153,11 +158,12 @@ namespace {
 		( new SimpleLdapLogin\Commerce( $settings ) )->register();
 		if ( 'pro' === $edition ) {
 			( new SimpleLdapLogin\Pro\Admin( $settings ) )->register();
+			( new SimpleLdapLogin\Pro\Audit( $settings ) )->register();
 		}
 		foreach ( array( 'site', 'network' ) as $scope ) {
 			$settings->network = 'network' === $scope;
 			$GLOBALS['sll_admin_multisite'] = $settings->network;
-			foreach ( array( 'connection', 'access', 'profile', 'sso', 'accounts', 'license', 'advanced', 'help' ) as $tab ) {
+			foreach ( array( 'connection', 'access', 'profile', 'sso', 'accounts', 'audit', 'license', 'advanced', 'help' ) as $tab ) {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );

@@ -8,7 +8,7 @@ Build only Free and Pro. Server SSO and custom user fields require Pro. Central 
 
 The 1.x upgrade path is narrow. Preserve saved settings, directory credentials, login rules, administrator recovery, and user data. Sites that use SSO or custom user fields must upgrade directly to Pro. There is no separate Legacy package, Transition package, or eligibility grant.
 
-Group-to-role rules are implemented. Multiple directories, scheduled jobs, audit records, and network templates remain planned work. PaidCommunities activation and license checks are implemented. Live account tests and external updates remain required. Do not open sales or distribute the Pro preview until its release checks pass.
+Group-to-role rules, profile updates, scheduled import and access removal, multisite membership rules, and audit history with export are implemented. Multiple directories and network templates remain planned work. PaidCommunities activation and license checks are implemented. Live account tests and external updates remain required. Do not open sales or distribute the Pro preview until its release checks pass.
 
 ## Free and Pro features
 
@@ -31,8 +31,9 @@ Group-to-role rules are implemented. Multiple directories, scheduled jobs, audit
 | Scheduled account import | No | Yes |
 | Scheduled access removal and session removal | No | Yes |
 | Multisite group membership and role rules | No | Yes |
+| Audit history, retention, and CSV export | No | Yes |
 
-Planned Pro additions are multiple independent directories and routing rules; scheduled import and profile updates; scheduled account suspension and session removal; audit retention and export; and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise the planned additions as available.
+Implemented Pro account features are described in [Pro account features](pro-features.md). Planned Pro additions are multiple independent directories and routing rules, and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise planned additions as available.
 
 Multiple controllers for one directory stay free. Pro is planned to support separate directories with their own connection and routing rules.
 
@@ -51,7 +52,7 @@ Maintain one codebase and build two packages:
 | Package | Purpose | Update path |
 | --- | --- | --- |
 | Free | LDAP password login and the shared features listed above | WordPress.org |
-| Pro | Free features plus SSO and custom user fields with an active license | PaidCommunities; automatic updates still pending |
+| Pro | Free features plus SSO, custom fields, account management, and audit history with an active license | PaidCommunities; automatic updates still pending |
 
 Both use the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one package. Pro replaces Free and does not need an add-on.
 
@@ -101,7 +102,7 @@ Keep the existing directory listing for the rewrite. Do not submit a duplicate f
 
 Use GPL-2.0-or-later for all editions. Include the license text and third-party notices. The source license and the paid service term are separate: a commercial key gives access to updates, support, and account services. It does not remove the user's GPL rights or prevent copying. [WordPress license](https://wordpress.org/about/license/)
 
-SSO and custom user fields require an active Pro license. A confirmed expired or inactive license stops SSO and custom field updates. LDAP password login, group rules, and local recovery accounts still work. Keep saved settings, user data, and existing sessions. A verified renewal restores Pro features. Explain this policy before purchase.
+Pro features require an active Pro license. A confirmed expired or inactive license stops SSO, field and role updates, scheduled jobs, membership updates, and audit collection and export. Existing suspensions and directory identity checks remain enforced. LDAP password login, group rules, and local recovery accounts still work. Keep saved settings, user data, and existing sessions. A verified renewal restores Pro features. Explain this policy before purchase.
 
 License checks run hourly through WordPress scheduled tasks. Login reads only local state. A service error keeps the last verified status, including an expired status. See the [license implementation and remaining service checks](licensing.md).
 

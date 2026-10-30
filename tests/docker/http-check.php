@@ -39,7 +39,7 @@ $request = static function ( string $path, array $headers = array(), bool $auth 
 	}
 	$code = curl_getinfo( $curl, CURLINFO_HTTP_CODE );
 	curl_close( $curl );
-	return array( 'code' => $code, 'body' => json_decode( $body, true ), 'cookies' => $cookies );
+	return array( 'code' => $code, 'body' => json_decode( $body, true ), 'raw' => $body, 'cookies' => $cookies );
 };
 $cli = static function ( string $code, bool $identity = false ) use ( $site ): array {
 	$command = array( 'wp', '--url=' . $site );
@@ -124,6 +124,20 @@ foreach ( array( 'POST request' => array( 'POST', array() ), 'JSON request' => a
 $cookie   = $cli( 'echo wp_json_encode(array("cookie" => LOGGED_IN_COOKIE . "=" . wp_generate_auth_cookie(get_user_by("login", "testadmin")->ID, time() + 600, "logged_in")));' );
 $response = $request( 'sll-test-sso.php', array( 'Cookie: ' . $cookie['cookie'] ), true );
 $check( 200 === $response['code'] && 'testadmin' === ( $response['body']['user'] ?? null ) && array() === $response['cookies'], 'SSO cannot replace an existing WordPress login.' );
+
+
+if ( 'pro' === $edition ) {
+	$export_identity = $cli( '$id = get_user_by("login", "testadmin")->ID; wp_set_current_user($id); $expires = time() + 600; $token = WP_Session_Tokens::get_instance($id)->create($expires); $logged = wp_generate_auth_cookie($id, $expires, "logged_in", $token); $_COOKIE[LOGGED_IN_COOKIE] = $logged; echo wp_json_encode(array("cookie" => AUTH_COOKIE . "=" . wp_generate_auth_cookie($id, $expires, "auth", $token) . "; " . LOGGED_IN_COOKIE . "=" . $logged, "nonce" => wp_create_nonce("sll_export_audit"), "scope" => (new SimpleLdapLogin\\Settings())->is_network() ? "network" : "site"));' );
+	$path = 'wp-admin/admin-post.php?action=sll_export_audit&sll_scope=' . $export_identity['scope'] . '&_wpnonce=';
+	$headers = array( 'Cookie: ' . $export_identity['cookie'] );
+	$response = $request( $path . $export_identity['nonce'], $headers );
+	$check( 200 === $response['code'] && str_starts_with( $response['raw'], 'time_utc,event,actor_id,user_id,site_id' ), 'A real administrator request downloads audit CSV.' );
+	$response = $request( $path . 'invalid', $headers );
+	$check( 403 === $response['code'] && ! str_starts_with( $response['raw'], 'time_utc,' ), 'A real export request with an invalid nonce is denied.' );
+	$wrong_scope = 'site' === $export_identity['scope'] ? 'network' : 'site';
+	$response = $request( 'wp-admin/admin-post.php?action=sll_export_audit&sll_scope=' . $wrong_scope . '&_wpnonce=' . $export_identity['nonce'], $headers );
+	$check( 403 === $response['code'], 'A real audit export cannot cross settings scopes.' );
+}
 
 $result = $cli( 'echo wp_json_encode(array("cli" => WP_CLI, "user" => (string) wp_get_current_user()->user_login));', true );
 $check( true === $result['cli'] && '' === $result['user'], 'Server SSO does not start a WP-CLI session.' );

@@ -6,7 +6,7 @@ use Symfony\Component\Finder\Finder;
 $files = array( 'composer.json', 'src/Ldap_Client.php', 'src/License.php', 'src/PaidCommunities_Client.php', 'src/Commerce.php' );
 $finders = array( Finder::create()->files()->in( 'vendor' ) );
 if ( is_file( 'pro/src/Ldap_Client.php' ) ) {
-	$files   = array_merge( $files, array( 'pro/composer.json', 'pro/src/Ldap_Client.php' ) );
+	$files   = array_merge( $files, array( 'pro/composer.json', 'pro/src/Ldap_Client.php', 'pro/src/Roles.php' ) );
 	$finders[] = Finder::create()->files()->in( 'pro/vendor' );
 }
 

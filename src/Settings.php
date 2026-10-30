@@ -106,7 +106,7 @@ final class Settings {
 	 */
 	public function all(): array {
 		$stored   = $this->read( 'sll_settings', null );
-		$settings = array_replace( self::defaults(), is_array( $stored ) ? $stored : array() );
+		$settings = array_replace( apply_filters( 'sll_settings_defaults', self::defaults() ), is_array( $stored ) ? $stored : array() );
 		if ( is_array( $stored ) && 3 > (int) ( $stored['schema_version'] ?? 0 ) && ! array_key_exists( 'recovery_mode', $stored ) ) {
 			$settings['recovery_mode'] = 'legacy';
 		}
@@ -356,6 +356,7 @@ final class Settings {
 		if ( ! $this->write( 'sll_settings', $settings ) && $this->read( 'sll_settings', array() ) !== $settings ) {
 			return new \WP_Error( 'sll_save_failed', __( 'WordPress could not save the settings. Try again.', 'simple-ldap-login' ) );
 		}
+		do_action( 'sll_settings_saved', $this, $current, $settings );
 		return true;
 	}
 

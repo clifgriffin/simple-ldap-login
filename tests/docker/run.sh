@@ -71,6 +71,7 @@ check_edition() {
     wp_exec "$edition" eval-file /tests/upgrades.php restore
     wp_exec "$edition" eval-file /tests/upgrades.php verify
     wp_exec "$edition" eval-file /tests/integration.php
+    wp_exec "$edition" eval-file /tests/pro-features.php
     wp_exec "$edition" eval-file /tests/licenses.php
     compose exec -T -e SLL_ACTIVATION_SCOPE="$activation" -e SLL_BAD_CA=1 "$edition" sh -c 'exec wp --url="$SLL_SITE_URL" eval-file /tests/integration.php'
     compose exec -T "$edition" php /tests/http-check.php

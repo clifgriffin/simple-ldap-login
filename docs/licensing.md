@@ -1,16 +1,16 @@
 # Pro licenses
 
-SSO and custom LDAP user fields require an active PaidCommunities license. Free includes the purchase and license client, but excludes the paid feature code. LDAP password login in Free does not require a license.
+SSO, custom LDAP user fields, group role rules, profile updates, scheduled account jobs, multisite membership rules, and audit collection and export require an active PaidCommunities license. Free includes the purchase and license client, but excludes the paid feature code. LDAP password login in Free does not require a license.
 
 | License state | Pro behavior |
 | --- | --- |
-| Not activated | SSO and custom field updates are off. |
-| Active | Both features run when enabled in settings. |
-| Expired or inactive | Both features stop. Their settings and existing data stay in place. |
+| Not activated | Pro features are off. |
+| Active | Pro features run when enabled in settings. |
+| Expired or inactive | Pro updates, jobs, and audit collection and export stop. Saved settings, data, and suspensions remain. |
 | Renewed | A successful check restores both features. |
 | Service error | Keep the last verified state. An expired license stays expired. |
 
-LDAP password login, account creation, group checks, and local recovery accounts remain available in every state. Expiry does not end existing WordPress sessions. Settings remain editable.
+LDAP password login, account creation, group checks, and local recovery accounts remain available in every state. Expiry stops Pro account changes and audit collection and export. Existing account suspensions and directory identity checks remain enforced. Existing user data and audit records stay in place. Expiry does not end existing WordPress sessions. Settings remain editable.
 
 ## Activation and checks
 

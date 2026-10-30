@@ -6,9 +6,26 @@ After the license change, source checks, coding standards, assets, translations,
 
 The two-package change removes Legacy and Transition builds and eligibility records. The current checks cover direct 1.x settings migration in both packages. SSO and custom user field sites must install Pro directly.
 
+## Pro account features
+
+The six Pro additions have source tests in `tests/pro.php` and real WordPress and directory tests in `tests/docker/pro-features.php`.
+`composer check` passes 1020 checks: 281 for settings, secrets, login, LDAP, and Pro account features; 597 for admin screens; 26 for package replacement; 112 for licenses; and 4 for uninstall.
+The local source checks use PHP 8.4.23. Coding standards now run with the WordPress bootstrap constant set; the previous command exited during Composer autoloading before it checked source files.
+Asset checks and browser-script checks pass. Package tests pass for Free and Pro, including a direct call from the private LDAP types into the role callback.
+
+The feature tests cover rule order, role removal, local recovery and network super administrator exclusions, profile conflicts, paged import, repeat jobs, account ownership, stable identities, job locks, access suspension and restoration, and session removal.
+A failed group search is a directory error, not confirmed access removal. License expiry does not restore suspended access.
+Network tests cover site roles, membership removal, prior membership restoration, manual role edits, and credential scope isolation.
+Audit tests cover completed login events, private records with numeric IDs only, scope isolation, retention, CSV pages, capabilities, and nonces.
+HTTP tests also download a CSV with a real administrator cookie and reject an invalid nonce and a different scope.
+
+The selected native configurations use OpenLDAP with PHP 8.4.27 and WordPress 7.1.4 on a single site; Samba AD with PHP 8.1.34 and WordPress 6.5 in multisite; and OpenLDAP with PHP 8.5.12 and WordPress 7.1.4 in multisite.
+Each multisite run checks network and site-only activation in both editions. These are 10 core configurations, not a new full 24-configuration release run.
+New feature strings use English fallback. Update the translation catalogs before release.
+
 ## Source and release packages
 
-`composer check` passes 702 checks: 213 for settings, secrets, recovery policies, authentication, and LDAP; 353 for admin screens; 20 for package replacement; 112 for licenses; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. The latest source checks ran locally on PHP 8.5. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
+Before the Pro account additions, `composer check` passed 702 checks: 213 for settings, secrets, recovery policies, authentication, and LDAP; 353 for admin screens; 20 for package replacement; 112 for licenses; and 4 for uninstall. WordPress Coding Standards and PHPCompatibilityWP pass with PHP 8.1 as the minimum. Those earlier source checks ran locally on PHP 8.5. Hosted CI is configured for PHP 8.1 through 8.5, but its jobs have not run yet.
 
 LDAP source tests use LdapRecord's fake transport with its real connection, authentication, and query code. Both application clients must use library APIs. A source check rejects direct PHP LDAP function calls in either client.
 
