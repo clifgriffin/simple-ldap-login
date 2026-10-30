@@ -29,6 +29,7 @@ Group-to-role rules are implemented. Multiple directories, scheduled jobs, audit
 | Group-to-role rules | No | Yes |
 | Standard profile updates at login | No | Yes |
 | Scheduled account import | No | Yes |
+| Scheduled access removal and session removal | No | Yes |
 
 Planned Pro additions are multiple independent directories and routing rules; scheduled import and profile updates; scheduled account suspension and session removal; audit retention and export; and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise the planned additions as available.
 

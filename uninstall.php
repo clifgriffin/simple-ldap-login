@@ -26,6 +26,8 @@ $simpleldaplogin_keys        = array(
 $simpleldaplogin_remove_site = static function () use ( $simpleldaplogin_keys ): void {
 	wp_clear_scheduled_hook( 'sll_pro_license_check' );
 	wp_clear_scheduled_hook( 'sll_import_users' );
+	wp_clear_scheduled_hook( 'sll_remove_access' );
+	delete_option( 'sll_removal_lock' );
 	delete_option( 'sll_import_lock' );
 	$settings = get_option( 'sll_settings', array() );
 	if ( is_array( $settings ) && true === ( $settings['delete_on_uninstall'] ?? false ) ) {

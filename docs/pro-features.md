@@ -32,3 +32,15 @@ Repeat imports keep the same accounts. They run optional profile and custom fiel
 No login session is created. Import works when account creation at login is off.
 WordPress cron needs site traffic or a system task. Network activation runs the job on the main site only.
 Directory errors do not remove accounts. Deactivation clears the schedule.
+
+## Scheduled access removal
+
+On Accounts, select **Enable scheduled access removal**. Set a search account on Connection.
+The hourly task checks only accounts marked by a verified LDAP login or import in the current scope.
+A confirmed missing account, disabled AD account, changed directory identity, or failed login group rule suspends access.
+WordPress sessions end. User data and content stay in place. Cookie and application password identities are blocked.
+Each lookup first checks the directory Base DN. Connection and search errors keep the current access state.
+A later check restores access only when the same directory account passes all login group rules.
+Recovery accounts and super administrators are excluded.
+License expiry and disabling the task keep current suspensions. The emergency recovery constant stops the suspension filters.
+Directory renames can cause suspension until a verified login updates the saved DN and the next scheduled check passes.

@@ -178,6 +178,10 @@ final class Authenticator {
 		if ( $this->settings->is_recovery_account( $user ) ) {
 			return new WP_Error( 'sll_local_recovery', __( 'Use your WordPress password for this recovery account.', 'simple-ldap-login' ) );
 		}
+		$user = apply_filters( 'sll_account_verified', $user, $entry );
+		if ( is_wp_error( $user ) ) {
+			return $user;
+		}
 		/**
 		 * Update data after the directory entry resolves to a WordPress account.
 		 *

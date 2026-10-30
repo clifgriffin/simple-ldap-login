@@ -167,6 +167,7 @@ namespace {
 				admin_check( ( 'pro' === $edition && 'access' === $tab ) === str_contains( $html, 'sll_settings[role_rules]' ), 'Group role rules appear only on Pro Access.' );
 				admin_check( ( 'pro' === $edition && 'profile' === $tab ) === str_contains( $html, 'sll_settings[profile_updates]' ), 'Profile updates appear only on Pro User data.' );
 				admin_check( ( 'pro' === $edition && 'accounts' === $tab ) === str_contains( $html, 'sll_settings[scheduled_import]' ), 'Scheduled import appears only on Pro Accounts.' );
+				admin_check( ( 'pro' === $edition && 'accounts' === $tab ) === str_contains( $html, 'sll_settings[scheduled_removal]' ), 'Access removal appears only on Pro Accounts.' );
 				if ( 'profile' === $tab ) {
 					admin_check( ( 'free' === $edition ) === str_contains( $html, 'sll_settings[user_email_attribute]' ), 'Old Free profile links open Advanced; Pro profile shows mappings.' );
 					admin_check( 'pro' === $edition || str_contains( $html, 'name="tab" value="advanced"' ), 'Old Free profile links retain a valid save destination.' );
