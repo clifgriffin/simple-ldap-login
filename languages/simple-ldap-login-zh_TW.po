@@ -438,14 +438,6 @@ msgstr "設置範圍已更改。打開設置頁面並重試。"
 msgid "You do not have permission to view these settings."
 msgstr "您沒有權限查看這些設置。"
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "網絡設置"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "站點設置"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -819,6 +811,14 @@ msgid ""
 "plugin. Keep user accounts."
 msgstr "當 WordPress 刪除插件時，刪除已儲存的設定和 LDAP 憑證。保留使用者帳戶。"
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "文件"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "支援"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "恢復"
@@ -924,10 +924,6 @@ msgstr "進階"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "測試"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "支援"
 
 #: src/Authenticator.php:151
 msgid ""

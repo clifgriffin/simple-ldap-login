@@ -500,14 +500,6 @@ msgstr "Область настроек изменилась. Откройте �
 msgid "You do not have permission to view these settings."
 msgstr "У вас нет разрешения на просмотр этих настроек."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Сетевые настройки"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Настройки сайта"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -914,6 +906,14 @@ msgstr ""
 "Удалить сохраненные настройки и учетные данные LDAP, когда WordPress "
 "удаляет плагин. Сохранить учетные записи пользователей."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Документация"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Поддержка"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Восстановление"
@@ -1034,10 +1034,6 @@ msgstr "Дополнительно"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Тестирование"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Поддержка"
 
 #: src/Authenticator.php:151
 msgid ""

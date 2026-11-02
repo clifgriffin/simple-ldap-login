@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-02T16:57:31+00:00\n"
+"POT-Creation-Date: 2026-11-02T21:47:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
@@ -395,464 +395,461 @@ msgid "You do not have permission to view these settings."
 msgstr ""
 
 #: src/Admin.php:154
-msgid "Network settings"
-msgstr ""
-
-#: src/Admin.php:154
-msgid "Site settings"
-msgstr ""
-
-#: src/Admin.php:155
-#: src/Admin.php:175
+#: src/Admin.php:174
 msgid "LDAP login settings"
 msgstr ""
 
-#: src/Admin.php:156
+#: src/Admin.php:155
 msgid "Connect to LDAP, then test a login before enabling authentication."
 msgstr ""
 
-#: src/Admin.php:161
+#: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr ""
 
-#: src/Admin.php:164
+#: src/Admin.php:163
 msgid "Your saved settings use backup LDAP servers, SSO, or custom user fields. Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
 
-#: src/Admin.php:167
+#: src/Admin.php:166
 msgid "The saved LDAP search password cannot be read. Enter it again on the Connection tab."
 msgstr ""
 
-#: src/Admin.php:170
+#: src/Admin.php:169
 msgid "PHP LDAP is missing. Ask your host to install it before enabling LDAP login."
 msgstr ""
 
-#: src/Admin.php:173
+#: src/Admin.php:172
 msgid "LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your server supports it."
 msgstr ""
 
-#: src/Admin.php:209
+#: src/Admin.php:208
 msgid "Save settings"
 msgstr ""
 
-#: src/Admin.php:210
+#: src/Admin.php:209
 msgid "Settings on other tabs are kept."
 msgstr ""
 
-#: src/Admin.php:215
+#: src/Admin.php:214
 msgid "Save settings before you check the connection. The check uses saved settings."
 msgstr ""
 
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
+#: src/Admin.php:218
+#: src/Admin.php:396
+#: src/Admin.php:398
 msgid "Check Connection"
 msgstr ""
 
-#: src/Admin.php:221
+#: src/Admin.php:220
 msgid "Open the Testing tab for login tests and more information."
 msgstr ""
 
-#: src/Admin.php:232
+#: src/Admin.php:231
 msgid "LDAP connection"
 msgstr ""
 
-#: src/Admin.php:233
+#: src/Admin.php:232
 msgid "LDAP login"
 msgstr ""
 
-#: src/Admin.php:233
+#: src/Admin.php:232
 msgid "Enable LDAP authentication."
 msgstr ""
 
-#: src/Admin.php:236
+#: src/Admin.php:235
 #: src/Settings.php:569
 msgid "Directory type"
 msgstr ""
 
-#: src/Admin.php:238
+#: src/Admin.php:237
 msgid "Active Directory"
 msgstr ""
 
-#: src/Admin.php:239
+#: src/Admin.php:238
 msgid "OpenLDAP / other LDAP directory"
 msgstr ""
 
-#: src/Admin.php:242
+#: src/Admin.php:241
 #: src/Settings.php:571
 msgid "LDAP servers"
 msgstr ""
 
-#: src/Admin.php:242
+#: src/Admin.php:241
 msgid "One hostname or IP address per line. An active Pro or Enterprise license enables backup servers. Without an active license, only the first server is used."
 msgstr ""
 
-#: src/Admin.php:243
+#: src/Admin.php:242
 #: src/Settings.php:572
 msgid "Base DN"
 msgstr ""
 
-#: src/Admin.php:243
+#: src/Admin.php:242
 msgid "Where to search for users. Example: DC=example,DC=org."
 msgstr ""
 
-#: src/Admin.php:244
+#: src/Admin.php:243
 #: src/Settings.php:573
 msgid "Username suffix"
 msgstr ""
 
-#: src/Admin.php:244
+#: src/Admin.php:243
 msgid "Added to usernames without a domain. Example: @example.org."
 msgstr ""
 
-#: src/Admin.php:245
+#: src/Admin.php:244
 #: src/Settings.php:574
 msgid "Windows domain"
 msgstr ""
 
-#: src/Admin.php:245
+#: src/Admin.php:244
 msgid "Short domain name, such as EXAMPLE. Takes priority over the username suffix."
 msgstr ""
 
-#: src/Admin.php:247
-#: src/Admin.php:250
+#: src/Admin.php:246
+#: src/Admin.php:249
 #: src/Settings.php:570
 msgid "Connection security"
 msgstr ""
 
-#: src/Admin.php:247
+#: src/Admin.php:246
 msgid "TLS requires a trusted server certificate."
 msgstr ""
 
-#: src/Admin.php:252
+#: src/Admin.php:251
 msgid "StartTLS (recommended)"
 msgstr ""
 
-#: src/Admin.php:253
+#: src/Admin.php:252
 msgid "LDAPS"
 msgstr ""
 
-#: src/Admin.php:254
+#: src/Admin.php:253
 msgid "Unencrypted LDAP"
 msgstr ""
 
-#: src/Admin.php:256
+#: src/Admin.php:255
 msgid "Unencrypted LDAP requires permission on the Advanced tab."
 msgstr ""
 
-#: src/Admin.php:258
+#: src/Admin.php:257
 #: src/Settings.php:575
 msgid "Port"
 msgstr ""
 
-#: src/Admin.php:258
+#: src/Admin.php:257
 msgid "389 for StartTLS; 636 for LDAPS."
 msgstr ""
 
-#: src/Admin.php:259
+#: src/Admin.php:258
 msgid "Search subfolders"
 msgstr ""
 
-#: src/Admin.php:259
+#: src/Admin.php:258
 msgid "Search all organizational units below the Base DN."
 msgstr ""
 
-#: src/Admin.php:261
+#: src/Admin.php:260
 msgid "LDAP search account"
 msgstr ""
 
-#: src/Admin.php:261
+#: src/Admin.php:260
 msgid "An LDAP account with read access to users and groups."
 msgstr ""
 
-#: src/Admin.php:262
+#: src/Admin.php:261
 msgid "Search account"
 msgstr ""
 
-#: src/Admin.php:262
+#: src/Admin.php:261
 msgid "LDAP bind DN or account name."
 msgstr ""
 
-#: src/Admin.php:263
+#: src/Admin.php:262
 #: src/Settings.php:586
 msgid "Search account password"
 msgstr ""
 
-#: src/Admin.php:263
+#: src/Admin.php:262
 msgid "Leave blank to keep the saved password."
 msgstr ""
 
-#: src/Admin.php:271
+#: src/Admin.php:270
 msgid "Login rules"
 msgstr ""
 
-#: src/Admin.php:272
+#: src/Admin.php:271
 msgid "Require LDAP passwords"
 msgstr ""
 
-#: src/Admin.php:272
+#: src/Admin.php:271
 msgid "Block WordPress passwords except for recovery access."
 msgstr ""
 
-#: src/Admin.php:275
+#: src/Admin.php:274
 #: src/Settings.php:584
 msgid "Local recovery access"
 msgstr ""
 
-#: src/Admin.php:277
+#: src/Admin.php:276
 msgid "Selected administrators"
 msgstr ""
 
-#: src/Admin.php:278
+#: src/Admin.php:277
 msgid "All super administrators (legacy)"
 msgstr ""
 
-#: src/Admin.php:278
+#: src/Admin.php:277
 msgid "All administrators (legacy)"
 msgstr ""
 
-#: src/Admin.php:279
+#: src/Admin.php:278
 msgid "Off"
 msgstr ""
 
-#: src/Admin.php:281
+#: src/Admin.php:280
 msgid "Choose who can use a WordPress password when LDAP passwords are required."
 msgstr ""
 
-#: src/Admin.php:284
+#: src/Admin.php:283
 msgid "Automatic account creation"
 msgstr ""
 
-#: src/Admin.php:284
+#: src/Admin.php:283
 msgid "Create a WordPress account on the first successful LDAP login."
 msgstr ""
 
-#: src/Admin.php:289
+#: src/Admin.php:288
 #: src/Settings.php:583
 msgid "Default role"
 msgstr ""
 
-#: src/Admin.php:289
+#: src/Admin.php:288
 msgid "For new accounts only."
 msgstr ""
 
-#: src/Admin.php:290
+#: src/Admin.php:289
 #: src/Settings.php:581
 msgid "Required groups"
 msgstr ""
 
-#: src/Admin.php:290
+#: src/Admin.php:289
 msgid "One group name per line. Users must belong to at least one. Leave blank to allow all LDAP users."
 msgstr ""
 
-#: src/Admin.php:315
+#: src/Admin.php:314
 #: src/Settings.php:585
 msgid "Recovery accounts"
 msgstr ""
 
-#: src/Admin.php:325
+#: src/Admin.php:324
 msgid "For Selected administrators only. Use separate local accounts with WordPress passwords. Hold Ctrl or Command to select multiple accounts."
 msgstr ""
 
-#: src/Admin.php:340
+#: src/Admin.php:339
 msgid "Connection options"
 msgstr ""
 
-#: src/Admin.php:340
+#: src/Admin.php:339
 msgid "Change these only if the default values do not work with your directory."
 msgstr ""
 
-#: src/Admin.php:341
+#: src/Admin.php:340
 msgid "LDAP timeout (seconds)"
 msgstr ""
 
-#: src/Admin.php:341
+#: src/Admin.php:340
 msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
 msgstr ""
 
-#: src/Admin.php:342
+#: src/Admin.php:341
 #: src/Settings.php:578
 msgid "Login attribute"
 msgstr ""
 
-#: src/Admin.php:342
+#: src/Admin.php:341
 msgid "Attribute used to find users. Default: uid."
 msgstr ""
 
-#: src/Admin.php:343
+#: src/Admin.php:342
 msgid "Allow unencrypted LDAP"
 msgstr ""
 
-#: src/Admin.php:343
+#: src/Admin.php:342
 msgid "Allow passwords to be sent without encryption."
 msgstr ""
 
-#: src/Admin.php:345
+#: src/Admin.php:344
 msgid "Group search"
 msgstr ""
 
-#: src/Admin.php:346
+#: src/Admin.php:345
 #: src/Settings.php:582
 msgid "Group base DN"
 msgstr ""
 
-#: src/Admin.php:346
+#: src/Admin.php:345
 msgid "Leave blank to use the user Base DN."
 msgstr ""
 
-#: src/Admin.php:347
+#: src/Admin.php:346
 #: src/Settings.php:579
 msgid "Group name attribute"
 msgstr ""
 
-#: src/Admin.php:347
+#: src/Admin.php:346
 msgid "Default: cn."
 msgstr ""
 
-#: src/Admin.php:348
+#: src/Admin.php:347
 #: src/Settings.php:580
 msgid "Group member attribute"
 msgstr ""
 
-#: src/Admin.php:348
+#: src/Admin.php:347
 msgid "Default: memberUid. Use member or uniqueMember if groups store user DNs."
 msgstr ""
 
-#: src/Admin.php:350
+#: src/Admin.php:349
 msgid "Profile attributes"
 msgstr ""
 
-#: src/Admin.php:350
+#: src/Admin.php:349
 msgid "LDAP attributes copied to new WordPress accounts."
 msgstr ""
 
-#: src/Admin.php:351
+#: src/Admin.php:350
 #: src/Settings.php:590
 msgid "First name attribute"
 msgstr ""
 
-#: src/Admin.php:352
+#: src/Admin.php:351
 #: src/Settings.php:591
 msgid "Last name attribute"
 msgstr ""
 
-#: src/Admin.php:353
+#: src/Admin.php:352
 #: src/Settings.php:592
 msgid "Email attribute"
 msgstr ""
 
-#: src/Admin.php:354
+#: src/Admin.php:353
 #: src/Settings.php:593
 msgid "Website attribute"
 msgstr ""
 
-#: src/Admin.php:357
+#: src/Admin.php:356
 msgid "Data retention"
 msgstr ""
 
-#: src/Admin.php:358
+#: src/Admin.php:357
 msgid "Delete settings when removing the plugin"
 msgstr ""
 
-#: src/Admin.php:358
+#: src/Admin.php:357
 msgid "Delete saved settings and LDAP credentials when WordPress deletes the plugin. Keep user accounts."
 msgstr ""
 
-#: src/Admin.php:366
-msgid "Recovery"
+#: src/Admin.php:367
+msgid "Documentation"
 msgstr ""
 
 #: src/Admin.php:368
+#: src/Admin.php:647
+msgid "Support"
+msgstr ""
+
+#: src/Admin.php:371
+msgid "Recovery"
+msgstr ""
+
+#: src/Admin.php:373
 msgid "If you are locked out, rename the simple-ldap-login folder using your hosting file manager. Log in with a WordPress administrator password, then restore the folder and correct the settings."
 msgstr ""
 
-#: src/Admin.php:369
+#: src/Admin.php:374
 msgid "For certificate errors, ask your host to configure the trusted LDAP certificate authority."
 msgstr ""
 
-#: src/Admin.php:383
+#: src/Admin.php:388
 msgid "LDAP tests"
 msgstr ""
 
-#: src/Admin.php:384
+#: src/Admin.php:389
 msgid "Tests use saved settings."
 msgstr ""
 
-#: src/Admin.php:385
+#: src/Admin.php:390
 msgid "Save your settings, then run both tests. Keep this administrator session open."
 msgstr ""
 
-#: src/Admin.php:386
+#: src/Admin.php:391
 msgid "Tests check the connection, password, and required groups. They do not create accounts or sign users in."
 msgstr ""
 
-#: src/Admin.php:392
+#: src/Admin.php:397
 msgid "Connect to LDAP and test the search account, if set."
 msgstr ""
 
-#: src/Admin.php:397
-#: src/Admin.php:401
+#: src/Admin.php:402
+#: src/Admin.php:406
 msgid "Test LDAP login"
 msgstr ""
 
-#: src/Admin.php:398
+#: src/Admin.php:403
 msgid "Check an LDAP username, password, and group membership."
 msgstr ""
 
-#: src/Admin.php:399
+#: src/Admin.php:404
 msgid "LDAP username"
 msgstr ""
 
-#: src/Admin.php:400
+#: src/Admin.php:405
 msgid "LDAP password"
 msgstr ""
 
-#: src/Admin.php:405
+#: src/Admin.php:410
 msgid "After both tests pass, enable LDAP and try logging in from another browser."
 msgstr ""
 
-#: src/Admin.php:589
+#: src/Admin.php:594
 msgid "Settings saved."
 msgstr ""
 
-#: src/Admin.php:590
+#: src/Admin.php:595
 msgid "Connection test passed."
 msgstr ""
 
-#: src/Admin.php:591
+#: src/Admin.php:596
 msgid "Cannot connect to LDAP. Check the server, port, TLS certificate, and search account."
 msgstr ""
 
-#: src/Admin.php:592
+#: src/Admin.php:597
 msgid "LDAP login test passed. No account was created."
 msgstr ""
 
-#: src/Admin.php:593
+#: src/Admin.php:598
 msgid "LDAP login test failed. Check the username, password, and required groups."
 msgstr ""
 
-#: src/Admin.php:594
+#: src/Admin.php:599
 msgid "Could not save settings. Check the values and try again."
 msgstr ""
 
-#: src/Admin.php:638
+#: src/Admin.php:643
 msgid "Connection"
 msgstr ""
 
-#: src/Admin.php:639
+#: src/Admin.php:644
 msgid "Access"
 msgstr ""
 
-#: src/Admin.php:640
+#: src/Admin.php:645
 msgid "Advanced"
 msgstr ""
 
-#: src/Admin.php:641
+#: src/Admin.php:646
 msgid "Testing"
-msgstr ""
-
-#: src/Admin.php:642
-msgid "Support"
 msgstr ""
 
 #: src/Authenticator.php:151

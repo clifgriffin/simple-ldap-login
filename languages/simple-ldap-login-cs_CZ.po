@@ -491,14 +491,6 @@ msgstr "Rozsah nastavení se změnil. Otevřete stránku nastavení a zkuste to 
 msgid "You do not have permission to view these settings."
 msgstr "Nemáte oprávnění zobrazit tato nastavení."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Nastavení sítě"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Nastavení webu"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -896,6 +888,14 @@ msgstr ""
 "Odstranit uložená nastavení a LDAP přihlašovací údaje, když WordPress "
 "odinstaluje plugin. Udržet uživatelské účty."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Dokumentace"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Podpora"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Obnova"
@@ -1014,10 +1014,6 @@ msgstr "Pokročilé"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testování"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Podpora"
 
 #: src/Authenticator.php:151
 msgid ""

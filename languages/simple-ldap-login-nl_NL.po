@@ -497,14 +497,6 @@ msgstr ""
 msgid "You do not have permission to view these settings."
 msgstr "U heeft geen toestemming om deze instellingen te bekijken."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Netwerkinstellingen"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Site-instellingen"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -907,6 +899,14 @@ msgstr ""
 "Verwijder opgeslagen instellingen en LDAP-gegevens wanneer WordPress de "
 "plugin verwijdert. Houd gebruikersaccounts."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Documentatie"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Ondersteuning"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Herstel"
@@ -1025,10 +1025,6 @@ msgstr "Geavanceerd"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testen"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Ondersteuning"
 
 #: src/Authenticator.php:151
 msgid ""

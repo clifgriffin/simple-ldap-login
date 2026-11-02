@@ -496,14 +496,6 @@ msgstr "Asetusten laajuus on muuttunut. Avaa asetussivu ja yritä uudelleen."
 msgid "You do not have permission to view these settings."
 msgstr "Sinulla ei ole oikeuksia nähdä näitä asetuksia."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Verkkosivuston asetukset"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Sivuston asetukset"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -906,6 +898,14 @@ msgstr ""
 "Poista tallennetut asetukset ja LDAP-todistukset, kun WordPress poistaa "
 "lisäosan. Pidä käyttäjätilit."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Dokumentaatio"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Tuki"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Palautus"
@@ -1024,10 +1024,6 @@ msgstr "Lisäasetukset"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testaus"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Tuki"
 
 #: src/Authenticator.php:151
 msgid ""

@@ -455,14 +455,6 @@ msgstr "설정 범위가 변경되었습니다. 설정 페이지를 열고 다�
 msgid "You do not have permission to view these settings."
 msgstr "이 설정을 볼 권한이 없습니다."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "네트워크 설정"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "사이트 설정"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -842,6 +834,14 @@ msgid ""
 "plugin. Keep user accounts."
 msgstr "WordPress가 플러그인을 삭제할 때 저장된 설정과 LDAP 자격 증명을 삭제합니다. 사용자 계정은 유지됩니다."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "문서"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "지원"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "복구"
@@ -947,10 +947,6 @@ msgstr "고급"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "테스트"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "지원"
 
 #: src/Authenticator.php:151
 msgid ""

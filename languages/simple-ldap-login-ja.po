@@ -459,14 +459,6 @@ msgstr "設定の範囲が変更されました。設定ページを開いて再
 msgid "You do not have permission to view these settings."
 msgstr "これらの設定を表示する権限がありません。"
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "ネットワーク設定"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "サイト設定"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -846,6 +838,14 @@ msgid ""
 "plugin. Keep user accounts."
 msgstr "WordPressがプラグインを削除したときに保存された設定とLDAP資格情報を削除します。ユーザーアカウントは保持します。"
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "ドキュメント"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "サポート"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "リカバリー"
@@ -951,10 +951,6 @@ msgstr "詳細設定"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "テスト"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "サポート"
 
 #: src/Authenticator.php:151
 msgid ""

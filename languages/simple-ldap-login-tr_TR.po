@@ -491,14 +491,6 @@ msgstr "Ayarlar kapsamı değişti. Ayarlar sayfasını açın ve tekrar deneyin
 msgid "You do not have permission to view these settings."
 msgstr "Bu ayarları görüntülemek için izniniz yok."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Ağ ayarları"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Site ayarları"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -899,6 +891,14 @@ msgstr ""
 "Eklenti kaldırıldığında kaydedilen ayarları ve LDAP kimlik bilgilerini "
 "silin. Kullanıcı hesaplarını koruyun."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Belgeler"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Destek"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Kurtarma"
@@ -1017,10 +1017,6 @@ msgstr "Gelişmiş"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Test"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Destek"
 
 #: src/Authenticator.php:151
 msgid ""

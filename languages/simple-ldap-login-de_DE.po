@@ -508,14 +508,6 @@ msgstr ""
 msgid "You do not have permission to view these settings."
 msgstr "Sie haben keine Berechtigung, diese Einstellungen anzuzeigen."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Netzwerkeinstellungen"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Site-Einstellungen"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -924,6 +916,14 @@ msgstr ""
 "Gespeicherte Einstellungen und LDAP-Anmeldeinformationen löschen, wenn "
 "WordPress das Plugin löscht. Benutzerkonten behalten."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Wiederherstellung"
@@ -1047,10 +1047,6 @@ msgstr "Erweitert"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Tests"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""

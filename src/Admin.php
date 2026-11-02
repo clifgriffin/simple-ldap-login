@@ -151,7 +151,6 @@ final class Admin {
 			<?php do_action( 'sll_settings_notices' ); ?>
 			<div class="sll-overview">
 				<div>
-					<p class="sll-eyebrow"><?php echo $this->settings->is_network() ? esc_html__( 'Network settings', 'simple-ldap-login' ) : esc_html__( 'Site settings', 'simple-ldap-login' ); ?></p>
 					<h2><?php esc_html_e( 'LDAP login settings', 'simple-ldap-login' ); ?></h2>
 					<p><?php esc_html_e( 'Connect to LDAP, then test a login before enabling authentication.', 'simple-ldap-login' ); ?></p>
 				</div>
@@ -363,6 +362,12 @@ final class Admin {
 	 * Render recovery and support instructions.
 	 */
 	private function support(): void {
+		?>
+		<div class="sll-save-bar">
+			<a class="button button-primary" href="https://simpleldaplogin.com/docs/" rel="noreferrer"><?php esc_html_e( 'Documentation', 'simple-ldap-login' ); ?></a>
+			<a class="button" href="https://simpleldaplogin.com/support/" rel="noreferrer"><?php esc_html_e( 'Support', 'simple-ldap-login' ); ?></a>
+		</div>
+		<?php
 		$this->card_start( __( 'Recovery', 'simple-ldap-login' ), '' );
 		?>
 		<p><?php esc_html_e( 'If you are locked out, rename the simple-ldap-login folder using your hosting file manager. Log in with a WordPress administrator password, then restore the folder and correct the settings.', 'simple-ldap-login' ); ?></p>

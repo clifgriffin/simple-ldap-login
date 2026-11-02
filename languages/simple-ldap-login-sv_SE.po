@@ -494,14 +494,6 @@ msgstr "Inställningsomfånget har ändrats. Öppna inställningssidan och förs
 msgid "You do not have permission to view these settings."
 msgstr "Du har inte behörighet att visa dessa inställningar."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Nätverksinställningar"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Webbplatsinställningar"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -897,6 +889,14 @@ msgstr ""
 "Ta bort sparade inställningar och LDAP-referenser när WordPress tar bort "
 "plugin-programmet. Behåll användarkonton."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Återställning"
@@ -1015,10 +1015,6 @@ msgstr "Avancerat"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testning"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""

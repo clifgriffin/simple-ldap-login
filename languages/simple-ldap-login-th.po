@@ -491,14 +491,6 @@ msgstr "ขอบเขตการตั้งค่าได้เปลี่
 msgid "You do not have permission to view these settings."
 msgstr "คุณไม่มีสิทธิ์ในการดูการตั้งค่าเหล่านี้."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "การตั้งค่าเครือข่าย"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "การตั้งค่าไซต์"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -894,6 +886,14 @@ msgstr ""
 "ลบการตั้งค่าและข้อมูลรับรอง LDAP ที่บันทึกไว้เมื่อ WordPress ลบปลั๊กอิน "
 "เก็บบัญชีผู้ใช้ไว้."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "เอกสารประกอบ"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "การสนับสนุน"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "การกู้คืน"
@@ -1012,10 +1012,6 @@ msgstr "ขั้นสูง"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "การทดสอบ"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "การสนับสนุน"
 
 #: src/Authenticator.php:151
 msgid ""

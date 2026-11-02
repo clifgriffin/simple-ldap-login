@@ -499,14 +499,6 @@ msgstr "Zakres ustawień uległ zmianie. Otwórz stronę ustawień i spróbuj po
 msgid "You do not have permission to view these settings."
 msgstr "Nie masz uprawnień do przeglądania tych ustawień."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Ustawienia sieciowe"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Ustawienia witryny"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -910,6 +902,14 @@ msgstr ""
 "Usuń zapisane ustawienia i dane uwierzytelniające LDAP, gdy WordPress "
 "usunie wtyczkę. Zachowaj konta użytkowników."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Dokumentacja"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Pomoc"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Odzyskiwanie"
@@ -1028,10 +1028,6 @@ msgstr "Zaawansowane"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testowanie"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Pomoc"
 
 #: src/Authenticator.php:151
 msgid ""

@@ -483,14 +483,6 @@ msgstr "The settings scope has changed. Open the settings page and try again."
 msgid "You do not have permission to view these settings."
 msgstr "You do not have permission to view these settings."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Network settings"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Site settings"
-
 #: src/Admin.php:154 src/Admin.php:177
 msgid "LDAP login settings"
 msgstr "LDAP login settings"
@@ -859,6 +851,14 @@ msgstr ""
 "Delete saved settings and LDAP credentials when WordPress deletes the "
 "plugin. Keep user accounts."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Documentation"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Recovery"
@@ -972,10 +972,6 @@ msgstr "Advanced"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testing"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""

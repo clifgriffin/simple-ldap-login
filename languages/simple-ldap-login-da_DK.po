@@ -491,14 +491,6 @@ msgstr "Indstillingsomfanget er ændret. Åbn indstillingssiden og prøv igen."
 msgid "You do not have permission to view these settings."
 msgstr "Du har ikke tilladelse til at se disse indstillinger."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Netværksindstillinger"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Siteindstillinger"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -898,6 +890,14 @@ msgstr ""
 "Slet gemte indstillinger og LDAP legitimationsoplysninger, når WordPress "
 "sletter plugin. Behold brugerkonti."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Gendannelse"
@@ -1016,10 +1016,6 @@ msgstr "Avanceret"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Test"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""

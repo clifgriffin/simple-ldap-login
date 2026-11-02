@@ -499,14 +499,6 @@ msgstr ""
 msgid "You do not have permission to view these settings."
 msgstr "Você não tem permissão para visualizar essas configurações."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "Configurações de rede"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "Configurações do site"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -909,6 +901,14 @@ msgstr ""
 "Excluir configurações salvas e credenciais LDAP quando o WordPress excluir "
 "o plugin. Manter contas de usuário."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "Documentação"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Suporte"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Recuperação"
@@ -1030,10 +1030,6 @@ msgstr "Avançado"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testes"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Suporte"
 
 #: src/Authenticator.php:151
 msgid ""

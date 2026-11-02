@@ -487,14 +487,6 @@ msgstr "لقد تغير نطاق الإعدادات. افتح صفحة الإع�
 msgid "You do not have permission to view these settings."
 msgstr "ليس لديك إذن لعرض هذه الإعدادات."
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "إعدادات الشبكة"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "إعدادات الموقع"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -889,6 +881,14 @@ msgstr ""
 "احذف الإعدادات المحفوظة وبيانات اعتماد LDAP عند حذف WordPress للمكون "
 "الإضافي. احتفظ بحسابات المستخدمين."
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "الوثائق"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "الدعم"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "استرداد"
@@ -999,10 +999,6 @@ msgstr "متقدم"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "الاختبار"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "الدعم"
 
 #: src/Authenticator.php:151
 msgid ""

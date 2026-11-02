@@ -494,14 +494,6 @@ msgstr "सेटिंग्स का दायरा बदल गया ह�
 msgid "You do not have permission to view these settings."
 msgstr "इन सेटिंग्स को देखने की अनुमति नहीं है।"
 
-#: src/Admin.php:153
-msgid "Network settings"
-msgstr "नेटवर्क सेटिंग्स"
-
-#: src/Admin.php:153
-msgid "Site settings"
-msgstr "साइट सेटिंग्स"
-
 #: src/Admin.php:154
 #: src/Admin.php:177
 msgid "LDAP login settings"
@@ -905,6 +897,14 @@ msgstr ""
 "जब WordPress प्लगइन हटाता है तो सहेजी गई सेटिंग्स और LDAP क्रेडेंशियल्स "
 "हटाएँ। उपयोगकर्ता खातों को बनाए रखें।"
 
+#: src/Admin.php:367
+msgid "Documentation"
+msgstr "दस्तावेज़"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "सहायता"
+
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "पुनर्प्राप्ति"
@@ -1023,10 +1023,6 @@ msgstr "उन्नत"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "परीक्षण"
-
-#: src/Admin.php:642
-msgid "Support"
-msgstr "सहायता"
 
 #: src/Authenticator.php:151
 msgid ""

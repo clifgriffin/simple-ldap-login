@@ -45,13 +45,6 @@
 	line-height: 1.6;
 }
 
-.sll-admin .sll-overview .sll-eyebrow {
-	font-size: 11px;
-	font-weight: 600;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-}
-
 .sll-admin .sll-tabs {
 	display: flex;
 	flex-wrap: wrap;
