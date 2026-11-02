@@ -250,14 +250,6 @@ msgstr "保留使用者資料和內容。後續目錄檢查成功後會還原存
 msgid "Add row"
 msgstr "新增列"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "上移"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "下移"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "移除列"

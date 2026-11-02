@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-02T16:31:33+00:00\n"
+"POT-Creation-Date: 2026-11-02T16:57:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
@@ -226,77 +226,69 @@ msgid "Add row"
 msgstr ""
 
 #: pro/src/Admin.php:260
-msgid "Move up"
-msgstr ""
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr ""
-
-#: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr ""
 
-#: pro/src/Admin.php:275
+#: pro/src/Admin.php:273
 msgid "Custom field storage"
 msgstr ""
 
-#: pro/src/Admin.php:275
+#: pro/src/Admin.php:273
 msgid "Leave the defaults unless your integration uses different user meta keys."
 msgstr ""
 
-#: pro/src/Admin.php:276
+#: pro/src/Admin.php:274
 #: src/Settings.php:588
 msgid "LDAP value suffix"
 msgstr ""
 
-#: pro/src/Admin.php:276
+#: pro/src/Admin.php:274
 msgid "Stores the LDAP value, such as phone_ldap."
 msgstr ""
 
-#: pro/src/Admin.php:277
+#: pro/src/Admin.php:275
 #: src/Settings.php:589
 msgid "WordPress value suffix"
 msgstr ""
 
-#: pro/src/Admin.php:277
+#: pro/src/Admin.php:275
 msgid "Stores the editable WordPress value, such as phone_wp."
 msgstr ""
 
-#: pro/src/Admin.php:287
+#: pro/src/Admin.php:285
 #: src/Commerce.php:104
 msgid "Single sign-on (SSO)"
 msgstr ""
 
-#: pro/src/Admin.php:287
+#: pro/src/Admin.php:285
 msgid "Sign users in to WordPress after your web server authenticates them."
 msgstr ""
 
-#: pro/src/Admin.php:288
+#: pro/src/Admin.php:286
 msgid "Enable single sign-on"
 msgstr ""
 
-#: pro/src/Admin.php:288
+#: pro/src/Admin.php:286
 msgid "Users do not need a second login for WordPress."
 msgstr ""
 
-#: pro/src/Admin.php:290
+#: pro/src/Admin.php:288
 msgid "Configure your web server to authenticate users and set REMOTE_USER. Enter an LDAP search account on Connection."
 msgstr ""
 
-#: pro/src/Admin.php:291
+#: pro/src/Admin.php:289
 msgid "Do not copy browser headers into REMOTE_USER. Block access that bypasses web server authentication."
 msgstr ""
 
-#: pro/src/Admin.php:293
+#: pro/src/Admin.php:291
 msgid "Web server authentication"
 msgstr ""
 
-#: pro/src/Admin.php:294
+#: pro/src/Admin.php:292
 msgid "REMOTE_USER is present."
 msgstr ""
 
-#: pro/src/Admin.php:294
+#: pro/src/Admin.php:292
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr ""
 

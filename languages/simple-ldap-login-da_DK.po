@@ -279,14 +279,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Tilføj række"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Flyt op"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Flyt ned"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Fjern række"

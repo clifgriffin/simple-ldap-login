@@ -286,14 +286,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Добавить строку"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Переместить вверх"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Переместить вниз"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Удалить строку"

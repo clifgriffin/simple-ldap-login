@@ -155,4 +155,4 @@ To remove the demo containers but keep the data, run `docker compose -f demo/com
 
 The demo loads `pro/bootstrap.php` through `wp-content/mu-plugins/sll-demo-pro.php`. This local loader shows the paid settings from this repository. It does not grant a license. Paid login features still require a verified Pro or Enterprise key. Remove the loader file to return to the Free interface.
 
-Use User data for custom field rows and Access for group role rows. Select **Add row**, fill each field, then save. The arrow buttons change rule order. **Remove row** deletes a mapping when you save. Multisite membership rows appear in Network Admin on an Enterprise network installation; this demo is a single site.
+Use User data for custom field rows and Access for group role rows. Select **Add row**, fill each field, then save. **Remove row** deletes a mapping when you save. Multisite membership rows appear in Network Admin on an Enterprise network installation; this demo is a single site.

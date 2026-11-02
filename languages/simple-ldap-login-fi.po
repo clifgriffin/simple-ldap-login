@@ -282,14 +282,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Lisää rivi"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Siirrä ylös"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Siirrä alas"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Poista rivi"

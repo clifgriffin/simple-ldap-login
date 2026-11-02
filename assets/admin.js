@@ -40,10 +40,6 @@ if ( settings ) {
 					).htmlFor = input.id;
 				} );
 				row.querySelector( '.sll-mapping-actions' ).hidden = false;
-				row.querySelector( '[data-sll-row-action="up"]' ).disabled =
-					index === 0;
-				row.querySelector( '[data-sll-row-action="down"]' ).disabled =
-					index === rows.children.length - 1;
 			} );
 		};
 		editor.addEventListener( 'click', ( event ) => {
@@ -63,15 +59,8 @@ if ( settings ) {
 			if ( ! row ) {
 				return;
 			}
-			let focus = row;
-			if ( button.dataset.sllRowAction === 'up' ) {
-				row.previousElementSibling.before( row );
-			} else if ( button.dataset.sllRowAction === 'down' ) {
-				row.nextElementSibling.after( row );
-			} else if ( button.dataset.sllRowAction === 'remove' ) {
-				focus = row.nextElementSibling || row.previousElementSibling;
-				row.remove();
-			}
+			const focus = row.nextElementSibling || row.previousElementSibling;
+			row.remove();
 			updateRows();
 			( focus ? focus.querySelector( 'input' ) : add ).focus();
 		} );

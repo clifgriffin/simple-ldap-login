@@ -268,14 +268,6 @@ msgstr ""
 msgid "Add row"
 msgstr "行を追加"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "上に移動"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "下に移動"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "行を削除"

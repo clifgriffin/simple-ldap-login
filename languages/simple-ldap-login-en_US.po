@@ -275,14 +275,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Add row"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Move up"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Move down"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Remove row"

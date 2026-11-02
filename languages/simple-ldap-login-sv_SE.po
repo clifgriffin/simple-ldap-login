@@ -280,14 +280,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Lägg till rad"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Flytta upp"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Flytta ned"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Ta bort rad"

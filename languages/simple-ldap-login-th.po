@@ -279,14 +279,6 @@ msgstr ""
 msgid "Add row"
 msgstr "เพิ่มแถว"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "ย้ายขึ้น"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "ย้ายลง"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "ลบแถว"

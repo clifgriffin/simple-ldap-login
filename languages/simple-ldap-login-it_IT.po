@@ -286,14 +286,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Aggiungi riga"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Sposta su"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Sposta giù"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Rimuovi riga"

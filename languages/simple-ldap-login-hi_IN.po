@@ -278,14 +278,6 @@ msgstr ""
 msgid "Add row"
 msgstr "पंक्ति जोड़ें"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "ऊपर ले जाएँ"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "नीचे ले जाएँ"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "पंक्ति हटाएँ"

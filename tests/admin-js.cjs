@@ -48,7 +48,7 @@ for ( const hasSelector of [ true, false ] ) {
 vm.runInNewContext( source, { document: { querySelector: () => null } } );
 process.stdout.write( 'Directory field visibility checks passed.\n' );
 
-// Keep row values and form names correct through add, move, and remove actions.
+// Keep row values and form names correct through add and remove actions.
 let focused;
 const makeEditor = ( key ) => {
 	const handlers = {};
@@ -115,29 +115,8 @@ const makeEditor = ( key ) => {
 					1
 				);
 			},
-			before( moved ) {
-				moved.remove();
-				this.parent.children.splice(
-					this.parent.children.indexOf( this ),
-					0,
-					moved
-				);
-			},
-			after( moved ) {
-				moved.remove();
-				this.parent.children.splice(
-					this.parent.children.indexOf( this ) + 1,
-					0,
-					moved
-				);
-			},
 		};
-		row.buttons = Object.fromEntries(
-			[ 'up', 'down', 'remove' ].map( ( action ) => [
-				action,
-				button( action, row ),
-			] )
-		);
+		row.buttons = { remove: button( 'remove', row ) };
 		return row;
 	};
 	const add = button( 'add', null );
@@ -180,8 +159,6 @@ vm.runInNewContext( source, {
 } );
 const editor = editors[ 0 ];
 const original = editor.rows.children[ 0 ];
-assert.equal( original.buttons.up.disabled, true );
-assert.equal( editor.rows.lastElementChild.buttons.down.disabled, true );
 editor.click( editor.add );
 assert.equal( editor.rows.children.length, 3 );
 const added = editor.rows.lastElementChild;
@@ -192,11 +169,8 @@ editor.input();
 assert.equal( added.inputs[ 1 ].required, true );
 added.inputs[ 1 ].value = 'contact';
 added.inputs[ 2 ].value = 'string';
-editor.click( added.buttons.up );
-assert.equal( editor.rows.children[ 1 ], added );
-editor.click( original.buttons.down );
-assert.equal( editor.rows.children[ 0 ], added );
-assert.equal( added.inputs[ 0 ].name, 'sll_settings[user_meta_data][0][0]' );
+assert.equal( editor.rows.children[ 0 ], original );
+assert.equal( added.inputs[ 0 ].name, 'sll_settings[user_meta_data][2][0]' );
 assert.equal( added.labels[ 0 ].htmlFor, added.inputs[ 0 ].id );
 assert.equal( original.inputs[ 0 ].value, 'telephoneNumber' );
 assert.equal( editors[ 1 ].rows.children.length, 2 );
@@ -218,5 +192,5 @@ assert.equal(
 	'sll_settings[role_rules][0][0]'
 );
 process.stdout.write(
-	'Mapping row add, reorder, remove, validation, and scope checks passed.\n'
+	'Mapping row add, remove, validation, and scope checks passed.\n'
 );

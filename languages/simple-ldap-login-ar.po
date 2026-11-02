@@ -279,14 +279,6 @@ msgstr ""
 msgid "Add row"
 msgstr "إضافة صف"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "نقل لأعلى"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "نقل لأسفل"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "إزالة الصف"

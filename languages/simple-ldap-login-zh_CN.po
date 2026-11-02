@@ -252,14 +252,6 @@ msgstr "保留用户数据和内容。后续目录检查成功后恢复访问权
 msgid "Add row"
 msgstr "添加行"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "上移"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "下移"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "删除行"

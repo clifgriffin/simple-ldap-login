@@ -279,14 +279,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Satır ekle"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Yukarı taşı"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Aşağı taşı"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Satırı kaldır"

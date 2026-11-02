@@ -12,13 +12,13 @@ Requires Pro or Enterprise. On Connection, enter the primary server first, then 
 
 ## Custom user fields
 
-Requires Pro or Enterprise. On User data, select **Add row** under Custom user fields. Enter the LDAP attribute and WordPress meta key. Select Text or Number. Use the arrow buttons to change the row order. Select **Remove row** to delete a mapping, then save the settings. Existing mappings appear as rows.
+Requires Pro or Enterprise. On User data, select **Add row** under Custom user fields. Enter the LDAP attribute and WordPress meta key. Select Text or Number. Select **Remove row** to delete a mapping, then save the settings. Existing mappings appear as rows.
 
 ## Group roles
 
 Requires Pro or Enterprise.
 
-On Access, select **Add row** under Group roles. Enter an LDAP group and a WordPress role. For example, enter `Editors` and `editor`. The role field suggests installed roles. Use the arrow buttons to change the rule order.
+On Access, select **Add row** under Group roles. Enter an LDAP group and a WordPress role. For example, enter `Editors` and `editor`. The role field suggests installed roles.
 The first matching rule sets the role at each LDAP password login or server SSO.
 If no rule matches, the default role applies. The rule replaces current roles.
 Remove all rule rows to keep current roles. Each rule must use an existing role.

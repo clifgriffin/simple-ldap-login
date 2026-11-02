@@ -285,14 +285,6 @@ msgstr ""
 msgid "Add row"
 msgstr "Dodaj wiersz"
 
-#: pro/src/Admin.php:260
-msgid "Move up"
-msgstr "Przenieś w górę"
-
-#: pro/src/Admin.php:261
-msgid "Move down"
-msgstr "Przenieś w dół"
-
 #: pro/src/Admin.php:262
 msgid "Remove row"
 msgstr "Usuń wiersz"
