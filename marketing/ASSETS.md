@@ -18,15 +18,17 @@ The root `readme.txt` has four matching screenshot captions. WordPress.org does 
 
 ## PaidCommunities
 
+The Pro paid package serves both Pro and Enterprise plans. Accounts and Audit require Enterprise.
+
 Use `paidcommunities/` for Simple LDAP Login Pro. Its icons and banners use the same sizes as the product form currently specifies:
 
 - **Thumbnail Image:** `thumbnail-512x512.png`. This square export is for the checkout image; the form does not specify a required thumbnail size.
 - **Icons:** `icon-128x128.png` and `icon-256x256.png`.
 - **Banners:** `banner-772x250.png` and `banner-1544x500.png`.
-- **Readme.txt Screenshots:** upload `screenshot-1.jpg` through `screenshot-6.jpg` in order. `screenshots.json` pairs each file with its caption. Use the hosted image URLs in the product screenshot fields.
+- **Readme.txt Screenshots:** upload `screenshot-1.jpg` through `screenshot-8.jpg` in order. `screenshots.json` pairs each file with its caption. Use the hosted image URLs in the product screenshot fields.
 - **Pro readme:** `pro/readme.txt` is the source. The Pro build places it at the root of the plugin ZIP as `readme.txt`.
 
-The thumbnail, both icon sizes, both banner sizes, and all six screenshots were saved to Simple LDAP Login Pro on PaidCommunities on 30 October 2026. The product remains Draft. The 2.0.0 preview release remains Pending. Its ZIP now includes the revised Pro readme; the downloaded ZIP matches the local build. The release editor still displays the old file size, but the served ZIP is 1,997,209 bytes. WordPress.org assets are prepared for upload.
+The eight refreshed screenshots were saved to Simple LDAP Login Pro on PaidCommunities on 30 October 2026. Their order and image dimensions were checked after saving. The product has no caption fields. Matching captions are in `pro/readme.txt` and `paidcommunities/screenshots.json`. The thumbnail, both icon sizes, and both banner sizes were also saved on 30 October 2026. The refreshed set shows group role rules, profile updates, scheduled account imports and access removal, and audit history with CSV export. The current product status is Published. WordPress.org assets are prepared for upload.
 
 ## Logo files and sources
 
@@ -34,9 +36,9 @@ The thumbnail, both icon sizes, both banner sizes, and all six screenshots were 
 
 The built-in image generation tool created the brand artwork. The exact [prompts](prompts.md) are included. Native image exports set the required dimensions. `manifest.json` records the listing image dimensions and file sizes. The PNG logo files have real alpha transparency; no SVG or editable font source is supplied.
 
-Screenshots show the running Free plugin on the Herd OpenLDAP demo and Pro on the Samba AD Docker site. They are captured in a separate Chrome context at device scale 2, with a 1440 × 1000 CSS-pixel viewport, then cropped to the `.sll-admin` settings area. All displayed directory values are public test values. Password fields are empty. The Pro SSO capture uses real Apache password authentication; its temporary demo server configuration was removed after capture.
+Screenshots show the running Free plugin on the Herd OpenLDAP demo and Pro on the Samba AD Docker site. Free screenshots use a 1440 × 1000 CSS-pixel viewport at 2× scale and are 2240 pixels wide after cropping. The refreshed Pro screenshots use a 1477 × 1090 CSS-pixel viewport at 1× scale and are 1120 pixels wide after cropping. All screenshots are cropped to the `.sll-admin` settings area. All displayed directory values are public values for tests only. Password fields are empty. Pro uses an active Docker test license; the capture does not use a customer license key. The Pro SSO capture uses real Apache password authentication; its temporary demo server configuration was removed after capture.
 
-The screenshot captions describe only implemented features. The Pro readme identifies the current build as a preview because licensing and automatic Pro updates are not yet available.
+The screenshot captions describe only implemented features. License activation and checks are implemented. The Pro readme identifies the current build as a preview because live PaidCommunities account tests and automatic Pro updates remain incomplete.
 
 The marketing files stay outside both installable plugin ZIPs. Build those packages with `npm run build:free` and `npm run build:pro`.
 

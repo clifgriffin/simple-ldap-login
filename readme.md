@@ -8,9 +8,9 @@ Use Active Directory or OpenLDAP accounts to log in to WordPress. The plugin req
 
 Version 2.0 is in development. Complete the [release checks](docs/release-checklist.md) before production use. Source checks use simulated directory responses. Docker tests use real WordPress, MariaDB, OpenLDAP, Samba AD, and Apache server sign-on. Microsoft AD and Kerberos still need deployment tests.
 
-Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and directory server failover. Pro adds server SSO, custom metadata mappings, group role rules, profile updates, scheduled account import and access removal, multisite membership rules, and audit history with CSV export.
+Free includes password login, account creation, required groups, nested and primary AD groups, standard profile attributes, network settings, and one LDAP server. Pro costs USD 99 per year and adds backup LDAP servers, server SSO, custom metadata mappings, group role rules, and profile updates. Enterprise costs USD 499 per year and adds scheduled account import and access removal, multisite membership rules, and audit history with retention and CSV export. Both paid plans cover one site and use the same Pro ZIP.
 
-For a direct upgrade from 1.x, install Pro if the site uses server SSO or custom user fields. Install Free for LDAP password login without those features. Test the upgrade on a site copy and keep a working local administrator account.
+For a direct upgrade from 1.x, install the Pro ZIP and activate a Pro or Enterprise license if the site uses backup LDAP servers, server SSO, or custom user fields. Install Free for LDAP password login without those features. Test the upgrade on a site copy and keep a working local administrator account.
 
 ## Development
 
@@ -48,13 +48,13 @@ The ZIPs in `dist/` are:
 | Command | ZIP | Contents |
 | --- | --- | --- |
 | `build:free` | `simple-ldap-login.zip` | Basic LDAP login; excludes SSO and custom metadata code |
-| `build:pro` | `simple-ldap-login-pro.zip` | Free features, SSO, custom fields, account management, and audit history |
+| `build:pro` | `simple-ldap-login-pro.zip` | Shared code for the Pro and Enterprise plans; the verified license controls paid features |
 
 Every ZIP contains the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one edition. It replaces the existing package and does not require an add-on. `npm run plugin-zip` builds Free.
 
 Each build copies release files into a temporary folder, installs production dependencies from the Composer lock files, uses PHP-Scoper to put bundled dependencies under `SimpleLdapLoginVendor`, and calls `wp-scripts plugin-zip`. It then removes the temporary folder. The source files and development dependencies stay unchanged. The PHP-Scoper build tool has its own manifest and lock in `tools/scoper/` and is excluded from the ZIP. Site owners install the ZIP without Composer or Node.
 
-The Pro build includes feature classes from `pro/`. Pro features need an active PaidCommunities license. Hourly background checks save the license status; login reads only that saved status. Confirmed expiry stops Pro features. Existing suspensions and directory identity checks remain enforced. LDAP password login, recovery accounts, settings, and existing user data remain available. See [licensing](docs/licensing.md).
+The Pro build includes feature classes from `pro/`. Paid features need an active PaidCommunities license for the correct product. Hourly background checks save the verified license status and product access. Login reads only that local state. Confirmed expiry stops paid features. A missing or unknown product grants no paid features. Existing suspensions and directory identity checks remain enforced. LDAP password login, recovery accounts, settings, and existing user data remain available. See [licensing](docs/licensing.md).
 
 The Pro preview uses `Update URI: false` to prevent replacement by a WordPress.org update. Automatic external updates and live service acceptance tests remain required before sales.
 
@@ -72,7 +72,7 @@ pro/
   assets/          # Optional.
 ```
 
-The shared Composer manifest includes the PaidCommunities SDK so Free can show plans and activate a Pro license. Both editions use the same checked handlers and stored license record. Pro feature code stays in `pro/`. Its separate manifest uses PSR-4:
+The shared Composer manifest includes the PaidCommunities SDK. Free shows direct plan checkout links without a license form or external scripts. Pro uses checked activation handlers and a stored license record for both paid plans. Pro feature code stays in `pro/`. Its separate manifest uses PSR-4:
 
 ```json
 {
@@ -106,7 +106,7 @@ The Pro build includes the bootstrap, Composer files, classes, assets, and produ
 
 The plugin keeps its entry file, `Simple-LDAP-Login.php`, and settings option, `sll_settings`. It uses the original site or network scope. Migration reads the older `simpleldap_*` options, makes one `sll_settings_backup_v1` backup, and keeps the old options and unknown settings keys. A save changes only the submitted fields.
 
-There are only two packages: Free and Pro. No eligibility flag or separate migration package is required. A 1.x site that uses SSO or custom user fields must upgrade directly to Pro to retain those features. Free keeps the saved values and shows a notice if they are configured, but it cannot run code that is absent from its ZIP.
+There are only two packages: Free and Pro. Pro and Enterprise are license plans for the same paid package. No eligibility flag or separate migration package is required. A 1.x site that uses backup LDAP servers, SSO, or custom user fields must install the Pro ZIP and activate a Pro or Enterprise license to retain those features. Free keeps the saved values and shows a notice if they are configured, but it cannot run code that is absent from its ZIP.
 
 An active Pro installation rejects an incoming ZIP that lacks the Pro files. If WordPress deactivated the plugin before this check, the guard restores its original activation scope. To choose Free, deactivate Pro before installing Free.
 
@@ -122,7 +122,7 @@ LDAP checks run before the core password handlers. LDAP-only mode blocks core us
 
 For Active Directory, a verified UPN or domain login uses the directory account name when no WordPress account matches the entered name. Existing exact login names are kept. New accounts receive a random local password, never the LDAP password. Standard profile values are set during account creation. In editions with custom metadata, the two original suffix keys remain. Local edits are kept until the LDAP source value changes. Mappings cannot change protected WordPress account metadata.
 
-Server SSO is included in Pro. It requires a web server that authenticates the user and sets `REMOTE_USER`. It also requires a nonempty search account password and a unique LDAP user result. `DOMAIN\name` identities must match the configured Login domain. See [server SSO](docs/server-sso.md).
+Server SSO is included in Pro and Enterprise. It requires a web server that authenticates the user and sets `REMOTE_USER`. It also requires a nonempty search account password and a unique LDAP user result. `DOMAIN\name` identities must match the configured Login domain. See [server SSO](docs/server-sso.md).
 
 The connection and login tests require an administrator action and a nonce. They do not create users or sessions. Save connection settings before running a test.
 
@@ -144,18 +144,20 @@ The legacy filters remain: `sll_get_setting`, `sll_force_ldap`, `sll_remove_defa
 
 `false` from `sll_force_ldap` means that the administrator must use LDAP. This inverted legacy meaning is retained. The hook named `sll_remove_default_authentication_hook` now controls fallback policy without removing core or third-party filters. `sll_ldap_auth` can reject a successful bind; it cannot turn a failed bind into a valid identity. `sll_auth_success` now runs for both new and existing LDAP accounts.
 
-Directory modules can use `sll_ldap_entry` to add checked group data and `sll_account_verified` to reject an identity before account update actions. `sll_settings_defaults` and `sll_validate_setting` add module defaults and input validation. `sll_settings_saved` reports a successful settings write with the scope and before/after arrays. These are local hooks; they do not send data to an external service.
+Directory modules can use `sll_ldap_entry` to add checked group data and `sll_account_verified` to reject an identity before account update actions. `sll_ldap_hosts` selects the servers for a connection; Free supplies only the primary server, and the paid module adds backup servers after a local license check. `sll_settings_defaults` and `sll_validate_setting` add module defaults and input validation. `sll_settings_saved` reports a successful settings write with the scope and before/after arrays. These are local hooks; they do not send data to an external service.
 
 Extensions can register through `sll_loaded`, which supplies the settings and authentication services. Do not call a licensing service during login.
 
 ## Product plan
 
-Pro includes server SSO, custom user fields, group role rules, profile updates, scheduled account import and access removal, multisite membership rules, and audit history with CSV export. A 1.x site that uses SSO or custom user fields must upgrade directly to Pro. Central network settings remain free. Multiple independent directories and network configuration templates remain planned features.
+Pro includes backup LDAP servers, server SSO, custom user fields, group role rules, and profile updates. Enterprise includes Pro plus scheduled account import and access removal, multisite membership rules, and audit history with retention and CSV export. A 1.x site that uses backup LDAP servers, SSO, or custom user fields must install the Pro ZIP and activate a Pro or Enterprise license. Central network settings remain free. Multiple independent directories and network configuration templates remain planned features.
 
-PaidCommunities manages purchases, license activation, and status checks. Free has a Go Pro tab with the full feature list and direct checkout links. It has no license form and loads no purchase service scripts. Pro replaces Free in the same plugin folder and provides the License tab without purchase offers. The license client uses SDK services with a checked HTTP client and license handlers. It does not register the SDK's unsafe admin handlers. Automatic updates and live account checks remain open in the [product plan](docs/product-plan.md).
+PaidCommunities manages purchases, license activation, and status checks. Free has a Go Pro tab with both plan feature lists and direct checkout links. It has no license form and loads no purchase service scripts. Pro replaces Free in the same plugin folder. Its License tab shows the verified plan and lets the administrator select the purchased plan when activating a key. That choice selects the registration product; the authenticated service response controls feature access. The license client uses SDK services with a checked HTTP client and license handlers. It does not register the SDK's unsafe admin handlers. Automatic updates and live account checks remain open in the [product plan](docs/product-plan.md).
 
-All editions use GPL-2.0-or-later. Pro features require an active subscription. A service error keeps the last verified status; it does not activate an expired license. Expiry does not end existing WordPress sessions or delete settings.
+All editions use GPL-2.0-or-later. Paid features require an active license for the correct product. A service error keeps the last verified status and product access; it does not activate an expired license. Expiry does not end existing WordPress sessions or delete settings. Without Enterprise, saved Enterprise settings stay in place and its controls link to the License tab.
 
-The purchase service loads only after an administrator selects **View plans**. Checkout runs on PaidCommunities. After purchase, install the Pro ZIP from the receipt at the same plugin path. A license activated in Free stays active after replacement. Activation does not install or enable paid feature code in Free.
+Checkout runs on PaidCommunities when an administrator selects a purchase link. After purchase, install the Pro ZIP from the receipt at the same plugin path and activate the key on the License tab. A retained license record stays in place when packages are replaced. Free has no activation controls and cannot run paid feature code.
 
-See [Pro account features](docs/pro-features.md) for feature settings, scheduled task requirements, and access rules.
+For an active Pro license, **Get Enterprise** opens checkout for a new Enterprise license. It does not change or cancel the Pro subscription. Manage the Pro subscription separately. After purchase, deactivate the current key, choose Enterprise, and activate the new key.
+
+See [paid account features](docs/pro-features.md) for feature settings, scheduled task requirements, and access rules.

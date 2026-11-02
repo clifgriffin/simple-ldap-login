@@ -74,39 +74,51 @@
     },
     {
       "file": "marketing/paidcommunities/screenshot-1.jpg",
-      "width": 2240,
-      "height": 4510,
-      "bytes": 461072
+      "width": 1120,
+      "height": 1932,
+      "bytes": 120381
     },
     {
       "file": "marketing/paidcommunities/screenshot-2.jpg",
-      "width": 2240,
-      "height": 2438,
-      "bytes": 272357
+      "width": 1120,
+      "height": 1525,
+      "bytes": 105259
     },
     {
       "file": "marketing/paidcommunities/screenshot-3.jpg",
-      "width": 2240,
-      "height": 1424,
-      "bytes": 158028
+      "width": 1120,
+      "height": 959,
+      "bytes": 69428
     },
     {
       "file": "marketing/paidcommunities/screenshot-4.jpg",
-      "width": 2240,
-      "height": 1404,
-      "bytes": 177345
+      "width": 1120,
+      "height": 751,
+      "bytes": 52789
     },
     {
       "file": "marketing/paidcommunities/screenshot-5.jpg",
-      "width": 2240,
-      "height": 3752,
-      "bytes": 401378
+      "width": 1120,
+      "height": 1876,
+      "bytes": 121404
     },
     {
       "file": "marketing/paidcommunities/screenshot-6.jpg",
-      "width": 2240,
-      "height": 2292,
-      "bytes": 296677
+      "width": 1120,
+      "height": 1091,
+      "bytes": 64559
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-7.jpg",
+      "width": 1120,
+      "height": 1207,
+      "bytes": 97195
+    },
+    {
+      "file": "marketing/paidcommunities/screenshot-8.jpg",
+      "width": 1120,
+      "height": 1051,
+      "bytes": 81495
     }
   ]
 }

@@ -5,10 +5,11 @@ const source = fs.readFileSync( 'assets/commerce.js', 'utf8' );
 
 async function check() {
 	const elements = Object.fromEntries(
-		[ 'sll-license-component', 'sll-license-fallback' ].map( ( id ) => [
-			id,
-			{ hidden: false },
-		] )
+		[
+			'sll-license-component',
+			'sll-license-fallback',
+			'sll-license-plan',
+		].map( ( id ) => [ id, { hidden: false } ] )
 	);
 	const input = {
 		setAttribute( name, value ) {
@@ -16,6 +17,7 @@ async function check() {
 		},
 	};
 	elements[ 'sll-license-component' ].querySelector = () => input;
+	elements[ 'sll-license-plan' ].value = 'enterprise';
 	let observer;
 	let props;
 	let request;
@@ -84,11 +86,22 @@ async function check() {
 		request.options.body.get( 'sll_license_key' ),
 		'private-key'
 	);
+	assert.equal(
+		request.options.body.get( 'sll_license_plan' ),
+		'enterprise'
+	);
+	elements[ 'sll-license-plan' ].value = 'pro';
+	await props.apiService.activate( 'plugin', {
+		nonce: 'test-nonce',
+		license_key: 'pro-key',
+	} );
+	assert.equal( request.options.body.get( 'sll_license_plan' ), 'pro' );
 	await props.apiService.deactivate( 'plugin', { nonce: 'test-nonce' } );
 	assert.equal(
 		request.options.body.get( 'sll_license_task' ),
 		'deactivate'
 	);
+	assert.equal( request.options.body.has( 'sll_license_plan' ), false );
 	window.fetch = async () => ( {
 		json: async () => ( {
 			success: false,

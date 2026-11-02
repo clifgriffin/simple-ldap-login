@@ -53,7 +53,13 @@
 		window.wp.element.createElement( LicenseActivation, {
 			config,
 			apiService: {
-				activate: ( basename, data ) => api( 'activate', data ),
+				activate: ( basename, data ) =>
+					api( 'activate', {
+						...data,
+						sll_license_plan:
+							document.getElementById( 'sll-license-plan' )
+								?.value || 'pro',
+					} ),
 				deactivate: ( basename, data ) => api( 'deactivate', data ),
 			},
 			onActivate: () => window.location.reload(),

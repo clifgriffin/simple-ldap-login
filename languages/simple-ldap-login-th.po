@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: th\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -144,6 +144,23 @@ msgid ""
 msgstr ""
 "หนึ่งกฎในรูปแบบ group:role ต่อบรรทัด ตัวอย่าง: Editors:editor "
 "เว้นว่างไว้เพื่อคงบทบาทปัจจุบัน"
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr ""
+"Enterprise มีการนำเข้าบัญชีตามกำหนดเวลา การลบสิทธิ์เข้าถึงตามกำหนดเวลา "
+"และกฎสมาชิกแบบหลายไซต์ การตั้งค่าที่บันทึกไว้จะยังคงอยู่"
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "ดูการอัปเกรดเป็น Enterprise"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "การตั้งค่าบัญชี Enterprise"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -327,6 +344,18 @@ msgstr "REMOTE_USER มีอยู่."
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER ขาดหายไป. ตรวจสอบการกำหนดค่าของเซิร์ฟเวอร์เว็บ."
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr ""
+"ต้องมีใบอนุญาต Enterprise เพื่อเก็บ อ่าน หรือส่งออกประวัติการตรวจสอบ "
+"ระเบียนเดิมจะยังคงอยู่"
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "การตั้งค่าการตรวจสอบ Enterprise"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "ประวัติการตรวจสอบ"
@@ -365,10 +394,6 @@ msgstr ""
 "ค่าเริ่มต้น: 30 ช่วง: 1 ถึง 3650 "
 "งานรายวันจะลบรายการบันทึกเก่าในระหว่างที่เปิดการเก็บรวบรวม"
 
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr "เปิดใช้งานใบอนุญาต Pro เพื่ออ่านหรือส่งออกประวัติการตรวจสอบ"
-
 #: pro/src/Audit.php:229
 msgid "Export CSV"
 msgstr "ส่งออก CSV"
@@ -404,6 +429,14 @@ msgstr "ID เว็บไซต์"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "คุณไม่มีสิทธิ์ส่งออกรายการบันทึกเหล่านี้"
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr ""
+"เปิดใช้งานใบอนุญาต Enterprise เพื่อเปลี่ยนการตั้งค่าเหล่านี้ "
+"การตั้งค่าที่บันทึกไว้จะยังคงอยู่"
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -472,13 +505,14 @@ msgstr "เชื่อมต่อกับ LDAP แล้วทดสอบก
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr "การเข้าสู่ระบบ LDAP และ SSO ถูกปิดโดย SLL_DISABLE_LDAP ใน wp-config.php."
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"การตั้งค่าที่คุณบันทึกไว้ใช้ SSO หรือฟิลด์ผู้ใช้ที่กำหนดเอง ติดตั้ง Simple "
-"LDAP Login Pro เพื่อใช้ฟีเจอร์เหล่านี้ การตั้งค่าของคุณจะถูกเก็บไว้"
+"การตั้งค่าที่บันทึกไว้ใช้เซิร์ฟเวอร์ LDAP สำรอง, SSO "
+"หรือฟิลด์ผู้ใช้แบบกำหนดเอง ติดตั้ง Simple LDAP Login Pro "
+"เพื่อใช้คุณสมบัติเหล่านี้ การตั้งค่าของคุณจะยังคงอยู่"
 
 #: src/Admin.php:169
 msgid ""
@@ -510,6 +544,24 @@ msgstr "บันทึกการตั้งค่า"
 msgid "Settings on other tabs are kept."
 msgstr "การตั้งค่าในแท็บอื่น ๆ จะถูกเก็บไว้."
 
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr ""
+"บันทึกการตั้งค่าก่อนตรวจสอบการเชื่อมต่อ "
+"การตรวจสอบจะใช้การตั้งค่าที่บันทึกไว้"
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "ตรวจสอบการเชื่อมต่อ"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "เปิดแท็บการทดสอบเพื่อทดสอบการเข้าสู่ระบบและดูข้อมูลเพิ่มเติม"
+
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "การเชื่อมต่อ LDAP"
@@ -540,9 +592,15 @@ msgstr "OpenLDAP / ไดเรกทอรี LDAP อื่น ๆ"
 msgid "LDAP servers"
 msgstr "เซิร์ฟเวอร์ LDAP"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
-msgstr "ชื่อโฮสต์หรือที่อยู่ IP หนึ่งต่อบรรทัด เซิร์ฟเวอร์จะถูกลองในลำดับ."
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
+msgstr ""
+"ชื่อโฮสต์หรือที่อยู่ IP หนึ่งรายการต่อบรรทัด ใบอนุญาต Pro หรือ Enterprise "
+"ที่ใช้งานอยู่จะเปิดให้ใช้เซิร์ฟเวอร์สำรอง หากไม่มีใบอนุญาตที่ใช้งานอยู่ "
+"จะใช้เฉพาะเซิร์ฟเวอร์แรกเท่านั้น"
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -829,33 +887,6 @@ msgstr ""
 "ลบการตั้งค่าและข้อมูลรับรอง LDAP ที่บันทึกไว้เมื่อ WordPress ลบปลั๊กอิน "
 "เก็บบัญชีผู้ใช้ไว้."
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "ทดสอบการเข้าสู่ระบบ LDAP"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr ""
-"บันทึกการตั้งค่าของคุณ จากนั้นทำการทดสอบทั้งสองอย่าง "
-"รักษาเซสชันผู้ดูแลระบบนี้ไว้เปิดอยู่."
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr ""
-"การทดสอบตรวจสอบการเชื่อมต่อ รหัสผ่าน และกลุ่มที่จำเป็น "
-"ไม่สร้างบัญชีหรือเข้าสู่ระบบผู้ใช้."
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-"หลังจากการทดสอบทั้งสองผ่าน เปิดใช้งาน LDAP "
-"และลองเข้าสู่ระบบจากเบราว์เซอร์อื่น."
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "การกู้คืน"
@@ -886,21 +917,30 @@ msgstr "การทดสอบ LDAP"
 msgid "Tests use saved settings."
 msgstr "การทดสอบใช้การตั้งค่าที่บันทึกไว้."
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. ทดสอบการเชื่อมต่อ"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"บันทึกการตั้งค่าของคุณ จากนั้นทำการทดสอบทั้งสองอย่าง "
+"รักษาเซสชันผู้ดูแลระบบนี้ไว้เปิดอยู่."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"การทดสอบตรวจสอบการเชื่อมต่อ รหัสผ่าน และกลุ่มที่จำเป็น "
+"ไม่สร้างบัญชีหรือเข้าสู่ระบบผู้ใช้."
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "เชื่อมต่อกับ LDAP และทดสอบบัญชีค้นหา หากตั้งค่าไว้."
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "ทดสอบการเชื่อมต่อ"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. ทดสอบการเข้าสู่ระบบ"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "ทดสอบการเข้าสู่ระบบ LDAP"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -913,6 +953,12 @@ msgstr "ชื่อผู้ใช้ LDAP"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "รหัสผ่าน LDAP"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"หลังจากการทดสอบทั้งสองผ่าน เปิดใช้งาน LDAP "
+"และลองเข้าสู่ระบบจากเบราว์เซอร์อื่น."
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -956,9 +1002,13 @@ msgstr "การเข้าถึง"
 msgid "Advanced"
 msgstr "ขั้นสูง"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "การแก้ไขปัญหา"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "การทดสอบ"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "การสนับสนุน"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -994,84 +1044,211 @@ msgstr "ใช้รหัสผ่าน WordPress ของคุณสำห�
 msgid "License"
 msgstr "ใบอนุญาต"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "รับ Pro"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "เปลี่ยนเป็น Pro"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
 msgstr ""
-"ไม่สามารถตรวจสอบใบอนุญาตของคุณได้ ฟีเจอร์ Pro ยังคงเปิดใช้งาน "
-"ลองอีกครั้งที่แท็บใบอนุญาต"
+"ตรวจสอบใบอนุญาตไม่ได้ คุณลักษณะในแผนที่ยืนยันล่าสุดจะยังคงทำงาน "
+"ลองอีกครั้งในแท็บใบอนุญาต"
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
 msgstr ""
-"ใบอนุญาต Pro ของคุณหมดอายุแล้ว "
-"การเข้าสู่ระบบแบบเดี่ยวและการอัปเดตฟิลด์ที่กำหนดเองถูกปิดใช้งาน "
-"ต่ออายุใบอนุญาตของคุณ จากนั้นเลือกตรวจสอบใบอนุญาตที่แท็บใบอนุญาต"
+"ใบอนุญาตของคุณหมดอายุแล้ว คุณลักษณะแบบชำระเงินปิดอยู่ ต่ออายุใบอนุญาต "
+"แล้วเลือกตรวจสอบใบอนุญาตในแท็บใบอนุญาต"
 
-#: src/Commerce.php:70
+#: src/Commerce.php:77
 msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
 msgstr ""
-"เปิดใช้งานใบอนุญาต Pro "
-"ที่แท็บใบอนุญาตเพื่อใช้การเข้าสู่ระบบแบบเดี่ยวและฟิลด์ผู้ใช้ที่กำหนดเอง"
+"ยังไม่ได้ยืนยันแผนใบอนุญาตของคุณ เลือกตรวจสอบใบอนุญาตในแท็บใบอนุญาต "
+"คุณลักษณะแบบชำระเงินจะปิดอยู่จนกว่าจะยืนยันแผน"
 
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "Simple LDAP Login Pro"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr ""
-"ให้พนักงานมีการแจ้งเตือนการเข้าสู่ระบบน้อยลงและรักษารายละเอียดผู้ใช้ให้ตรงกั"
-"บ LDAP"
-
-#: src/Commerce.php:89
+#: src/Commerce.php:79
 msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
 msgstr ""
-"ให้พนักงานเปิด WordPress โดยไม่ต้องมีการแจ้งเตือนการเข้าสู่ระบบอีกครั้ง "
-"ต้องมีการตรวจสอบสิทธิ์บนเซิร์ฟเวอร์เว็บของคุณ เช่น Kerberos หรือ NTLM"
+"เปิดใช้งานใบอนุญาต Pro หรือ Enterprise "
+"ในแท็บใบอนุญาตเพื่อใช้คุณลักษณะแบบชำระเงิน"
 
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr ""
-"คัดลอกหมายเลขโทรศัพท์ แผนก และฟิลด์ LDAP อื่น ๆ ไปยัง WordPress "
-"ในขณะเข้าสู่ระบบ ใช้ค่เหล่านี้ในธีมหรือปลั๊กอินอื่น ๆ ของคุณ"
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "ดูแผน"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "เปิดการชำระเงินในแท็บใหม่"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr ""
-"แผนและการชำระเงินใช้ PaidCommunities มันจะรับที่อยู่ IP "
-"และรายละเอียดเบราว์เซอร์ของคุณ"
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "เซิร์ฟเวอร์ LDAP สำรอง"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
 msgstr ""
-"หลังจากการซื้อ ให้ติดตั้ง Pro ZIP จากใบเสร็จของคุณ การตั้งค่า LDAP "
+"ลองเซิร์ฟเวอร์ถัดไปหากไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ไดเรกทอรีได้ "
+"เซิร์ฟเวอร์ทั้งหมดต้องใช้ไดเรกทอรีเดียวกัน"
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr ""
+"ลดการถามรหัสผ่านของพนักงาน เข้าสู่ระบบผ่านเว็บเซิร์ฟเวอร์ด้วย Kerberos, "
+"NTLM หรือการยืนยันตัวตนแบบอื่นบนเซิร์ฟเวอร์"
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr ""
+"กำหนดบทบาท WordPress จากกลุ่มในไดเรกทอรีทุกครั้งที่เข้าสู่ระบบ "
+"ให้สิทธิ์เข้าถึงที่จำเป็นแก่บรรณาธิการ ผู้เขียน และทีมอื่น ๆ"
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr ""
+"รักษาชื่อ ที่อยู่อีเมล และเว็บไซต์ให้เป็นปัจจุบัน "
+"คัดลอกค่าจากไดเรกทอรีไปยังโปรไฟล์ WordPress ที่มีอยู่เมื่อเข้าสู่ระบบ"
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr ""
+"ใช้หมายเลขโทรศัพท์ แผนก และฟิลด์ LDAP อื่น ๆ ใน WordPress "
+"จับคู่ฟิลด์ข้อความและตัวเลขสำหรับธีมหรือปลั๊กอินของคุณ"
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr ""
+"เตรียมบัญชีให้พร้อมก่อนเข้าสู่ระบบครั้งแรก "
+"นำเข้าผู้ใช้จากไดเรกทอรีทุกชั่วโมง โดยกรองตามกลุ่มและตำแหน่งในไดเรกทอรี"
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"ตรวจสอบบัญชีที่จัดการทุกชั่วโมง "
+"ระงับการเข้าถึงและสิ้นสุดเซสชันเมื่อการตรวจสอบไดเรกทอรียืนยันการลบบัญชีหรือก"
+"ารเสียสิทธิ์เข้าถึง เก็บเนื้อหาของผู้ใช้ไว้"
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"จัดการสิทธิ์เข้าถึงทั่วเครือข่าย WordPress "
+"ใช้กลุ่มในไดเรกทอรีกำหนดสมาชิกและบทบาทของไซต์ "
+"แล้วลบสิทธิ์เข้าถึงเมื่อกลุ่มเปลี่ยน"
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "ประวัติการตรวจสอบและการส่งออก CSV"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr ""
+"ดูผลการเข้าสู่ระบบ การเปลี่ยนบทบาท การนำเข้า "
+"และการเปลี่ยนสิทธิ์เข้าถึงในที่เดียว "
+"กำหนดระยะเวลาเก็บระเบียนและส่งออกประวัติเป็น CSV"
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro และ Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "เลือกแผน LDAP ของคุณ"
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro เพิ่มการเข้าสู่ระบบครั้งเดียวและการอัปเดตข้อมูลผู้ใช้ Enterprise "
+"เพิ่มการจัดการบัญชีตามกำหนดเวลา กฎสมาชิกแบบหลายไซต์ และประวัติการตรวจสอบ"
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr "ทั้งสองแผนครอบคลุมหนึ่งไซต์ การตั้งค่า LDAP เดิมของคุณจะยังคงอยู่"
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — $99/ปี"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — $499/ปี"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "คุณลักษณะทั้งหมดของ Free และ:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "ทุกอย่างใน Pro และ:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "ซื้อ Pro"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "รับ Enterprise"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "ซื้อ Enterprise"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"งานตามกำหนดเวลาใช้ WordPress cron และต้องมีการเข้าชมไซต์หรืองานของระบบ "
+"การเข้าสู่ระบบครั้งเดียวต้องมีการยืนยันตัวตนของเว็บเซิร์ฟเวอร์ "
+"กฎแบบหลายไซต์ต้องเปิดใช้งานทั้งเครือข่าย"
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr ""
+"ใบอนุญาตที่บันทึกไว้ต้องตรวจสอบแผน ติดตั้ง Pro "
+"แล้วเลือกตรวจสอบใบอนุญาตในแท็บใบอนุญาต"
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"หลังซื้อ ให้แทนที่ Free ด้วยไฟล์ Pro ZIP จากใบเสร็จ "
+"แล้วเปิดใช้งานใบอนุญาตในแท็บใบอนุญาตของ Pro การตั้งค่า LDAP "
 "ของคุณจะยังคงอยู่"
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"PaidCommunities จัดการการชำระเงิน โดยจะได้รับที่อยู่ IP "
+"รายละเอียดเบราว์เซอร์ และข้อมูลที่คุณกรอกเมื่อชำระเงิน "
+"จะไม่มีการส่งข้อมูลรับรอง LDAP และระเบียนผู้ใช้"
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1084,18 +1261,13 @@ msgstr ""
 "ไม่สามารถตรวจสอบใบอนุญาตได้ ตรวจสอบคีย์และการเชื่อมต่อของคุณ "
 "จากนั้นลองอีกครั้ง."
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "ใบอนุญาต Pro"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "ป้อนรหัสใบอนุญาตจากใบเสร็จการซื้อของคุณ"
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "ยังไม่ได้เปิดใช้งาน"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "ยังไม่ได้ยืนยันแผน"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1113,18 +1285,56 @@ msgstr "สถานะใบอนุญาต"
 msgid "Active"
 msgstr "ใช้งานอยู่"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "ข้อมูลที่แชร์กับ PaidCommunities"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "ยังไม่ได้เปิดใช้งาน"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "แผนปัจจุบัน"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
 msgstr ""
-"การเปิดใช้งานจะส่งรหัสใบอนุญาตของคุณ โดเมนไซต์ เวอร์ชันปลั๊กอิน และที่อยู่ "
-"IP ของเซิร์ฟเวอร์ไปยัง PaidCommunities "
-"การตรวจสอบใบอนุญาตจะส่งรายละเอียดไซต์เดียวกัน"
+"Enterprise เพิ่มการนำเข้าบัญชีและการลบสิทธิ์เข้าถึงตามกำหนดเวลา "
+"กฎสมาชิกแบบหลายไซต์ และประวัติการตรวจสอบที่ส่งออกเป็น CSV ได้"
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
+msgstr ""
+"รับ Enterprise จะเปิดหน้าชำระเงินสำหรับใบอนุญาตใหม่ "
+"โดยจะไม่เปลี่ยนหรือยกเลิกการสมัคร Pro ของคุณ "
+"จัดการการสมัครนั้นแยกต่างหากผ่าน PaidCommunities หลังซื้อ "
+"ให้ปิดใช้งานคีย์นี้ เลือก Enterprise แล้วเปิดใช้งานคีย์ใหม่"
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "แผนที่ซื้อ"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"เลือกแผนตามใบเสร็จการซื้อ ตัวเลือกนี้ใช้เฉพาะเมื่อเปิดใช้งานคีย์ "
+"การตรวจสอบใบอนุญาตจะยืนยันคุณลักษณะที่คุณใช้ได้"
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1141,6 +1351,17 @@ msgstr "ยกเลิกการเปิดใช้งานใบอนุ
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "ตรวจสอบใบอนุญาต"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"PaidCommunities จัดการใบอนุญาต การเปิดใช้งานจะส่งคีย์ใบอนุญาต โดเมนไซต์ "
+"เวอร์ชันปลั๊กอิน และที่อยู่ IP ของเซิร์ฟเวอร์ "
+"การตรวจสอบใบอนุญาตจะส่งรายละเอียดไซต์ จะไม่มีการส่งข้อมูลรับรอง LDAP "
+"และระเบียนผู้ใช้"
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1161,18 +1382,6 @@ msgstr "ข้อผิดพลาดใบอนุญาต"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "ใบอนุญาตได้รับการอัปเดต"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "แผน Pro"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "กำลังโหลดแผน…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr "ไม่สามารถโหลดแผนได้ เปิดการชำระเงินในแท็บใหม่"
 
 #: src/Ldap_Client.php:440
 msgid ""

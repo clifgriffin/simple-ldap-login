@@ -1,47 +1,61 @@
 # Product and release plan
 
-Research date: 2026-10-28. Package plan updated: 2026-10-30.
+Research date: 2026-10-28. Package plan updated: 2026-11-02.
 
 ## Release decision
 
-Build only Free and Pro. Server SSO and custom user fields require Pro. Central network settings stay free.
+Build Free and one paid package. Sell the paid package through the Pro and Enterprise products below. Central network settings stay free. The paid package checks verified product access and enables the features in that plan.
 
-The 1.x upgrade path is narrow. Preserve saved settings, directory credentials, login rules, administrator recovery, and user data. Sites that use SSO or custom user fields must upgrade directly to Pro. There is no separate Legacy package, Transition package, or eligibility grant.
+The 1.x upgrade path is narrow. Preserve saved settings, directory credentials, login rules, administrator recovery, and user data. Sites that use backup LDAP servers, SSO, or custom user fields must upgrade directly to Pro. There is no separate Legacy package, Transition package, or eligibility grant.
 
 Group-to-role rules, profile updates, scheduled import and access removal, multisite membership rules, and audit history with export are implemented. Multiple directories and network templates remain planned work. PaidCommunities activation and license checks are implemented. Live account tests and external updates remain required. Do not open sales or distribute the Pro preview until its release checks pass.
 
-## Free and Pro features
+## Free, Pro, and Enterprise features
 
-| Feature | Free | Pro |
-| --- | --- | --- |
-| Active Directory and OpenLDAP sign-in | Yes | Yes |
-| Multiple controllers for one directory | Yes | Yes |
-| TLS, custom ports, DNs, and search attributes | Yes | Yes |
-| Direct, nested, and primary AD group checks | Yes | Yes |
-| OpenLDAP group checks and login restrictions | Yes | Yes |
-| Account creation and a fixed new-user role | Yes | Yes |
-| LDAP-only login and local administrator recovery | Yes | Yes |
-| Standard profile attributes | Yes | Yes |
-| Site and central network settings | Yes | Yes |
-| Connection and login tests, and security fixes | Yes | Yes |
-| Server SSO with a trusted server identity | No | Yes |
-| Custom metadata mappings and suffix settings | No | Yes |
-| Group-to-role rules | No | Yes |
-| Standard profile updates at login | No | Yes |
-| Scheduled account import | No | Yes |
-| Scheduled access removal and session removal | No | Yes |
-| Multisite group membership and role rules | No | Yes |
-| Audit history, retention, and CSV export | No | Yes |
+This table defines the implemented plan split. Local checks use product access from the authenticated license response.
 
-Implemented Pro account features are described in [Pro account features](pro-features.md). Planned Pro additions are multiple independent directories and routing rules, and network templates with controlled rollout. Priority support will also be part of Pro. Do not advertise planned additions as available.
+| Feature | Free | Pro — USD 99/year | Enterprise — USD 499/year |
+| --- | --- | --- | --- |
+| Active Directory and OpenLDAP sign-in | Yes | Yes | Yes |
+| One directory server | Yes | Yes | Yes |
+| Backup servers for one directory | No | Yes | Yes |
+| TLS, custom ports, DNs, and search attributes | Yes | Yes | Yes |
+| Direct, nested, and primary AD group checks | Yes | Yes | Yes |
+| OpenLDAP group checks and login restrictions | Yes | Yes | Yes |
+| Account creation and a fixed new-user role | Yes | Yes | Yes |
+| LDAP-only login and local administrator recovery | Yes | Yes | Yes |
+| Standard profile attributes | Yes | Yes | Yes |
+| Site and central network settings | Yes | Yes | Yes |
+| Connection and login tests, and security fixes | Yes | Yes | Yes |
+| Server SSO with a trusted server identity | No | Yes | Yes |
+| Custom metadata mappings and suffix settings | No | Yes | Yes |
+| Group-to-role rules | No | Yes | Yes |
+| Standard profile updates at login | No | Yes | Yes |
+| Scheduled account import | No | No | Yes |
+| Scheduled access removal and session removal | No | No | Yes |
+| Multisite group membership and role rules | No | No | Yes |
+| Audit history, retention, and CSV export | No | No | Yes |
 
-Multiple controllers for one directory stay free. Pro is planned to support separate directories with their own connection and routing rules.
+Implemented paid account features are described in [Pro and Enterprise features](pro-features.md). Planned additions are multiple independent directories and routing rules, and network templates with controlled rollout. Priority support remains a possible addition; it is not part of the agreed feature split. Do not advertise planned additions as available.
+
+Backup servers for one directory require an active Pro or Enterprise license. Free uses only the first configured server. Saved backup server addresses remain in place when a license expires or the site uses Free. Support for separate directories with their own connection and routing rules remains planned work.
 
 Other possible Pro work includes integrations and new identity protocols. Decide what to build after customer research, then design and test it separately. These ideas are not part of the first Pro feature list.
 
 Do not make security fixes, TLS, recovery, or basic group restrictions paid features. Do not add user count or login count limits to free installations.
 
-Start with one Pro package and annual access to updates and support. Plans can cover different site counts while using the same code. The initial draft plan is USD 499 per year for one site. Willingness to pay has not been tested.
+Use one paid package for both annual plans. Pro costs USD 99 per year for one site. Enterprise costs USD 499 per year for one site. PaidCommunities uses a separate product for each plan, grouped in one product family. Willingness to pay has not been tested.
+
+### Implementation status and checks before sales
+
+- Completed: check Enterprise and Pro through authenticated product-specific requests, reject `invalid_product` even when the license status is active, save the highest verified product in local license state, and keep remote requests outside login. Real test keys passed activation, refresh, deactivation, and Pro denial for Enterprise on 2026-11-02.
+- Completed: include backup LDAP servers, SSO, custom user fields, group role rules, and profile updates in Pro. Require Enterprise for scheduled jobs, multisite membership, and audit history, retention, and CSV export.
+- Completed: show both feature lists and direct checkout links in Free. Show the verified plan, purchased-plan selector, and Enterprise purchase prompt in the paid License tab.
+- Completed: test product access, plan choices, missing and unknown products, renewal, expiry, service errors, and retained account suspensions with controlled responses.
+- Pending: live PaidCommunities purchases and product changes, refunds, cancellation, site limits, staging, network activation, and export tests.
+- Pending: automatic external updates and the pricing-page feature storage fix. No release is assigned by this task.
+
+The activation selector chooses the product used for registration. It does not grant access. Only a verified active entitlement enables a feature. Missing or unknown products keep paid features off and show a license-check prompt. A service error keeps the last verified state. Enterprise controls are disabled for Pro and link to the License tab; saved values remain. The pricing-page editor still does not retain its saved feature cards. See the catalog issue below.
 
 ## Package design
 
@@ -52,7 +66,7 @@ Maintain one codebase and build two packages:
 | Package | Purpose | Update path |
 | --- | --- | --- |
 | Free | LDAP password login and the shared features listed above | WordPress.org |
-| Pro | Free features plus SSO, custom fields, account management, and audit history with an active license | PaidCommunities; automatic updates still pending |
+| Pro (paid package) | Shared paid code for Pro and Enterprise; verified product access selects the features | PaidCommunities; automatic updates still pending |
 
 Both use the `simple-ldap-login` folder and `Simple-LDAP-Login.php` entry file. Install one package. Pro replaces Free and does not need an add-on.
 
@@ -102,9 +116,9 @@ Keep the existing directory listing for the rewrite. Do not submit a duplicate f
 
 Use GPL-2.0-or-later for all editions. Include the license text and third-party notices. The source license and the paid service term are separate: a commercial key gives access to updates, support, and account services. It does not remove the user's GPL rights or prevent copying. [WordPress license](https://wordpress.org/about/license/)
 
-Pro features require an active Pro license. A confirmed expired or inactive license stops SSO, field and role updates, scheduled jobs, membership updates, and audit collection and export. Existing suspensions and directory identity checks remain enforced. LDAP password login, group rules, and local recovery accounts still work. Keep saved settings, user data, and existing sessions. A verified renewal restores Pro features. Explain this policy before purchase.
+Paid features require an active license for a recognized product. Pro enables SSO, field and role updates, and profile updates. Enterprise also enables scheduled jobs, membership rules, and audit collection, retention, and export. A confirmed expired or inactive license stops these paid features. Existing suspensions and directory identity checks remain enforced. LDAP password login, login group restrictions, and local recovery accounts still work. Keep saved settings, user data, audit records, and existing sessions. A verified renewal restores the licensed features. Explain this policy before purchase.
 
-License checks run hourly through WordPress scheduled tasks. Login reads only local state. A service error keeps the last verified status, including an expired status. See the [license implementation and remaining service checks](licensing.md).
+License checks run hourly through WordPress scheduled tasks. `License::plan()` and login read only local state. A service error keeps the last verified status and product access, including an expired status. Missing and unknown product access keeps paid features off. See the [license implementation and remaining service checks](licensing.md).
 
 This expiry policy is a product decision, not a general WordPress.org rule.
 
@@ -112,17 +126,36 @@ This expiry policy is a product decision, not a general WordPress.org rule.
 
 Use PaidCommunities for Pro. Complete the SDK, outage, and data export checks below before sales start. Use EDD only if a confirmed problem prevents safe use of PaidCommunities. Do not build a licensing backend for this release.
 
-### Draft product setup
+### PaidCommunities catalog setup
 
-Confirmed on 2026-10-29:
+Updated on 2026-10-30:
 
-- Product: [Simple LDAP Login Pro](https://admin.paidcommunities.com/products/prd_9QyrKxQpvZGrcCW8), ID `prd_9QyrKxQpvZGrcCW8`.
-- Slug: `simple-ldap-login-pro`. Type: Plugin. Status: Draft.
-- Plan: Single site, USD 499 per year for one site, no trial, no sale price.
-- Release 2.0.0: Pending, named `Version 2.0.0 — internal preview`, with file `simple-ldap-login-pro-2.0.0.zip`. It has not been released or assigned for sale.
-- The preview requires WordPress 6.5 and PHP 8.0. Its `Tested up to` field is 7.1.3, the local test version recorded in `docs/testing.md`.
-- Stripe is not connected. License activation and checks are implemented. Live service tests and automatic updates remain required before public release.
-- The hosted preview ZIP predates the SSO proof correction found by the expanded tests. Replace it with a rebuilt Pro ZIP before release.
+- Pro product: [Simple LDAP Login Pro](https://admin.paidcommunities.com/products/prd_9QyrKxQpvZGrcCW8), ID `prd_9QyrKxQpvZGrcCW8`, slug `simple-ldap-login-pro`.
+- Pro annual plan: `plan_9R8xkMlq1nmCekmG`, USD 99 per year, one site. Pro remains the default purchase choice, as the user requested.
+- Enterprise product: [Simple LDAP Login Enterprise](https://admin.paidcommunities.com/products/prd_9R92jB1prxMfJR36), ID `prd_9R92jB1prxMfJR36`. Status: Draft, without a release.
+- Enterprise annual plan: `plan_9R937DcDDy4wMH4x`, USD 499 per year, one site.
+- Product family: **Simple LDAP Login**, ID `prgrp_9R8wuq4vA3Dtc9b8`, with exactly the Pro and Enterprise products. The name and membership were verified after reload. Separate products carry separate feature entitlements. See [product families](https://paidcommunities.com/documentation/product-families/).
+- The previous USD 499 plan, `plan_9QysG8ogD3yHM8sO`, remains under the Pro product for existing records. Its Inactive status was verified in the dashboard.
+- No release is assigned by this task. The earlier release record was 2.0.0, Pending, named `Version 2.0.0 — internal preview`, with file `simple-ldap-login-pro-2.0.0.zip`. Recheck that record before use.
+- The earlier preview record listed WordPress 6.5, PHP 8.0, and `Tested up to` 7.1.3. Verify the current package requirements and update the release fields before sale.
+- The prior record said Stripe was not connected. Check current payment methods and complete live service tests before sales. License activation, product access checks, and feature restrictions are implemented. Automatic updates remain required.
+- The hosted preview ZIP predates the SSO proof correction and product access checks. Replace it with a rebuilt paid ZIP after the release and live service checks pass.
+- On 2026-11-02, backup LDAP servers moved to Pro and Enterprise. The Pro product description was updated in PaidCommunities and verified after reload. Free uses only the first saved server; it keeps backup addresses for later use with a paid license.
+
+Checkout URLs:
+
+- Pro: `https://checkout.paidcommunities.com/checkout/prd_9QyrKxQpvZGrcCW8?plan=plan_9R8xkMlq1nmCekmG`
+- Enterprise: `https://checkout.paidcommunities.com/checkout/prd_9R92jB1prxMfJR36?plan=plan_9R937DcDDy4wMH4x`
+
+`Commerce::checkout_url()` uses Pro by default. Passing `enterprise` selects Enterprise. Each link specifies its product and annual plan. The paid License tab offers **Get Enterprise** only to active Pro users. It opens checkout for a new license and does not change or cancel the Pro subscription. Manage that subscription separately through PaidCommunities.
+
+### Pricing-page editor issue
+
+The visible browser Network panel confirmed that saving to `/v1/price_page_designs/prd_9QyrKxQpvZGrcCW8` returns HTTP 200. The response includes the entered text in `json_content`, but `account_id`, `parent_id`, and `theme` are null. The editor and customer page lose the feature cards after reload. A successful save response is not proof that these cards are retained.
+
+The issue was also reproduced in the product family editor on 2026-10-30. After Save and reload, both the title and feature fields were blank. The separate Pro and Enterprise product descriptions retained their feature lists and were verified after reload. Enterprise includes Pro's five feature groups plus scheduled import and access removal, multisite membership, and audit history with CSV export. Both plans cover one site.
+
+**PaidCommunities TODO:** Correct the pricing-page design storage, then save and verify the title and both feature lists in the family editor and on the customer page. The saved product descriptions provide the feature lists while the storage issue remains open. A provider support review may be required. No support message has been sent.
 
 ### Service comparison
 
@@ -138,13 +171,13 @@ EDD provides `activate_license`, `deactivate_license`, `check_license`, and `get
 
 EDD documents local and staging exceptions. It can export keys, status, customer details, dates, and activations. Check that an export and restore work before launch. [Staging sites](https://easydigitaldownloads.com/docs/wordpress-staging-site-support/), [license export](https://easydigitaldownloads.com/docs/software-licensing-usage-instructions/)
 
-PaidCommunities documents the Composer package `paidcommunities/wordpress-sdk`, activation controls, and update checks. Pro uses its services for activation and status checks. It reads the saved status to enable SSO and custom fields. It never makes a service request during login. Its domain example includes site, version, IP address, and check times. [PaidCommunities WordPress SDK](https://paidcommunities.com/documentation/sdks/wordpress-sdk/)
+PaidCommunities documents the Composer package `paidcommunities/wordpress-sdk`, activation controls, and update checks. The Pro ZIP uses its services for activation, status, and product access checks. It reads the saved verified product to enable the correct features. It never makes a service request during login. Its domain example includes site, version, IP address, and check times. [PaidCommunities WordPress SDK](https://paidcommunities.com/documentation/sdks/wordpress-sdk/)
 
-The upgrade is purchase through the Get Pro tab, receipt download, and installation of the Pro ZIP at the existing plugin path, without a separate add-on. The official purchase SDK and activation component are integrated. First-time Pro installation uses the WordPress ZIP upload screen; a license activation does not install code. The reviewed SDK paths handle license activation and updates; their release scripts build the SDK itself. Check the hosted deployment tools before adding equivalent build or installation code here. This does not change the choice of PaidCommunities.
+The upgrade from Free is purchase through the Go Pro tab, receipt download, and installation of the Pro ZIP at the existing plugin path, without a separate add-on. Free uses direct checkout links. The paid ZIP uses the official activation component with a purchased-plan selector. First-time installation uses the WordPress ZIP upload screen; license activation does not install code. The reviewed SDK paths handle license activation and updates; their release scripts build the SDK itself. Check the hosted deployment tools before adding equivalent build or installation code here. This does not change the choice of PaidCommunities.
 
 The SDK review used commit `4bfaef0967c01daf720fd5182d87fe91451ca20d`. Its `VERSION` file says `0.0.4`. The manifest declares MIT and no minimum PHP version. Test that version on PHP 8.1. The GitHub releases list was empty when checked. [SDK source](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/tree/4bfaef0967c01daf720fd5182d87fe91451ca20d), [manifest](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/composer.json)
 
-The SDK deactivation handler deletes local license data after an exception, including a failed nonce or permission check. A local test confirmed deletion with a missing nonce. Neither edition initializes that handler. Both use the official activation component with checked handlers that require POST, the correct site or network capability, a nonce, and a matching settings scope before calling the service. The SDK dependency is pinned at `0.0.4`. [Inspected handler](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/Admin/AdminAjaxController.php)
+The SDK deactivation handler deletes local license data after an exception, including a failed nonce or permission check. A local test confirmed deletion with a missing nonce. Neither package initializes that handler. The paid ZIP uses the official activation component with checked handlers that require POST, the correct site or network capability, a nonce, and a matching settings scope before calling the service. Free has no activation form. The SDK dependency is pinned at `0.0.4`. [Inspected handler](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/Admin/AdminAjaxController.php)
 
 The update controller catches API exceptions without deleting stored license data. Its default response cache lasts 60 seconds, and its HTTP client has a 30-second timeout. These values come from the source; outage tests are still required. Keep license requests outside login and keep login working during remote errors. [Update controller](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/UpdateController.php), [cache](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/Cache.php), [HTTP client](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/HttpClient/WordPressClient.php)
 
@@ -167,5 +200,5 @@ Request only the data needed for license validation and updates. Never send LDAP
 1. Complete the refactor, settings migration, Pro extraction, and security checks.
 2. Test Free and Pro with OpenLDAP, Samba AD, multisite, and trusted server SSO. Test direct 1.x upgrades to the correct package.
 3. Complete live PaidCommunities license tests and external Pro updates. Keep license calls outside login.
-4. Publish Free and start Pro sales after the release and service checks pass. State clearly that 1.x sites using SSO or custom user fields need Pro.
+4. Publish Free and start Pro sales after the release and service checks pass. State clearly that 1.x sites using backup LDAP servers, SSO, or custom user fields need Pro.
 5. Build and test later Pro features separately. Advertise each only after it is available.

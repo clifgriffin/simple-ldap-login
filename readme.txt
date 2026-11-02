@@ -20,12 +20,14 @@ Free features include:
 * StartTLS and LDAPS with certificate checks.
 * Automatic account creation and a default WordPress role.
 * Required groups, including nested and primary Active Directory groups.
-* Multiple controllers in the same directory.
+* One LDAP server. Backup servers require Pro or Enterprise.
 * Custom LDAP attributes for standard profile fields.
 * Site and network settings.
 * Connection and login tests that do not create users or sessions.
 
-Pro adds single sign-on (SSO) so staff can open WordPress without another login prompt after your web server authenticates them. It also copies custom LDAP fields, such as phone number or department, to WordPress at login. A 1.x site that uses either feature must upgrade directly to Pro.
+Pro costs USD 99 per year for one site. It adds backup LDAP servers, single sign-on (SSO), custom user fields, group role rules, and profile updates at login. SSO lets staff open WordPress after your web server authenticates them. Custom fields can copy a phone number or department from LDAP.
+
+Enterprise costs USD 499 per year for one site. It includes Pro plus scheduled account import, scheduled access removal and session removal, multisite membership rules, and audit history with retention and CSV export. Both plans use the Pro ZIP. A 1.x site that uses backup LDAP servers, SSO, or custom user fields must install that ZIP and activate a Pro or Enterprise license.
 
 Install either Free or Pro. Both use the same plugin folder and entry file. Pro replaces Free and does not need an add-on.
 
@@ -35,16 +37,16 @@ LDAP requests go to the directory servers that an administrator sets. Free LDAP 
 
 = External Services =
 
-The optional Go Pro tab links to [PaidCommunities](https://paidcommunities.com/) checkout. It does not load external scripts or show a license form. Pro uses PaidCommunities to manage licenses after installation. Free LDAP login does not require this service. Pro requires a license key from a purchase through PaidCommunities.
+The optional Go Pro tab lists both plans and links to [PaidCommunities](https://paidcommunities.com/) checkout. It does not load external scripts or show a license form. Pro uses PaidCommunities to manage both paid license plans after installation. Free LDAP login does not require this service. Paid features require an active license for the correct product.
 
 The service receives data in these cases:
 
-* Buy Pro: This link opens checkout for the single annual plan on https://checkout.paidcommunities.com without a referrer. PaidCommunities receives the product and plan IDs, your IP address, and browser details. Payment takes place on PaidCommunities. It receives the purchase and payment details that you enter there.
-* Activate license in Pro: This action sends your license key, configured site domain, plugin version, and product ID to https://api.paidcommunities.com/wordpress/v1. The plugin saves an encrypted site activation secret instead of the original license key.
+* Buy Pro or Buy Enterprise: Each link opens its annual plan on https://checkout.paidcommunities.com without a referrer. PaidCommunities receives the product and plan IDs, your IP address, and browser details. Payment takes place on PaidCommunities. It receives the purchase and payment details that you enter there.
+* Activate license in Pro: Choose the plan on your receipt. This action sends your license key, configured site domain, plugin version, and selected product ID to https://api.paidcommunities.com/wordpress/v1. The choice selects the registration product; the verified service response controls feature access. The plugin saves an encrypted site activation secret instead of the original license key.
 * Check license in Pro: After activation, WordPress schedules a background check once per hour. You can also select Check license. Each check sends the site activation secret, plugin version, and product ID to the same API.
 * Deactivate license in Pro: This action sends the site activation ID and secret to the same API. A successful deactivation removes the local activation record and stops background checks.
 
-API requests also share your server IP address and standard WordPress HTTP headers. These headers can include your WordPress version and site URL. Login uses the saved license status and does not make a PaidCommunities request. LDAP hosts, bind credentials, passwords, and user records are not sent to PaidCommunities.
+API requests also share your server IP address and standard WordPress HTTP headers. These headers can include your WordPress version and site URL. Login uses the saved license status and verified product access. It does not make a PaidCommunities request. LDAP hosts, bind credentials, passwords, and user records are not sent to PaidCommunities.
 
 Free keeps WordPress.org updates. After purchase, replace Free with the Pro ZIP from your receipt, then activate your license in Pro. Your LDAP settings stay in place. Activating a key does not install Pro.
 
@@ -73,13 +75,13 @@ The Advanced tab contains the timeout, LDAP login and group attributes, group se
 
 = Will my existing settings work? =
 
-Your saved settings stay in place. The plugin backs up older settings before migration. If your 1.x site uses SSO or custom user fields, install Pro directly. Free supports LDAP password login but does not run these two features.
+Your saved settings stay in place. The plugin backs up older settings before migration. If your 1.x site uses backup LDAP servers, SSO, or custom user fields, install the Pro ZIP directly and activate a Pro or Enterprise license. Free supports LDAP password login but does not run these paid features.
 
 Existing unencrypted connections continue to work with a warning. A failed TLS connection stops the login attempt. If the plugin cannot read a saved search password, enter it again.
 
 = Are old features moving to Pro? =
 
-Single sign-on and custom user fields require Pro, including on sites that upgrade from 1.x. Standard profile attributes, group restrictions, recovery access, and central network settings remain free.
+Single sign-on and custom user fields require the Pro ZIP with a Pro or Enterprise license, including on sites that upgrade from 1.x. Standard profile attributes, group restrictions, recovery access, and central network settings remain free.
 
 = What happens if LDAP is unavailable? =
 
@@ -131,4 +133,4 @@ User accounts are always kept. Settings are kept unless you enable Delete settin
 == Upgrade Notice ==
 
 = 2.0.0 =
-Requires PHP 8.1. Existing sites keep administrator password recovery. New sites select local recovery accounts or explicitly turn recovery off. If 1.x uses SSO or custom user fields, install Pro directly to keep them. TLS failures stop login. Test on a site copy first.
+Requires PHP 8.1. Existing sites keep administrator password recovery. New sites select local recovery accounts or explicitly turn recovery off. If 1.x uses backup LDAP servers, SSO, or custom user fields, install the Pro ZIP and activate a Pro or Enterprise license. TLS failures stop login. Test on a site copy first.

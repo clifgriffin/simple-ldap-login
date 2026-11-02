@@ -1,8 +1,18 @@
-# Pro account features
+# Pro and Enterprise features
 
-These features require the Pro package and an active license.
+Both plans use the Pro ZIP. Pro costs USD 99 per year for one site and includes backup LDAP servers, server SSO, custom user fields, group role rules, and profile updates. Enterprise costs USD 499 per year for one site and adds scheduled account import, scheduled access removal, multisite membership rules, and audit history with retention and CSV export.
+
+The plugin reads verified product access from saved local license state. Login makes no license service request. An activation plan choice does not grant features. Unknown or missing product access keeps paid features off until a license check verifies the plan. A service error keeps the last verified state. See [licensing](licensing.md) for activation and purchase steps.
+
+Pro includes [server SSO](server-sso.md) and custom user field mappings on User data. The following sections describe the account features and their required plan.
+
+## Backup LDAP servers
+
+Requires Pro or Enterprise. On Connection, enter the primary server first, then one backup hostname or IP address per line. All servers must use the same directory. The next server is tried if the previous server is unavailable. Rejected credentials or group access do not trigger another attempt. Free and expired or inactive licenses use only the first server. Saved backup addresses are kept, including during upgrades and package changes. This rule applies to password login, connection tests, SSO, and account jobs. License checks use local state only.
 
 ## Group roles
+
+Requires Pro or Enterprise.
 
 On Access, enter one `group:role` rule per line. Example: `Editors:editor`.
 The first matching rule sets the role at each LDAP password login or server SSO.
@@ -14,6 +24,8 @@ Group names follow the same rules as the free login restriction.
 
 ## Profile updates
 
+Requires Pro or Enterprise.
+
 On User data, select **Update profiles at login**. This option is off by default.
 Each login copies the configured first name, last name, email, and website.
 The display name uses the first and last name, or the account name if both are empty.
@@ -22,6 +34,8 @@ A WordPress update error, including a duplicate email, retains the profile.
 Passwords and account names do not change. Recovery accounts and super administrators are excluded.
 
 ## Scheduled import
+
+Requires Enterprise. Pro users see an upgrade link on Accounts. The saved settings remain, but the controls are disabled and the job does not run.
 
 On Accounts, select **Enable scheduled import**. Set a search account on Connection.
 The hourly WordPress task imports users below the Import Base DN, or the connection Base DN if blank.
@@ -35,6 +49,8 @@ Directory errors do not remove accounts. Deactivation clears the schedule.
 
 ## Scheduled access removal
 
+Requires Enterprise. Existing suspensions and directory identity checks remain enforced if the license expires or changes to Pro.
+
 On Accounts, select **Enable scheduled access removal**. Set a search account on Connection.
 The hourly task checks only accounts marked by a verified LDAP login or import in the current scope.
 A confirmed missing account, disabled AD account, changed directory identity, or failed login group rule suspends access.
@@ -47,7 +63,7 @@ Directory renames can cause suspension until a verified login updates the saved 
 
 ## Multisite membership
 
-Activate Pro for the network. On Accounts, enter one `group:site ID:role` rule per line.
+Requires Enterprise. Activate the Pro ZIP for the network with an Enterprise license. On Accounts, enter one `group:site ID:role` rule per line.
 Example: `Editors:2:editor`. Each target site must belong to the current network and have the selected role.
 The first matching rule for each site applies at login and import.
 Network site rules replace ordinary group role rules. New users receive only the memberships selected by site rules.
@@ -58,9 +74,11 @@ Recovery accounts and super administrators are excluded. Site-only activation ca
 
 ## Audit history and CSV export
 
+Requires Enterprise. Pro users see an upgrade link on Audit. The saved settings and existing records remain, but collection, retention tasks, and CSV export do not run.
+
 On Audit, select **Enable audit history**. Collection is off by default.
 The screen shows the latest 50 records. Export CSV downloads all retained records in the current scope.
-Export requires the settings administrator capability, the current scope, a valid nonce, and an active license.
+Export requires the settings administrator capability, the current scope, a valid nonce, and an active Enterprise license.
 Records contain a UTC time, a fixed event name, and actor, user, and site IDs.
 Events include completed WordPress logins, failed login or directory checks, role changes, profile updates, imports, access changes, membership changes, and settings changes.
 A directory check that passes before a later login denial does not produce a successful login record.

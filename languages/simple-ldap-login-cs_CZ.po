@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -144,6 +144,23 @@ msgid ""
 msgstr ""
 "Jedno pravidlo ve formátu group:role na řádek. Příklad: Editors:editor. Pro "
 "zachování současných rolí ponechte prázdné."
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr ""
+"Enterprise zahrnuje plánovaný import účtů, plánované odebrání přístupu a "
+"pravidla členství v síti webů. Vaše uložená nastavení zůstanou zachována."
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "Zobrazit přechod na Enterprise"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "Nastavení účtů Enterprise"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -326,6 +343,18 @@ msgstr "REMOTE_USER je přítomen."
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER chybí. Zkontrolujte konfiguraci webového serveru."
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr ""
+"Ke shromažďování, čtení nebo exportu historie auditu je nutná licence "
+"Enterprise. Stávající záznamy zůstanou zachovány."
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "Nastavení auditu Enterprise"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "Historie auditu"
@@ -364,10 +393,6 @@ msgstr ""
 "Výchozí: 30. Rozsah: 1 až 3650. Denní úloha odstraňuje starší záznamy, "
 "pokud je shromažďování povoleno."
 
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr "Aktivujte licenci Pro pro čtení nebo export historie auditu."
-
 #: pro/src/Audit.php:229
 msgid "Export CSV"
 msgstr "Exportovat CSV"
@@ -403,6 +428,14 @@ msgstr "ID webu"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "Nemáte oprávnění exportovat tyto záznamy."
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr ""
+"Chcete-li změnit tato nastavení, aktivujte licenci Enterprise. Vaše uložená "
+"nastavení zůstanou zachována."
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -471,14 +504,14 @@ msgstr "Připojte se k LDAP a poté otestujte přihlášení před povolením au
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr "Přihlášení LDAP a SSO jsou zakázány pomocí SLL_DISABLE_LDAP v wp-config.php."
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"Vaše uložené nastavení používá SSO nebo vlastní uživatelská pole. "
-"Nainstalujte Simple LDAP Login Pro, abyste mohli tyto funkce používat. Vaše "
-"nastavení jsou uchována."
+"Vaše uložená nastavení používají záložní servery LDAP, SSO nebo vlastní "
+"uživatelská pole. Chcete-li tyto funkce používat, nainstalujte Simple LDAP "
+"Login Pro. Vaše nastavení zůstanou zachována."
 
 #: src/Admin.php:169
 msgid ""
@@ -510,6 +543,24 @@ msgstr "Uložit nastavení"
 msgid "Settings on other tabs are kept."
 msgstr "Nastavení na ostatních záložkách jsou uchována."
 
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr ""
+"Před kontrolou připojení uložte nastavení. Kontrola používá uložená "
+"nastavení."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Zkontrolovat připojení"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "Otevřete kartu Testování, kde najdete testy přihlášení a další informace."
+
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP připojení"
@@ -540,9 +591,15 @@ msgstr "OpenLDAP / jiný LDAP adresář"
 msgid "LDAP servers"
 msgstr "LDAP servery"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
-msgstr "Jedno hostname nebo IP adresa na řádek. Servery se zkouší v pořadí."
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
+msgstr ""
+"Jeden název hostitele nebo IP adresa na řádek. Aktivní licence Pro nebo "
+"Enterprise umožňuje používat záložní servery. Bez aktivní licence se "
+"používá pouze první server."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -831,33 +888,6 @@ msgstr ""
 "Odstranit uložená nastavení a LDAP přihlašovací údaje, když WordPress "
 "odinstaluje plugin. Udržet uživatelské účty."
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "Test LDAP přihlášení"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr ""
-"Uložte svá nastavení, poté spusťte oba testy. Nechte tuto administrátorskou "
-"relaci otevřenou."
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr ""
-"Testy kontrolují připojení, heslo a požadované skupiny. Nezakládají účty "
-"ani nepřihlašují uživatele."
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-"Po úspěšném dokončení obou testů povolte LDAP a zkuste se přihlásit z "
-"jiného prohlížeče."
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Obnova"
@@ -888,21 +918,30 @@ msgstr "LDAP testy"
 msgid "Tests use saved settings."
 msgstr "Testy používají uložená nastavení."
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. Test připojení"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"Uložte svá nastavení, poté spusťte oba testy. Nechte tuto administrátorskou "
+"relaci otevřenou."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"Testy kontrolují připojení, heslo a požadované skupiny. Nezakládají účty "
+"ani nepřihlašují uživatele."
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "Připojte se k LDAP a otestujte vyhledávací účet, pokud je nastaven."
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "Test připojení"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. Test přihlášení"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "Test LDAP přihlášení"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -915,6 +954,12 @@ msgstr "Uživatelské jméno LDAP"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "Heslo LDAP"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"Po úspěšném dokončení obou testů povolte LDAP a zkuste se přihlásit z "
+"jiného prohlížeče."
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -958,9 +1003,13 @@ msgstr "Přístup"
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "Odstraňování problémů"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "Testování"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Podpora"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -998,84 +1047,213 @@ msgstr "Použijte své heslo WordPress pro tento účet pro obnovu."
 msgid "License"
 msgstr "Licence"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "Získat Pro"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "Přejít na Pro"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
 msgstr ""
-"Nepodařilo se zkontrolovat vaši licenci. Pro funkce zůstávají aktivní. "
-"Zkuste to znovu na kartě Licence."
+"Licenci se nepodařilo zkontrolovat. Funkce vašeho posledního ověřeného "
+"tarifu zůstávají aktivní. Zkuste to znovu na kartě Licence."
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
 msgstr ""
-"Vaše Pro licence vypršela. Jednotné přihlášení a aktualizace vlastních polí "
-"jsou vypnuty. Obnovte svou licenci a poté vyberte Zkontrolovat licenci na "
-"kartě Licence."
+"Platnost vaší licence vypršela. Placené funkce jsou vypnuté. Obnovte "
+"licenci a na kartě Licence vyberte Zkontrolovat licenci."
 
-#: src/Commerce.php:70
+#: src/Commerce.php:77
 msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
 msgstr ""
-"Aktivujte Pro licenci na kartě Licence, abyste mohli používat jednotné "
-"přihlášení a vlastní uživatelská pole."
+"Tarif vaší licence nebyl ověřen. Na kartě Licence vyberte Zkontrolovat "
+"licenci. Placené funkce zůstanou vypnuté, dokud nebude tarif ověřen."
 
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "Simple LDAP Login Pro"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr ""
-"Dejte zaměstnancům méně výzev k přihlášení a udržujte údaje o uživatelích "
-"synchronizované s LDAP."
-
-#: src/Commerce.php:89
+#: src/Commerce.php:79
 msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
 msgstr ""
-"Nechte zaměstnance otevřít WordPress bez další výzvy k přihlášení. Vyžaduje "
-"autentizaci na vašem webovém serveru, jako je Kerberos nebo NTLM."
+"Chcete-li používat placené funkce, aktivujte na kartě Licence svou licenci "
+"Pro nebo Enterprise."
 
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr ""
-"Zkopírujte telefonní čísla, oddělení a další LDAP pole do WordPressu při "
-"přihlášení. Použijte tyto hodnoty ve svém tématu nebo jiných pluginech."
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "Zobrazit plány"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "Otevřít pokladnu v novém panelu"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr ""
-"Plány a pokladny používají PaidCommunities. Získává vaši IP adresu a "
-"podrobnosti o prohlížeči."
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "Záložní servery LDAP"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
 msgstr ""
-"Po zakoupení nainstalujte Pro ZIP z vašeho potvrzení. Vaše LDAP nastavení "
-"zůstanou na svém místě."
+"Pokud není adresářový server dostupný, zkuste další server. Všechny servery "
+"musí používat stejný adresář."
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr ""
+"Ušetřete zaměstnancům jedno zadávání hesla. Přihlašujte je prostřednictvím "
+"webového serveru s ověřováním Kerberos, NTLM nebo jiným serverovým "
+"ověřováním."
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr ""
+"Při každém přihlášení přiřaďte skupinám adresáře role WordPressu. "
+"Poskytněte redaktorům, autorům a dalším týmům potřebný přístup."
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr ""
+"Udržujte jména, e-mailové adresy a webové stránky aktuální. Při přihlášení "
+"kopírujte hodnoty z adresáře do stávajících profilů WordPressu."
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr ""
+"Využijte ve WordPressu telefonní čísla, oddělení a další pole LDAP. "
+"Namapujte textová a číselná pole pro svou šablonu nebo pluginy."
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr ""
+"Připravte účty před prvním přihlášením. Každou hodinu importujte uživatele "
+"z adresáře s filtry podle skupin a umístění v adresáři."
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"Každou hodinu kontrolujte spravované účty. Když kontrola adresáře potvrdí "
+"odebrání účtu nebo ztrátu přístupu, pozastavte přístup a ukončete relace. "
+"Obsah uživatelů zůstane zachován."
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"Spravujte přístup v celé síti WordPressu. Pomocí skupin adresáře přiřazujte "
+"členství na webech a role. Při změně skupin pak přístup odeberte."
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "Historie auditu a export CSV"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr ""
+"Prohlížejte výsledky přihlášení, změny rolí, importy a změny přístupu na "
+"jednom místě. Nastavte dobu uchování záznamů a exportujte historii do CSV."
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro a Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "Vyberte si tarif LDAP."
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro přidává jednotné přihlášení a aktualizace uživatelských údajů. "
+"Enterprise přidává plánovanou správu účtů, pravidla členství v síti webů a "
+"historii auditu."
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr ""
+"Oba tarify platí pro jeden web. Vaše stávající nastavení LDAP zůstanou "
+"zachována."
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — 99 $/rok"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — 499 $/rok"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "Všechny funkce Free a navíc:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "Vše z Pro a navíc:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "Koupit Pro"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "Získat Enterprise"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "Koupit Enterprise"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"Plánované úlohy používají WordPress cron a vyžadují návštěvnost webu nebo "
+"systémovou úlohu. Jednotné přihlášení vyžaduje ověřování webovým serverem. "
+"Pravidla sítě webů vyžadují síťovou aktivaci."
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr ""
+"Vaše uložená licence vyžaduje kontrolu tarifu. Nainstalujte Pro a na kartě "
+"Licence vyberte Zkontrolovat licenci."
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"Po nákupu nahraďte Free archivem Pro ZIP z dokladu o nákupu. Potom "
+"aktivujte licenci na kartě Licence v Pro. Vaše nastavení LDAP zůstanou "
+"zachována."
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"Platbu zpracovává PaidCommunities. Získá vaši IP adresu, údaje o prohlížeči "
+"a informace zadané při platbě. Přihlašovací údaje LDAP ani záznamy "
+"uživatelů se neodesílají."
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1086,18 +1264,13 @@ msgstr "Stav licence byl aktualizován."
 msgid "Could not verify the license. Check your key and connection, then try again."
 msgstr "Nelze ověřit licenci. Zkontrolujte svůj klíč a připojení, poté zkuste znovu."
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "Pro licence"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "Zadejte licenční klíč z vašeho potvrzení o nákupu."
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "Není aktivováno"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "Tarif nebyl ověřen"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1115,18 +1288,56 @@ msgstr "Stav licence"
 msgid "Active"
 msgstr "Aktivní"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "Data sdílená s PaidCommunities"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Není aktivováno"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "Aktuální tarif"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
 msgstr ""
-"Aktivace odešle váš licenční klíč, doménu webu, verzi pluginu a IP adresu "
-"serveru do PaidCommunities. Kontroly licence odešlou stejné podrobnosti o "
-"webu."
+"Enterprise přidává plánovaný import účtů a odebrání přístupu, pravidla "
+"členství v síti webů a historii auditu s exportem CSV."
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
+msgstr ""
+"Získat Enterprise otevře pokladnu pro novou licenci. Nezmění ani nezruší "
+"vaše předplatné Pro. Toto předplatné spravujte samostatně prostřednictvím "
+"PaidCommunities. Po nákupu deaktivujte tento klíč, vyberte Enterprise a "
+"aktivujte nový klíč."
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "Zakoupený tarif"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"Vyberte tarif uvedený na dokladu o nákupu. Tato volba se používá pouze při "
+"aktivaci klíče. Kontrola licence ověří, které funkce můžete používat."
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1143,6 +1354,16 @@ msgstr "Deaktivovat licenci"
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "Zkontrolovat licenci"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"Licence spravuje PaidCommunities. Aktivace odesílá váš licenční klíč, "
+"doménu webu, verzi pluginu a IP adresu serveru. Kontroly licence odesílají "
+"údaje o webu. Přihlašovací údaje LDAP ani záznamy uživatelů se neodesílají."
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1163,18 +1384,6 @@ msgstr "Chyba licence"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "Licence aktualizována"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "Pro plány"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "Načítání plánů…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr "Nepodařilo se načíst plány. Otevřete pokladnu v novém panelu."
 
 #: src/Ldap_Client.php:440
 msgid ""

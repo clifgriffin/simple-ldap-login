@@ -217,7 +217,9 @@ try {
 			'network',
 			'v1',
 			'v1-network',
-			...( edition === 'pro' ? [ 'unlicensed', 'expired' ] : [] ),
+			...( edition === 'pro'
+				? [ 'pro-license', 'pro-network', 'unlicensed', 'expired' ]
+				: [] ),
 		] ) {
 			execFileSync(
 				'php',

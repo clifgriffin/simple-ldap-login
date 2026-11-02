@@ -5,11 +5,11 @@
   },
   {
     "file": "screenshot-2.jpg",
-    "caption": "Set group access rules, account creation, and local recovery accounts."
+    "caption": "Set WordPress roles from LDAP groups and keep local recovery access."
   },
   {
     "file": "screenshot-3.jpg",
-    "caption": "Map LDAP attributes to custom WordPress user fields."
+    "caption": "Update profiles at login and map LDAP attributes to custom WordPress user fields."
   },
   {
     "file": "screenshot-4.jpg",
@@ -22,5 +22,13 @@
   {
     "file": "screenshot-6.jpg",
     "caption": "Test the LDAP connection and a user login."
+  },
+  {
+    "file": "screenshot-7.jpg",
+    "caption": "Accounts (Enterprise): Schedule directory account imports and access removal."
+  },
+  {
+    "file": "screenshot-8.jpg",
+    "caption": "Audit (Enterprise): Review login results and account changes. Export records as CSV."
   }
 ]

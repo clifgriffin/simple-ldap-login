@@ -89,7 +89,7 @@ function sll_auth_setup( array $changes = array(), bool $register = true ): arra
 	$GLOBALS['sll_test_blog_id'] = 1;
 	$GLOBALS['sll_test_local_passwords'] = array();
 	$GLOBALS['sll_test_options'] = array( 'sll_settings' => array_replace( Settings::defaults(), array( 'enabled' => true, 'high_security' => true, 'recovery_mode' => 'legacy' ), $changes ) );
-	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => home_url() );
+	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'product_id' => \SimpleLdapLogin\License::ENTERPRISE_PRODUCT, 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => home_url() );
 	$GLOBALS['sll_test_meta']    = array();
 	$GLOBALS['sll_test_users']   = array( new WP_User( 1, 'alice', 'alice@example.com' ), new WP_User( 2, 'admin', 'admin@example.com', true ) );
 	unset( $GLOBALS['sll_test_cookie_user'], $GLOBALS['sll_test_auth_observer'] );

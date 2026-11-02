@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -150,6 +150,24 @@ msgid ""
 msgstr ""
 "Eine Regel im Format group:role pro Zeile. Beispiel: Editors:editor. Leer "
 "lassen, um die aktuellen Rollen beizubehalten."
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr ""
+"Enterprise umfasst den geplanten Kontoimport, den geplanten Entzug von "
+"Zugriffsrechten und Regeln für die Multisite-Mitgliedschaft. Ihre "
+"gespeicherten Einstellungen bleiben erhalten."
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "Upgrade auf Enterprise ansehen"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "Enterprise-Kontoeinstellungen"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -336,6 +354,19 @@ msgstr "REMOTE_USER ist vorhanden."
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER fehlt. Überprüfen Sie die Webserver-Konfiguration."
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr ""
+"Eine Enterprise-Lizenz ist erforderlich, um den Protokollverlauf zu "
+"erfassen, zu lesen oder zu exportieren. Vorhandene Einträge bleiben "
+"erhalten."
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "Enterprise-Protokolleinstellungen"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "Protokollverlauf"
@@ -374,12 +405,6 @@ msgstr ""
 "Standard: 30. Bereich: 1 bis 3650. Eine tägliche Aufgabe entfernt ältere "
 "Einträge, solange die Erfassung aktiviert ist."
 
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr ""
-"Aktivieren Sie eine Pro-Lizenz, um den Protokollverlauf zu lesen oder zu "
-"exportieren."
-
 #: pro/src/Audit.php:229
 msgid "Export CSV"
 msgstr "CSV exportieren"
@@ -415,6 +440,14 @@ msgstr "Website-ID"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "Sie haben keine Berechtigung, diese Einträge zu exportieren."
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr ""
+"Aktivieren Sie eine Enterprise-Lizenz, um diese Einstellungen zu ändern. "
+"Ihre gespeicherten Einstellungen bleiben erhalten."
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -493,14 +526,14 @@ msgstr ""
 "LDAP-Anmeldung und SSO sind durch SLL_DISABLE_LDAP in wp-config.php "
 "deaktiviert."
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"Ihre gespeicherten Einstellungen verwenden SSO oder benutzerdefinierte "
-"Benutzerfelder. Installieren Sie Simple LDAP Login Pro, um diese Funktionen "
-"zu nutzen. Ihre Einstellungen bleiben erhalten."
+"Ihre gespeicherten Einstellungen verwenden LDAP-Ersatzserver, SSO oder "
+"benutzerdefinierte Benutzerfelder. Installieren Sie Simple LDAP Login Pro, "
+"um diese Funktionen zu verwenden. Ihre Einstellungen bleiben erhalten."
 
 #: src/Admin.php:169
 msgid ""
@@ -532,6 +565,24 @@ msgstr "Einstellungen speichern"
 msgid "Settings on other tabs are kept."
 msgstr "Einstellungen auf anderen Registerkarten bleiben erhalten."
 
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr ""
+"Speichern Sie die Einstellungen, bevor Sie die Verbindung überprüfen. Die "
+"Prüfung verwendet die gespeicherten Einstellungen."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Verbindung überprüfen"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "Öffnen Sie den Tab Tests für Anmeldetests und weitere Informationen."
+
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP-Verbindung"
@@ -562,11 +613,15 @@ msgstr "OpenLDAP / anderes LDAP-Verzeichnis"
 msgid "LDAP servers"
 msgstr "LDAP-Server"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
 msgstr ""
-"Ein Hostname oder eine IP-Adresse pro Zeile. Server werden in der "
-"Reihenfolge ausprobiert."
+"Ein Hostname oder eine IP-Adresse pro Zeile. Eine aktive Pro- oder "
+"Enterprise-Lizenz ermöglicht die Verwendung von Ersatzservern. Ohne aktive "
+"Lizenz wird nur der erste Server verwendet."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -862,33 +917,6 @@ msgstr ""
 "Gespeicherte Einstellungen und LDAP-Anmeldeinformationen löschen, wenn "
 "WordPress das Plugin löscht. Benutzerkonten behalten."
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "LDAP-Anmeldung testen"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr ""
-"Speichern Sie Ihre Einstellungen und führen Sie dann beide Tests durch. "
-"Halten Sie diese Administrator-Sitzung offen."
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr ""
-"Die Tests überprüfen die Verbindung, das Passwort und die erforderlichen "
-"Gruppen. Sie erstellen keine Konten oder melden Benutzer an."
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-"Nachdem beide Tests bestanden sind, aktivieren Sie LDAP und versuchen Sie, "
-"sich von einem anderen Browser aus anzumelden."
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Wiederherstellung"
@@ -920,21 +948,30 @@ msgstr "LDAP-Tests"
 msgid "Tests use saved settings."
 msgstr "Tests verwenden gespeicherte Einstellungen."
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. Verbindung testen"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"Speichern Sie Ihre Einstellungen und führen Sie dann beide Tests durch. "
+"Halten Sie diese Administrator-Sitzung offen."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"Die Tests überprüfen die Verbindung, das Passwort und die erforderlichen "
+"Gruppen. Sie erstellen keine Konten oder melden Benutzer an."
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "Mit LDAP verbinden und das Suchkonto testen, falls festgelegt."
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "Verbindung testen"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. Anmeldung testen"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "LDAP-Anmeldung testen"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -949,6 +986,12 @@ msgstr "LDAP-Benutzername"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "LDAP-Passwort"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"Nachdem beide Tests bestanden sind, aktivieren Sie LDAP und versuchen Sie, "
+"sich von einem anderen Browser aus anzumelden."
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -994,9 +1037,13 @@ msgstr "Zugriff"
 msgid "Advanced"
 msgstr "Erweitert"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "Fehlerbehebung"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "Tests"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1036,86 +1083,219 @@ msgstr "Verwenden Sie Ihr WordPress-Passwort für dieses Wiederherstellungskonto
 msgid "License"
 msgstr "Lizenz"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "Pro erhalten"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "Zu Pro wechseln"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
 msgstr ""
-"Konnte deine Lizenz nicht überprüfen. Pro-Funktionen bleiben aktiv. "
-"Versuche es erneut auf der Lizenz-Registerkarte."
+"Ihre Lizenz konnte nicht überprüft werden. Die Funktionen Ihres zuletzt "
+"bestätigten Tarifs bleiben aktiv. Versuchen Sie es im Tab Lizenz erneut."
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
 msgstr ""
-"Deine Pro-Lizenz ist abgelaufen. Einzelanmeldung und benutzerdefinierte "
-"Feldaktualisierungen sind deaktiviert. Erneuere deine Lizenz und wähle dann "
-"Lizenz überprüfen auf der Lizenz-Registerkarte."
+"Ihre Lizenz ist abgelaufen. Bezahlte Funktionen sind deaktiviert. "
+"Verlängern Sie Ihre Lizenz und wählen Sie dann im Tab Lizenz die Option "
+"Lizenz überprüfen."
 
-#: src/Commerce.php:70
+#: src/Commerce.php:77
 msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
 msgstr ""
-"Aktiviere eine Pro-Lizenz auf der Lizenz-Registerkarte, um Einzelanmeldung "
-"und benutzerdefinierte Benutzerfelder zu verwenden."
+"Ihr Lizenztarif wurde nicht bestätigt. Wählen Sie im Tab Lizenz die Option "
+"Lizenz überprüfen. Bezahlte Funktionen bleiben deaktiviert, bis der Tarif "
+"bestätigt wurde."
 
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "Simple LDAP Login Pro"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr ""
-"Gib dem Personal weniger Anmeldeaufforderungen und halte die Benutzerdaten "
-"mit LDAP synchron."
-
-#: src/Commerce.php:89
+#: src/Commerce.php:79
 msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
 msgstr ""
-"Lass das Personal WordPress ohne eine weitere Anmeldeaufforderung öffnen. "
-"Erfordert die Authentifizierung auf deinem Webserver, wie Kerberos oder "
-"NTLM."
+"Aktivieren Sie Ihre Pro- oder Enterprise-Lizenz im Tab Lizenz, um bezahlte "
+"Funktionen zu verwenden."
 
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr ""
-"Kopiere Telefonnummern, Abteilungen und andere LDAP-Felder bei der "
-"Anmeldung nach WordPress. Verwende diese Werte in deinem Theme oder anderen "
-"Plugins."
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "Pläne anzeigen"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "Checkout in einem neuen Tab öffnen"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr ""
-"Pläne und Checkout verwenden PaidCommunities. Es erhält deine IP-Adresse "
-"und Browserdetails."
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "LDAP-Ersatzserver"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
 msgstr ""
-"Installiere nach dem Kauf die Pro-ZIP-Datei von deinem Beleg. Deine "
+"Versuchen Sie den nächsten Server, wenn ein Verzeichnisserver nicht "
+"erreichbar ist. Alle Server müssen dasselbe Verzeichnis verwenden."
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr ""
+"Ersparen Sie Mitarbeitern eine weitere Passwortabfrage. Melden Sie sich "
+"über Ihren Webserver mit Kerberos, NTLM oder einer anderen "
+"Serverauthentifizierung an."
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr ""
+"Weisen Sie Verzeichnisgruppen bei jeder Anmeldung WordPress-Rollen zu. "
+"Geben Sie Redakteuren, Autoren und anderen Teams den benötigten Zugriff."
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr ""
+"Halten Sie Namen, E-Mail-Adressen und Websites aktuell. Kopieren Sie "
+"Verzeichniswerte bei der Anmeldung in vorhandene WordPress-Profile."
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr ""
+"Nutzen Sie Telefonnummern, Abteilungen und andere LDAP-Felder in WordPress. "
+"Ordnen Sie Text- und Zahlenfelder Ihrem Theme oder Ihren Plugins zu."
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr ""
+"Stellen Sie Konten vor der ersten Anmeldung bereit. Importieren Sie "
+"Verzeichnisbenutzer stündlich mit Filtern für Gruppen und den Speicherort "
+"im Verzeichnis."
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"Überprüfen Sie verwaltete Konten stündlich. Sperren Sie den Zugriff und "
+"beenden Sie Sitzungen, wenn Verzeichnisprüfungen die Entfernung oder den "
+"Verlust des Zugriffs bestätigen. Benutzerinhalte bleiben erhalten."
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"Verwalten Sie den Zugriff in Ihrem gesamten WordPress-Netzwerk. Weisen Sie "
+"mit Verzeichnisgruppen Website-Mitgliedschaften und Rollen zu. Entziehen "
+"Sie den Zugriff, wenn sich Gruppen ändern."
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "Protokollverlauf und CSV-Export"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr ""
+"Sehen Sie Anmeldeergebnisse, Rollenänderungen, Importe und "
+"Zugriffsänderungen an einem Ort. Legen Sie die Aufbewahrungsdauer fest und "
+"exportieren Sie den Verlauf als CSV."
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro und Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "Wählen Sie Ihren LDAP-Tarif."
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro ergänzt Einmalanmeldung und Aktualisierungen von Benutzerdaten. "
+"Enterprise ergänzt geplante Kontoverwaltung, Regeln für die "
+"Multisite-Mitgliedschaft und einen Protokollverlauf."
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr ""
+"Beide Tarife gelten für eine Website. Ihre vorhandenen LDAP-Einstellungen "
+"bleiben erhalten."
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — 99 $/Jahr"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — 499 $/Jahr"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "Alle Funktionen von Free sowie:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "Alles aus Pro sowie:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "Pro kaufen"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "Enterprise erwerben"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "Enterprise kaufen"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"Geplante Aufgaben verwenden WordPress cron und erfordern Website-Aufrufe "
+"oder eine Systemaufgabe. Die Einmalanmeldung erfordert eine "
+"Webserver-Authentifizierung. Multisite-Regeln erfordern die "
+"Netzwerkaktivierung."
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr ""
+"Für Ihre gespeicherte Lizenz muss der Tarif überprüft werden. Installieren "
+"Sie Pro und wählen Sie dann im Tab Lizenz die Option Lizenz überprüfen."
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"Ersetzen Sie nach dem Kauf Free durch die Pro-ZIP-Datei aus Ihrem "
+"Kaufbeleg. Aktivieren Sie dann Ihre Lizenz im Tab Lizenz in Pro. Ihre "
 "LDAP-Einstellungen bleiben erhalten."
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"PaidCommunities wickelt den Kauf ab. Der Dienst erhält Ihre IP-Adresse, "
+"Browserdaten und die beim Kauf eingegebenen Informationen. "
+"LDAP-Zugangsdaten und Benutzerdatensätze werden nicht gesendet."
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1128,18 +1308,13 @@ msgstr ""
 "Die Lizenz konnte nicht verifiziert werden. Überprüfen Sie Ihren Schlüssel "
 "und die Verbindung und versuchen Sie es erneut."
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "Pro-Lizenz"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "Gib den Lizenzschlüssel von deinem Kaufbeleg ein."
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "Nicht aktiviert"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "Tarif nicht bestätigt"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1157,18 +1332,59 @@ msgstr "Lizenzstatus"
 msgid "Active"
 msgstr "Aktiv"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "Daten, die mit PaidCommunities geteilt werden"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Nicht aktiviert"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "Aktueller Tarif"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
 msgstr ""
-"Die Aktivierung sendet deinen Lizenzschlüssel, die Domain der Seite, die "
-"Plugin-Version und die IP-Adresse des Servers an PaidCommunities. "
-"Lizenzprüfungen senden dieselben Seitendetails."
+"Enterprise ergänzt den geplanten Kontoimport und Entzug von "
+"Zugriffsrechten, Regeln für die Multisite-Mitgliedschaft und einen "
+"Protokollverlauf mit CSV-Export."
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
+msgstr ""
+"Enterprise erwerben öffnet den Kaufvorgang für eine neue Lizenz. Ihr "
+"Pro-Abonnement wird dadurch weder geändert noch gekündigt. Verwalten Sie "
+"dieses Abonnement separat über PaidCommunities. Deaktivieren Sie nach dem "
+"Kauf diesen Schlüssel, wählen Sie Enterprise und aktivieren Sie den neuen "
+"Schlüssel."
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "Gekaufter Tarif"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"Wählen Sie den Tarif auf Ihrem Kaufbeleg. Diese Auswahl wird nur beim "
+"Aktivieren eines Schlüssels verwendet. Eine Lizenzprüfung bestätigt, welche "
+"Funktionen Sie verwenden können."
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1185,6 +1401,17 @@ msgstr "Lizenz deaktivieren"
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "Lizenz überprüfen"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"PaidCommunities verwaltet Lizenzen. Bei der Aktivierung werden Ihr "
+"Lizenzschlüssel, die Website-Domain, die Plugin-Version und die IP-Adresse "
+"des Servers gesendet. Lizenzprüfungen senden Website-Daten. "
+"LDAP-Zugangsdaten und Benutzerdatensätze werden nicht gesendet."
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1205,20 +1432,6 @@ msgstr "Lizenzfehler"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "Lizenz aktualisiert"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "Pro-Pläne"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "Pläne werden geladen…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr ""
-"Pläne konnten nicht geladen werden. Öffnen Sie den Checkout in einem neuen "
-"Tab."
 
 #: src/Ldap_Client.php:440
 msgid ""

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -144,6 +144,23 @@ msgid ""
 msgstr ""
 "Her satıra group:role biçiminde bir kural yazın. Örnek: Editors:editor. "
 "Mevcut rolleri korumak için boş bırakın."
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr ""
+"Enterprise, zamanlanmış hesap içe aktarma, zamanlanmış erişim kaldırma ve "
+"çoklu site üyelik kurallarını içerir. Kayıtlı ayarlarınız korunur."
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "Enterprise yükseltmesini görüntüle"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "Enterprise hesap ayarları"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -325,6 +342,18 @@ msgstr "REMOTE_USER mevcut."
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER eksik. Web sunucu yapılandırmasını kontrol edin."
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr ""
+"Denetim geçmişini toplamak, okumak veya dışa aktarmak için Enterprise "
+"lisansı gerekir. Mevcut kayıtlar korunur."
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "Enterprise denetim ayarları"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "Denetim geçmişi"
@@ -363,12 +392,6 @@ msgstr ""
 "Varsayılan: 30. Aralık: 1 ile 3650. Toplama açıkken günlük görev eski "
 "kayıtları kaldırır."
 
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr ""
-"Denetim geçmişini okumak veya dışa aktarmak için bir Pro lisansı "
-"etkinleştirin."
-
 #: pro/src/Audit.php:229
 msgid "Export CSV"
 msgstr "CSV dışa aktar"
@@ -404,6 +427,14 @@ msgstr "Site kimliği"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "Bu kayıtları dışa aktarma izniniz yok."
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr ""
+"Bu ayarları değiştirmek için Enterprise lisansını etkinleştirin. Kayıtlı "
+"ayarlarınız korunur."
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -478,14 +509,14 @@ msgstr ""
 "LDAP girişi ve SSO, wp-config.php'deki SLL_DISABLE_LDAP ile devre dışı "
 "bırakılmıştır."
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"Kaydedilen ayarlarınız SSO veya özel kullanıcı alanlarını kullanıyor. Bu "
-"özellikleri kullanmak için Simple LDAP Login Pro'yu yükleyin. Ayarlarınız "
-"korunmuştur."
+"Kayıtlı ayarlarınız yedek LDAP sunucularını, SSO veya özel kullanıcı "
+"alanlarını kullanıyor. Bu özellikleri kullanmak için Simple LDAP Login Pro "
+"yükleyin. Ayarlarınız korunur."
 
 #: src/Admin.php:169
 msgid ""
@@ -514,6 +545,24 @@ msgstr "Ayarları kaydet"
 #: src/Admin.php:208
 msgid "Settings on other tabs are kept."
 msgstr "Diğer sekmelerdeki ayarlar korunur."
+
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr ""
+"Bağlantıyı kontrol etmeden önce ayarları kaydedin. Kontrol, kayıtlı "
+"ayarları kullanır."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Bağlantıyı kontrol et"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "Oturum açma testleri ve daha fazla bilgi için Test sekmesini açın."
 
 #: src/Admin.php:223
 msgid "LDAP connection"
@@ -545,9 +594,15 @@ msgstr "OpenLDAP / diğer LDAP dizini"
 msgid "LDAP servers"
 msgstr "LDAP sunucuları"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
-msgstr "Her satıra bir ana bilgisayar adı veya IP adresi. Sunucular sırayla denenir."
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
+msgstr ""
+"Her satıra bir ana bilgisayar adı veya IP adresi girin. Etkin bir Pro veya "
+"Enterprise lisansı yedek sunucuların kullanımını sağlar. Etkin lisans yoksa "
+"yalnızca ilk sunucu kullanılır."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -837,33 +892,6 @@ msgstr ""
 "Eklenti kaldırıldığında kaydedilen ayarları ve LDAP kimlik bilgilerini "
 "silin. Kullanıcı hesaplarını koruyun."
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "LDAP girişini test et"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr ""
-"Ayarlarınızı kaydedin, ardından her iki testi de çalıştırın. Bu yönetici "
-"oturumunu açık tutun."
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr ""
-"Testler bağlantıyı, şifreyi ve gerekli grupları kontrol eder. Hesap "
-"oluşturmaz veya kullanıcıları oturum açtırmaz."
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-"Her iki test geçtikten sonra LDAP'ı etkinleştirin ve başka bir tarayıcıdan "
-"giriş yapmayı deneyin."
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Kurtarma"
@@ -894,21 +922,30 @@ msgstr "LDAP testleri"
 msgid "Tests use saved settings."
 msgstr "Testler kaydedilen ayarları kullanır."
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. Bağlantıyı test et"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"Ayarlarınızı kaydedin, ardından her iki testi de çalıştırın. Bu yönetici "
+"oturumunu açık tutun."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"Testler bağlantıyı, şifreyi ve gerekli grupları kontrol eder. Hesap "
+"oluşturmaz veya kullanıcıları oturum açtırmaz."
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "LDAP'a bağlanın ve ayarlanan arama hesabını test edin."
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "Bağlantıyı test et"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. Girişi test et"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "LDAP girişini test et"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -921,6 +958,12 @@ msgstr "LDAP kullanıcı adı"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "LDAP şifresi"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"Her iki test geçtikten sonra LDAP'ı etkinleştirin ve başka bir tarayıcıdan "
+"giriş yapmayı deneyin."
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -964,9 +1007,13 @@ msgstr "Erişim"
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "Sorun Giderme"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "Test"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Destek"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1002,85 +1049,213 @@ msgstr "Bu kurtarma hesabı için WordPress şifrenizi kullanın."
 msgid "License"
 msgstr "Lisans"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "Pro Al"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "Pro sürümüne geç"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
 msgstr ""
-"Lisansınızı kontrol edemedik. Pro özellikleri aktif kalır. Lisans "
-"sekmesinde tekrar deneyin."
+"Lisansınız kontrol edilemedi. Son doğrulanan planınızdaki özellikler etkin "
+"kalır. Lisans sekmesinden yeniden deneyin."
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
 msgstr ""
-"Pro lisansınız süresi dolmuş. Tek oturum açma ve özel alan güncellemeleri "
-"kapalı. Lisansınızı yenileyin, ardından Lisans sekmesinde Lisansı kontrol "
-"et'i seçin."
+"Lisansınızın süresi doldu. Ücretli özellikler kapalıdır. Lisansınızı "
+"yenileyin, ardından Lisans sekmesinden Lisansı kontrol et seçeneğini seçin."
 
-#: src/Commerce.php:70
+#: src/Commerce.php:77
 msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
 msgstr ""
-"Tek oturum açma ve özel kullanıcı alanlarını kullanmak için Lisans "
-"sekmesinde bir Pro lisansı etkinleştirin."
+"Lisans planınız doğrulanmadı. Lisans sekmesinden Lisansı kontrol et "
+"seçeneğini seçin. Plan doğrulanana kadar ücretli özellikler kapalı kalır."
 
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "Simple LDAP Login Pro"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr ""
-"Personelin daha az giriş istemi almasını sağlayın ve kullanıcı bilgilerini "
-"LDAP ile senkronize tutun."
-
-#: src/Commerce.php:89
+#: src/Commerce.php:79
 msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
 msgstr ""
-"Personelin başka bir giriş istemi olmadan WordPress'i açmasına izin verin. "
-"Kerberos veya NTLM gibi web sunucunuzda kimlik doğrulama gerektirir."
+"Ücretli özellikleri kullanmak için Lisans sekmesinden Pro veya Enterprise "
+"lisansınızı etkinleştirin."
 
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr ""
-"Telefon numaralarını, departmanları ve diğer LDAP alanlarını girişte "
-"WordPress'e kopyalayın. Bu değerleri temanızda veya diğer eklentilerde "
-"kullanın."
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "Planları görüntüle"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "Yeni bir sekmede ödeme sayfasını aç"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr ""
-"Planlar ve ödeme işlemleri PaidCommunities'i kullanır. IP adresinizi ve "
-"tarayıcı bilgilerinizi alır."
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "Yedek LDAP sunucuları"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
 msgstr ""
-"Satın alma işleminden sonra, fişinizden Pro ZIP'i yükleyin. LDAP "
-"ayarlarınız yerinde kalacaktır."
+"Bir dizin sunucusuna ulaşılamıyorsa sonraki sunucuyu deneyin. Tüm sunucular "
+"aynı dizini kullanmalıdır."
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr ""
+"Çalışanların parola girme sayısını azaltın. Kerberos, NTLM veya başka bir "
+"sunucu kimlik doğrulaması ile web sunucunuz üzerinden oturum açın."
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr ""
+"Her oturum açılışında dizin gruplarını WordPress rollerine dönüştürün. "
+"Editörlere, yazarlara ve diğer ekiplere ihtiyaç duydukları erişimi verin."
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr ""
+"Adları, e-posta adreslerini ve web sitelerini güncel tutun. Oturum "
+"açılışında dizin değerlerini mevcut WordPress profillerine kopyalayın."
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr ""
+"Telefon numaralarını, departmanları ve diğer LDAP alanlarını WordPress "
+"içinde kullanın. Temanız veya eklentileriniz için metin ve sayı alanlarını "
+"eşleyin."
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr ""
+"Hesapları ilk oturum açılışından önce hazırlayın. Grup ve dizin konumu "
+"filtreleriyle dizin kullanıcılarını her saat içe aktarın."
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"Yönetilen hesapları her saat kontrol edin. Dizin kontrolleri silinmeyi veya "
+"erişim kaybını doğruladığında erişimi askıya alın ve oturumları "
+"sonlandırın. Kullanıcı içeriğini koruyun."
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"WordPress ağınızdaki erişimi yönetin. Dizin gruplarıyla site üyeliği ve "
+"roller atayın; gruplar değiştiğinde erişimi kaldırın."
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "Denetim geçmişi ve CSV dışa aktarma"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr ""
+"Oturum açma sonuçlarını, rol değişikliklerini, içe aktarmaları ve erişim "
+"değişikliklerini tek yerde görün. Kayıt saklama süresini ayarlayın ve "
+"geçmişi CSV olarak dışa aktarın."
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro ve Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "LDAP planınızı seçin."
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro, tek oturum açma ve kullanıcı verisi güncellemelerini ekler. "
+"Enterprise, zamanlanmış hesap yönetimi, çoklu site üyelik kuralları ve "
+"denetim geçmişini ekler."
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr "Her iki plan da bir siteyi kapsar. Mevcut LDAP ayarlarınız korunur."
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — yıllık $99"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — yıllık $499"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "Tüm Free özelliklerine ek olarak:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "Pro içindeki her şeye ek olarak:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "Pro satın al"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "Enterprise edin"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "Enterprise satın al"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"Zamanlanmış görevler WordPress cron kullanır ve site trafiği veya bir "
+"sistem görevi gerektirir. Tek oturum açma için web sunucusu kimlik "
+"doğrulaması gerekir. Çoklu site kuralları ağ üzerinden etkinleştirme "
+"gerektirir."
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr ""
+"Kayıtlı lisansınızın planı kontrol edilmelidir. Pro yükleyin, ardından "
+"Lisans sekmesinden Lisansı kontrol et seçeneğini seçin."
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"Satın aldıktan sonra Free yerine makbuzunuzdaki Pro ZIP dosyasını yükleyin. "
+"Ardından Pro içindeki Lisans sekmesinden lisansınızı etkinleştirin. LDAP "
+"ayarlarınız korunur."
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"Ödeme işlemlerini PaidCommunities yürütür. IP adresinizi, tarayıcı "
+"bilgilerinizi ve ödeme sırasında girdiğiniz bilgileri alır. LDAP kimlik "
+"bilgileri ve kullanıcı kayıtları gönderilmez."
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1093,18 +1268,13 @@ msgstr ""
 "Lisans doğrulanamadı. Anahtarınızı ve bağlantınızı kontrol edin, ardından "
 "tekrar deneyin."
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "Pro lisansı"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "Satın alma fişinizden lisans anahtarını girin."
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "Etkinleştirilmedi"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "Plan doğrulanmadı"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1122,18 +1292,57 @@ msgstr "Lisans durumu"
 msgid "Active"
 msgstr "Aktif"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "PaidCommunities ile paylaşılan veriler"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Etkinleştirilmedi"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "Geçerli plan"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
 msgstr ""
-"Etkinleştirme, lisans anahtarınızı, site alan adınızı, eklenti sürümünüzü "
-"ve sunucu IP adresinizi PaidCommunities'e gönderir. Lisans kontrolleri aynı "
-"site bilgilerini gönderir."
+"Enterprise, zamanlanmış hesap içe aktarma ve erişim kaldırma, çoklu site "
+"üyelik kuralları ve CSV dışa aktarmalı denetim geçmişini ekler."
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
+msgstr ""
+"Enterprise edin, yeni bir lisans için ödeme sayfasını açar. Pro "
+"aboneliğinizi değiştirmez veya iptal etmez. Bu aboneliği PaidCommunities "
+"üzerinden ayrı olarak yönetin. Satın aldıktan sonra bu anahtarı devre dışı "
+"bırakın, Enterprise seçin ve yeni anahtarı etkinleştirin."
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "Satın alınan plan"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"Satın alma makbuzunuzdaki planı seçin. Bu seçim yalnızca bir anahtarı "
+"etkinleştirirken kullanılır. Lisans kontrolü hangi özellikleri "
+"kullanabileceğinizi doğrular."
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1150,6 +1359,17 @@ msgstr "Lisansı devre dışı bırak"
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "Lisansı kontrol et"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"Lisansları PaidCommunities yönetir. Etkinleştirme; lisans anahtarınızı, "
+"site alan adını, eklenti sürümünü ve sunucu IP adresini gönderir. Lisans "
+"kontrolleri site bilgilerini gönderir. LDAP kimlik bilgileri ve kullanıcı "
+"kayıtları gönderilmez."
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1170,18 +1390,6 @@ msgstr "Lisans hatası"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "Lisans güncellendi"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "Pro planları"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "Planlar yükleniyor…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr "Planlar yüklenemedi. Yeni bir sekmede ödeme sayfasını açın."
 
 #: src/Ldap_Client.php:440
 msgid ""

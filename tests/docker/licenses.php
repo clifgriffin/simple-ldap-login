@@ -20,13 +20,14 @@ $http = static function ( $pre, array $args, string $url ) use ( &$mode, &$reque
 		$body = array( 'id' => 'dom_dockertest', 'domain' => wp_parse_url( home_url(), PHP_URL_HOST ), 'secret' => 'docker-license-secret' );
 	} else {
 		if ( 'Bearer docker-license-secret' !== ( $args['headers']['Authorization'] ?? '' ) ) { throw new RuntimeException( 'The private SDK did not send its activation secret.' ); }
-		$body = array( 'license' => array( 'status' => $mode ) );
+		$request = json_decode( $args['body'] ?? '{}', true );
+		$body = array( 'slug' => $request['product_id'] ?? '', 'code' => 'no_release', 'license' => array( 'status' => $mode, 'limit' => 1 ) );
 	}
 	return array( 'headers' => array(), 'response' => array( 'code' => 200, 'message' => 'OK' ), 'body' => wp_json_encode( $body ), 'cookies' => array() );
 };
 add_filter( 'pre_http_request', $http, 10, 3 );
 try {
-	$check( true === $license->activate( 'docker-test-license' ) && $license->is_active(), 'The packaged SDK activates through the WordPress HTTP API.' );
+	$check( true === $license->activate( 'docker-test-license', 'enterprise' ) && $license->is_active(), 'The packaged SDK activates through the WordPress HTTP API.' );
 	if ( 'setup' === ( $args[0] ?? '' ) ) { echo "Docker test license activated.\n"; return; }
 	$user = get_user_by( 'login', 'alice' );
 	$before = $settings->all();

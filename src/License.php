@@ -14,6 +14,12 @@ final class License {
 
 	/** PaidCommunities product ID. */
 	public const PRODUCT = 'prd_9QyrKxQpvZGrcCW8';
+	/** PaidCommunities Enterprise product ID. */
+	public const ENTERPRISE_PRODUCT = 'prd_9R92jB1prxMfJR36';
+	/** Annual Pro billing plan. */
+	public const PRO_PLAN = 'plan_9R8xkMlq1nmCekmG';
+	/** Annual Enterprise billing plan. */
+	public const ENTERPRISE_PLAN = 'plan_9R937DcDDy4wMH4x';
 	/** Separate from the LDAP settings and their public compatibility API. */
 	public const OPTION = 'sll_pro_license';
 	/** Background check hook. */
@@ -64,8 +70,25 @@ final class License {
 	 * @return bool Whether Pro features can run.
 	 */
 	public function is_active(): bool {
+		return '' !== $this->plan();
+	}
+
+	/** Read verified product access without a service request. */
+	public function plan(): string {
 		$data = $this->data();
-		return 'active' === ( $data['status'] ?? '' ) && ! empty( $data['secret'] ) && ! empty( $data['domain_id'] ) && $this->site_url() === ( $data['site_url'] ?? '' );
+		if ( 'active' !== ( $data['status'] ?? '' ) || empty( $data['secret'] ) || empty( $data['domain_id'] ) || $this->site_url() !== ( $data['site_url'] ?? '' ) ) {
+			return '';
+		}
+		return match ( $data['product_id'] ?? '' ) {
+			self::PRODUCT => 'pro',
+			self::ENTERPRISE_PRODUCT => 'enterprise',
+			default => '',
+		};
+	}
+
+	/** Check the verified Enterprise product entitlement. */
+	public function is_enterprise(): bool {
+		return 'enterprise' === $this->plan();
 	}
 
 	/**
@@ -81,13 +104,15 @@ final class License {
 	/**
 	 * Activate only after an administrator submits a key.
 	 *
-	 * @param string $key License key. Never store the original key.
+	 * @param string $key  License key. Never store the original key.
+	 * @param string $plan Purchased plan used for domain registration.
 	 * @return true|WP_Error Activation result.
 	 */
-	public function activate( string $key ) {
-		if ( '' === $key || strlen( $key ) > 512 || preg_match( '/[\x00-\x20\x7f]/', $key ) ) {
+	public function activate( string $key, string $plan = 'pro' ) {
+		if ( ! in_array( $plan, array( 'pro', 'enterprise' ), true ) || '' === $key || strlen( $key ) > 512 || preg_match( '/[\x00-\x20\x7f]/', $key ) ) {
 			return $this->error();
 		}
+		$product = 'enterprise' === $plan ? self::ENTERPRISE_PRODUCT : self::PRODUCT;
 		try {
 			$client = new PaidCommunities_Client();
 			$domain = $client->domains->register(
@@ -95,7 +120,7 @@ final class License {
 					'key'        => $key,
 					'domain'     => wp_parse_url( $this->site_url(), PHP_URL_HOST ),
 					'version'    => SLL_VERSION,
-					'product_id' => self::PRODUCT,
+					'product_id' => $product,
 				)
 			);
 			if ( ! is_string( $domain->id ) || ! preg_match( '/^dom_[a-zA-Z0-9]+$/D', $domain->id ) || ! is_string( $domain->secret ) || '' === $domain->secret ) {
@@ -103,7 +128,10 @@ final class License {
 			}
 			// Registration alone does not establish the current license status.
 			$client->setSecret( $domain->secret );
-			$status = $this->status( $client );
+			$access = $this->status( $client );
+			if ( '' === $access['product_id'] ) {
+				return $this->error();
+			}
 			$secret = Secrets::encrypt( $domain->secret );
 			if ( is_wp_error( $secret ) ) {
 				return $this->error();
@@ -113,7 +141,8 @@ final class License {
 					'domain_id'  => $domain->id,
 					'secret'     => $secret,
 					'site_url'   => $this->site_url(),
-					'status'     => $status,
+					'status'     => $access['status'],
+					'product_id' => $access['product_id'],
 					'checked_at' => time(),
 					'error'      => false,
 				)
@@ -143,7 +172,9 @@ final class License {
 			if ( is_wp_error( $secret ) || '' === $secret ) {
 				return $this->error();
 			}
-			$data['status']     = $this->status( new PaidCommunities_Client( PaidCommunities_Client::PRODUCTION, $secret ) );
+			$access             = $this->status( new PaidCommunities_Client( PaidCommunities_Client::PRODUCTION, $secret ) );
+			$data['status']     = $access['status'];
+			$data['product_id'] = $access['product_id'];
 			$data['checked_at'] = time();
 			$data['error']      = false;
 			return $this->save( $data ) ? true : $this->error();
@@ -183,28 +214,36 @@ final class License {
 	 *
 	 * @param PaidCommunities_Client $client Authenticated SDK client.
 	 * @throws \RuntimeException When no valid status is returned.
-	 * @return string License status.
+	 * @return array Verified status and product entitlement.
 	 */
-	private function status( PaidCommunities_Client $client ): string {
-		$response = $client->plugins->updateCheck(
-			array(
-				'version'    => SLL_VERSION,
-				'product_id' => self::PRODUCT,
-			)
+	private function status( PaidCommunities_Client $client ): array {
+		foreach ( array( self::ENTERPRISE_PRODUCT, self::PRODUCT ) as $product ) {
+			$response = $client->plugins->updateCheck(
+				array(
+					'version'    => SLL_VERSION,
+					'product_id' => $product,
+				)
+			);
+			if ( $product !== $response->slug ) {
+				throw new \RuntimeException( 'The license product is invalid.' );
+			}
+			// An active license can still return invalid_product for this product.
+			if ( 'invalid_product' === $response->code ) {
+				continue;
+			}
+			$status = $response->license->status ?? null;
+			if ( ! in_array( $status, array( 'active', 'inactive', 'expired' ), true ) || ( 'active' === $status && ! in_array( $response->code, array( null, 'no_release' ), true ) ) ) {
+				throw new \RuntimeException( 'The license status is invalid.' );
+			}
+			return array(
+				'status'     => $status,
+				'product_id' => $product,
+			);
+		}
+		return array(
+			'status'     => 'inactive',
+			'product_id' => '',
 		);
-		$status   = $response->license->status ?? null;
-		$products = $response->license->product_ids ?? array();
-		$products = is_array( $products ) ? $products : array();
-		if ( isset( $response->license->product_id ) ) {
-			$products[] = $response->license->product_id;
-		}
-		if ( $products && ! in_array( self::PRODUCT, $products, true ) ) {
-			throw new \RuntimeException( 'The license is for another product.' );
-		}
-		if ( ! in_array( $status, array( 'active', 'inactive', 'expired' ), true ) ) {
-			throw new \RuntimeException( 'The license status is invalid.' );
-		}
-		return $status;
 	}
 
 	/**

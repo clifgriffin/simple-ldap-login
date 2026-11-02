@@ -52,7 +52,7 @@ The WordPress.org package must include the files needed to run. Its review guida
 - [ ] Test direct, nested, and primary AD groups. Test OpenLDAP `memberUid`, `member`, and `uniqueMember` groups.
 - [ ] Test an empty group list, an allowed group, a denied group, an unavailable group search, and a different group base DN.
 - [ ] Denied group checks and failed directory searches must not become a local-password bypass.
-- [ ] Test two controllers in one directory. Force the first controller to fail and test the second.
+- [ ] Test backup servers with active Pro and Enterprise licenses. Free and expired or inactive licenses must use only the first server. Preserve the full saved server list. Test password login, connection tests, SSO, and account jobs.
 - [ ] Test timeouts, no route, DNS failure, bind failure, and missing PHP LDAP support. Fail with a controlled error.
 - [ ] Test plain LDAP only under the documented legacy policy. Test STARTTLS and LDAPS with a trusted CA.
 - [ ] Test an expired certificate, a wrong hostname, and an untrusted CA. Do not continue after failed TLS.
@@ -94,9 +94,9 @@ The WordPress.org package must include the files needed to run. Its review guida
 
 ## Free package and product claims
 
-- [ ] Keep basic LDAP login, TLS, recovery, group restrictions, account creation, standard profiles, network settings, and multiple controllers free.
+- [ ] Keep basic LDAP login, TLS, recovery, group restrictions, account creation, standard profiles, network settings, and one directory server free. Require Pro or Enterprise for backup servers.
 - [ ] Exclude SSO and custom metadata feature code from reduced Free. Include those features without locks in Pro.
-- [ ] State that SSO and custom user fields require Pro, including on 1.x upgrades.
+- [ ] State that backup LDAP servers, SSO, and custom user fields require Pro, including on 1.x upgrades.
 - [ ] Exclude Pro feature code and the external self-updater from the free ZIP. An optional upgrade connection must not restrict free features or replace WordPress.org updates.
 - [ ] Keep promotion brief and within the plugin's own settings. Do not use repeated dashboard notices.
 - [ ] Document any external service and obtain the needed consent before optional data transmission.
@@ -107,10 +107,10 @@ SSO and custom user fields are Pro features. Keep their code outside the WordPre
 ## Upgrades from 1.x
 
 - [ ] Test direct 1.x-to-Free upgrades with LDAP password login, required groups, and administrator recovery.
-- [ ] Test direct 1.x-to-Pro upgrades with SSO, custom user fields, stored credentials, and custom metadata suffixes.
-- [ ] Tell sites that use SSO or custom user fields to install Pro directly. Free cannot preserve functionality whose code is absent.
+- [ ] Test direct 1.x-to-Pro upgrades with backup LDAP servers, SSO, custom user fields, stored credentials, and custom metadata suffixes.
+- [ ] Tell sites that use backup LDAP servers, SSO, or custom user fields to install Pro directly. Free cannot preserve functionality whose code is absent.
 - [ ] Preserve activation, settings scope, credentials, migration backup, and user data during replacement.
-- [ ] Verify the Free settings notice for saved SSO or metadata configuration. Do not delete those settings.
+- [ ] Verify the Free settings notice for saved backup servers, SSO, or metadata configuration. Do not delete those settings.
 - [ ] Verify that the Pro update guard rejects incomplete packages and restores the original activation scope.
 
 ## Planned Pro release
@@ -123,7 +123,7 @@ SSO and custom user fields are Pro features. Keep their code outside the WordPre
 - [ ] Verify that failed nonce and permission checks cannot clear or change local license data. Repeat this check on activation and deactivation.
 - [ ] Test new purchases, activation, site limits, site moves, staging sites, network installations, refunds, cancellation, renewal, and expiry.
 - [ ] Test invalid responses, rate limits, service outages, and stale license data.
-- [ ] Verify that confirmed expiry stops SSO and custom field updates. Keep LDAP password login, group rules, local recovery, saved settings, and user data. Verify that login never calls the license server.
+- [ ] Verify that confirmed expiry stops backup servers, SSO, and custom field updates. Keep LDAP password login, group rules, local recovery, saved settings, and user data. Verify that login never calls the license server.
 - [ ] Verify that renewal restores Pro features and that a service error keeps the last verified status. Check hourly scheduling on a live site and network.
 - [ ] Confirm that keys and update tokens are not sent in browser URLs or retained in logs.
 - [ ] Test package download authorization and ensure that a license for a different product cannot download Pro.
@@ -144,6 +144,6 @@ Service references: [EDD API](https://easydigitaldownloads.com/docs/software-lic
 - [ ] Record exact WordPress, PHP, LDAP server, and operating system versions for each result.
 - [ ] Resolve all authentication and migration failures before public release.
 - [ ] Update plugin headers, readme, stable tag, changelog, screenshots, and upgrade notice together.
-- [ ] State which features remain in Free and which need Pro for new installations. State that 1.x sites using SSO or custom user fields must install Pro directly. List security changes that can require administrator action.
+- [ ] State which features remain in Free and which need Pro for new installations. State that 1.x sites using backup LDAP servers, SSO, or custom user fields must install Pro directly. List security changes that can require administrator action.
 - [ ] Publish a recovery guide with the tested `SLL_DISABLE_LDAP` method and `sll_settings_backup_v1` backup key. Do not publish secrets or real customer settings.
 - [ ] Use the existing WordPress.org listing for the rewrite, then verify the generated package from that listing. [Plugin Developer FAQ](https://developer.wordpress.org/plugins/wordpress-org/plugin-developer-faq/)

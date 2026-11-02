@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: hi_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -144,6 +144,23 @@ msgid ""
 msgstr ""
 "हर पंक्ति में group:role प्रारूप में एक नियम लिखें। उदाहरण: Editors:editor. "
 "वर्तमान भूमिकाएँ बनाए रखने के लिए खाली छोड़ें।"
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr ""
+"Enterprise में तय समय पर खाते आयात करना, पहुँच हटाना और मल्टीसाइट सदस्यता "
+"नियम शामिल हैं। आपकी सहेजी गई सेटिंग्स बनी रहती हैं।"
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "Enterprise अपग्रेड देखें"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "Enterprise खाता सेटिंग्स"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -327,6 +344,18 @@ msgstr "REMOTE_USER मौजूद है।"
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER गायब है। वेब सर्वर कॉन्फ़िगरेशन की जांच करें।"
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr ""
+"ऑडिट इतिहास एकत्र करने, पढ़ने या निर्यात करने के लिए Enterprise लाइसेंस "
+"चाहिए। मौजूदा रिकॉर्ड बने रहते हैं।"
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "Enterprise ऑडिट सेटिंग्स"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "ऑडिट इतिहास"
@@ -365,10 +394,6 @@ msgstr ""
 "डिफ़ॉल्ट: 30। सीमा: 1 से 3650। संग्रह चालू रहने पर दैनिक कार्य पुराने "
 "रिकॉर्ड हटाता है।"
 
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr "ऑडिट इतिहास पढ़ने या निर्यात करने के लिए Pro लाइसेंस सक्रिय करें।"
-
 #: pro/src/Audit.php:229
 msgid "Export CSV"
 msgstr "CSV निर्यात करें"
@@ -404,6 +429,14 @@ msgstr "साइट ID"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "आपको इन रिकॉर्ड को निर्यात करने की अनुमति नहीं है।"
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr ""
+"इन सेटिंग्स को बदलने के लिए Enterprise लाइसेंस सक्रिय करें। आपकी सहेजी गई "
+"सेटिंग्स बनी रहती हैं।"
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -476,14 +509,14 @@ msgstr ""
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr "LDAP लॉगिन और SSO wp-config.php में SLL_DISABLE_LDAP द्वारा अक्षम हैं।"
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"आपकी सहेजी गई सेटिंग्स SSO या कस्टम उपयोगकर्ता फ़ील्ड का उपयोग करती हैं। इन "
-"सुविधाओं का उपयोग करने के लिए Simple LDAP Login Pro स्थापित करें। आपकी "
-"सेटिंग्स सुरक्षित हैं।"
+"आपकी सहेजी गई सेटिंग में बैकअप LDAP सर्वर, SSO या कस्टम उपयोगकर्ता फ़ील्ड "
+"का उपयोग होता है। इन सुविधाओं का उपयोग करने के लिए Simple LDAP Login Pro "
+"इंस्टॉल करें। आपकी सेटिंग सुरक्षित रहती हैं।"
 
 #: src/Admin.php:169
 msgid ""
@@ -515,6 +548,24 @@ msgstr "सेटिंग्स सहेजें"
 msgid "Settings on other tabs are kept."
 msgstr "अन्य टैब पर सेटिंग्स रखी जाती हैं।"
 
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr ""
+"कनेक्शन जाँचने से पहले सेटिंग्स सहेजें। जाँच में सहेजी गई सेटिंग्स का उपयोग "
+"होता है।"
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "कनेक्शन जाँचें"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "लॉगिन जाँच और अधिक जानकारी के लिए परीक्षण टैब खोलें।"
+
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP कनेक्शन"
@@ -545,9 +596,15 @@ msgstr "OpenLDAP / अन्य LDAP निर्देशिका"
 msgid "LDAP servers"
 msgstr "LDAP सर्वर"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
-msgstr "प्रति पंक्ति एक होस्टनाम या IP पता। सर्वर क्रम में आजमाए जाते हैं।"
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
+msgstr ""
+"प्रत्येक पंक्ति में एक होस्टनाम या IP पता लिखें। सक्रिय Pro या Enterprise "
+"लाइसेंस बैकअप सर्वर का उपयोग करने देता है। सक्रिय लाइसेंस के बिना केवल पहले "
+"सर्वर का उपयोग होता है।"
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -840,33 +897,6 @@ msgstr ""
 "जब WordPress प्लगइन हटाता है तो सहेजी गई सेटिंग्स और LDAP क्रेडेंशियल्स "
 "हटाएँ। उपयोगकर्ता खातों को बनाए रखें।"
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "LDAP लॉगिन का परीक्षण करें"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr ""
-"अपनी सेटिंग्स सहेजें, फिर दोनों परीक्षण चलाएँ। इस व्यवस्थापक सत्र को खुला "
-"रखें।"
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr ""
-"परीक्षण कनेक्शन, पासवर्ड और आवश्यक समूहों की जांच करते हैं। वे खाते नहीं "
-"बनाते या उपयोगकर्ताओं को साइन इन नहीं करते।"
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-"जब दोनों परीक्षण पास हो जाएँ, LDAP सक्षम करें और किसी अन्य ब्राउज़र से "
-"लॉगिन करने का प्रयास करें।"
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "पुनर्प्राप्ति"
@@ -897,21 +927,30 @@ msgstr "LDAP परीक्षण"
 msgid "Tests use saved settings."
 msgstr "परीक्षण सहेजी गई सेटिंग्स का उपयोग करते हैं।"
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. कनेक्शन का परीक्षण करें"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"अपनी सेटिंग्स सहेजें, फिर दोनों परीक्षण चलाएँ। इस व्यवस्थापक सत्र को खुला "
+"रखें।"
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"परीक्षण कनेक्शन, पासवर्ड और आवश्यक समूहों की जांच करते हैं। वे खाते नहीं "
+"बनाते या उपयोगकर्ताओं को साइन इन नहीं करते।"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "LDAP से कनेक्ट करें और खोज खाते का परीक्षण करें, यदि सेट किया गया हो।"
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "कनेक्शन का परीक्षण करें"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. लॉगिन का परीक्षण करें"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "LDAP लॉगिन का परीक्षण करें"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -924,6 +963,12 @@ msgstr "LDAP उपयोगकर्ता नाम"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "LDAP पासवर्ड"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"जब दोनों परीक्षण पास हो जाएँ, LDAP सक्षम करें और किसी अन्य ब्राउज़र से "
+"लॉगिन करने का प्रयास करें।"
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -967,9 +1012,13 @@ msgstr "पहुँच"
 msgid "Advanced"
 msgstr "उन्नत"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "समस्या निवारण"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "परीक्षण"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "सहायता"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1007,84 +1056,208 @@ msgstr "इस पुनर्प्राप्ति खाते के ल�
 msgid "License"
 msgstr "लाइसेंस"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "प्रो प्राप्त करें"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "Pro अपनाएँ"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
 msgstr ""
-"आपका लाइसेंस चेक नहीं किया जा सका। प्रो सुविधाएँ सक्रिय हैं। लाइसेंस टैब पर "
-"फिर से प्रयास करें।"
+"आपके लाइसेंस की जाँच नहीं हो सकी। आपकी पिछली सत्यापित योजना की सुविधाएँ "
+"सक्रिय रहती हैं। लाइसेंस टैब पर फिर से प्रयास करें।"
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
 msgstr ""
-"आपका प्रो लाइसेंस समाप्त हो गया है। सिंगल साइन-ऑन और कस्टम फ़ील्ड अपडेट बंद "
-"हैं। अपना लाइसेंस नवीनीकरण करें, फिर लाइसेंस टैब पर लाइसेंस जांचें का चयन "
+"आपके लाइसेंस की अवधि समाप्त हो गई है। सशुल्क सुविधाएँ बंद हैं। लाइसेंस "
+"नवीनीकृत करें, फिर लाइसेंस टैब पर लाइसेंस जाँचें चुनें।"
+
+#: src/Commerce.php:77
+msgid ""
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
+msgstr ""
+"आपकी लाइसेंस योजना सत्यापित नहीं हुई है। लाइसेंस टैब पर लाइसेंस जाँचें "
+"चुनें। योजना सत्यापित होने तक सशुल्क सुविधाएँ बंद रहती हैं।"
+
+#: src/Commerce.php:79
+msgid ""
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
+msgstr ""
+"सशुल्क सुविधाओं के लिए लाइसेंस टैब पर अपना Pro या Enterprise लाइसेंस सक्रिय "
 "करें।"
 
-#: src/Commerce.php:70
-msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
-msgstr ""
-"सिंगल साइन-ऑन और कस्टम उपयोगकर्ता फ़ील्ड का उपयोग करने के लिए लाइसेंस टैब "
-"पर प्रो लाइसेंस सक्रिय करें।"
-
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "सिंपल LDAP लॉगिन प्रो"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr ""
-"कर्मचारियों को कम लॉगिन प्रॉम्प्ट दें और LDAP के साथ उपयोगकर्ता विवरण को "
-"समन्वयित रखें।"
-
-#: src/Commerce.php:89
-msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
-msgstr ""
-"कर्मचारियों को बिना किसी अन्य लॉगिन प्रॉम्प्ट के WordPress खोलने दें। आपके "
-"वेब सर्वर पर प्रमाणीकरण की आवश्यकता है, जैसे Kerberos या NTLM।"
-
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr ""
-"लॉगिन के समय फोन नंबर, विभाग और अन्य LDAP फ़ील्ड को WordPress में कॉपी "
-"करें। अपने थीम या अन्य प्लगइन में इन मानों का उपयोग करें।"
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "योजनाएँ देखें"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "नए टैब में चेकआउट खोलें"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr ""
-"योजनाएँ और चेकआउट PaidCommunities का उपयोग करते हैं। यह आपके IP पते और "
-"ब्राउज़र विवरण प्राप्त करता है।"
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "बैकअप LDAP सर्वर"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
 msgstr ""
-"खरीद के बाद, अपनी रसीद से प्रो ZIP स्थापित करें। आपकी LDAP सेटिंग्स यथावत "
-"रहेंगी।"
+"यदि किसी डायरेक्टरी सर्वर से संपर्क नहीं हो पाता है, तो अगला सर्वर आज़माएँ। "
+"सभी सर्वर को एक ही डायरेक्टरी का उपयोग करना चाहिए।"
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr ""
+"कर्मचारियों को एक पासवर्ड संकेत कम दिखाएँ। Kerberos, NTLM या अन्य सर्वर "
+"प्रमाणीकरण से अपने वेब सर्वर के माध्यम से लॉगिन करें।"
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr ""
+"हर लॉगिन पर डायरेक्टरी समूहों के अनुसार WordPress भूमिकाएँ दें। संपादकों, "
+"लेखकों और अन्य टीमों को आवश्यक पहुँच दें।"
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr ""
+"नाम, ईमेल पते और वेबसाइट अद्यतन रखें। लॉगिन पर डायरेक्टरी मान मौजूदा "
+"WordPress प्रोफ़ाइल में कॉपी करें।"
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr ""
+"WordPress में फ़ोन नंबर, विभाग और अन्य LDAP फ़ील्ड का उपयोग करें। अपनी थीम "
+"या प्लगइन के लिए टेक्स्ट और संख्या फ़ील्ड मैप करें।"
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr ""
+"पहले लॉगिन से पहले खाते तैयार रखें। समूहों और डायरेक्टरी स्थान के फ़िल्टर "
+"के साथ हर घंटे डायरेक्टरी उपयोगकर्ता आयात करें।"
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"हर घंटे प्रबंधित खाते जाँचें। डायरेक्टरी जाँच से हटाए जाने या पहुँच खोने की "
+"पुष्टि होने पर पहुँच निलंबित करें और सत्र समाप्त करें। उपयोगकर्ता सामग्री "
+"बनाए रखें।"
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"अपने WordPress नेटवर्क में पहुँच प्रबंधित करें। डायरेक्टरी समूहों से साइट "
+"सदस्यता और भूमिकाएँ दें, फिर समूह बदलने पर पहुँच हटाएँ।"
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "ऑडिट इतिहास और CSV निर्यात"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr ""
+"लॉगिन परिणाम, भूमिका परिवर्तन, आयात और पहुँच परिवर्तन एक स्थान पर देखें। "
+"रिकॉर्ड रखने की अवधि तय करें और इतिहास CSV में निर्यात करें।"
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro और Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "अपनी LDAP योजना चुनें।"
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro में एकल साइन-ऑन और उपयोगकर्ता डेटा अपडेट मिलते हैं। Enterprise में तय "
+"समय पर खाता प्रबंधन, मल्टीसाइट सदस्यता नियम और ऑडिट इतिहास मिलते हैं।"
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr "दोनों योजनाएँ एक साइट के लिए हैं। आपकी मौजूदा LDAP सेटिंग्स बनी रहती हैं।"
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — $99/वर्ष"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — $499/वर्ष"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "Free की सभी सुविधाएँ, और:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "Pro की सभी सुविधाएँ, और:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "Pro खरीदें"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "Enterprise लें"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "Enterprise खरीदें"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"तय समय के कार्य WordPress cron का उपयोग करते हैं और उन्हें साइट ट्रैफ़िक या "
+"सिस्टम कार्य चाहिए। एकल साइन-ऑन के लिए वेब सर्वर प्रमाणीकरण चाहिए। "
+"मल्टीसाइट नियमों के लिए नेटवर्क सक्रियण चाहिए।"
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr ""
+"आपके सहेजे गए लाइसेंस की योजना जाँचनी है। Pro स्थापित करें, फिर लाइसेंस टैब "
+"पर लाइसेंस जाँचें चुनें।"
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"खरीद के बाद Free को रसीद में दिए Pro ZIP से बदलें। फिर Pro में लाइसेंस टैब "
+"पर अपना लाइसेंस सक्रिय करें। आपकी LDAP सेटिंग्स बनी रहती हैं।"
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"PaidCommunities भुगतान प्रक्रिया संभालता है। उसे आपका IP पता, ब्राउज़र "
+"विवरण और भुगतान के समय दर्ज जानकारी मिलती है। LDAP क्रेडेंशियल और "
+"उपयोगकर्ता रिकॉर्ड नहीं भेजे जाते।"
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1097,18 +1270,13 @@ msgstr ""
 "लाइसेंस की सत्यापन नहीं हो सका। अपनी कुंजी और कनेक्शन की जांच करें, फिर फिर "
 "से प्रयास करें।"
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "प्रो लाइसेंस"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "अपनी खरीद रसीद से लाइसेंस कुंजी दर्ज करें।"
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "सक्रिय नहीं किया गया"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "योजना सत्यापित नहीं है"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1126,17 +1294,57 @@ msgstr "लाइसेंस स्थिति"
 msgid "Active"
 msgstr "सक्रिय"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "PaidCommunities के साथ साझा किया गया डेटा"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "सक्रिय नहीं किया गया"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "वर्तमान योजना"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
 msgstr ""
-"सक्रियकरण आपकी लाइसेंस कुंजी, साइट डोमेन, प्लगइन संस्करण, और सर्वर IP पते "
-"को PaidCommunities पर भेजता है। लाइसेंस जांचें वही साइट विवरण भेजती हैं।"
+"Enterprise में तय समय पर खाता आयात और पहुँच हटाना, मल्टीसाइट सदस्यता नियम "
+"और CSV निर्यात सहित ऑडिट इतिहास मिलते हैं।"
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
+msgstr ""
+"Enterprise लें से नए लाइसेंस का भुगतान पृष्ठ खुलता है। इससे आपकी Pro "
+"सदस्यता बदलती या रद्द नहीं होती। PaidCommunities से उस सदस्यता को अलग से "
+"प्रबंधित करें। खरीद के बाद इस कुंजी को निष्क्रिय करें, Enterprise चुनें और "
+"नई कुंजी सक्रिय करें।"
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "खरीदी गई योजना"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"अपनी खरीद रसीद की योजना चुनें। यह विकल्प केवल कुंजी सक्रिय करते समय उपयोग "
+"होता है। लाइसेंस जाँच सत्यापित करती है कि आप कौन-सी सुविधाएँ उपयोग कर सकते "
+"हैं।"
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1153,6 +1361,16 @@ msgstr "लाइसेंस निष्क्रिय करें"
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "लाइसेंस जांचें"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"PaidCommunities लाइसेंस संभालता है। सक्रियण में आपकी लाइसेंस कुंजी, साइट "
+"डोमेन, प्लगइन संस्करण और सर्वर IP पता भेजे जाते हैं। लाइसेंस जाँच में साइट "
+"विवरण भेजे जाते हैं। LDAP क्रेडेंशियल और उपयोगकर्ता रिकॉर्ड नहीं भेजे जाते।"
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1173,18 +1391,6 @@ msgstr "लाइसेंस त्रुटि"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "लाइसेंस अपडेट किया गया"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "प्रो योजनाएँ"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "योजनाएँ लोड हो रही हैं…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr "योजनाएँ लोड नहीं की जा सकीं। नए टैब में चेकआउट खोलें।"
 
 #: src/Ldap_Client.php:440
 msgid ""

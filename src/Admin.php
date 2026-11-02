@@ -160,8 +160,8 @@ final class Admin {
 			<?php if ( $recovery ) : ?>
 				<div class="notice notice-warning inline"><p><?php esc_html_e( 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
-			<?php if ( ! defined( 'SLL_FEATURES_LOADED' ) && ( Settings::is_true( $this->settings->get( 'sso_enabled' ) ) || ! empty( $this->settings->get( 'user_meta_data' ) ) ) ) : ?>
-				<div class="notice notice-warning inline"><p><?php esc_html_e( 'Your saved settings use SSO or custom user fields. Install Simple LDAP Login Pro to use these features. Your settings are kept.', 'simple-ldap-login' ); ?></p></div>
+			<?php if ( ! defined( 'SLL_FEATURES_LOADED' ) && ( count( (array) $this->settings->get( 'domain_controllers' ) ) > 1 || Settings::is_true( $this->settings->get( 'sso_enabled' ) ) || ! empty( $this->settings->get( 'user_meta_data' ) ) ) ) : ?>
+				<div class="notice notice-warning inline"><p><?php esc_html_e( 'Your saved settings use backup LDAP servers, SSO, or custom user fields. Install Simple LDAP Login Pro to use these features. Your settings are kept.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
 			<?php if ( '' !== (string) $this->settings->get( 'sso_search_user_password' ) && is_wp_error( Secrets::decrypt( (string) $this->settings->get( 'sso_search_user_password' ) ) ) ) : ?>
 				<div class="notice notice-error inline"><p><?php esc_html_e( 'The saved LDAP search password cannot be read. Enter it again on the Connection tab.', 'simple-ldap-login' ); ?></p></div>
@@ -239,7 +239,7 @@ final class Admin {
 				'ol' => __( 'OpenLDAP / other LDAP directory', 'simple-ldap-login' ),
 			)
 		);
-		$this->textarea( 'domain_controllers', __( 'LDAP servers', 'simple-ldap-login' ), __( 'One hostname or IP address per line. Servers are tried in order.', 'simple-ldap-login' ) );
+		$this->textarea( 'domain_controllers', __( 'LDAP servers', 'simple-ldap-login' ), __( 'One hostname or IP address per line. An active Pro or Enterprise license enables backup servers. Without an active license, only the first server is used.', 'simple-ldap-login' ) );
 		$this->input( 'base_dn', __( 'Base DN', 'simple-ldap-login' ), __( 'Where to search for users. Example: DC=example,DC=org.', 'simple-ldap-login' ) );
 		$this->input( 'account_suffix', __( 'Username suffix', 'simple-ldap-login' ), __( 'Added to usernames without a domain. Example: @example.org.', 'simple-ldap-login' ) );
 		$this->input( 'login_domain', __( 'Windows domain', 'simple-ldap-login' ), __( 'Short domain name, such as EXAMPLE. Takes priority over the username suffix.', 'simple-ldap-login' ) );

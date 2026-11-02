@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -134,6 +134,21 @@ msgid ""
 "One group:role rule per line. Example: Editors:editor. Leave blank to keep "
 "current roles."
 msgstr "줄마다 group:role 형식으로 규칙 하나를 입력하세요. 예: Editors:editor. 현재 역할을 유지하려면 비워 두세요."
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr "Enterprise에는 예약된 계정 가져오기, 예약된 접근 권한 제거, 멀티사이트 회원 규칙이 포함됩니다. 저장한 설정은 유지됩니다."
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "Enterprise 업그레이드 보기"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "Enterprise 계정 설정"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -301,6 +316,16 @@ msgstr "REMOTE_USER가 존재합니다."
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER가 없습니다. 웹 서버 구성을 확인하십시오."
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr "감사 기록을 수집, 조회 또는 내보내려면 Enterprise 라이선스가 필요합니다. 기존 기록은 유지됩니다."
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "Enterprise 감사 설정"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "감사 기록"
@@ -333,10 +358,6 @@ msgid ""
 "Default: 30. Range: 1 to 3650. A daily task removes older records while "
 "collection is enabled."
 msgstr "기본값: 30. 범위: 1~3650. 수집이 켜져 있는 동안 매일 작업을 실행하여 오래된 기록을 제거합니다."
-
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr "감사 기록을 읽거나 내보내려면 Pro 라이선스를 활성화하세요."
 
 #: pro/src/Audit.php:229
 msgid "Export CSV"
@@ -371,6 +392,12 @@ msgstr "사이트 ID"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "이 기록을 내보낼 권한이 없습니다."
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr "이 설정을 변경하려면 Enterprise 라이선스를 활성화하세요. 저장한 설정은 유지됩니다."
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -436,13 +463,13 @@ msgstr "LDAP에 연결한 후 인증을 활성화하기 전에 로그인을 테�
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr "LDAP 로그인 및 SSO는 wp-config.php의 SLL_DISABLE_LDAP에 의해 비활성화되었습니다."
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"저장된 설정은 SSO 또는 사용자 정의 필드를 사용합니다. 이러한 기능을 사용하려면 Simple LDAP Login Pro를 "
-"설치하세요. 설정은 유지됩니다."
+"저장된 설정에서 백업 LDAP 서버, SSO 또는 사용자 지정 사용자 필드를 사용합니다. 이 기능을 사용하려면 Simple LDAP "
+"Login Pro를 설치하세요. 설정은 유지됩니다."
 
 #: src/Admin.php:169
 msgid ""
@@ -467,6 +494,22 @@ msgstr "설정 저장"
 #: src/Admin.php:208
 msgid "Settings on other tabs are kept."
 msgstr "다른 탭의 설정은 유지됩니다."
+
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr "연결을 확인하기 전에 설정을 저장하세요. 확인에는 저장된 설정이 사용됩니다."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "연결 확인"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "로그인 테스트와 자세한 정보는 테스트 탭을 여세요."
 
 #: src/Admin.php:223
 msgid "LDAP connection"
@@ -498,9 +541,14 @@ msgstr "OpenLDAP / 기타 LDAP 디렉토리"
 msgid "LDAP servers"
 msgstr "LDAP 서버"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
-msgstr "한 줄에 하나의 호스트 이름 또는 IP 주소. 서버는 순서대로 시도됩니다."
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
+msgstr ""
+"한 줄에 호스트 이름 또는 IP 주소를 하나씩 입력하세요. 활성 Pro 또는 Enterprise 라이선스가 있으면 백업 서버를 사용할 "
+"수 있습니다. 활성 라이선스가 없으면 첫 번째 서버만 사용합니다."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -781,27 +829,6 @@ msgid ""
 "plugin. Keep user accounts."
 msgstr "WordPress가 플러그인을 삭제할 때 저장된 설정과 LDAP 자격 증명을 삭제합니다. 사용자 계정은 유지됩니다."
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "LDAP 로그인 테스트"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr "설정을 저장한 후 두 가지 테스트를 실행하세요. 이 관리자 세션을 열어 두세요."
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr "테스트는 연결, 비밀번호 및 필요한 그룹을 확인합니다. 계정을 생성하거나 사용자를 로그인시키지 않습니다."
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr "두 가지 테스트가 모두 통과한 후 LDAP를 활성화하고 다른 브라우저에서 로그인해 보세요."
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "복구"
@@ -829,21 +856,26 @@ msgstr "LDAP 테스트"
 msgid "Tests use saved settings."
 msgstr "테스트는 저장된 설정을 사용합니다."
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. 연결 테스트"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr "설정을 저장한 후 두 가지 테스트를 실행하세요. 이 관리자 세션을 열어 두세요."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr "테스트는 연결, 비밀번호 및 필요한 그룹을 확인합니다. 계정을 생성하거나 사용자를 로그인시키지 않습니다."
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "LDAP에 연결하고 설정된 경우 검색 계정을 테스트합니다."
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "연결 테스트"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. 로그인 테스트"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "LDAP 로그인 테스트"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -856,6 +888,10 @@ msgstr "LDAP 사용자 이름"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "LDAP 비밀번호"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr "두 가지 테스트가 모두 통과한 후 LDAP를 활성화하고 다른 브라우저에서 로그인해 보세요."
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -895,9 +931,13 @@ msgstr "접근"
 msgid "Advanced"
 msgstr "고급"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "문제 해결"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "테스트"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "지원"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -929,71 +969,181 @@ msgstr "이 복구 계정에 대해 WordPress 비밀번호를 사용하세요."
 msgid "License"
 msgstr "라이센스"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "프로 구매"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "Pro로 전환"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
-msgstr "라이센스를 확인할 수 없습니다. Pro 기능은 활성 상태로 유지됩니다. 라이센스 탭에서 다시 시도하십시오."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
+msgstr "라이선스를 확인할 수 없습니다. 마지막으로 확인된 요금제의 기능은 활성 상태로 유지됩니다. 라이선스 탭에서 다시 시도하세요."
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
-msgstr ""
-"Pro 라이센스가 만료되었습니다. 싱글 사인온 및 사용자 정의 필드 업데이트가 꺼져 있습니다. 라이센스를 갱신한 후 라이센스 탭에서 "
-"라이센스 확인을 선택하십시오."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
+msgstr "라이선스가 만료되었습니다. 유료 기능이 꺼져 있습니다. 라이선스를 갱신한 다음 라이선스 탭에서 라이선스 확인을 선택하세요."
 
-#: src/Commerce.php:70
+#: src/Commerce.php:77
 msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
-msgstr "싱글 사인온 및 사용자 정의 필드를 사용하려면 라이센스 탭에서 Pro 라이센스를 활성화하십시오."
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
+msgstr "라이선스 요금제가 확인되지 않았습니다. 라이선스 탭에서 라이선스 확인을 선택하세요. 요금제가 확인될 때까지 유료 기능은 꺼져 있습니다."
 
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "Simple LDAP Login Pro"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr "직원에게 로그인 프롬프트를 줄이고 LDAP와 사용자 세부 정보를 동기화합니다."
-
-#: src/Commerce.php:89
+#: src/Commerce.php:79
 msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
-msgstr ""
-"직원이 추가 로그인 프롬프트 없이 WordPress를 열 수 있도록 합니다. Kerberos 또는 NTLM과 같은 웹 서버에서 인증이 "
-"필요합니다."
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
+msgstr "유료 기능을 사용하려면 라이선스 탭에서 Pro 또는 Enterprise 라이선스를 활성화하세요."
 
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr "전화번호, 부서 및 기타 LDAP 필드를 로그인 시 WordPress로 복사합니다. 테마나 다른 플러그인에서 이 값을 사용하세요."
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "요금제 보기"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "새 탭에서 체크아웃 열기"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr "플랜 및 체크아웃은 PaidCommunities를 사용합니다. IP 주소와 브라우저 세부 정보를 수신합니다."
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "백업 LDAP 서버"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
-msgstr "구매 후 영수증에서 Pro ZIP을 설치합니다. LDAP 설정은 그대로 유지됩니다."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
+msgstr "디렉터리 서버에 연결할 수 없으면 다음 서버를 시도합니다. 모든 서버는 같은 디렉터리를 사용해야 합니다."
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr "직원이 입력해야 하는 비밀번호를 줄이세요. Kerberos, NTLM 또는 다른 서버 인증으로 웹 서버를 통해 로그인하세요."
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr "로그인할 때마다 디렉터리 그룹에 따라 WordPress 역할을 지정하세요. 편집자, 작성자 및 다른 팀에 필요한 접근 권한을 부여하세요."
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr "이름, 이메일 주소, 웹사이트를 최신 상태로 유지하세요. 로그인 시 디렉터리 값을 기존 WordPress 프로필에 복사하세요."
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr "전화번호, 부서 및 다른 LDAP 필드를 WordPress에서 사용하세요. 테마나 플러그인에 사용할 텍스트 및 숫자 필드를 매핑하세요."
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr "첫 로그인 전에 계정을 준비하세요. 그룹 및 디렉터리 위치 필터로 디렉터리 사용자를 매시간 가져오세요."
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"관리 계정을 매시간 확인하세요. 디렉터리 확인에서 삭제 또는 접근 권한 상실이 확인되면 접근을 중지하고 세션을 종료하세요. 사용자 "
+"콘텐츠는 유지하세요."
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"WordPress 네트워크 전체의 접근 권한을 관리하세요. 디렉터리 그룹으로 사이트 회원 자격과 역할을 지정하고 그룹이 변경되면 접근 "
+"권한을 제거하세요."
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "감사 기록 및 CSV 내보내기"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr "로그인 결과, 역할 변경, 가져오기 및 접근 권한 변경을 한곳에서 확인하세요. 기록 보존 기간을 설정하고 기록을 CSV로 내보내세요."
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro 및 Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "LDAP 요금제를 선택하세요."
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro는 통합 로그인과 사용자 데이터 업데이트를 추가합니다. Enterprise는 예약된 계정 관리, 멀티사이트 회원 규칙 및 감사 "
+"기록을 추가합니다."
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr "두 요금제 모두 사이트 하나에 적용됩니다. 기존 LDAP 설정은 유지됩니다."
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — 연간 $99"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — 연간 $499"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "모든 Free 기능과 다음 기능:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "모든 Pro 기능과 다음 기능:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "Pro 구매"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "Enterprise 받기"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "Enterprise 구매"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"예약 작업은 WordPress cron을 사용하며 사이트 방문 또는 시스템 작업이 필요합니다. 통합 로그인에는 웹 서버 인증이 "
+"필요합니다. 멀티사이트 규칙에는 네트워크 활성화가 필요합니다."
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr "저장된 라이선스의 요금제를 확인해야 합니다. Pro를 설치한 다음 라이선스 탭에서 라이선스 확인을 선택하세요."
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"구매 후 Free를 영수증의 Pro ZIP으로 교체하세요. 그런 다음 Pro의 라이선스 탭에서 라이선스를 활성화하세요. LDAP 설정은 "
+"유지됩니다."
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"PaidCommunities에서 결제를 처리합니다. IP 주소, 브라우저 정보 및 결제 시 입력한 정보가 전송됩니다. LDAP 자격 "
+"증명과 사용자 기록은 전송되지 않습니다."
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1004,18 +1154,13 @@ msgstr "라이센스 상태가 업데이트되었습니다."
 msgid "Could not verify the license. Check your key and connection, then try again."
 msgstr "라이센스를 확인할 수 없습니다. 키와 연결을 확인한 후 다시 시도하십시오."
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "Pro 라이센스"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "구매 영수증에서 라이센스 키를 입력하십시오."
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "활성화되지 않음"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "요금제 미확인"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1033,17 +1178,53 @@ msgstr "라이센스 상태"
 msgid "Active"
 msgstr "활성"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "PaidCommunities와 공유되는 데이터"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "활성화되지 않음"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "현재 요금제"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
+msgstr "Enterprise는 예약된 계정 가져오기와 접근 권한 제거, 멀티사이트 회원 규칙, CSV 내보내기가 포함된 감사 기록을 추가합니다."
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
 msgstr ""
-"활성화는 라이센스 키, 사이트 도메인, 플러그인 버전 및 서버 IP 주소를 PaidCommunities에 전송합니다. 라이센스 확인은 "
-"동일한 사이트 세부 정보를 전송합니다."
+"Enterprise 받기는 새 라이선스의 결제 페이지를 엽니다. Pro 구독을 변경하거나 취소하지 않습니다. 해당 구독은 "
+"PaidCommunities에서 별도로 관리하세요. 구매 후 이 키를 비활성화하고 Enterprise를 선택한 다음 새 키를 "
+"활성화하세요."
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "구매한 요금제"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"구매 영수증에 있는 요금제를 선택하세요. 이 선택은 키를 활성화할 때만 사용됩니다. 라이선스 확인을 통해 사용할 수 있는 기능을 "
+"검증합니다."
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1060,6 +1241,15 @@ msgstr "라이센스 비활성화"
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "라이센스 확인"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"PaidCommunities에서 라이선스를 관리합니다. 활성화 시 라이선스 키, 사이트 도메인, 플러그인 버전 및 서버 IP 주소가 "
+"전송됩니다. 라이선스 확인 시 사이트 정보가 전송됩니다. LDAP 자격 증명과 사용자 기록은 전송되지 않습니다."
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1080,18 +1270,6 @@ msgstr "라이센스 오류"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "라이센스 업데이트됨"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "Pro 요금제"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "요금제 로딩 중…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr "요금제를 로드할 수 없습니다. 새 탭에서 체크아웃을 여세요."
 
 #: src/Ldap_Client.php:440
 msgid ""

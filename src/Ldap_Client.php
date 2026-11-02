@@ -123,7 +123,9 @@ class Ldap_Client {
 			return $this->error( 'sll_transport' );
 		}
 		$result = $this->error( 'sll_connection' );
-		foreach ( (array) $this->settings->get( 'domain_controllers' ) as $host ) {
+		$hosts  = array_slice( (array) $this->settings->get( 'domain_controllers' ), 0, 1 );
+		$hosts  = apply_filters( 'sll_ldap_hosts', $hosts, $this->settings );
+		foreach ( (array) $hosts as $host ) {
 			$connection = null;
 			$name       = '';
 			try {

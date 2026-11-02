@@ -150,7 +150,8 @@ $check( is_wp_error( $client->authenticate( 'alice*)(uid=*)', $password ) ), 'An
 $check( is_wp_error( $client->authenticate( 'alice', '' ) ) && is_wp_error( $client->authenticate( "alice\0other", $password ) ), 'Empty passwords and null bytes cannot authenticate.' );
 
 $save( array( 'domain_controllers' => array( '127.0.0.1:1', $host ), 'timeout' => 1 ) );
-$check( is_array( $client->authenticate( 'alice', $password ) ), 'A failed first controller falls back to the next controller.' );
+$result = $client->authenticate( 'alice', $password );
+$check( 'pro' === SLL_EDITION ? is_array( $result ) : is_wp_error( $result ), 'Only the licensed paid package uses a backup server after the primary fails.' );
 $save( array( 'domain_controllers' => array( $host, '127.0.0.1:1' ) ) );
 $result = $client->authenticate( 'alice', 'wrong-password' );
 $check( is_wp_error( $result ) && 'sll_credentials' === $result->get_error_code(), 'A credential denial is not replaced by a later controller error.' );

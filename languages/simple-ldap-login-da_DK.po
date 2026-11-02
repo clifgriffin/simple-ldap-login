@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Simple LDAP Login 2.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/simple-ldap-login\n"
-"Last-Translator: Codex\n"
+"Last-Translator: gpt-po v1.2.3\n"
 "Language-Team: da_DK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -143,6 +143,23 @@ msgid ""
 msgstr ""
 "Én regel i formatet group:role pr. linje. Eksempel: Editors:editor. Lad "
 "feltet være tomt for at beholde de nuværende roller."
+
+#: pro/src/Admin.php:108
+msgid ""
+"Enterprise includes scheduled account import, scheduled access removal, and "
+"multisite membership rules. Your saved settings are kept."
+msgstr ""
+"Enterprise omfatter planlagt import af konti, planlagt fjernelse af adgang "
+"og regler for medlemskab på multisite. Dine gemte indstillinger bevares."
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr "Se opgradering til Enterprise"
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr "Kontoindstillinger for Enterprise"
 
 #: pro/src/Admin.php:97
 msgid "Multisite membership"
@@ -327,6 +344,18 @@ msgstr "REMOTE_USER er til stede."
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr "REMOTE_USER mangler. Tjek webserverkonfigurationen."
 
+#: pro/src/Audit.php:224
+msgid ""
+"An Enterprise license is required to collect, read, or export audit "
+"history. Existing records are kept."
+msgstr ""
+"En Enterprise-licens er nødvendig for at indsamle, læse eller eksportere "
+"revisionshistorik. Eksisterende poster bevares."
+
+#: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr "Revisionsindstillinger for Enterprise"
+
 #: pro/src/Audit.php:211
 msgid "Audit history"
 msgstr "Revisionshistorik"
@@ -365,10 +394,6 @@ msgstr ""
 "Standard: 30. Interval: 1 til 3650. En daglig opgave fjerner ældre poster, "
 "mens indsamling er aktiveret."
 
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
-msgstr "Aktivér en Pro-licens for at læse eller eksportere revisionshistorikken."
-
 #: pro/src/Audit.php:229
 msgid "Export CSV"
 msgstr "Eksportér CSV"
@@ -404,6 +429,14 @@ msgstr "Websteds-id"
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
 msgstr "Du har ikke tilladelse til at eksportere disse poster."
+
+#: pro/src/Settings_Rules.php:53
+msgid ""
+"Activate an Enterprise license to change these settings. Your saved "
+"settings are kept."
+msgstr ""
+"Aktivér en Enterprise-licens for at ændre disse indstillinger. Dine gemte "
+"indstillinger bevares."
 
 #: pro/src/Settings_Rules.php:130
 msgid "A Pro setting is not valid. Check the format and role names."
@@ -474,14 +507,14 @@ msgstr ""
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr "LDAP-login og SSO er deaktiveret af SLL_DISABLE_LDAP i wp-config.php."
 
-#: src/Admin.php:163
+#: src/Admin.php:164
 msgid ""
-"Your saved settings use SSO or custom user fields. Install Simple LDAP "
-"Login Pro to use these features. Your settings are kept."
+"Your saved settings use backup LDAP servers, SSO, or custom user fields. "
+"Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
-"Dine gemte indstillinger bruger SSO eller brugerdefinerede felter. "
-"Installer Simple LDAP Login Pro for at bruge disse funktioner. Dine "
-"indstillinger bevares."
+"Dine gemte indstillinger bruger LDAP-reserveservere, SSO eller "
+"brugerdefinerede brugerfelter. Installer Simple LDAP Login Pro for at bruge "
+"disse funktioner. Dine indstillinger bevares."
 
 #: src/Admin.php:169
 msgid ""
@@ -513,6 +546,24 @@ msgstr "Gem indstillinger"
 msgid "Settings on other tabs are kept."
 msgstr "Indstillinger på andre faner bevares."
 
+#: src/Admin.php:215
+msgid ""
+"Save settings before you check the connection. The check uses saved "
+"settings."
+msgstr ""
+"Gem indstillingerne, før du tjekker forbindelsen. Tjekket bruger de gemte "
+"indstillinger."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Tjek forbindelse"
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr "Åbn fanen Test for at teste login og få flere oplysninger."
+
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP-forbindelse"
@@ -543,9 +594,15 @@ msgstr "OpenLDAP / andet LDAP-katalog"
 msgid "LDAP servers"
 msgstr "LDAP-servere"
 
-#: src/Admin.php:233
-msgid "One hostname or IP address per line. Servers are tried in order."
-msgstr "Én vært eller IP-adresse pr. linje. Servere prøves i rækkefølge."
+#: src/Admin.php:242
+msgid ""
+"One hostname or IP address per line. An active Pro or Enterprise license "
+"enables backup servers. Without an active license, only the first server is "
+"used."
+msgstr ""
+"Et værtsnavn eller en IP-adresse pr. linje. En aktiv Pro- eller "
+"Enterprise-licens giver adgang til reserveservere. Uden en aktiv licens "
+"bruges kun den første server."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -834,33 +891,6 @@ msgstr ""
 "Slet gemte indstillinger og LDAP legitimationsoplysninger, når WordPress "
 "sletter plugin. Behold brugerkonti."
 
-#: src/Admin.php:346
-#: src/Admin.php:382
-msgid "Test LDAP login"
-msgstr "Test LDAP login"
-
-#: src/Admin.php:346
-msgid ""
-"Save your settings, then run both tests. Keep this administrator session "
-"open."
-msgstr ""
-"Gem dine indstillinger, og kør derefter begge tests. Hold denne "
-"administrator session åben."
-
-#: src/Admin.php:348
-msgid ""
-"Tests check the connection, password, and required groups. They do not "
-"create accounts or sign users in."
-msgstr ""
-"Tests kontrollerer forbindelsen, adgangskoden og de krævede grupper. De "
-"opretter ikke konti eller logger brugere ind."
-
-#: src/Admin.php:349
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-"Når begge tests er bestået, aktiver LDAP og prøv at logge ind fra en anden "
-"browser."
-
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Gendannelse"
@@ -891,21 +921,30 @@ msgstr "LDAP tests"
 msgid "Tests use saved settings."
 msgstr "Tests bruger gemte indstillinger."
 
-#: src/Admin.php:372
-msgid "1. Test connection"
-msgstr "1. Test forbindelse"
+#: src/Admin.php:346
+msgid ""
+"Save your settings, then run both tests. Keep this administrator session "
+"open."
+msgstr ""
+"Gem dine indstillinger, og kør derefter begge tests. Hold denne "
+"administrator session åben."
+
+#: src/Admin.php:348
+msgid ""
+"Tests check the connection, password, and required groups. They do not "
+"create accounts or sign users in."
+msgstr ""
+"Tests kontrollerer forbindelsen, adgangskoden og de krævede grupper. De "
+"opretter ikke konti eller logger brugere ind."
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."
 msgstr "Forbind til LDAP og test søgekontoen, hvis den er indstillet."
 
-#: src/Admin.php:374
-msgid "Test connection"
-msgstr "Test forbindelse"
-
-#: src/Admin.php:378
-msgid "2. Test login"
-msgstr "2. Test login"
+#: src/Admin.php:346
+#: src/Admin.php:382
+msgid "Test LDAP login"
+msgstr "Test LDAP login"
 
 #: src/Admin.php:379
 msgid "Check an LDAP username, password, and group membership."
@@ -918,6 +957,12 @@ msgstr "LDAP brugernavn"
 #: src/Admin.php:381
 msgid "LDAP password"
 msgstr "LDAP adgangskode"
+
+#: src/Admin.php:349
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+"Når begge tests er bestået, aktiver LDAP og prøv at logge ind fra en anden "
+"browser."
 
 #: src/Admin.php:537
 msgid "Settings saved."
@@ -961,9 +1006,13 @@ msgstr "Adgang"
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: src/Admin.php:589
-msgid "Troubleshooting"
-msgstr "Fejlfinding"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr "Test"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1001,84 +1050,213 @@ msgstr "Brug din WordPress adgangskode til denne gendannelseskonto."
 msgid "License"
 msgstr "Licens"
 
-#: src/Commerce.php:51
-msgid "Get Pro"
-msgstr "Få Pro"
+#: src/Commerce.php:58
+msgid "Go Pro"
+msgstr "Skift til Pro"
 
-#: src/Commerce.php:66
+#: src/Commerce.php:73
 msgid ""
-"Could not check your license. Pro features remain active. Try again on the "
-"License tab."
+"Could not check your license. Features in your last verified plan remain "
+"active. Try again on the License tab."
 msgstr ""
-"Kunne ikke kontrollere din licens. Pro-funktioner forbliver aktive. Prøv "
-"igen på Licensfanen."
+"Din licens kunne ikke tjekkes. Funktionerne i din senest bekræftede plan "
+"forbliver aktive. Prøv igen på fanen Licens."
 
-#: src/Commerce.php:68
+#: src/Commerce.php:75
 msgid ""
-"Your Pro license has expired. Single sign-on and custom field updates are "
-"off. Renew your license, then select Check license on the License tab."
+"Your license has expired. Paid features are off. Renew your license, then "
+"select Check license on the License tab."
 msgstr ""
-"Din Pro-licens er udløbet. Enkeltlogon og opdateringer af brugerdefinerede "
-"felter er slået fra. Forny din licens, og vælg derefter Tjek licens på "
-"Licensfanen."
+"Din licens er udløbet. Betalte funktioner er slået fra. Forny din licens, "
+"og vælg derefter Tjek licens på fanen Licens."
 
-#: src/Commerce.php:70
+#: src/Commerce.php:77
 msgid ""
-"Activate a Pro license on the License tab to use single sign-on and custom "
-"user fields."
+"Your license plan has not been verified. Select Check license on the "
+"License tab. Paid features stay off until the plan is verified."
 msgstr ""
-"Aktivér en Pro-licens på Licensfanen for at bruge enkeltlogon og "
-"brugerdefinerede felter."
+"Din licensplan er ikke blevet bekræftet. Vælg Tjek licens på fanen Licens. "
+"Betalte funktioner forbliver slået fra, indtil planen er bekræftet."
 
-#: src/Commerce.php:86
-msgid "Simple LDAP Login Pro"
-msgstr "Simple LDAP Login Pro"
-
-#: src/Commerce.php:86
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
-msgstr ""
-"Giv personalet færre login-prompt og hold brugeroplysninger synkroniseret "
-"med LDAP."
-
-#: src/Commerce.php:89
+#: src/Commerce.php:79
 msgid ""
-"Let staff open WordPress without another login prompt. Requires "
-"authentication on your web server, such as Kerberos or NTLM."
+"Activate your Pro or Enterprise license on the License tab to use paid "
+"features."
 msgstr ""
-"Lad personalet åbne WordPress uden en anden login-prompt. Kræver "
-"godkendelse på din webserver, såsom Kerberos eller NTLM."
+"Aktivér din Pro- eller Enterprise-licens på fanen Licens for at bruge "
+"betalte funktioner."
 
-#: src/Commerce.php:91
-msgid ""
-"Copy phone numbers, departments, and other LDAP fields to WordPress at "
-"login. Use these values in your theme or other plugins."
-msgstr ""
-"Kopier telefonnumre, afdelinger og andre LDAP-felter til WordPress ved "
-"login. Brug disse værdier i dit tema eller andre plugins."
-
-#: src/Commerce.php:89
-msgid "View plans"
-msgstr "Se planer"
-
-#: src/Commerce.php:89
-msgid "Open checkout in a new tab"
-msgstr "Åbn checkout i en ny fane"
-
-#: src/Commerce.php:96
-msgid ""
-"Plans and checkout use PaidCommunities. It receives your IP address and "
-"browser details."
-msgstr ""
-"Planer og checkout bruger PaidCommunities. Det modtager din IP-adresse og "
-"browseroplysninger."
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
+msgstr "LDAP-reserveservere"
 
 #: src/Commerce.php:100
 msgid ""
-"After purchase, install the Pro ZIP from your receipt. Your LDAP settings "
-"will stay in place."
+"Try the next server if a directory server cannot be reached. All servers "
+"must use the same directory."
 msgstr ""
-"Efter køb, installer Pro ZIP fra din kvittering. Dine LDAP-indstillinger "
-"forbliver på plads."
+"Prøv den næste server, hvis en katalogserver ikke kan nås. Alle servere "
+"skal bruge det samme katalog."
+
+#: src/Commerce.php:100
+msgid ""
+"Give staff one less password prompt. Sign in through your web server with "
+"Kerberos, NTLM, or other server authentication."
+msgstr ""
+"Giv medarbejderne én adgangskode mindre at indtaste. Log ind gennem din "
+"webserver med Kerberos, NTLM eller anden servergodkendelse."
+
+#: src/Commerce.php:105
+msgid ""
+"Turn directory groups into WordPress roles at each login. Give editors, "
+"authors, and other teams the access they need."
+msgstr ""
+"Omsæt kataloggrupper til WordPress-roller ved hvert login. Giv redaktører, "
+"forfattere og andre teams den adgang, de har brug for."
+
+#: src/Commerce.php:110
+msgid ""
+"Keep names, email addresses, and websites current. Copy directory values to "
+"existing WordPress profiles at login."
+msgstr ""
+"Hold navne, e-mailadresser og websteder opdaterede. Kopiér katalogværdier "
+"til eksisterende WordPress-profiler ved login."
+
+#: src/Commerce.php:115
+msgid ""
+"Put phone numbers, departments, and other LDAP fields to work in WordPress. "
+"Map text and number fields for your theme or plugins."
+msgstr ""
+"Brug telefonnumre, afdelinger og andre LDAP-felter i WordPress. Tilknyt "
+"tekst- og talfelter til dit tema eller dine plugins."
+
+#: src/Commerce.php:120
+msgid ""
+"Have accounts ready before the first login. Import directory users each "
+"hour, with filters for groups and directory location."
+msgstr ""
+"Hav konti klar før første login. Importér katalogbrugere hver time med "
+"filtre for grupper og placering i kataloget."
+
+#: src/Commerce.php:125
+msgid ""
+"Check managed accounts each hour. Suspend access and end sessions when "
+"directory checks confirm removal or lost access. Keep user content."
+msgstr ""
+"Tjek administrerede konti hver time. Suspendér adgang og afslut sessioner, "
+"når katalogtjek bekræfter fjernelse eller mistet adgang. Bevar brugernes "
+"indhold."
+
+#: src/Commerce.php:130
+msgid ""
+"Manage access across your WordPress network. Use directory groups to assign "
+"site membership and roles, then remove access when groups change."
+msgstr ""
+"Administrér adgang på tværs af dit WordPress-netværk. Brug kataloggrupper "
+"til at tildele medlemskab og roller på websteder, og fjern derefter adgang, "
+"når grupperne ændres."
+
+#: src/Commerce.php:134
+msgid "Audit history and CSV export"
+msgstr "Revisionshistorik og CSV-eksport"
+
+#: src/Commerce.php:135
+msgid ""
+"See login results, role changes, imports, and access changes in one place. "
+"Set record retention and export the history to CSV."
+msgstr ""
+"Se loginresultater, rolleændringer, importer og adgangsændringer ét sted. "
+"Angiv opbevaring af poster, og eksportér historikken til CSV."
+
+#: src/Commerce.php:141
+msgid "Simple LDAP Login Pro and Enterprise"
+msgstr "Simple LDAP Login Pro og Enterprise"
+
+#: src/Commerce.php:142
+msgid "Choose your LDAP plan."
+msgstr "Vælg din LDAP-plan."
+
+#: src/Commerce.php:143
+msgid ""
+"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
+"account management, multisite membership rules, and audit history."
+msgstr ""
+"Pro tilføjer single sign-on og opdatering af brugerdata. Enterprise "
+"tilføjer planlagt kontoadministration, regler for medlemskab på multisite "
+"og revisionshistorik."
+
+#: src/Commerce.php:144
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr ""
+"Begge planer dækker ét websted. Dine eksisterende LDAP-indstillinger "
+"bevares."
+
+#: src/Commerce.php:148
+msgid "Pro — $99/year"
+msgstr "Pro — $99/år"
+
+#: src/Commerce.php:149
+msgid "Enterprise — $499/year"
+msgstr "Enterprise — $499/år"
+
+#: src/Commerce.php:154
+msgid "All Free features, plus:"
+msgstr "Alle funktioner i Free samt:"
+
+#: src/Commerce.php:154
+msgid "Everything in Pro, plus:"
+msgstr "Alt i Pro samt:"
+
+#: src/Commerce.php:168
+msgid "Buy Pro"
+msgstr "Køb Pro"
+
+#: src/Commerce.php:168
+#: src/Commerce.php:201
+msgid "Get Enterprise"
+msgstr "Få Enterprise"
+
+#: src/Commerce.php:168
+msgid "Buy Enterprise"
+msgstr "Køb Enterprise"
+
+#: src/Commerce.php:171
+msgid ""
+"Scheduled tasks use WordPress cron and need site traffic or a system task. "
+"Single sign-on requires web server authentication. Multisite rules require "
+"network activation."
+msgstr ""
+"Planlagte opgaver bruger WordPress cron og kræver trafik på webstedet eller "
+"en systemopgave. Single sign-on kræver godkendelse på webserveren. "
+"Multisite-regler kræver netværksaktivering."
+
+#: src/Commerce.php:174
+msgid ""
+"Your saved license needs a plan check. Install Pro, then select Check "
+"license on the License tab."
+msgstr ""
+"Din gemte licens kræver et plantjek. Installér Pro, og vælg derefter Tjek "
+"licens på fanen Licens."
+
+#: src/Commerce.php:176
+msgid ""
+"After purchase, replace Free with the Pro ZIP from your receipt. Then "
+"activate your license on the License tab in Pro. Your LDAP settings stay in "
+"place."
+msgstr ""
+"Efter købet skal du erstatte Free med Pro ZIP-filen fra din kvittering. "
+"Aktivér derefter din licens på fanen Licens i Pro. Dine LDAP-indstillinger "
+"bevares."
+
+#: src/Commerce.php:177
+msgid ""
+"PaidCommunities handles checkout. It receives your IP address, browser "
+"details, and the information you enter at checkout. LDAP credentials and "
+"user records are not sent."
+msgstr ""
+"PaidCommunities håndterer betaling. Tjenesten modtager din IP-adresse, "
+"browseroplysninger og de oplysninger, du indtaster ved betaling. "
+"LDAP-legitimationsoplysninger og brugerposter sendes ikke."
 
 #: pro/src/Admin.php:89
 msgid "License status updated."
@@ -1089,18 +1267,13 @@ msgstr "Licensstatus opdateret."
 msgid "Could not verify the license. Check your key and connection, then try again."
 msgstr "Kunne ikke verificere licensen. Tjek din nøgle og forbindelse, og prøv igen."
 
-#: pro/src/Admin.php:92
-msgid "Pro license"
-msgstr "Pro-licens"
-
 #: src/Commerce.php:111
 msgid "Enter the license key from your purchase receipt."
 msgstr "Indtast licensnøglen fra din købsbevis."
 
-#: pro/src/Admin.php:94
-#: pro/src/Admin.php:99
-msgid "Not activated"
-msgstr "Ikke aktiveret"
+#: src/Commerce.php:190
+msgid "Plan not verified"
+msgstr "Plan ikke bekræftet"
 
 #: pro/src/Admin.php:95
 msgid "Expired"
@@ -1118,18 +1291,56 @@ msgstr "Licensstatus"
 msgid "Active"
 msgstr "Aktiv"
 
-#: src/Commerce.php:120
-msgid "Data shared with PaidCommunities"
-msgstr "Data delt med PaidCommunities"
+#: pro/src/Admin.php:94
+#: pro/src/Admin.php:99
+msgid "Not activated"
+msgstr "Ikke aktiveret"
 
-#: src/Commerce.php:121
+#: src/Commerce.php:197
+msgid "Current plan"
+msgstr "Aktuel plan"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:209
+msgid "Enterprise"
+msgstr "Enterprise"
+
+#: src/Commerce.php:197
+#: src/Commerce.php:208
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Commerce.php:199
 msgid ""
-"Activation sends your license key, site domain, plugin version, and server "
-"IP address to PaidCommunities. License checks send the same site details."
+"Enterprise adds scheduled account import and access removal, multisite "
+"membership rules, and audit history with CSV export."
 msgstr ""
-"Aktivering sender din licensnøgle, webstedsdomæne, plugin-version og "
-"serverens IP-adresse til PaidCommunities. Licenskontroller sender de samme "
-"webstedsoplysninger."
+"Enterprise tilføjer planlagt import af konti og fjernelse af adgang, regler "
+"for medlemskab på multisite og revisionshistorik med CSV-eksport."
+
+#: src/Commerce.php:200
+msgid ""
+"Get Enterprise opens checkout for a new license. It does not change or "
+"cancel your Pro subscription. Manage that subscription separately through "
+"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
+"and activate the new key."
+msgstr ""
+"Få Enterprise åbner betaling for en ny licens. Det ændrer eller opsiger "
+"ikke dit Pro-abonnement. Administrér det abonnement separat gennem "
+"PaidCommunities. Efter købet skal du deaktivere denne nøgle, vælge "
+"Enterprise og aktivere den nye nøgle."
+
+#: src/Commerce.php:205
+msgid "Purchased plan"
+msgstr "Købt plan"
+
+#: src/Commerce.php:211
+msgid ""
+"Choose the plan on your purchase receipt. This choice is used only when "
+"activating a key. A license check verifies which features you can use."
+msgstr ""
+"Vælg planen på din købskvittering. Dette valg bruges kun, når en nøgle "
+"aktiveres. Et licenstjek bekræfter, hvilke funktioner du kan bruge."
 
 #: pro/src/Admin.php:107
 msgid "License key"
@@ -1146,6 +1357,17 @@ msgstr "Deaktiver licens"
 #: pro/src/Admin.php:113
 msgid "Check license"
 msgstr "Tjek licens"
+
+#: src/Commerce.php:239
+msgid ""
+"PaidCommunities handles licenses. Activation sends your license key, site "
+"domain, plugin version, and server IP address. License checks send site "
+"details. LDAP credentials and user records are not sent."
+msgstr ""
+"PaidCommunities håndterer licenser. Aktivering sender din licensnøgle, "
+"webstedsdomæne, pluginversion og serverens IP-adresse. Licenstjek sender "
+"webstedsoplysninger. LDAP-legitimationsoplysninger og brugerposter sendes "
+"ikke."
 
 #: pro/src/Admin.php:144
 msgid "Select a license action."
@@ -1166,18 +1388,6 @@ msgstr "Licensfejl"
 #: src/Commerce.php:252
 msgid "License updated"
 msgstr "Licens opdateret"
-
-#: src/Commerce.php:254
-msgid "Pro plans"
-msgstr "Pro planer"
-
-#: src/Commerce.php:255
-msgid "Loading plans…"
-msgstr "Indlæser planer…"
-
-#: src/Commerce.php:256
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr "Kunne ikke indlæse planer. Åbn checkout i en ny fane."
 
 #: src/Ldap_Client.php:440
 msgid ""

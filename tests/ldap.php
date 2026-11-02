@@ -46,6 +46,9 @@ class Sll_Recording_Ldap extends LdapFake {
 trait Sll_Fake_Connection {
 	protected function create_connection( array $configuration ): Connection {
 		$GLOBALS['sll_test_ldap']['configurations'][] = $configuration;
+		if ( in_array( $configuration['hosts'][0], $GLOBALS['sll_test_ldap']['unavailable'] ?? array(), true ) ) {
+			throw new ConnectionException( 'The test server is unavailable.' );
+		}
 		$transport = new Sll_Recording_Ldap();
 		foreach ( $GLOBALS['sll_test_ldap']['bind_results'] as $bound ) {
 			$transport->expect( LdapFake::operation( 'bind' )->once()->andReturnResponse( $bound ? 0 : 49 ) );
@@ -62,10 +65,11 @@ function sll_ldap_setup( array $changes = array(), bool $pro = true ): Ldap_Clie
 	$GLOBALS['sll_test_filters'] = array();
 	$GLOBALS['sll_test_network'] = false;
 	$GLOBALS['sll_test_options'] = array( 'sll_settings' => array_replace( Settings::defaults(), array( 'directory' => 'ol', 'base_dn' => 'dc=example,dc=com', 'domain_controllers' => array( 'ldap.example.com' ) ), $changes ) );
-	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => \home_url() );
+	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'product_id' => \SimpleLdapLogin\License::ENTERPRISE_PRODUCT, 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => \home_url() );
 	$GLOBALS['sll_test_ldap'] = array( 'uris' => array(), 'options' => array(), 'configurations' => array(), 'tls' => true, 'certificate' => true, 'binds' => array(), 'bind_results' => array(), 'searches' => array(), 'responses' => array(), 'closed' => 0 );
 	$settings = new Settings();
 	if ( $pro ) {
+		add_filter( 'sll_ldap_hosts', array( Pro\Ldap_Client::class, 'hosts' ), 10, 2 );
 		( new Pro\Metadata( $settings ) )->register();
 		return new Sll_Pro_Ldap_Client( $settings );
 	}
@@ -131,6 +135,32 @@ $client = sll_ldap_setup( array( 'sso_enabled' => true, 'user_meta_data' => arra
 $GLOBALS['sll_test_ldap']['responses'][] = sll_entries( array( 'dn' => 'uid=alice,dc=example,dc=com' ) );
 $result = $client->authenticate( 'alice', 'secret' );
 \check( is_array( $result ) && ! method_exists( $client, 'authenticate_sso' ) && ! in_array( '*', $GLOBALS['sll_test_ldap']['searches'][0]['attributes'], true ) && ! in_array( 'telephonenumber', array_map( 'strtolower', $GLOBALS['sll_test_ldap']['searches'][0]['attributes'] ), true ), 'The free LDAP client has no SSO method and does not request custom metadata attributes.' );
+
+$hosts = array( 'primary.example.com', 'backup.example.com' );
+$client = sll_ldap_setup( array( 'domain_controllers' => $hosts ), false );
+$GLOBALS['sll_test_ldap']['unavailable'] = array( $hosts[0] );
+\check( \is_wp_error( $client->authenticate( 'alice', 'secret' ) ) && 1 === count( $GLOBALS['sll_test_ldap']['configurations'] ), 'Free uses only the primary server even with a retained active license.' );
+\check( $hosts === ( new Settings() )->get( 'domain_controllers' ), 'Free keeps the saved backup server addresses.' );
+
+foreach ( array( License::PRODUCT => 'active', License::ENTERPRISE_PRODUCT => 'active', 'expired' => 'expired', 'inactive' => 'inactive', 'unknown' => 'active', 'missing' => '' ) as $product => $status ) {
+	foreach ( array( 'login', 'connection test' ) as $operation ) {
+		// Password login uses the shared client even in the paid package.
+		$client = sll_ldap_setup( array( 'domain_controllers' => $hosts ), false );
+		add_filter( 'sll_ldap_hosts', array( Pro\Ldap_Client::class, 'hosts' ), 10, 2 );
+		$GLOBALS['sll_test_options'][ License::OPTION ]['product_id'] = $product;
+		$GLOBALS['sll_test_options'][ License::OPTION ]['status'] = $status;
+		$GLOBALS['sll_test_ldap']['unavailable'] = array( $hosts[0] );
+		$GLOBALS['sll_test_ldap']['responses'][] = sll_entries( array( 'dn' => 'uid=alice,dc=example,dc=com' ) );
+		$licensed = in_array( $product, array( License::PRODUCT, License::ENTERPRISE_PRODUCT ), true );
+		$result = 'login' === $operation ? $client->authenticate( 'alice', 'secret' ) : $client->test_connection();
+		\check( $licensed === ! \is_wp_error( $result ) && ( $licensed ? 2 : 1 ) === count( $GLOBALS['sll_test_ldap']['configurations'] ), 'Backup servers require an active Pro or Enterprise license during ' . $operation . ': ' . $product . '.' );
+		$settings = new Settings();
+		\check( true === $settings->save( array( 'timeout' => 6 ) ) && $hosts === $settings->get( 'domain_controllers' ), 'Saving settings keeps backup servers for ' . $product . '.' );
+	}
+}
+$client = sll_ldap_setup( array( 'domain_controllers' => $hosts ) );
+$GLOBALS['sll_test_ldap']['bind_results'] = array( false );
+\check( 'sll_credentials' === $client->authenticate( 'alice', 'wrong-password' )->get_error_code() && 1 === count( $GLOBALS['sll_test_ldap']['configurations'] ), 'An active paid license does not retry rejected credentials on a backup server.' );
 
 $client = sll_ldap_setup( array( 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) );
 $GLOBALS['sll_test_ldap']['responses'][] = sll_entries( array( 'dn' => 'uid=alice,dc=example,dc=com' ) );

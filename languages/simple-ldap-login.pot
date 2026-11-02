@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-30T19:52:33+00:00\n"
+"POT-Creation-Date: 2026-11-02T16:13:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
@@ -46,267 +46,293 @@ msgstr ""
 msgid "Your directory account is suspended. Contact your site administrator."
 msgstr ""
 
-#: pro/src/Accounts.php:249
+#: pro/src/Accounts.php:252
 msgid "The directory identity has changed. Contact your site administrator."
 msgstr ""
 
-#: pro/src/Admin.php:57
+#: pro/src/Admin.php:59
 msgid "User data"
 msgstr ""
 
-#: pro/src/Admin.php:58
+#: pro/src/Admin.php:60
 msgid "Single sign-on"
 msgstr ""
 
-#: pro/src/Admin.php:59
+#: pro/src/Admin.php:61
 msgid "Accounts"
 msgstr ""
 
-#: pro/src/Admin.php:60
+#: pro/src/Admin.php:62
 msgid "Audit"
 msgstr ""
 
-#: pro/src/Admin.php:70
+#: pro/src/Admin.php:72
+#: src/Commerce.php:114
 msgid "Profile updates"
 msgstr ""
 
-#: pro/src/Admin.php:70
+#: pro/src/Admin.php:72
 msgid "Copy standard LDAP profile fields to existing WordPress accounts at login. Recovery accounts and super administrators are excluded."
 msgstr ""
 
-#: pro/src/Admin.php:71
+#: pro/src/Admin.php:73
 msgid "Update profiles at login"
 msgstr ""
 
-#: pro/src/Admin.php:71
+#: pro/src/Admin.php:73
 msgid "Replace names, email, and website with directory values. Empty directory values clear the field. A missing or invalid email stops the update."
 msgstr ""
 
-#: pro/src/Admin.php:73
-#: src/Commerce.php:96
+#: pro/src/Admin.php:75
+#: src/Commerce.php:119
 msgid "Custom user fields"
 msgstr ""
 
-#: pro/src/Admin.php:73
+#: pro/src/Admin.php:75
 msgid "Copy LDAP fields, such as phone number or department, to WordPress at login. Your theme or other plugins can use these values."
 msgstr ""
 
 #. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#: pro/src/Admin.php:75
+#: pro/src/Admin.php:77
 #: src/Settings.php:584
 msgid "Field mappings"
 msgstr ""
 
 #. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#: pro/src/Admin.php:75
+#: pro/src/Admin.php:77
 #, php-format
 msgid "One mapping per line: LDAP attribute:WordPress meta key:type. Example: %1$s. Types: %2$s or %3$s."
 msgstr ""
 
-#: pro/src/Admin.php:85
+#: pro/src/Admin.php:87
+#: src/Commerce.php:109
 msgid "Group roles"
 msgstr ""
 
-#: pro/src/Admin.php:85
+#: pro/src/Admin.php:87
 msgid "Set the WordPress role from LDAP groups at each login. The first matching rule applies. If no rule matches, use the default role. Recovery accounts and super administrators are excluded."
 msgstr ""
 
-#: pro/src/Admin.php:86
+#: pro/src/Admin.php:88
 msgid "Group-to-role rules"
 msgstr ""
 
-#: pro/src/Admin.php:86
+#: pro/src/Admin.php:88
 msgid "One group:role rule per line. Example: Editors:editor. Leave blank to keep current roles."
 msgstr ""
 
-#: pro/src/Admin.php:97
+#: pro/src/Admin.php:108
+msgid "Enterprise includes scheduled account import, scheduled access removal, and multisite membership rules. Your saved settings are kept."
+msgstr ""
+
+#: pro/src/Admin.php:108
+#: pro/src/Audit.php:224
+msgid "View Enterprise upgrade"
+msgstr ""
+
+#: pro/src/Admin.php:113
+msgid "Enterprise account settings"
+msgstr ""
+
+#: pro/src/Admin.php:116
+#: src/Commerce.php:134
 msgid "Multisite membership"
 msgstr ""
 
-#: pro/src/Admin.php:97
+#: pro/src/Admin.php:116
 msgid "Assign site membership and roles from directory groups. The first matching rule for each site applies. These rules replace the group role rules for network activation."
 msgstr ""
 
-#: pro/src/Admin.php:98
+#: pro/src/Admin.php:117
 msgid "Group-to-site rules"
 msgstr ""
 
-#: pro/src/Admin.php:98
+#: pro/src/Admin.php:117
 msgid "One group:site ID:role rule per line. Example: Editors:2:editor. On group removal, restore prior membership or remove a membership created by these rules. Manual role changes are kept on removal. Leave blank to stop membership updates."
 msgstr ""
 
-#: pro/src/Admin.php:101
+#: pro/src/Admin.php:120
+#: src/Commerce.php:124
 msgid "Scheduled account import"
 msgstr ""
 
-#: pro/src/Admin.php:101
+#: pro/src/Admin.php:120
 msgid "Import directory accounts once per hour through WordPress scheduled tasks. Set a search account on Connection. Site traffic or a system task must run WordPress cron."
 msgstr ""
 
-#: pro/src/Admin.php:102
+#: pro/src/Admin.php:121
 msgid "Enable scheduled import"
 msgstr ""
 
-#: pro/src/Admin.php:102
+#: pro/src/Admin.php:121
 msgid "Create accounts without a first login. Existing local accounts are excluded. No user session is created."
 msgstr ""
 
-#: pro/src/Admin.php:103
+#: pro/src/Admin.php:122
 msgid "Import Base DN"
 msgstr ""
 
-#: pro/src/Admin.php:103
+#: pro/src/Admin.php:122
 msgid "Leave blank to use the connection Base DN."
 msgstr ""
 
-#: pro/src/Admin.php:104
+#: pro/src/Admin.php:123
 msgid "Import groups"
 msgstr ""
 
-#: pro/src/Admin.php:104
+#: pro/src/Admin.php:123
 msgid "One group per line. Import users in at least one group. Leave blank to import all users below the Import Base DN. Login group restrictions also apply."
 msgstr ""
 
-#: pro/src/Admin.php:106
+#: pro/src/Admin.php:125
+#: src/Commerce.php:129
 msgid "Scheduled access removal"
 msgstr ""
 
-#: pro/src/Admin.php:106
+#: pro/src/Admin.php:125
 msgid "Check managed directory accounts once per hour. A confirmed missing account, disabled AD account, changed directory identity, or failed login group rule suspends access and ends all WordPress sessions. Connection errors keep the current access state."
 msgstr ""
 
-#: pro/src/Admin.php:107
+#: pro/src/Admin.php:126
 msgid "Enable scheduled access removal"
 msgstr ""
 
-#: pro/src/Admin.php:107
+#: pro/src/Admin.php:126
 msgid "Keep user data and content. Restore access after a later successful directory check. Recovery accounts and super administrators are excluded. Existing suspensions remain if the task or license stops."
 msgstr ""
 
-#: pro/src/Admin.php:117
+#: pro/src/Admin.php:139
 msgid "Custom field storage"
 msgstr ""
 
-#: pro/src/Admin.php:117
+#: pro/src/Admin.php:139
 msgid "Leave the defaults unless your integration uses different user meta keys."
 msgstr ""
 
-#: pro/src/Admin.php:118
+#: pro/src/Admin.php:140
 #: src/Settings.php:585
 msgid "LDAP value suffix"
 msgstr ""
 
-#: pro/src/Admin.php:118
+#: pro/src/Admin.php:140
 msgid "Stores the LDAP value, such as phone_ldap."
 msgstr ""
 
-#: pro/src/Admin.php:119
+#: pro/src/Admin.php:141
 #: src/Settings.php:586
 msgid "WordPress value suffix"
 msgstr ""
 
-#: pro/src/Admin.php:119
+#: pro/src/Admin.php:141
 msgid "Stores the editable WordPress value, such as phone_wp."
 msgstr ""
 
-#: pro/src/Admin.php:129
-#: src/Commerce.php:94
+#: pro/src/Admin.php:151
+#: src/Commerce.php:104
 msgid "Single sign-on (SSO)"
 msgstr ""
 
-#: pro/src/Admin.php:129
+#: pro/src/Admin.php:151
 msgid "Sign users in to WordPress after your web server authenticates them."
 msgstr ""
 
-#: pro/src/Admin.php:130
+#: pro/src/Admin.php:152
 msgid "Enable single sign-on"
 msgstr ""
 
-#: pro/src/Admin.php:130
+#: pro/src/Admin.php:152
 msgid "Users do not need a second login for WordPress."
 msgstr ""
 
-#: pro/src/Admin.php:132
+#: pro/src/Admin.php:154
 msgid "Configure your web server to authenticate users and set REMOTE_USER. Enter an LDAP search account on Connection."
 msgstr ""
 
-#: pro/src/Admin.php:133
+#: pro/src/Admin.php:155
 msgid "Do not copy browser headers into REMOTE_USER. Block access that bypasses web server authentication."
 msgstr ""
 
-#: pro/src/Admin.php:135
+#: pro/src/Admin.php:157
 msgid "Web server authentication"
 msgstr ""
 
-#: pro/src/Admin.php:136
+#: pro/src/Admin.php:158
 msgid "REMOTE_USER is present."
 msgstr ""
 
-#: pro/src/Admin.php:136
+#: pro/src/Admin.php:158
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr ""
 
-#: pro/src/Audit.php:211
-msgid "Audit history"
-msgstr ""
-
-#: pro/src/Audit.php:211
-msgid "Record login results and account changes. Records contain event names and account IDs. Passwords, directory field values, and credentials are excluded."
-msgstr ""
-
-#: pro/src/Audit.php:212
-msgid "Enable audit history"
-msgstr ""
-
-#: pro/src/Audit.php:212
-msgid "Store private WordPress records. Collection is off by default. Existing records remain when collection stops."
-msgstr ""
-
-#: pro/src/Audit.php:213
-msgid "Retention (days)"
-msgstr ""
-
-#: pro/src/Audit.php:213
-msgid "Default: 30. Range: 1 to 3650. A daily task removes older records while collection is enabled."
-msgstr ""
-
-#: pro/src/Audit.php:216
-msgid "Activate a Pro license to read or export audit history."
+#: pro/src/Audit.php:224
+msgid "An Enterprise license is required to collect, read, or export audit history. Existing records are kept."
 msgstr ""
 
 #: pro/src/Audit.php:229
+msgid "Enterprise audit settings"
+msgstr ""
+
+#: pro/src/Audit.php:231
+msgid "Audit history"
+msgstr ""
+
+#: pro/src/Audit.php:231
+msgid "Record login results and account changes. Records contain event names and account IDs. Passwords, directory field values, and credentials are excluded."
+msgstr ""
+
+#: pro/src/Audit.php:232
+msgid "Enable audit history"
+msgstr ""
+
+#: pro/src/Audit.php:232
+msgid "Store private WordPress records. Collection is off by default. Existing records remain when collection stops."
+msgstr ""
+
+#: pro/src/Audit.php:233
+msgid "Retention (days)"
+msgstr ""
+
+#: pro/src/Audit.php:233
+msgid "Default: 30. Range: 1 to 3650. A daily task removes older records while collection is enabled."
+msgstr ""
+
+#: pro/src/Audit.php:251
 msgid "Export CSV"
 msgstr ""
 
-#: pro/src/Audit.php:230
+#: pro/src/Audit.php:252
 msgid "Latest 50 records. The export includes all retained records in this scope. Times use UTC."
 msgstr ""
 
-#: pro/src/Audit.php:231
+#: pro/src/Audit.php:253
 msgid "Time (UTC)"
 msgstr ""
 
-#: pro/src/Audit.php:231
+#: pro/src/Audit.php:253
 msgid "Event"
 msgstr ""
 
-#: pro/src/Audit.php:231
+#: pro/src/Audit.php:253
 msgid "Actor ID"
 msgstr ""
 
-#: pro/src/Audit.php:231
+#: pro/src/Audit.php:253
 msgid "User ID"
 msgstr ""
 
-#: pro/src/Audit.php:231
+#: pro/src/Audit.php:253
 msgid "Site ID"
 msgstr ""
 
-#: pro/src/Audit.php:253
+#: pro/src/Audit.php:275
 msgid "You do not have permission to export these records."
 msgstr ""
 
-#: pro/src/Settings_Rules.php:130
+#: pro/src/Settings_Rules.php:53
+msgid "Activate an Enterprise license to change these settings. Your saved settings are kept."
+msgstr ""
+
+#: pro/src/Settings_Rules.php:133
 msgid "A Pro setting is not valid. Check the format and role names."
 msgstr ""
 
@@ -331,12 +357,12 @@ msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZI
 msgstr ""
 
 #: src/Admin.php:90
-#: src/Commerce.php:163
+#: src/Commerce.php:258
 msgid "You do not have permission to change these settings."
 msgstr ""
 
 #: src/Admin.php:97
-#: src/Commerce.php:172
+#: src/Commerce.php:267
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr ""
 
@@ -366,7 +392,7 @@ msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
 msgstr ""
 
 #: src/Admin.php:164
-msgid "Your saved settings use SSO or custom user fields. Install Simple LDAP Login Pro to use these features. Your settings are kept."
+msgid "Your saved settings use backup LDAP servers, SSO, or custom user fields. Install Simple LDAP Login Pro to use these features. Your settings are kept."
 msgstr ""
 
 #: src/Admin.php:167
@@ -381,422 +407,428 @@ msgstr ""
 msgid "LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your server supports it."
 msgstr ""
 
-#: src/Admin.php:208
+#: src/Admin.php:209
 msgid "Save settings"
 msgstr ""
 
-#: src/Admin.php:209
+#: src/Admin.php:210
 msgid "Settings on other tabs are kept."
 msgstr ""
 
-#: src/Admin.php:225
+#: src/Admin.php:215
+msgid "Save settings before you check the connection. The check uses saved settings."
+msgstr ""
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr ""
+
+#: src/Admin.php:221
+msgid "Open the Testing tab for login tests and more information."
+msgstr ""
+
+#: src/Admin.php:232
 msgid "LDAP connection"
 msgstr ""
 
-#: src/Admin.php:226
+#: src/Admin.php:233
 msgid "LDAP login"
 msgstr ""
 
-#: src/Admin.php:226
+#: src/Admin.php:233
 msgid "Enable LDAP authentication."
 msgstr ""
 
-#: src/Admin.php:229
+#: src/Admin.php:236
 #: src/Settings.php:566
 msgid "Directory type"
 msgstr ""
 
-#: src/Admin.php:231
+#: src/Admin.php:238
 msgid "Active Directory"
 msgstr ""
 
-#: src/Admin.php:232
+#: src/Admin.php:239
 msgid "OpenLDAP / other LDAP directory"
 msgstr ""
 
-#: src/Admin.php:235
+#: src/Admin.php:242
 #: src/Settings.php:568
 msgid "LDAP servers"
 msgstr ""
 
-#: src/Admin.php:235
-msgid "One hostname or IP address per line. Servers are tried in order."
+#: src/Admin.php:242
+msgid "One hostname or IP address per line. An active Pro or Enterprise license enables backup servers. Without an active license, only the first server is used."
 msgstr ""
 
-#: src/Admin.php:236
+#: src/Admin.php:243
 #: src/Settings.php:569
 msgid "Base DN"
 msgstr ""
 
-#: src/Admin.php:236
+#: src/Admin.php:243
 msgid "Where to search for users. Example: DC=example,DC=org."
 msgstr ""
 
-#: src/Admin.php:237
+#: src/Admin.php:244
 #: src/Settings.php:570
 msgid "Username suffix"
 msgstr ""
 
-#: src/Admin.php:237
+#: src/Admin.php:244
 msgid "Added to usernames without a domain. Example: @example.org."
 msgstr ""
 
-#: src/Admin.php:238
+#: src/Admin.php:245
 #: src/Settings.php:571
 msgid "Windows domain"
 msgstr ""
 
-#: src/Admin.php:238
+#: src/Admin.php:245
 msgid "Short domain name, such as EXAMPLE. Takes priority over the username suffix."
 msgstr ""
 
-#: src/Admin.php:240
-#: src/Admin.php:243
+#: src/Admin.php:247
+#: src/Admin.php:250
 #: src/Settings.php:567
 msgid "Connection security"
 msgstr ""
 
-#: src/Admin.php:240
+#: src/Admin.php:247
 msgid "TLS requires a trusted server certificate."
 msgstr ""
 
-#: src/Admin.php:245
+#: src/Admin.php:252
 msgid "StartTLS (recommended)"
 msgstr ""
 
-#: src/Admin.php:246
+#: src/Admin.php:253
 msgid "LDAPS"
 msgstr ""
 
-#: src/Admin.php:247
+#: src/Admin.php:254
 msgid "Unencrypted LDAP"
 msgstr ""
 
-#: src/Admin.php:249
+#: src/Admin.php:256
 msgid "Unencrypted LDAP requires permission on the Advanced tab."
 msgstr ""
 
-#: src/Admin.php:251
+#: src/Admin.php:258
 #: src/Settings.php:572
 msgid "Port"
 msgstr ""
 
-#: src/Admin.php:251
+#: src/Admin.php:258
 msgid "389 for StartTLS; 636 for LDAPS."
 msgstr ""
 
-#: src/Admin.php:252
+#: src/Admin.php:259
 msgid "Search subfolders"
 msgstr ""
 
-#: src/Admin.php:252
+#: src/Admin.php:259
 msgid "Search all organizational units below the Base DN."
 msgstr ""
 
-#: src/Admin.php:254
+#: src/Admin.php:261
 msgid "LDAP search account"
 msgstr ""
 
-#: src/Admin.php:254
+#: src/Admin.php:261
 msgid "An LDAP account with read access to users and groups."
 msgstr ""
 
-#: src/Admin.php:255
+#: src/Admin.php:262
 msgid "Search account"
 msgstr ""
 
-#: src/Admin.php:255
+#: src/Admin.php:262
 msgid "LDAP bind DN or account name."
 msgstr ""
 
-#: src/Admin.php:256
+#: src/Admin.php:263
 #: src/Settings.php:583
 msgid "Search account password"
 msgstr ""
 
-#: src/Admin.php:256
+#: src/Admin.php:263
 msgid "Leave blank to keep the saved password."
 msgstr ""
 
-#: src/Admin.php:264
+#: src/Admin.php:271
 msgid "Login rules"
 msgstr ""
 
-#: src/Admin.php:265
+#: src/Admin.php:272
 msgid "Require LDAP passwords"
 msgstr ""
 
-#: src/Admin.php:265
+#: src/Admin.php:272
 msgid "Block WordPress passwords except for recovery access."
 msgstr ""
 
-#: src/Admin.php:268
+#: src/Admin.php:275
 #: src/Settings.php:581
 msgid "Local recovery access"
 msgstr ""
 
-#: src/Admin.php:270
+#: src/Admin.php:277
 msgid "Selected administrators"
 msgstr ""
 
-#: src/Admin.php:271
+#: src/Admin.php:278
 msgid "All super administrators (legacy)"
 msgstr ""
 
-#: src/Admin.php:271
+#: src/Admin.php:278
 msgid "All administrators (legacy)"
 msgstr ""
 
-#: src/Admin.php:272
+#: src/Admin.php:279
 msgid "Off"
 msgstr ""
 
-#: src/Admin.php:274
+#: src/Admin.php:281
 msgid "Choose who can use a WordPress password when LDAP passwords are required."
 msgstr ""
 
-#: src/Admin.php:277
+#: src/Admin.php:284
 msgid "Automatic account creation"
 msgstr ""
 
-#: src/Admin.php:277
+#: src/Admin.php:284
 msgid "Create a WordPress account on the first successful LDAP login."
 msgstr ""
 
-#: src/Admin.php:282
+#: src/Admin.php:289
 #: src/Settings.php:580
 msgid "Default role"
 msgstr ""
 
-#: src/Admin.php:282
+#: src/Admin.php:289
 msgid "For new accounts only."
 msgstr ""
 
-#: src/Admin.php:283
+#: src/Admin.php:290
 #: src/Settings.php:578
 msgid "Required groups"
 msgstr ""
 
-#: src/Admin.php:283
+#: src/Admin.php:290
 msgid "One group name per line. Users must belong to at least one. Leave blank to allow all LDAP users."
 msgstr ""
 
-#: src/Admin.php:308
+#: src/Admin.php:315
 #: src/Settings.php:582
 msgid "Recovery accounts"
 msgstr ""
 
-#: src/Admin.php:318
+#: src/Admin.php:325
 msgid "For Selected administrators only. Use separate local accounts with WordPress passwords. Hold Ctrl or Command to select multiple accounts."
 msgstr ""
 
-#: src/Admin.php:333
+#: src/Admin.php:340
 msgid "Connection options"
 msgstr ""
 
-#: src/Admin.php:333
+#: src/Admin.php:340
 msgid "Change these only if the default values do not work with your directory."
 msgstr ""
 
-#: src/Admin.php:334
+#: src/Admin.php:341
 msgid "LDAP timeout (seconds)"
 msgstr ""
 
-#: src/Admin.php:334
+#: src/Admin.php:341
 msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
 msgstr ""
 
-#: src/Admin.php:335
+#: src/Admin.php:342
 #: src/Settings.php:575
 msgid "Login attribute"
 msgstr ""
 
-#: src/Admin.php:335
+#: src/Admin.php:342
 msgid "Attribute used to find users. Default: uid."
 msgstr ""
 
-#: src/Admin.php:336
+#: src/Admin.php:343
 msgid "Allow unencrypted LDAP"
 msgstr ""
 
-#: src/Admin.php:336
+#: src/Admin.php:343
 msgid "Allow passwords to be sent without encryption."
 msgstr ""
 
-#: src/Admin.php:338
+#: src/Admin.php:345
 msgid "Group search"
 msgstr ""
 
-#: src/Admin.php:339
+#: src/Admin.php:346
 #: src/Settings.php:579
 msgid "Group base DN"
 msgstr ""
 
-#: src/Admin.php:339
+#: src/Admin.php:346
 msgid "Leave blank to use the user Base DN."
 msgstr ""
 
-#: src/Admin.php:340
+#: src/Admin.php:347
 #: src/Settings.php:576
 msgid "Group name attribute"
 msgstr ""
 
-#: src/Admin.php:340
+#: src/Admin.php:347
 msgid "Default: cn."
 msgstr ""
 
-#: src/Admin.php:341
+#: src/Admin.php:348
 #: src/Settings.php:577
 msgid "Group member attribute"
 msgstr ""
 
-#: src/Admin.php:341
+#: src/Admin.php:348
 msgid "Default: memberUid. Use member or uniqueMember if groups store user DNs."
 msgstr ""
 
-#: src/Admin.php:343
+#: src/Admin.php:350
 msgid "Profile attributes"
 msgstr ""
 
-#: src/Admin.php:343
+#: src/Admin.php:350
 msgid "LDAP attributes copied to new WordPress accounts."
 msgstr ""
 
-#: src/Admin.php:344
+#: src/Admin.php:351
 #: src/Settings.php:587
 msgid "First name attribute"
 msgstr ""
 
-#: src/Admin.php:345
+#: src/Admin.php:352
 #: src/Settings.php:588
 msgid "Last name attribute"
 msgstr ""
 
-#: src/Admin.php:346
+#: src/Admin.php:353
 #: src/Settings.php:589
 msgid "Email attribute"
 msgstr ""
 
-#: src/Admin.php:347
+#: src/Admin.php:354
 #: src/Settings.php:590
 msgid "Website attribute"
 msgstr ""
 
-#: src/Admin.php:350
+#: src/Admin.php:357
 msgid "Data retention"
 msgstr ""
 
-#: src/Admin.php:351
+#: src/Admin.php:358
 msgid "Delete settings when removing the plugin"
 msgstr ""
 
-#: src/Admin.php:351
+#: src/Admin.php:358
 msgid "Delete saved settings and LDAP credentials when WordPress deletes the plugin. Keep user accounts."
 msgstr ""
 
-#: src/Admin.php:359
-#: src/Admin.php:395
-msgid "Test LDAP login"
-msgstr ""
-
-#: src/Admin.php:359
-msgid "Save your settings, then run both tests. Keep this administrator session open."
-msgstr ""
-
-#: src/Admin.php:361
-msgid "Tests check the connection, password, and required groups. They do not create accounts or sign users in."
-msgstr ""
-
-#: src/Admin.php:362
-msgid "After both tests pass, enable LDAP and try logging in from another browser."
-msgstr ""
-
-#: src/Admin.php:363
+#: src/Admin.php:366
 msgid "Recovery"
 msgstr ""
 
-#: src/Admin.php:364
+#: src/Admin.php:368
 msgid "If you are locked out, rename the simple-ldap-login folder using your hosting file manager. Log in with a WordPress administrator password, then restore the folder and correct the settings."
 msgstr ""
 
-#: src/Admin.php:365
+#: src/Admin.php:369
 msgid "For certificate errors, ask your host to configure the trusted LDAP certificate authority."
 msgstr ""
 
-#: src/Admin.php:379
+#: src/Admin.php:383
 msgid "LDAP tests"
 msgstr ""
 
-#: src/Admin.php:380
+#: src/Admin.php:384
 msgid "Tests use saved settings."
 msgstr ""
 
 #: src/Admin.php:385
-msgid "1. Test connection"
+msgid "Save your settings, then run both tests. Keep this administrator session open."
 msgstr ""
 
 #: src/Admin.php:386
-msgid "Connect to LDAP and test the search account, if set."
-msgstr ""
-
-#: src/Admin.php:387
-msgid "Test connection"
-msgstr ""
-
-#: src/Admin.php:391
-msgid "2. Test login"
+msgid "Tests check the connection, password, and required groups. They do not create accounts or sign users in."
 msgstr ""
 
 #: src/Admin.php:392
+msgid "Connect to LDAP and test the search account, if set."
+msgstr ""
+
+#: src/Admin.php:397
+#: src/Admin.php:401
+msgid "Test LDAP login"
+msgstr ""
+
+#: src/Admin.php:398
 msgid "Check an LDAP username, password, and group membership."
 msgstr ""
 
-#: src/Admin.php:393
+#: src/Admin.php:399
 msgid "LDAP username"
 msgstr ""
 
-#: src/Admin.php:394
+#: src/Admin.php:400
 msgid "LDAP password"
 msgstr ""
 
-#: src/Admin.php:582
+#: src/Admin.php:405
+msgid "After both tests pass, enable LDAP and try logging in from another browser."
+msgstr ""
+
+#: src/Admin.php:589
 msgid "Settings saved."
 msgstr ""
 
-#: src/Admin.php:583
+#: src/Admin.php:590
 msgid "Connection test passed."
 msgstr ""
 
-#: src/Admin.php:584
+#: src/Admin.php:591
 msgid "Cannot connect to LDAP. Check the server, port, TLS certificate, and search account."
 msgstr ""
 
-#: src/Admin.php:585
+#: src/Admin.php:592
 msgid "LDAP login test passed. No account was created."
 msgstr ""
 
-#: src/Admin.php:586
+#: src/Admin.php:593
 msgid "LDAP login test failed. Check the username, password, and required groups."
 msgstr ""
 
-#: src/Admin.php:587
+#: src/Admin.php:594
 msgid "Could not save settings. Check the values and try again."
 msgstr ""
 
-#: src/Admin.php:631
+#: src/Admin.php:638
 msgid "Connection"
 msgstr ""
 
-#: src/Admin.php:632
+#: src/Admin.php:639
 msgid "Access"
 msgstr ""
 
-#: src/Admin.php:633
+#: src/Admin.php:640
 msgid "Advanced"
 msgstr ""
 
-#: src/Admin.php:634
-msgid "Troubleshooting"
+#: src/Admin.php:641
+msgid "Testing"
+msgstr ""
+
+#: src/Admin.php:642
+msgid "Support"
 msgstr ""
 
 #: src/Authenticator.php:151
@@ -819,166 +851,257 @@ msgstr ""
 msgid "Use your WordPress password for this recovery account."
 msgstr ""
 
-#: src/Commerce.php:57
+#: src/Commerce.php:58
+#: src/Commerce.php:193
 msgid "License"
 msgstr ""
 
-#: src/Commerce.php:57
-msgid "Get Pro"
+#: src/Commerce.php:58
+msgid "Go Pro"
 msgstr ""
 
-#: src/Commerce.php:72
-msgid "Could not check your license. Pro features remain active. Try again on the License tab."
+#: src/Commerce.php:73
+msgid "Could not check your license. Features in your last verified plan remain active. Try again on the License tab."
 msgstr ""
 
-#: src/Commerce.php:74
-msgid "Your Pro license has expired. Single sign-on and custom field updates are off. Renew your license, then select Check license on the License tab."
+#: src/Commerce.php:75
+msgid "Your license has expired. Paid features are off. Renew your license, then select Check license on the License tab."
 msgstr ""
 
-#: src/Commerce.php:76
-msgid "Activate a Pro license on the License tab to use single sign-on and custom user fields."
+#: src/Commerce.php:77
+msgid "Your license plan has not been verified. Select Check license on the License tab. Paid features stay off until the plan is verified."
 msgstr ""
 
-#: src/Commerce.php:92
-msgid "Simple LDAP Login Pro"
+#: src/Commerce.php:79
+msgid "Activate your Pro or Enterprise license on the License tab to use paid features."
 msgstr ""
 
-#: src/Commerce.php:92
-msgid "Give staff fewer login prompts and keep user details in sync with LDAP."
+#: src/Commerce.php:99
+msgid "Backup LDAP servers"
 msgstr ""
 
-#: src/Commerce.php:95
-msgid "Let staff open WordPress without another login prompt. Requires authentication on your web server, such as Kerberos or NTLM."
+#: src/Commerce.php:100
+msgid "Try the next server if a directory server cannot be reached. All servers must use the same directory."
 msgstr ""
 
-#: src/Commerce.php:97
-msgid "Copy phone numbers, departments, and other LDAP fields to WordPress at login. Use these values in your theme or other plugins."
+#: src/Commerce.php:105
+msgid "Give staff one less password prompt. Sign in through your web server with Kerberos, NTLM, or other server authentication."
 msgstr ""
 
-#: src/Commerce.php:101
-msgid "View plans"
+#: src/Commerce.php:110
+msgid "Turn directory groups into WordPress roles at each login. Give editors, authors, and other teams the access they need."
 msgstr ""
 
-#: src/Commerce.php:101
-msgid "Open checkout in a new tab"
-msgstr ""
-
-#: src/Commerce.php:102
-msgid "Plans and checkout use PaidCommunities. It receives your IP address and browser details."
-msgstr ""
-
-#: src/Commerce.php:106
-msgid "After purchase, install the Pro ZIP from your receipt. Your LDAP settings will stay in place."
-msgstr ""
-
-#: src/Commerce.php:114
-#: src/Commerce.php:222
-msgid "License status updated."
-msgstr ""
-
-#: src/Commerce.php:114
-#: src/Commerce.php:277
-#: src/License.php:236
-msgid "Could not verify the license. Check your key and connection, then try again."
-msgstr ""
-
-#: src/Commerce.php:117
-msgid "Pro license"
-msgstr ""
-
-#: src/Commerce.php:117
-msgid "Enter the license key from your purchase receipt."
-msgstr ""
-
-#: src/Commerce.php:119
-#: src/Commerce.php:124
-msgid "Not activated"
+#: src/Commerce.php:115
+msgid "Keep names, email addresses, and websites current. Copy directory values to existing WordPress profiles at login."
 msgstr ""
 
 #: src/Commerce.php:120
-msgid "Expired"
+msgid "Put phone numbers, departments, and other LDAP fields to work in WordPress. Map text and number fields for your theme or plugins."
 msgstr ""
 
-#: src/Commerce.php:121
-msgid "Inactive"
+#: src/Commerce.php:125
+msgid "Have accounts ready before the first login. Import directory users each hour, with filters for groups and directory location."
 msgstr ""
 
-#: src/Commerce.php:124
-msgid "License status"
+#: src/Commerce.php:130
+msgid "Check managed accounts each hour. Suspend access and end sessions when directory checks confirm removal or lost access. Keep user content."
 msgstr ""
 
-#: src/Commerce.php:124
-msgid "Active"
+#: src/Commerce.php:135
+msgid "Manage access across your WordPress network. Use directory groups to assign site membership and roles, then remove access when groups change."
 msgstr ""
 
-#: src/Commerce.php:126
-msgid "Data shared with PaidCommunities"
-msgstr ""
-
-#: src/Commerce.php:127
-msgid "Activation sends your license key, site domain, plugin version, and server IP address to PaidCommunities. License checks send the same site details."
-msgstr ""
-
-#: src/Commerce.php:136
-#: src/Commerce.php:270
-msgid "License key"
+#: src/Commerce.php:139
+msgid "Audit history and CSV export"
 msgstr ""
 
 #: src/Commerce.php:140
-#: src/Commerce.php:271
-msgid "Activate license"
+msgid "See login results, role changes, imports, and access changes in one place. Set record retention and export the history to CSV."
 msgstr ""
 
-#: src/Commerce.php:142
-#: src/Commerce.php:272
-msgid "Deactivate license"
+#: src/Commerce.php:146
+msgid "Simple LDAP Login Pro and Enterprise"
 msgstr ""
 
 #: src/Commerce.php:147
+msgid "Choose your LDAP plan."
+msgstr ""
+
+#: src/Commerce.php:148
+msgid "Pro adds single sign-on and user data updates. Enterprise adds scheduled account management, multisite membership rules, and audit history."
+msgstr ""
+
+#: src/Commerce.php:149
+msgid "Both plans cover one site. Your existing LDAP settings stay in place."
+msgstr ""
+
+#: src/Commerce.php:153
+msgid "Pro — $99/year"
+msgstr ""
+
+#: src/Commerce.php:154
+msgid "Enterprise — $499/year"
+msgstr ""
+
+#: src/Commerce.php:159
+msgid "All Free features, plus:"
+msgstr ""
+
+#: src/Commerce.php:159
+msgid "Everything in Pro, plus:"
+msgstr ""
+
+#: src/Commerce.php:173
+msgid "Buy Pro"
+msgstr ""
+
+#: src/Commerce.php:173
+#: src/Commerce.php:206
+msgid "Get Enterprise"
+msgstr ""
+
+#: src/Commerce.php:173
+msgid "Buy Enterprise"
+msgstr ""
+
+#: src/Commerce.php:176
+msgid "Scheduled tasks use WordPress cron and need site traffic or a system task. Single sign-on requires web server authentication. Multisite rules require network activation."
+msgstr ""
+
+#: src/Commerce.php:179
+msgid "Your saved license needs a plan check. Install Pro, then select Check license on the License tab."
+msgstr ""
+
+#: src/Commerce.php:181
+msgid "After purchase, replace Free with the Pro ZIP from your receipt. Then activate your license on the License tab in Pro. Your LDAP settings stay in place."
+msgstr ""
+
+#: src/Commerce.php:182
+msgid "PaidCommunities handles checkout. It receives your IP address, browser details, and the information you enter at checkout. LDAP credentials and user records are not sent."
+msgstr ""
+
+#: src/Commerce.php:190
+#: src/Commerce.php:318
+msgid "License status updated."
+msgstr ""
+
+#: src/Commerce.php:190
+#: src/Commerce.php:376
+#: src/License.php:275
+msgid "Could not verify the license. Check your key and connection, then try again."
+msgstr ""
+
+#: src/Commerce.php:193
+msgid "Enter the license key from your purchase receipt."
+msgstr ""
+
+#: src/Commerce.php:195
+msgid "Plan not verified"
+msgstr ""
+
+#: src/Commerce.php:196
+msgid "Expired"
+msgstr ""
+
+#: src/Commerce.php:197
+msgid "Inactive"
+msgstr ""
+
+#: src/Commerce.php:200
+msgid "License status"
+msgstr ""
+
+#: src/Commerce.php:200
+msgid "Active"
+msgstr ""
+
+#: src/Commerce.php:200
+msgid "Not activated"
+msgstr ""
+
+#: src/Commerce.php:202
+msgid "Current plan"
+msgstr ""
+
+#: src/Commerce.php:202
+#: src/Commerce.php:214
+msgid "Enterprise"
+msgstr ""
+
+#: src/Commerce.php:202
+#: src/Commerce.php:213
+msgid "Pro"
+msgstr ""
+
+#: src/Commerce.php:204
+msgid "Enterprise adds scheduled account import and access removal, multisite membership rules, and audit history with CSV export."
+msgstr ""
+
+#: src/Commerce.php:205
+msgid "Get Enterprise opens checkout for a new license. It does not change or cancel your Pro subscription. Manage that subscription separately through PaidCommunities. After purchase, deactivate this key, choose Enterprise, and activate the new key."
+msgstr ""
+
+#: src/Commerce.php:210
+msgid "Purchased plan"
+msgstr ""
+
+#: src/Commerce.php:216
+msgid "Choose the plan on your purchase receipt. This choice is used only when activating a key. A license check verifies which features you can use."
+msgstr ""
+
+#: src/Commerce.php:226
+#: src/Commerce.php:369
+msgid "License key"
+msgstr ""
+
+#: src/Commerce.php:230
+#: src/Commerce.php:370
+msgid "Activate license"
+msgstr ""
+
+#: src/Commerce.php:232
+#: src/Commerce.php:371
+msgid "Deactivate license"
+msgstr ""
+
+#: src/Commerce.php:237
 msgid "Check license"
 msgstr ""
 
-#: src/Commerce.php:185
+#: src/Commerce.php:244
+msgid "PaidCommunities handles licenses. Activation sends your license key, site domain, plugin version, and server IP address. License checks send site details. LDAP credentials and user records are not sent."
+msgstr ""
+
+#: src/Commerce.php:281
 msgid "Select a license action."
 msgstr ""
 
-#: src/Commerce.php:273
+#: src/Commerce.php:372
 msgid "Activating license…"
 msgstr ""
 
-#: src/Commerce.php:274
+#: src/Commerce.php:373
 msgid "Deactivating license…"
 msgstr ""
 
-#: src/Commerce.php:275
+#: src/Commerce.php:374
 msgid "License error"
 msgstr ""
 
-#: src/Commerce.php:276
+#: src/Commerce.php:375
 msgid "License updated"
 msgstr ""
 
-#: src/Commerce.php:278
-msgid "Pro plans"
-msgstr ""
-
-#: src/Commerce.php:279
-msgid "Loading plans…"
-msgstr ""
-
-#: src/Commerce.php:280
-msgid "Could not load plans. Open checkout in a new tab."
-msgstr ""
-
-#: src/Ldap_Client.php:447
+#: src/Ldap_Client.php:451
 msgid "LDAP login failed. Check your username and password or contact your site administrator."
 msgstr ""
 
-#: src/Ldap_Client.php:449
+#: src/Ldap_Client.php:453
 msgid "Your account is not allowed to log in to this site."
 msgstr ""
 
-#: src/Ldap_Client.php:451
+#: src/Ldap_Client.php:455
 msgid "LDAP login is unavailable. Contact your site administrator."
 msgstr ""
 
