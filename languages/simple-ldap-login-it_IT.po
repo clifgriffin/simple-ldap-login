@@ -110,15 +110,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Mappature dei campi"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Una mappatura per riga: attributo LDAP:chiave meta WordPress:tipo. Esempio: "
-"%1$s. Tipi: %2$s o %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "Attributo LDAP"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "Chiave metadati WordPress"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Tipo"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Testo"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Numero"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -139,13 +149,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Regole da gruppo a ruolo"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Una regola nel formato group:role per riga. Esempio: Editors:editor. Lascia "
-"vuoto per mantenere i ruoli attuali."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "Gruppo LDAP"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "Ruolo WordPress"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -184,18 +196,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Regole da gruppo a sito"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Una regola nel formato group:site ID:role per riga. Esempio: "
-"Editors:2:editor. Alla rimozione dal gruppo, ripristina l’appartenenza "
-"precedente o rimuovi quella creata da queste regole. Le modifiche manuali "
-"ai ruoli vengono mantenute. Lascia vuoto per interrompere gli aggiornamenti "
-"di appartenenza."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID sito"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -278,6 +281,22 @@ msgstr ""
 "successivo controllo della directory riuscito. Sono esclusi gli account di "
 "recupero e i super amministratori. Le sospensioni esistenti rimangono se "
 "l’attività si interrompe o la licenza diventa inattiva."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Aggiungi riga"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Sposta su"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Sposta giù"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Rimuovi riga"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -429,10 +448,6 @@ msgstr "ID dell’autore dell’azione"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "ID utente"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "ID sito"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

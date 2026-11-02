@@ -14,9 +14,11 @@ namespace SimpleLdapLogin {
 		public array $recovery_ids = array( 1 );
 		public array $saved = array();
 		public array $servers = array( 'dc.example.org' );
+		public array $role_rules = array( array( 'Editors', 'editor' ) );
+		public array $site_rules = array( array( 'Staff', 2, 'editor' ) );
 		public function get( $key ) { return $this->all()[ $key ] ?? ''; }
 		public function all() {
-			return array( 'directory' => $this->directory, 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => $this->servers, 'groups' => array( 'staff' ), 'sso_enabled' => $this->sso, 'user_meta_data' => $this->mappings, 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
+			return array( 'directory' => $this->directory, 'enabled' => $this->enabled, 'transport' => 'starttls', 'sso_search_user_password' => 'never-render-this-secret', 'domain_controllers' => $this->servers, 'groups' => array( 'staff' ), 'sso_enabled' => $this->sso, 'user_meta_data' => $this->mappings, 'role_rules' => $this->role_rules, 'site_rules' => $this->site_rules, 'recovery_mode' => $this->recovery, 'recovery_user_ids' => $this->recovery_ids );
 		}
 		public function is_network() { return $this->network; }
 		public function recovery_mode() { return $this->recovery; }
@@ -238,6 +240,15 @@ namespace {
 				admin_check( ( 'pro' === $edition && 'accounts' === $tab ) === str_contains( $html, 'sll_settings[scheduled_import]' ), 'Scheduled import appears only on Pro Accounts.' );
 				admin_check( ( 'pro' === $edition && 'accounts' === $tab ) === str_contains( $html, 'sll_settings[scheduled_removal]' ), 'Access removal appears only on Pro Accounts.' );
 				admin_check( ( 'pro' === $edition && 'accounts' === $tab && 'network' === $scope ) === str_contains( $html, 'sll_settings[site_rules]' ), 'Site membership rules require Pro network settings.' );
+				if ( 'pro' === $edition && in_array( $tab, array( 'profile', 'access' ), true ) ) {
+					$key = 'profile' === $tab ? 'user_meta_data' : 'role_rules';
+					admin_check( str_contains( $html, 'data-sll-mapping="' . $key . '"' ) && str_contains( $html, 'name="sll_settings[' . $key . '][0][0]"' ) && str_contains( $html, 'data-sll-add-row' ), 'Paid mapping controls have separate named fields and an Add row button.' );
+					admin_check( ! preg_match( '/<textarea[^>]+name="sll_settings\[' . $key . '\]"/', $html ), 'Paid mapping controls no longer use a textarea.' );
+					admin_check( str_contains( $html, 'for="sll-' . $key . '-0-0"' ) && str_contains( $html, 'id="sll-' . $key . '-0-0"' ) && str_contains( $html, 'value="' . ( 'profile' === $tab ? 'telephoneNumber' : 'Editors' ) . '"' ), 'Saved mapping values have matching field labels.' );
+				}
+				if ( 'pro' === $edition && 'accounts' === $tab && 'network' === $scope ) {
+					admin_check( str_contains( $html, 'data-sll-mapping="site_rules"' ) && str_contains( $html, 'name="sll_settings[site_rules][0][1]"' ) && str_contains( $html, 'value="2"' ) && str_contains( $html, 'min="1" step="1"' ), 'Network mapping rows have a separate positive site ID field.' );
+				}
 				if ( 'profile' === $tab ) {
 					admin_check( ( 'free' === $edition ) === str_contains( $html, 'sll_settings[user_email_attribute]' ), 'Old Free profile links open Advanced; Pro profile shows mappings.' );
 					admin_check( 'pro' === $edition || str_contains( $html, 'name="tab" value="advanced"' ), 'Old Free profile links retain a valid save destination.' );

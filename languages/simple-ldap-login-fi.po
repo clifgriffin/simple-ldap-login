@@ -111,15 +111,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Kenttäkartoitukset"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Yksi kartoitus per rivi: LDAP-attribuutti:WordPress-metaavain:tyyppi. "
-"Esimerkki: %1$s. Tyypit: %2$s tai %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP-attribuutti"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPressin metatietoavain"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Tyyppi"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Teksti"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Numero"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -140,13 +150,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Ryhmien roolisäännöt"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Yksi sääntö muodossa group:role riville. Esimerkki: Editors:editor. Jätä "
-"tyhjäksi, jos haluat säilyttää nykyiset roolit."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP-ryhmä"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress-rooli"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -183,18 +195,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Ryhmien sivustosäännöt"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Yksi sääntö muodossa group:site ID:role riville. Esimerkki: "
-"Editors:2:editor. Kun ryhmäjäsenyys päättyy, aiempi jäsenyys palautetaan "
-"tai näiden sääntöjen luoma jäsenyys poistetaan. Manuaaliset roolimuutokset "
-"säilyvät poistamisen yhteydessä. Jätä tyhjäksi, jos haluat lopettaa "
-"jäsenyyspäivitykset."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Sivuston ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -274,6 +277,22 @@ msgstr ""
 "onnistuneen hakemistotarkistuksen jälkeen. Palautustilit ja "
 "superylläpitäjät jätetään pois. Olemassa olevat estot säilyvät, jos tehtävä "
 "pysähtyy tai lisenssi ei ole enää aktiivinen."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Lisää rivi"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Siirrä ylös"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Siirrä alas"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Poista rivi"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -424,10 +443,6 @@ msgstr "Toimijan ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "Käyttäjän ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "Sivuston ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

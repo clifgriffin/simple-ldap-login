@@ -113,15 +113,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Mapeamentos de campo"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Uma mapeamento por linha: atributo LDAP:chave meta do WordPress:tipo. "
-"Exemplo: %1$s. Tipos: %2$s ou %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "Atributo LDAP"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "Chave de metadados do WordPress"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Tipo"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Texto"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Número"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -141,13 +151,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Regras de grupo para função"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Uma regra no formato group:role por linha. Exemplo: Editors:editor. Deixe "
-"em branco para manter as funções atuais."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "Grupo LDAP"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "Função do WordPress"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -184,18 +196,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Regras de grupo para site"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Uma regra no formato group:site ID:role por linha. Exemplo: "
-"Editors:2:editor. Ao sair do grupo, restaure a participação anterior ou "
-"remova uma participação criada por essas regras. Alterações manuais de "
-"função são mantidas na remoção. Deixe em branco para interromper as "
-"atualizações de participação."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID do site"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -276,6 +279,22 @@ msgstr ""
 "verificação posterior bem-sucedida do diretório. Contas de recuperação e "
 "superadministradores são excluídos. As suspensões existentes permanecem se "
 "a tarefa parar ou a licença ficar inativa."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Adicionar linha"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Mover para cima"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Mover para baixo"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Remover linha"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -426,10 +445,6 @@ msgstr "ID do autor da ação"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "ID do usuário"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "ID do site"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

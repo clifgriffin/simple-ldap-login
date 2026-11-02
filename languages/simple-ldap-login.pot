@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-02T16:13:15+00:00\n"
+"POT-Creation-Date: 2026-11-02T16:31:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: simple-ldap-login\n"
@@ -92,175 +92,211 @@ msgstr ""
 msgid "Copy LDAP fields, such as phone number or department, to WordPress at login. Your theme or other plugins can use these values."
 msgstr ""
 
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#: pro/src/Admin.php:77
-#: src/Settings.php:584
+#: pro/src/Admin.php:78
+#: src/Settings.php:587
 msgid "Field mappings"
 msgstr ""
 
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#: pro/src/Admin.php:77
-#, php-format
-msgid "One mapping per line: LDAP attribute:WordPress meta key:type. Example: %1$s. Types: %2$s or %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
 msgstr ""
 
-#: pro/src/Admin.php:87
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr ""
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr ""
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr ""
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr ""
+
+#: pro/src/Admin.php:106
 #: src/Commerce.php:109
 msgid "Group roles"
 msgstr ""
 
-#: pro/src/Admin.php:87
+#: pro/src/Admin.php:106
 msgid "Set the WordPress role from LDAP groups at each login. The first matching rule applies. If no rule matches, use the default role. Recovery accounts and super administrators are excluded."
 msgstr ""
 
-#: pro/src/Admin.php:88
+#: pro/src/Admin.php:109
 msgid "Group-to-role rules"
 msgstr ""
 
-#: pro/src/Admin.php:88
-msgid "One group:role rule per line. Example: Editors:editor. Leave blank to keep current roles."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
 msgstr ""
 
-#: pro/src/Admin.php:108
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr ""
+
+#: pro/src/Admin.php:141
 msgid "Enterprise includes scheduled account import, scheduled access removal, and multisite membership rules. Your saved settings are kept."
 msgstr ""
 
-#: pro/src/Admin.php:108
+#: pro/src/Admin.php:141
 #: pro/src/Audit.php:224
 msgid "View Enterprise upgrade"
 msgstr ""
 
-#: pro/src/Admin.php:113
+#: pro/src/Admin.php:146
 msgid "Enterprise account settings"
 msgstr ""
 
-#: pro/src/Admin.php:116
+#: pro/src/Admin.php:149
 #: src/Commerce.php:134
 msgid "Multisite membership"
 msgstr ""
 
-#: pro/src/Admin.php:116
+#: pro/src/Admin.php:149
 msgid "Assign site membership and roles from directory groups. The first matching rule for each site applies. These rules replace the group role rules for network activation."
 msgstr ""
 
-#: pro/src/Admin.php:117
+#: pro/src/Admin.php:152
 msgid "Group-to-site rules"
 msgstr ""
 
-#: pro/src/Admin.php:117
-msgid "One group:site ID:role rule per line. Example: Editors:2:editor. On group removal, restore prior membership or remove a membership created by these rules. Manual role changes are kept on removal. Leave blank to stop membership updates."
+#: pro/src/Admin.php:159
+#: pro/src/Audit.php:253
+msgid "Site ID"
 msgstr ""
 
-#: pro/src/Admin.php:120
+#: pro/src/Admin.php:172
 #: src/Commerce.php:124
 msgid "Scheduled account import"
 msgstr ""
 
-#: pro/src/Admin.php:120
+#: pro/src/Admin.php:172
 msgid "Import directory accounts once per hour through WordPress scheduled tasks. Set a search account on Connection. Site traffic or a system task must run WordPress cron."
 msgstr ""
 
-#: pro/src/Admin.php:121
+#: pro/src/Admin.php:173
 msgid "Enable scheduled import"
 msgstr ""
 
-#: pro/src/Admin.php:121
+#: pro/src/Admin.php:173
 msgid "Create accounts without a first login. Existing local accounts are excluded. No user session is created."
 msgstr ""
 
-#: pro/src/Admin.php:122
+#: pro/src/Admin.php:174
 msgid "Import Base DN"
 msgstr ""
 
-#: pro/src/Admin.php:122
+#: pro/src/Admin.php:174
 msgid "Leave blank to use the connection Base DN."
 msgstr ""
 
-#: pro/src/Admin.php:123
+#: pro/src/Admin.php:175
 msgid "Import groups"
 msgstr ""
 
-#: pro/src/Admin.php:123
+#: pro/src/Admin.php:175
 msgid "One group per line. Import users in at least one group. Leave blank to import all users below the Import Base DN. Login group restrictions also apply."
 msgstr ""
 
-#: pro/src/Admin.php:125
+#: pro/src/Admin.php:177
 #: src/Commerce.php:129
 msgid "Scheduled access removal"
 msgstr ""
 
-#: pro/src/Admin.php:125
+#: pro/src/Admin.php:177
 msgid "Check managed directory accounts once per hour. A confirmed missing account, disabled AD account, changed directory identity, or failed login group rule suspends access and ends all WordPress sessions. Connection errors keep the current access state."
 msgstr ""
 
-#: pro/src/Admin.php:126
+#: pro/src/Admin.php:178
 msgid "Enable scheduled access removal"
 msgstr ""
 
-#: pro/src/Admin.php:126
+#: pro/src/Admin.php:178
 msgid "Keep user data and content. Restore access after a later successful directory check. Recovery accounts and super administrators are excluded. Existing suspensions remain if the task or license stops."
 msgstr ""
 
-#: pro/src/Admin.php:139
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr ""
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr ""
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr ""
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr ""
+
+#: pro/src/Admin.php:275
 msgid "Custom field storage"
 msgstr ""
 
-#: pro/src/Admin.php:139
+#: pro/src/Admin.php:275
 msgid "Leave the defaults unless your integration uses different user meta keys."
 msgstr ""
 
-#: pro/src/Admin.php:140
-#: src/Settings.php:585
+#: pro/src/Admin.php:276
+#: src/Settings.php:588
 msgid "LDAP value suffix"
 msgstr ""
 
-#: pro/src/Admin.php:140
+#: pro/src/Admin.php:276
 msgid "Stores the LDAP value, such as phone_ldap."
 msgstr ""
 
-#: pro/src/Admin.php:141
-#: src/Settings.php:586
+#: pro/src/Admin.php:277
+#: src/Settings.php:589
 msgid "WordPress value suffix"
 msgstr ""
 
-#: pro/src/Admin.php:141
+#: pro/src/Admin.php:277
 msgid "Stores the editable WordPress value, such as phone_wp."
 msgstr ""
 
-#: pro/src/Admin.php:151
+#: pro/src/Admin.php:287
 #: src/Commerce.php:104
 msgid "Single sign-on (SSO)"
 msgstr ""
 
-#: pro/src/Admin.php:151
+#: pro/src/Admin.php:287
 msgid "Sign users in to WordPress after your web server authenticates them."
 msgstr ""
 
-#: pro/src/Admin.php:152
+#: pro/src/Admin.php:288
 msgid "Enable single sign-on"
 msgstr ""
 
-#: pro/src/Admin.php:152
+#: pro/src/Admin.php:288
 msgid "Users do not need a second login for WordPress."
 msgstr ""
 
-#: pro/src/Admin.php:154
+#: pro/src/Admin.php:290
 msgid "Configure your web server to authenticate users and set REMOTE_USER. Enter an LDAP search account on Connection."
 msgstr ""
 
-#: pro/src/Admin.php:155
+#: pro/src/Admin.php:291
 msgid "Do not copy browser headers into REMOTE_USER. Block access that bypasses web server authentication."
 msgstr ""
 
-#: pro/src/Admin.php:157
+#: pro/src/Admin.php:293
 msgid "Web server authentication"
 msgstr ""
 
-#: pro/src/Admin.php:158
+#: pro/src/Admin.php:294
 msgid "REMOTE_USER is present."
 msgstr ""
 
-#: pro/src/Admin.php:158
+#: pro/src/Admin.php:294
 msgid "REMOTE_USER is missing. Check the web server configuration."
 msgstr ""
 
@@ -320,10 +356,6 @@ msgstr ""
 msgid "User ID"
 msgstr ""
 
-#: pro/src/Audit.php:253
-msgid "Site ID"
-msgstr ""
-
 #: pro/src/Audit.php:275
 msgid "You do not have permission to export these records."
 msgstr ""
@@ -332,7 +364,7 @@ msgstr ""
 msgid "Activate an Enterprise license to change these settings. Your saved settings are kept."
 msgstr ""
 
-#: pro/src/Settings_Rules.php:133
+#: pro/src/Settings_Rules.php:137
 msgid "A Pro setting is not valid. Check the format and role names."
 msgstr ""
 
@@ -442,7 +474,7 @@ msgid "Enable LDAP authentication."
 msgstr ""
 
 #: src/Admin.php:236
-#: src/Settings.php:566
+#: src/Settings.php:569
 msgid "Directory type"
 msgstr ""
 
@@ -455,7 +487,7 @@ msgid "OpenLDAP / other LDAP directory"
 msgstr ""
 
 #: src/Admin.php:242
-#: src/Settings.php:568
+#: src/Settings.php:571
 msgid "LDAP servers"
 msgstr ""
 
@@ -464,7 +496,7 @@ msgid "One hostname or IP address per line. An active Pro or Enterprise license 
 msgstr ""
 
 #: src/Admin.php:243
-#: src/Settings.php:569
+#: src/Settings.php:572
 msgid "Base DN"
 msgstr ""
 
@@ -473,7 +505,7 @@ msgid "Where to search for users. Example: DC=example,DC=org."
 msgstr ""
 
 #: src/Admin.php:244
-#: src/Settings.php:570
+#: src/Settings.php:573
 msgid "Username suffix"
 msgstr ""
 
@@ -482,7 +514,7 @@ msgid "Added to usernames without a domain. Example: @example.org."
 msgstr ""
 
 #: src/Admin.php:245
-#: src/Settings.php:571
+#: src/Settings.php:574
 msgid "Windows domain"
 msgstr ""
 
@@ -492,7 +524,7 @@ msgstr ""
 
 #: src/Admin.php:247
 #: src/Admin.php:250
-#: src/Settings.php:567
+#: src/Settings.php:570
 msgid "Connection security"
 msgstr ""
 
@@ -517,7 +549,7 @@ msgid "Unencrypted LDAP requires permission on the Advanced tab."
 msgstr ""
 
 #: src/Admin.php:258
-#: src/Settings.php:572
+#: src/Settings.php:575
 msgid "Port"
 msgstr ""
 
@@ -550,7 +582,7 @@ msgid "LDAP bind DN or account name."
 msgstr ""
 
 #: src/Admin.php:263
-#: src/Settings.php:583
+#: src/Settings.php:586
 msgid "Search account password"
 msgstr ""
 
@@ -571,7 +603,7 @@ msgid "Block WordPress passwords except for recovery access."
 msgstr ""
 
 #: src/Admin.php:275
-#: src/Settings.php:581
+#: src/Settings.php:584
 msgid "Local recovery access"
 msgstr ""
 
@@ -604,7 +636,7 @@ msgid "Create a WordPress account on the first successful LDAP login."
 msgstr ""
 
 #: src/Admin.php:289
-#: src/Settings.php:580
+#: src/Settings.php:583
 msgid "Default role"
 msgstr ""
 
@@ -613,7 +645,7 @@ msgid "For new accounts only."
 msgstr ""
 
 #: src/Admin.php:290
-#: src/Settings.php:578
+#: src/Settings.php:581
 msgid "Required groups"
 msgstr ""
 
@@ -622,7 +654,7 @@ msgid "One group name per line. Users must belong to at least one. Leave blank t
 msgstr ""
 
 #: src/Admin.php:315
-#: src/Settings.php:582
+#: src/Settings.php:585
 msgid "Recovery accounts"
 msgstr ""
 
@@ -647,7 +679,7 @@ msgid "Maximum wait for an LDAP operation. Default: 5 seconds."
 msgstr ""
 
 #: src/Admin.php:342
-#: src/Settings.php:575
+#: src/Settings.php:578
 msgid "Login attribute"
 msgstr ""
 
@@ -668,7 +700,7 @@ msgid "Group search"
 msgstr ""
 
 #: src/Admin.php:346
-#: src/Settings.php:579
+#: src/Settings.php:582
 msgid "Group base DN"
 msgstr ""
 
@@ -677,7 +709,7 @@ msgid "Leave blank to use the user Base DN."
 msgstr ""
 
 #: src/Admin.php:347
-#: src/Settings.php:576
+#: src/Settings.php:579
 msgid "Group name attribute"
 msgstr ""
 
@@ -686,7 +718,7 @@ msgid "Default: cn."
 msgstr ""
 
 #: src/Admin.php:348
-#: src/Settings.php:577
+#: src/Settings.php:580
 msgid "Group member attribute"
 msgstr ""
 
@@ -703,22 +735,22 @@ msgid "LDAP attributes copied to new WordPress accounts."
 msgstr ""
 
 #: src/Admin.php:351
-#: src/Settings.php:587
+#: src/Settings.php:590
 msgid "First name attribute"
 msgstr ""
 
 #: src/Admin.php:352
-#: src/Settings.php:588
+#: src/Settings.php:591
 msgid "Last name attribute"
 msgstr ""
 
 #: src/Admin.php:353
-#: src/Settings.php:589
+#: src/Settings.php:592
 msgid "Email attribute"
 msgstr ""
 
 #: src/Admin.php:354
-#: src/Settings.php:590
+#: src/Settings.php:593
 msgid "Website attribute"
 msgstr ""
 
@@ -1093,15 +1125,15 @@ msgstr ""
 msgid "License updated"
 msgstr ""
 
-#: src/Ldap_Client.php:451
+#: src/Ldap_Client.php:449
 msgid "LDAP login failed. Check your username and password or contact your site administrator."
 msgstr ""
 
-#: src/Ldap_Client.php:453
+#: src/Ldap_Client.php:451
 msgid "Your account is not allowed to log in to this site."
 msgstr ""
 
-#: src/Ldap_Client.php:455
+#: src/Ldap_Client.php:453
 msgid "LDAP login is unavailable. Contact your site administrator."
 msgstr ""
 
@@ -1133,20 +1165,20 @@ msgstr ""
 msgid "WordPress could not save the settings. Try again."
 msgstr ""
 
-#: src/Settings.php:573
+#: src/Settings.php:576
 msgid "LDAP protocol version"
 msgstr ""
 
-#: src/Settings.php:574
+#: src/Settings.php:577
 msgid "LDAP timeout"
 msgstr ""
 
-#: src/Settings.php:592
+#: src/Settings.php:595
 msgid "Check the submitted settings. No changes were saved."
 msgstr ""
 
 #. translators: %s: setting label.
-#: src/Settings.php:595
+#: src/Settings.php:598
 #, php-format
 msgid "Check %s. No changes were saved."
 msgstr ""

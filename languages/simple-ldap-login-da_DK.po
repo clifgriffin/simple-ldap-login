@@ -108,15 +108,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Feltkortlægninger"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Én mapping pr. linje: LDAP-attribut:WordPress meta nøgle:type. Eksempel: "
-"%1$s. Typer: %2$s eller %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP-attribut"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress-metanøgle"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Type"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Tekst"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Tal"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -136,13 +146,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Regler fra gruppe til rolle"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Én regel i formatet group:role pr. linje. Eksempel: Editors:editor. Lad "
-"feltet være tomt for at beholde de nuværende roller."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP-gruppe"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress-rolle"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -179,18 +191,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Regler fra gruppe til websted"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Én regel i formatet group:site ID:role pr. linje. Eksempel: "
-"Editors:2:editor. Når gruppemedlemskabet ophører, gendannes det tidligere "
-"medlemskab, eller et medlemskab oprettet af disse regler fjernes. Manuelle "
-"rolleændringer bevares ved fjernelsen. Lad feltet være tomt for at stoppe "
-"medlemskabsopdateringer."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Websteds-id"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -271,6 +274,22 @@ msgstr ""
 "mappekontrol. Gendannelseskonti og superadministratorer er undtaget. "
 "Eksisterende suspenderinger bevares, hvis opgaven stopper, eller licensen "
 "bliver inaktiv."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Tilføj række"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Flyt op"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Flyt ned"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Fjern række"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -421,10 +440,6 @@ msgstr "Aktør-id"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "Bruger-id"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "Websteds-id"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

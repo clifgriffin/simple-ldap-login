@@ -109,15 +109,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Fältmappningar"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Ett mappning per rad: LDAP-attribut:WordPress meta nyckel:typ. Exempel: "
-"%1$s. Typer: %2$s eller %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP-attribut"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress-metanyckel"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Typ"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Text"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Tal"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -137,13 +147,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Regler för grupper och roller"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"En regel i formatet group:role per rad. Exempel: Editors:editor. Lämna tomt "
-"för att behålla nuvarande roller."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP-grupp"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress-roll"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -181,17 +193,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Regler för grupper och webbplatser"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"En regel i formatet group:site ID:role per rad. Exempel: Editors:2:editor. "
-"När gruppmedlemskapet upphör återställs tidigare medlemskap, eller ett "
-"medlemskap som skapats av dessa regler tas bort. Manuella rolländringar "
-"behålls vid borttagning. Lämna tomt för att stoppa medlemskapsuppdateringar."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Webbplats-ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -271,6 +275,22 @@ msgstr ""
 "lyckad katalogkontroll. Återställningskonton och superadministratörer "
 "undantas. Befintliga spärrar kvarstår om uppgiften stoppas eller licensen "
 "blir inaktiv."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Lägg till rad"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Flytta upp"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Flytta ned"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Ta bort rad"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -423,10 +443,6 @@ msgstr "Aktörs-ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "Användar-ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "Webbplats-ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

@@ -1,6 +1,6 @@
 # Local Herd demo
 
-Use this site for manual tests of the current Free plugin source. Herd serves WordPress from `~/Sites/simple-ldap-demo`. Docker runs OpenLDAP and MariaDB in the separate `sll-demo` project. The automated test sites and their data are separate.
+Use this site for manual tests of the current plugin source. Herd serves WordPress from `~/Sites/simple-ldap-demo`. Docker runs OpenLDAP and MariaDB in the separate `sll-demo` project. The automated test sites and their data are separate.
 
 ## Open the site
 
@@ -150,3 +150,9 @@ The demo uses OpenLDAP and password login. It does not configure Herd server SSO
 To check first-start failures, confirm that Docker and Herd are running and ports `13306`, `1389`, and `1636` are free. The setup refuses to use an existing `~/Sites/simple-ldap-demo` folder unless it has the `.sll-demo` marker.
 
 To remove the demo containers but keep the data, run `docker compose -f demo/compose.yml down`. Adding `--volumes` deletes the demo database, LDAP accounts, and CA. Use that option only when you intend to delete all demo data. The Herd site files remain in `~/Sites/simple-ldap-demo`.
+
+## Paid mapping controls
+
+The demo loads `pro/bootstrap.php` through `wp-content/mu-plugins/sll-demo-pro.php`. This local loader shows the paid settings from this repository. It does not grant a license. Paid login features still require a verified Pro or Enterprise key. Remove the loader file to return to the Free interface.
+
+Use User data for custom field rows and Access for group role rows. Select **Add row**, fill each field, then save. The arrow buttons change rule order. **Remove row** deletes a mapping when you save. Multisite membership rows appear in Network Admin on an Enterprise network installation; this demo is a single site.

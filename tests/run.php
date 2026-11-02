@@ -169,6 +169,11 @@ check( true === $settings->save( array( 'groups' => "staff;admins\neditors", 'us
 check( array( 'staff', 'admins', 'editors' ) === $settings->get( 'groups' ), 'Group lists accept new lines and semicolons.' );
 check( 'keep this value' === $settings->get( 'custom_setting' ), 'A tab save retains custom settings.' );
 check( 'dc=example,dc=com' === $settings->get( 'base_dn' ), 'A tab save retains fields from other tabs.' );
+check( true === $settings->save( array( 'user_meta_data' => array( 4 => array( 'telephoneNumber', 'phone', 'number' ), 9 => array( 'mail', 'contact', 'string' ), 12 => array( '', '', '' ) ) ) ) && array( array( 'telephoneNumber', 'phone', 'number' ), array( 'mail', 'contact', 'string' ) ) === $settings->get( 'user_meta_data' ), 'Mapping rows retain their values and order while empty rows are ignored.' );
+$before_mappings = $settings->all();
+check( is_wp_error( $settings->save( array( 'user_meta_data' => array( array( 'mail', '', 'string' ) ) ) ) ) && $before_mappings === $settings->all(), 'An incomplete mapping row cannot replace saved settings.' );
+check( true === $settings->save( array( 'user_meta_data' => array( array( '', '', '' ) ) ) ) && array() === $settings->get( 'user_meta_data' ), 'Clearing all mapping fields removes the mappings.' );
+check( true === $settings->save( array( 'user_meta_data' => '' ) ) && array() === $settings->get( 'user_meta_data' ), 'Removing every mapping row submits an empty setting.' );
 $before = $GLOBALS['sll_test_options'];
 check( is_wp_error( $settings->save( array( 'base_dn' => 'changed', 'user_meta_data' => 'mail:wp:capabilities' ) ) ), 'Invalid mapping types return an error.' );
 check( $before === $GLOBALS['sll_test_options'], 'A validation error saves no settings.' );

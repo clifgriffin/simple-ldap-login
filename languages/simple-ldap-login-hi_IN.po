@@ -109,15 +109,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "फ़ील्ड मैपिंग"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"प्रति पंक्ति एक मैपिंग: LDAP विशेषता:WordPress मेटा कुंजी:प्रकार। उदाहरण: "
-"%1$s। प्रकार: %2$s या %3$s।"
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP विशेषता"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress मेटा कुंजी"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "प्रकार"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "टेक्स्ट"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "संख्या"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -137,13 +147,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "समूह से भूमिका के नियम"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"हर पंक्ति में group:role प्रारूप में एक नियम लिखें। उदाहरण: Editors:editor. "
-"वर्तमान भूमिकाएँ बनाए रखने के लिए खाली छोड़ें।"
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP समूह"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress भूमिका"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -180,17 +192,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "समूह से साइट के नियम"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"हर पंक्ति में group:site ID:role प्रारूप में एक नियम लिखें। उदाहरण: "
-"Editors:2:editor. समूह से हटने पर पिछली सदस्यता बहाल होती है या इन नियमों "
-"से बनाई गई सदस्यता हटती है। हटाने पर भूमिका में किए गए मैन्युअल बदलाव बने "
-"रहते हैं। सदस्यता अपडेट रोकने के लिए खाली छोड़ें।"
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "साइट ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -269,6 +273,22 @@ msgstr ""
 "उपयोगकर्ता डेटा और सामग्री बनाए रखें। बाद में डायरेक्टरी की सफल जाँच के बाद "
 "पहुँच बहाल होती है। पुनर्प्राप्ति खाते और सुपर व्यवस्थापक इसमें शामिल नहीं "
 "हैं। कार्य रुकने या लाइसेंस निष्क्रिय होने पर मौजूदा निलंबन बने रहते हैं।"
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "पंक्ति जोड़ें"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "ऊपर ले जाएँ"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "नीचे ले जाएँ"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "पंक्ति हटाएँ"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -421,10 +441,6 @@ msgstr "कार्रवाई करने वाले की ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "उपयोगकर्ता ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "साइट ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

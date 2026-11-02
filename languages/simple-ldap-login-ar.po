@@ -110,15 +110,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "تعيينات الحقول"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"تعيين واحد لكل سطر: سمة LDAP: مفتاح بيانات WordPress: نوع. مثال: %1$s. "
-"الأنواع: %2$s أو %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "سمة LDAP"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "مفتاح بيانات WordPress الوصفية"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "النوع"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "نص"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "رقم"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -138,13 +148,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "قواعد ربط المجموعات بالأدوار"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"قاعدة واحدة بتنسيق group:role في كل سطر. مثال: Editors:editor. اتركه فارغًا "
-"للاحتفاظ بالأدوار الحالية."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "مجموعة LDAP"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "دور WordPress"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -181,17 +193,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "قواعد ربط المجموعات بالمواقع"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"قاعدة واحدة بتنسيق group:site ID:role في كل سطر. مثال: Editors:2:editor. "
-"عند إزالة العضوية في المجموعة، تُستعاد العضوية السابقة أو تُزال العضوية "
-"التي أنشأتها هذه القواعد. تُحفظ تغييرات الأدوار اليدوية عند الإزالة. اتركه "
-"فارغًا لإيقاف تحديثات العضوية."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "معرّف الموقع"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -270,6 +274,22 @@ msgstr ""
 "احتفظ ببيانات المستخدمين ومحتواهم. يُستعاد الوصول بعد نجاح فحص لاحق للدليل. "
 "تُستثنى حسابات الاسترداد والمسؤولون الفائقون. يستمر التعليق الحالي إذا "
 "توقفت المهمة أو أصبح الترخيص غير نشط."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "إضافة صف"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "نقل لأعلى"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "نقل لأسفل"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "إزالة الصف"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -419,10 +439,6 @@ msgstr "معرّف منفّذ الإجراء"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "معرّف المستخدم"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "معرّف الموقع"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

@@ -102,13 +102,25 @@ msgstr "在登录时将 LDAP 字段（如电话号码或部门）复制到 WordP
 msgid "Field mappings"
 msgstr "字段映射"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr "每行一个映射：LDAP 属性：WordPress 元数据键：类型。示例：%1$s。类型：%2$s 或 %3$s。"
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP 属性"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress 元数据键"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "类型"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "文本"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "数字"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -127,11 +139,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "群组到角色规则"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr "每行输入一条 group:role 格式的规则。例如：Editors:editor。留空可保留当前角色。"
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP 组"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress 角色"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -163,16 +179,9 @@ msgstr "根据目录群组分配站点成员资格和角色。每个站点应用
 msgid "Group-to-site rules"
 msgstr "群组到站点规则"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"每行输入一条 group:site ID:role "
-"格式的规则。例如：Editors:2"
-":editor。退出群组时，恢复原有成员资格，或移除由这些规则创建的成员资格。移除时会保留手动角色更改。留空可停止更新成员资格。"
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "站点 ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -238,6 +247,22 @@ msgid ""
 "directory check. Recovery accounts and super administrators are excluded. "
 "Existing suspensions remain if the task or license stops."
 msgstr "保留用户数据和内容。后续目录检查成功后恢复访问权限。恢复账户和超级管理员不在处理范围内。如果任务停止或许可证失效，现有停用状态仍会保留。"
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "添加行"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "上移"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "下移"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "删除行"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -371,10 +396,6 @@ msgstr "操作人 ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "用户 ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "站点 ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

@@ -104,13 +104,25 @@ msgstr "전화번호나 부서와 같은 LDAP 필드를 로그인 시 WordPress�
 msgid "Field mappings"
 msgstr "필드 매핑"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr "한 줄에 하나의 매핑: LDAP 속성:WordPress 메타 키:유형. 예: %1$s. 유형: %2$s 또는 %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP 속성"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress 메타 키"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "유형"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "텍스트"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "숫자"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -129,11 +141,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "그룹별 역할 규칙"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr "줄마다 group:role 형식으로 규칙 하나를 입력하세요. 예: Editors:editor. 현재 역할을 유지하려면 비워 두세요."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP 그룹"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress 역할"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -167,16 +183,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "그룹별 사이트 규칙"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"줄마다 group:site ID:role 형식으로 규칙 하나를 입력하세요. 예: Editors:2:editor. 그룹에서 제거되면 이전 "
-"멤버십을 복원하거나 이 규칙으로 만든 멤버십을 제거합니다. 수동으로 변경한 역할은 제거 시에도 유지합니다. 멤버십 업데이트를 중지하려면 "
-"비워 두세요."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "사이트 ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -249,6 +258,22 @@ msgid ""
 msgstr ""
 "사용자 데이터와 콘텐츠를 유지합니다. 이후 디렉터리 확인에 성공하면 접근을 복원합니다. 복구 계정과 최고 관리자는 제외됩니다. 작업이 "
 "중지되거나 라이선스가 비활성화되어도 기존 일시 중지 상태는 유지됩니다."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "행 추가"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "위로 이동"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "아래로 이동"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "행 삭제"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -384,10 +409,6 @@ msgstr "작업자 ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "사용자 ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "사이트 ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

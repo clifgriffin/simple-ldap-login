@@ -512,6 +512,9 @@ final class Settings {
 				}
 			}
 			$mapping = array_values( array_map( 'trim', $mapping ) );
+			if ( ! array_filter( $mapping, 'strlen' ) ) {
+				continue;
+			}
 			if ( ! self::validate_attribute( $mapping[0] ) || ! preg_match( '/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/D', $mapping[1] ) || ( isset( $mapping[2] ) && ! in_array( $mapping[2], array( 'string', 'number' ), true ) ) ) {
 				return $this->invalid( 'user_meta_data' );
 			}

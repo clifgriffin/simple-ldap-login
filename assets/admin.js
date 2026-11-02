@@ -20,4 +20,64 @@ if ( settings ) {
 		directory.addEventListener( 'change', updateFields );
 	}
 	updateFields();
+
+	settings.querySelectorAll( '[data-sll-mapping]' ).forEach( ( editor ) => {
+		const rows = editor.querySelector( '.sll-mapping-rows' );
+		const add = editor.querySelector( '[data-sll-add-row]' );
+		const updateRows = () => {
+			Array.from( rows.children ).forEach( ( row, index ) => {
+				const inputs = row.querySelectorAll( '[data-sll-column]' );
+				const required = Array.from( inputs ).some(
+					( input ) => input.value.trim() !== ''
+				);
+				inputs.forEach( ( input ) => {
+					const column = input.dataset.sllColumn;
+					input.name = `sll_settings[${ editor.dataset.sllMapping }][${ index }][${ column }]`;
+					input.id = `sll-${ editor.dataset.sllMapping }-${ index }-${ column }`;
+					input.required = required;
+					row.querySelector(
+						`[data-sll-column-label="${ column }"]`
+					).htmlFor = input.id;
+				} );
+				row.querySelector( '.sll-mapping-actions' ).hidden = false;
+				row.querySelector( '[data-sll-row-action="up"]' ).disabled =
+					index === 0;
+				row.querySelector( '[data-sll-row-action="down"]' ).disabled =
+					index === rows.children.length - 1;
+			} );
+		};
+		editor.addEventListener( 'click', ( event ) => {
+			const button = event.target.closest( 'button' );
+			if ( ! button || button.matches( ':disabled' ) ) {
+				return;
+			}
+			if ( button === add ) {
+				rows.append(
+					editor.querySelector( 'template' ).content.cloneNode( true )
+				);
+				updateRows();
+				rows.lastElementChild.querySelector( 'input' ).focus();
+				return;
+			}
+			const row = button.closest( '.sll-mapping-row' );
+			if ( ! row ) {
+				return;
+			}
+			let focus = row;
+			if ( button.dataset.sllRowAction === 'up' ) {
+				row.previousElementSibling.before( row );
+			} else if ( button.dataset.sllRowAction === 'down' ) {
+				row.nextElementSibling.after( row );
+			} else if ( button.dataset.sllRowAction === 'remove' ) {
+				focus = row.nextElementSibling || row.previousElementSibling;
+				row.remove();
+			}
+			updateRows();
+			( focus ? focus.querySelector( 'input' ) : add ).focus();
+		} );
+		editor.addEventListener( 'input', updateRows );
+		editor.addEventListener( 'change', updateRows );
+		add.hidden = false;
+		updateRows();
+	} );
 }

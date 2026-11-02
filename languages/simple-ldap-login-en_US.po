@@ -106,15 +106,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Field mappings"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP attribute"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress meta key"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Type"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Text"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Number"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -134,13 +144,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Group-to-role rules"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP group"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress role"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -177,17 +189,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Group-to-site rules"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Site ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -266,6 +270,22 @@ msgstr ""
 "Keep user data and content. Restore access after a later successful "
 "directory check. Recovery accounts and super administrators are excluded. "
 "Existing suspensions remain if the task or license stops."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Add row"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Move up"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Move down"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Remove row"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -412,10 +432,6 @@ msgstr "Actor ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "User ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "Site ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

@@ -144,6 +144,71 @@
 	line-height: 1.7;
 }
 
+.sll-admin .sll-mapping-editor {
+	padding: 22px 0;
+}
+
+.sll-admin .sll-mapping-rows {
+	margin: 0 0 16px;
+	padding-inline-start: 24px;
+}
+
+.sll-admin .sll-mapping-row {
+	margin-bottom: 12px;
+	padding-inline-start: 4px;
+}
+
+.sll-admin .sll-mapping-row::marker {
+	color: var(--sll-muted);
+	font-weight: 600;
+}
+
+.sll-admin .sll-mapping-row fieldset {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+	align-items: end;
+	gap: 12px;
+	min-width: 0;
+	margin: 0;
+	padding: 16px;
+	border: 1px solid var(--sll-border);
+	border-radius: 6px;
+	background: #f9fafb;
+}
+
+.sll-admin [data-sll-columns="2"] fieldset {
+	grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+}
+
+.sll-admin .sll-mapping-field {
+	display: grid;
+	gap: 6px;
+	min-width: 0;
+}
+
+.sll-admin .sll-mapping-field label {
+	color: var(--sll-ink);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.sll-admin .sll-mapping-field input,
+.sll-admin .sll-mapping-field select {
+	width: 100%;
+	min-width: 0;
+	max-width: none;
+	margin: 0;
+}
+
+.sll-admin .sll-mapping-actions {
+	display: flex;
+	gap: 4px;
+}
+
+.sll-admin .sll-mapping-actions .dashicons {
+	vertical-align: middle;
+}
+
 .sll-admin .sll-save-bar {
 	display: flex;
 	align-items: center;
@@ -290,6 +355,10 @@
 }
 
 @media (max-width: 782px) {
+
+	.sll-admin .sll-mapping-row fieldset {
+		grid-template-columns: minmax(0, 1fr);
+	}
 
 	.sll-admin .sll-pro-hero {
 		padding: 28px 24px;

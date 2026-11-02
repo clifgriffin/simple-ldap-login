@@ -10,14 +10,18 @@ Pro includes [server SSO](server-sso.md) and custom user field mappings on User 
 
 Requires Pro or Enterprise. On Connection, enter the primary server first, then one backup hostname or IP address per line. All servers must use the same directory. The next server is tried if the previous server is unavailable. Rejected credentials or group access do not trigger another attempt. Free and expired or inactive licenses use only the first server. Saved backup addresses are kept, including during upgrades and package changes. This rule applies to password login, connection tests, SSO, and account jobs. License checks use local state only.
 
+## Custom user fields
+
+Requires Pro or Enterprise. On User data, select **Add row** under Custom user fields. Enter the LDAP attribute and WordPress meta key. Select Text or Number. Use the arrow buttons to change the row order. Select **Remove row** to delete a mapping, then save the settings. Existing mappings appear as rows.
+
 ## Group roles
 
 Requires Pro or Enterprise.
 
-On Access, enter one `group:role` rule per line. Example: `Editors:editor`.
+On Access, select **Add row** under Group roles. Enter an LDAP group and a WordPress role. For example, enter `Editors` and `editor`. The role field suggests installed roles. Use the arrow buttons to change the rule order.
 The first matching rule sets the role at each LDAP password login or server SSO.
 If no rule matches, the default role applies. The rule replaces current roles.
-Leave the rules blank to keep current roles. Each rule must use an existing role.
+Remove all rule rows to keep current roles. Each rule must use an existing role.
 Recovery accounts and super administrators are excluded.
 AD rules include nested and primary groups. OpenLDAP uses the configured group attributes.
 Group names follow the same rules as the free login restriction.
@@ -63,13 +67,13 @@ Directory renames can cause suspension until a verified login updates the saved 
 
 ## Multisite membership
 
-Requires Enterprise. Activate the Pro ZIP for the network with an Enterprise license. On Accounts, enter one `group:site ID:role` rule per line.
-Example: `Editors:2:editor`. Each target site must belong to the current network and have the selected role.
+Requires Enterprise. Activate the Pro ZIP for the network with an Enterprise license. On Accounts, select **Add row** under Multisite membership. Enter the LDAP group, Site ID, and WordPress role in separate fields.
+For example, enter `Editors`, `2`, and `editor`. Each target site must belong to the current network and have the selected role.
 The first matching rule for each site applies at login and import.
 Network site rules replace ordinary group role rules. New users receive only the memberships selected by site rules.
 When a group no longer matches, prior roles return. Memberships created by the rules are removed.
 A manual role change made after assignment is kept when the group no longer matches.
-Unrelated site memberships stay unchanged. Blank rules stop membership updates and keep existing memberships.
+Unrelated site memberships stay unchanged. Remove all rule rows to stop membership updates and keep existing memberships.
 Recovery accounts and super administrators are excluded. Site-only activation cannot change other sites.
 
 ## Audit history and CSV export

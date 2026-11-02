@@ -108,15 +108,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Mapování polí"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Jedno mapování na řádek: LDAP atribut:klíč meta WordPressu:typ. Příklad: "
-"%1$s. Typy: %2$s nebo %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "Atribut LDAP"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "Klíč metadat WordPress"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Typ"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Text"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Číslo"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -137,13 +147,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Pravidla přiřazení rolí skupinám"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Jedno pravidlo ve formátu group:role na řádek. Příklad: Editors:editor. Pro "
-"zachování současných rolí ponechte prázdné."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "Skupina LDAP"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "Role WordPress"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -180,17 +192,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Pravidla přiřazení webů skupinám"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Jedno pravidlo ve formátu group:site ID:role na řádek. Příklad: "
-"Editors:2:editor. Při odebrání ze skupiny se obnoví předchozí členství nebo "
-"se odstraní členství vytvořené těmito pravidly. Ruční změny rolí se při "
-"odebrání zachovají. Pro zastavení aktualizací členství ponechte prázdné."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID webu"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -270,6 +274,22 @@ msgstr ""
 "kontrole adresáře. Účty pro obnovení přístupu a superadministrátoři jsou "
 "vynecháni. Stávající pozastavení zůstanou, pokud se úloha zastaví nebo "
 "licence přestane být aktivní."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Přidat řádek"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Posunout nahoru"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Posunout dolů"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Odstranit řádek"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -420,10 +440,6 @@ msgstr "ID původce akce"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "ID uživatele"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "ID webu"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

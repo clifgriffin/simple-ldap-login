@@ -104,13 +104,25 @@ msgstr "電話番号や部署などのLDAPフィールドをログイン時にWo
 msgid "Field mappings"
 msgstr "フィールドマッピング"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr "1行につき1つのマッピング: LDAP属性:WordPressメタキー:タイプ。例: %1$s。タイプ: %2$s または %3$s。"
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP 属性"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress メタキー"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "種類"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "テキスト"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "数値"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -130,11 +142,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "グループと権限グループのルール"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr "1行につき group:role 形式でルールを1つ入力します。例: Editors:editor。現在の権限グループを維持する場合は空にしてください。"
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP グループ"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress 権限グループ"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -170,17 +186,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "グループとサイトのルール"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"1行につき group:site ID:role 形式でルールを1つ入力します。例: "
-"Editors:2"
-":editor。グループから外れた場合は以前のメンバーシップを復元するか、このルールで作成したメンバーシップを削除します。手動による権限グループの変更は"
-"削除時も維持します。メンバーシップの更新を停止する場合は空にしてください。"
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "サイト ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -255,6 +263,22 @@ msgid ""
 msgstr ""
 "ユーザーデータとコンテンツを維持します。後のディレクトリ確認に成功するとアクセスを復元します。復旧用アカウントと特権管理者は対象外です。タスクが停止した"
 "場合やライセンスが無効になった場合も、既存の停止状態は維持します。"
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "行を追加"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "上に移動"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "下に移動"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "行を削除"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -388,10 +412,6 @@ msgstr "操作実行者 ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "ユーザー ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "サイト ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

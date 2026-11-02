@@ -109,15 +109,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "การแมพฟิลด์"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"หนึ่งการแมพต่อหนึ่งบรรทัด: คุณสมบัติ LDAP: คีย์เมตาของ WordPress: ประเภท. "
-"ตัวอย่าง: %1$s. ประเภท: %2$s หรือ %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "แอตทริบิวต์ LDAP"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "คีย์เมตาของ WordPress"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "ประเภท"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "ข้อความ"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "ตัวเลข"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -137,13 +147,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "กฎจับคู่กลุ่มกับบทบาท"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"หนึ่งกฎในรูปแบบ group:role ต่อบรรทัด ตัวอย่าง: Editors:editor "
-"เว้นว่างไว้เพื่อคงบทบาทปัจจุบัน"
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "กลุ่ม LDAP"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "บทบาท WordPress"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -180,18 +192,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "กฎจับคู่กลุ่มกับเว็บไซต์"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"หนึ่งกฎในรูปแบบ group:site ID:role ต่อบรรทัด ตัวอย่าง: Editors:2:editor "
-"เมื่อถูกนำออกจากกลุ่ม "
-"ให้คืนสมาชิกภาพเดิมหรือลบสมาชิกภาพที่สร้างโดยกฎเหล่านี้ "
-"การเปลี่ยนบทบาทด้วยตนเองจะยังคงอยู่เมื่อถูกนำออก "
-"เว้นว่างไว้เพื่อหยุดอัปเดตสมาชิกภาพ"
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID เว็บไซต์"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -271,6 +274,22 @@ msgstr ""
 "คืนสิทธิ์การเข้าถึงหลังจากตรวจสอบไดเรกทอรีสำเร็จในภายหลัง "
 "ยกเว้นบัญชีกู้คืนและผู้ดูแลระบบสูงสุด "
 "การระงับที่มีอยู่จะยังคงอยู่หากงานหยุดหรือใบอนุญาตไม่ทำงาน"
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "เพิ่มแถว"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "ย้ายขึ้น"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "ย้ายลง"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "ลบแถว"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -421,10 +440,6 @@ msgstr "ID ผู้ดำเนินการ"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "ID ผู้ใช้"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "ID เว็บไซต์"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

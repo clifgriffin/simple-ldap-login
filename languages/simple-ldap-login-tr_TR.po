@@ -109,15 +109,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Alan eşlemeleri"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Her satırda bir eşleme: LDAP niteliği: WordPress meta anahtarı: tür. Örnek: "
-"%1$s. Türler: %2$s veya %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP özniteliği"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPress meta anahtarı"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Tür"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Metin"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Sayı"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -137,13 +147,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Gruptan role kuralları"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Her satıra group:role biçiminde bir kural yazın. Örnek: Editors:editor. "
-"Mevcut rolleri korumak için boş bırakın."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP grubu"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPress rolü"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -180,18 +192,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Gruptan siteye kurallar"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Her satıra group:site ID:role biçiminde bir kural yazın. Örnek: "
-"Editors:2:editor. Gruptan çıkarılınca önceki üyelik geri yüklenir veya bu "
-"kuralların oluşturduğu üyelik kaldırılır. Elle yapılan rol değişiklikleri "
-"kaldırma sırasında korunur. Üyelik güncellemelerini durdurmak için boş "
-"bırakın."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Site kimliği"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -271,6 +274,22 @@ msgstr ""
 "denetiminden sonra erişimi geri yükleyin. Kurtarma hesapları ve süper "
 "yöneticiler hariç tutulur. Görev durursa veya lisans devre dışı kalırsa "
 "mevcut askıya almalar korunur."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Satır ekle"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Yukarı taşı"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Aşağı taşı"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Satırı kaldır"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -419,10 +438,6 @@ msgstr "İşlemi yapanın kimliği"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "Kullanıcı kimliği"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "Site kimliği"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

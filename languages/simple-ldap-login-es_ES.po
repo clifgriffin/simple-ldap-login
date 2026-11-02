@@ -115,15 +115,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Mapeo de campos"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Una asignación por línea: atributo LDAP:clave meta de WordPress:tipo. "
-"Ejemplo: %1$s. Tipos: %2$s o %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "Atributo LDAP"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "Clave de metadatos de WordPress"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Tipo"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Texto"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Número"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -144,13 +154,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Reglas de grupo a rol"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Una regla con el formato group:role por línea. Ejemplo: Editors:editor. "
-"Déjelo en blanco para conservar los roles actuales."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "Grupo LDAP"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "Rol de WordPress"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -189,18 +201,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Reglas de grupo a sitio"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Una regla con el formato group:site ID:role por línea. Ejemplo: "
-"Editors:2:editor. Al dejar de pertenecer al grupo, se restaura la "
-"pertenencia anterior o se elimina la creada por estas reglas. Los cambios "
-"manuales de rol se conservan. Déjelo en blanco para detener las "
-"actualizaciones de pertenencia."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "ID del sitio"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -283,6 +286,22 @@ msgstr ""
 "una comprobación posterior correcta del directorio. Se excluyen las cuentas "
 "de recuperación y los superadministradores. Las suspensiones existentes se "
 "mantienen si se detiene la tarea o la licencia deja de estar activa."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Añadir fila"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Mover arriba"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Mover abajo"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Eliminar fila"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -436,10 +455,6 @@ msgstr "ID del actor"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "ID del usuario"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "ID del sitio"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."

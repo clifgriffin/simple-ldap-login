@@ -109,15 +109,25 @@ msgstr ""
 msgid "Field mappings"
 msgstr "Väljade kaardistamine"
 
-#: pro/src/Admin.php:62
-#. translators: 1: Example field mapping, 2: Text type identifier, 3: Number type identifier.
-#, php-format
-msgid ""
-"One mapping per line: LDAP attribute:WordPress meta key:type. Example: "
-"%1$s. Types: %2$s or %3$s."
-msgstr ""
-"Üks kaardistus rea kohta: LDAP atribuut:WordPress meta võti:tüüp. Näide: "
-"%1$s. Tüübid: %2$s või %3$s."
+#: pro/src/Admin.php:81
+msgid "LDAP attribute"
+msgstr "LDAP atribuut"
+
+#: pro/src/Admin.php:85
+msgid "WordPress meta key"
+msgstr "WordPressi metaandmete võti"
+
+#: pro/src/Admin.php:89
+msgid "Type"
+msgstr "Tüüp"
+
+#: pro/src/Admin.php:91
+msgid "Text"
+msgstr "Tekst"
+
+#: pro/src/Admin.php:92
+msgid "Number"
+msgstr "Arv"
 
 #: pro/src/Admin.php:85
 msgid "Group roles"
@@ -137,13 +147,15 @@ msgstr ""
 msgid "Group-to-role rules"
 msgstr "Rühma ja rolli reeglid"
 
-#: pro/src/Admin.php:86
-msgid ""
-"One group:role rule per line. Example: Editors:editor. Leave blank to keep "
-"current roles."
-msgstr ""
-"Üks reegel vormingus group:role rea kohta. Näide: Editors:editor. Praeguste "
-"rollide säilitamiseks jätke tühjaks."
+#: pro/src/Admin.php:112
+#: pro/src/Admin.php:155
+msgid "LDAP group"
+msgstr "LDAP grupp"
+
+#: pro/src/Admin.php:116
+#: pro/src/Admin.php:164
+msgid "WordPress role"
+msgstr "WordPressi roll"
 
 #: pro/src/Admin.php:108
 msgid ""
@@ -181,17 +193,9 @@ msgstr ""
 msgid "Group-to-site rules"
 msgstr "Rühma ja saidi reeglid"
 
-#: pro/src/Admin.php:98
-msgid ""
-"One group:site ID:role rule per line. Example: Editors:2:editor. On group "
-"removal, restore prior membership or remove a membership created by these "
-"rules. Manual role changes are kept on removal. Leave blank to stop "
-"membership updates."
-msgstr ""
-"Üks reegel vormingus group:site ID:role rea kohta. Näide: Editors:2:editor. "
-"Rühmast eemaldamisel taastatakse varasem liikmesus või eemaldatakse nende "
-"reeglite loodud liikmesus. Rollide käsitsi tehtud muudatused säilivad "
-"eemaldamisel. Liikmesuse uuendamise peatamiseks jätke tühjaks."
+#: pro/src/Audit.php:231
+msgid "Site ID"
+msgstr "Saidi ID"
 
 #: pro/src/Admin.php:101
 msgid "Scheduled account import"
@@ -271,6 +275,22 @@ msgstr ""
 "edukat kataloogikontrolli. Taastekontod ja superadministraatorid on "
 "välistatud. Olemasolevad peatamised jäävad jõusse, kui toiming peatub või "
 "litsents muutub passiivseks."
+
+#: pro/src/Admin.php:207
+msgid "Add row"
+msgstr "Lisa rida"
+
+#: pro/src/Admin.php:260
+msgid "Move up"
+msgstr "Liiguta üles"
+
+#: pro/src/Admin.php:261
+msgid "Move down"
+msgstr "Liiguta alla"
+
+#: pro/src/Admin.php:262
+msgid "Remove row"
+msgstr "Eemalda rida"
 
 #: pro/src/Admin.php:71
 msgid "Custom field storage"
@@ -423,10 +443,6 @@ msgstr "Tegutseja ID"
 #: pro/src/Audit.php:231
 msgid "User ID"
 msgstr "Kasutaja ID"
-
-#: pro/src/Audit.php:231
-msgid "Site ID"
-msgstr "Saidi ID"
 
 #: pro/src/Audit.php:253
 msgid "You do not have permission to export these records."
