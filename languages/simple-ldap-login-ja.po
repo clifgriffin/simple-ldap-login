@@ -504,22 +504,6 @@ msgstr "設定を保存"
 msgid "Settings on other tabs are kept."
 msgstr "他のタブの設定は保持されます。"
 
-#: src/Admin.php:215
-msgid ""
-"Save settings before you check the connection. The check uses saved "
-"settings."
-msgstr "接続を確認する前に設定を保存してください。確認には保存済みの設定が使われます。"
-
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
-msgid "Check Connection"
-msgstr "接続を確認"
-
-#: src/Admin.php:221
-msgid "Open the Testing tab for login tests and more information."
-msgstr "ログインテストと詳細情報については、「テスト」タブを開いてください。"
-
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP接続"
@@ -884,6 +868,12 @@ msgid ""
 "Tests check the connection, password, and required groups. They do not "
 "create accounts or sign users in."
 msgstr "テストは接続、パスワード、および必要なグループを確認します。アカウントを作成したり、ユーザーをサインインさせたりすることはありません。"
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "接続を確認"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."

@@ -548,24 +548,6 @@ msgstr "Salvesta seaded"
 msgid "Settings on other tabs are kept."
 msgstr "Muude vahekaartide seaded jäävad alles."
 
-#: src/Admin.php:215
-msgid ""
-"Save settings before you check the connection. The check uses saved "
-"settings."
-msgstr ""
-"Salvesta seaded enne ühenduse kontrollimist. Kontroll kasutab salvestatud "
-"seadeid."
-
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
-msgid "Check Connection"
-msgstr "Kontrolli ühendust"
-
-#: src/Admin.php:221
-msgid "Open the Testing tab for login tests and more information."
-msgstr "Sisselogimise katsetamiseks ja lisateabe saamiseks ava vahekaart Testimine."
-
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP ühendus"
@@ -948,6 +930,12 @@ msgid ""
 msgstr ""
 "Testid kontrollivad ühendust, parooli ja nõutud gruppe. Need ei loo "
 "kontosid ega logi kasutajaid sisse."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Kontrolli ühendust"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."

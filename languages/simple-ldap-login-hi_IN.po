@@ -548,24 +548,6 @@ msgstr "सेटिंग्स सहेजें"
 msgid "Settings on other tabs are kept."
 msgstr "अन्य टैब पर सेटिंग्स रखी जाती हैं।"
 
-#: src/Admin.php:215
-msgid ""
-"Save settings before you check the connection. The check uses saved "
-"settings."
-msgstr ""
-"कनेक्शन जाँचने से पहले सेटिंग्स सहेजें। जाँच में सहेजी गई सेटिंग्स का उपयोग "
-"होता है।"
-
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
-msgid "Check Connection"
-msgstr "कनेक्शन जाँचें"
-
-#: src/Admin.php:221
-msgid "Open the Testing tab for login tests and more information."
-msgstr "लॉगिन जाँच और अधिक जानकारी के लिए परीक्षण टैब खोलें।"
-
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP कनेक्शन"
@@ -950,6 +932,12 @@ msgid ""
 msgstr ""
 "परीक्षण कनेक्शन, पासवर्ड और आवश्यक समूहों की जांच करते हैं। वे खाते नहीं "
 "बनाते या उपयोगकर्ताओं को साइन इन नहीं करते।"
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "कनेक्शन जाँचें"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."

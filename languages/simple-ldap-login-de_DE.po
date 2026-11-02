@@ -564,24 +564,6 @@ msgstr "Einstellungen speichern"
 msgid "Settings on other tabs are kept."
 msgstr "Einstellungen auf anderen Registerkarten bleiben erhalten."
 
-#: src/Admin.php:215
-msgid ""
-"Save settings before you check the connection. The check uses saved "
-"settings."
-msgstr ""
-"Speichern Sie die Einstellungen, bevor Sie die Verbindung überprüfen. Die "
-"Prüfung verwendet die gespeicherten Einstellungen."
-
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
-msgid "Check Connection"
-msgstr "Verbindung überprüfen"
-
-#: src/Admin.php:221
-msgid "Open the Testing tab for login tests and more information."
-msgstr "Öffnen Sie den Tab Tests für Anmeldetests und weitere Informationen."
-
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP-Verbindung"
@@ -970,6 +952,12 @@ msgid ""
 msgstr ""
 "Die Tests überprüfen die Verbindung, das Passwort und die erforderlichen "
 "Gruppen. Sie erstellen keine Konten oder melden Benutzer an."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Verbindung überprüfen"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."

@@ -551,24 +551,6 @@ msgstr "Instellingen opslaan"
 msgid "Settings on other tabs are kept."
 msgstr "Instellingen op andere tabbladen blijven behouden."
 
-#: src/Admin.php:215
-msgid ""
-"Save settings before you check the connection. The check uses saved "
-"settings."
-msgstr ""
-"Sla de instellingen op voordat u de verbinding controleert. De controle "
-"gebruikt opgeslagen instellingen."
-
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
-msgid "Check Connection"
-msgstr "Verbinding controleren"
-
-#: src/Admin.php:221
-msgid "Open the Testing tab for login tests and more information."
-msgstr "Open het tabblad Testen voor inlogtests en meer informatie."
-
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP-verbinding"
@@ -952,6 +934,12 @@ msgid ""
 msgstr ""
 "Tests controleren de verbinding, het wachtwoord en de vereiste groepen. Ze "
 "maken geen accounts aan of loggen gebruikers in."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Verbinding controleren"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."

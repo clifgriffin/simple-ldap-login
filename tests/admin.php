@@ -13,6 +13,7 @@ namespace SimpleLdapLogin {
 		public string $recovery = 'selected';
 		public array $recovery_ids = array( 1 );
 		public array $saved = array();
+		public bool $valid = true;
 		public array $servers = array( 'dc.example.org' );
 		public array $role_rules = array( array( 'Editors', 'editor' ) );
 		public array $site_rules = array( array( 'Staff', 2, 'editor' ) );
@@ -24,15 +25,18 @@ namespace SimpleLdapLogin {
 		public function recovery_mode() { return $this->recovery; }
 		public function can_recover( \WP_User $user ) { return $this->network ? $user->super : $user->admin && 1 === $user->blog; }
 		public static function is_true( $value ) { return true === $value || '1' === $value; }
-		public function save( $values ) { $this->saved = $values; return true; }
+		public function save( $values ) { if ( ! $this->valid ) { return new \WP_Error(); } $this->saved = $values; return true; }
 	}
 
 	/** Count every explicit test call. */
 	class Ldap_Client {
 		public int $calls = 0;
 		public array $credentials = array();
+		public bool $connection_ok = true;
+		public array $tested_settings = array();
+		public function __construct( private Settings $settings ) {}
 		public function authenticate( $username, $password ) { ++$this->calls; $this->credentials = array( $username, $password ); return array( 'dn' => 'uid=test' ); }
-		public function test_connection() { ++$this->calls; return true; }
+		public function test_connection() { ++$this->calls; $this->tested_settings = $this->settings->saved; return $this->connection_ok ? true : new \WP_Error(); }
 	}
 
 	/** Read only the stored secret format in these screen checks. */
@@ -52,7 +56,7 @@ namespace {
 	$GLOBALS['sll_admin_hooks'] = array();
 
 	class AdminTestStop extends RuntimeException {}
-	class WP_Error {}
+	class WP_Error { public function get_error_message() { return 'Invalid settings.'; } }
 	class WP_User {
 		public function __construct( public int $ID, public string $user_login, public string $display_name, public bool $admin = true, public bool $super = false, public int $blog = 1 ) {}
 	}
@@ -132,6 +136,7 @@ namespace {
 	function sanitize_text_field( $s ) { return trim( strip_tags( $s ) ); }
 	function wp_unslash( $s ) { return is_array( $s ) ? array_map( 'wp_unslash', $s ) : stripslashes( $s ); }
 	function get_current_user_id() { return 1; }
+	function set_transient( $key, $value, $expiry ) {}
 	function get_transient( $key ) { return false; }
 	function delete_transient( $key ) {}
 	function is_wp_error( $value ) { return $value instanceof WP_Error; }
@@ -155,7 +160,7 @@ namespace {
 	require dirname( __DIR__ ) . '/src/Commerce.php';
 	require dirname( __DIR__ ) . '/vendor/paidcommunities/wordpress-sdk/src/Assets/AssetsApi.php';
 	$settings = new SimpleLdapLogin\Settings();
-	$client   = new SimpleLdapLogin\Ldap_Client();
+	$client   = new SimpleLdapLogin\Ldap_Client( $settings );
 	$admin    = new SimpleLdapLogin\Admin( $settings, $client );
 	foreach ( array( 'free', 'pro' ) as $edition ) {
 		if ( 'pro' === $edition ) {
@@ -226,8 +231,7 @@ namespace {
 				admin_check( ( 'help' === $tab ) === str_contains( $html, 'name="sll_test_username"' ), 'Login test fields appear only on Testing.' );
 				admin_check( ( 'help' === $tab ) === str_contains( $html, 'name="sll_test_password"' ), 'Login test passwords appear only on Testing.' );
 				admin_check( ( 'help' === $tab ) === str_contains( $html, 'value="test_login"' ), 'The login test action appears only on Testing.' );
-				$on_connection = 'connection' === $tab || ( 'free' === $edition && in_array( $tab, array( 'sso', 'accounts', 'audit' ), true ) );
-				admin_check( ( $on_connection || 'help' === $tab ? 1 : 0 ) === substr_count( $html, 'value="test_connection"' ), 'Connection and Testing each have one connection check.' );
+				admin_check( ( 'help' === $tab ? 1 : 0 ) === substr_count( $html, 'value="test_connection"' ), 'Only Testing has a manual connection check.' );
 				if ( 'help' === $tab ) {
 					admin_check( 2 === substr_count( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ) && ! str_contains( $html, 'Recovery' ), 'Testing has two test forms without a settings save or recovery information.' );
 				}
@@ -260,8 +264,7 @@ namespace {
 				}
 				if ( 'connection' === $tab ) {
 					admin_check( false !== strpos( $html, 'sll_settings[sso_search_user_password]' ), 'Both packages can configure a search account.' );
-					admin_check( str_contains( $html, '>Check Connection</button>' ) && str_contains( $html, 'Save settings before you check the connection.' ), 'Connection has a check button and saved settings instruction.' );
-					admin_check( str_contains( $html, 'tab=help">Open the Testing tab for login tests and more information.</a>' ), 'Connection links to Testing in the current settings scope.' );
+					admin_check( ! str_contains( $html, '>Check Connection</button>' ) && 1 === substr_count( $html, '<form ' ), 'Connection has only its settings form.' );
 				}
 				$advanced_fields = array( 'timeout', 'allow_plaintext', 'ol_login', 'group_base_dn', 'ol_group', 'group_uid', 'user_first_name_attribute', 'user_last_name_attribute', 'user_email_attribute', 'user_url_attribute', 'delete_on_uninstall' );
 				$on_advanced = 'advanced' === $tab || ( 'free' === $edition && 'profile' === $tab );
@@ -395,15 +398,29 @@ namespace {
 	admin_check( 'denied:400' === admin_post( $admin, array( 'sll_scope' => 'network' ) ), 'A request cannot change the settings scope.' );
 	admin_check( array() === $settings->saved && 0 === $client->calls, 'Rejected requests do not save settings or call LDAP.' );
 	$result = admin_post( $admin, array( 'sll_settings' => array( 'base_dn' => 'dc=example' ) ) );
-	admin_check( false !== strpos( $result, 'sll_status=saved' ) && array( 'base_dn' => 'dc=example' ) === $settings->saved, 'A save passes only submitted settings to the store.' );
+	admin_check( str_contains( $result, 'sll_status=saved_connection_ok' ) && array( 'base_dn' => 'dc=example' ) === $settings->saved && $client->tested_settings === $settings->saved && 1 === $client->calls, 'A Connection save tests the newly saved settings once.' );
+	$client->connection_ok = false;
+	$result = admin_post( $admin, array( 'sll_settings' => array( 'base_dn' => 'dc=changed' ) ) );
+	admin_check( str_contains( $result, 'sll_status=saved_connection_failed' ) && array( 'base_dn' => 'dc=changed' ) === $settings->saved && 2 === $client->calls, 'A failed connection test keeps the saved settings and reports the failure.' );
+	$client->connection_ok = true;
+	$settings->valid = false;
+	$result = admin_post( $admin, array() );
+	admin_check( str_contains( $result, 'sll_status=error' ) && 2 === $client->calls && array( 'base_dn' => 'dc=changed' ) === $settings->saved, 'Invalid settings neither run a connection test nor replace saved values.' );
+	$settings->valid = true;
+	foreach ( array( 'saved_connection_ok', 'saved_connection_failed' ) as $status ) {
+		$_GET = array( 'tab' => 'connection', 'sll_status' => $status );
+		ob_start(); $admin->render(); $html = ob_get_clean();
+		admin_check( str_contains( $html, 'Settings saved.' ) && str_contains( $html, 'saved_connection_ok' === $status ? 'notice-success' : 'notice-error' ) && str_contains( $html, 'saved_connection_ok' === $status ? 'Connection test passed.' : 'Cannot connect to LDAP.' ), 'Connection save notices show both the save and test result.' );
+	}
+	$calls = $client->calls;
 	$advanced_input = array( 'timeout' => '10', 'allow_plaintext' => '0' );
 	$result = admin_post( $admin, array( 'tab' => 'advanced', 'sll_settings' => $advanced_input ) );
 	admin_check( $advanced_input === $settings->saved && str_contains( $result, 'tab=advanced' ), 'An Advanced save submits only its fields and returns to Advanced.' );
 	$recovery_input = array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( '', '1', '2' ) );
 	admin_post( $admin, array( 'tab' => 'access', 'sll_settings' => $recovery_input ) );
-	admin_check( $recovery_input === $settings->saved, 'The handler passes selected recovery IDs to settings validation.' );
+	admin_check( $recovery_input === $settings->saved && $calls === $client->calls, 'Other settings tabs save without a connection test.' );
 	$result = admin_post( $admin, array( 'sll_task' => 'test_connection' ) );
-	admin_check( str_contains( $result, 'tab=connection' ) && false !== strpos( $result, 'sll_status=connection_ok' ) && 1 === $client->calls, 'An explicit connection test calls LDAP once and returns to Connection.' );
+	admin_check( str_contains( $result, 'tab=connection' ) && false !== strpos( $result, 'sll_status=connection_ok' ) && $calls + 1 === $client->calls, 'An explicit connection test calls LDAP once and returns to Connection.' );
 	$password = "a\\b'c";
 	$result = admin_post( $admin, array( 'tab' => 'help', 'sll_task' => 'test_login', 'sll_test_username' => 'alice', 'sll_test_password' => addslashes( $password ) ) );
 	admin_check( false !== strpos( $result, 'sll_status=login_ok' ) && array( 'alice', $password ) === $client->credentials, 'A login test retains exact password bytes.' );
@@ -414,7 +431,7 @@ namespace {
 	admin_check( str_contains( $result, 'tab=help' ) && str_contains( $result, 'sll_status=connection_ok' ) && $calls + 1 === $client->calls, 'A connection check on Testing calls LDAP once and returns to Testing.' );
 	$settings->network = true;
 	$result = admin_post( $admin, array( 'sll_scope' => 'network' ) );
-	admin_check( false !== strpos( $result, '/wp-admin/network/settings.php' ), 'A network save returns to network settings.' );
+	admin_check( str_contains( $result, '/wp-admin/network/settings.php' ) && str_contains( $result, 'sll_status=saved_connection_ok' ) && $calls + 2 === $client->calls, 'A network Connection save runs the test and returns to network settings.' );
 	$GLOBALS['sll_admin_broken_secret'] = true;
 	$_GET = array( 'tab' => 'connection' );
 	ob_start(); $admin->render(); $html = ob_get_clean();

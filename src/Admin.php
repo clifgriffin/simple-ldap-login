@@ -109,7 +109,7 @@ final class Admin {
 			if ( is_wp_error( $result ) ) {
 				set_transient( $this->message_key(), $result->get_error_message(), MINUTE_IN_SECONDS );
 			} else {
-				$status = 'saved';
+				$status = 'connection' === $tab ? ( is_wp_error( $this->client->test_connection() ) ? 'saved_connection_failed' : 'saved_connection_ok' ) : 'saved';
 			}
 		} elseif ( 'test_connection' === $task ) {
 			$status = is_wp_error( $this->client->test_connection() ) ? 'connection_failed' : 'connection_ok';
@@ -209,16 +209,6 @@ final class Admin {
 					<span><?php esc_html_e( 'Settings on other tabs are kept.', 'simple-ldap-login' ); ?></span>
 				</div>
 			</form>
-			<?php endif; ?>
-			<?php if ( 'connection' === $tab ) : ?>
-				<p><?php esc_html_e( 'Save settings before you check the connection. The check uses saved settings.', 'simple-ldap-login' ); ?></p>
-				<div class="sll-save-bar">
-					<form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="post">
-						<?php $this->form_fields( $tab, 'test_connection' ); ?>
-						<?php submit_button( __( 'Check Connection', 'simple-ldap-login' ), 'secondary', 'submit', false ); ?>
-					</form>
-					<a href="<?php echo esc_url( add_query_arg( 'tab', 'help', $this->url() ) ); ?>"><?php esc_html_e( 'Open the Testing tab for login tests and more information.', 'simple-ldap-login' ); ?></a>
-				</div>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -591,12 +581,14 @@ final class Admin {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only result code; no state changes.
 		$status   = isset( $_GET['sll_status'] ) && is_string( $_GET['sll_status'] ) ? sanitize_key( wp_unslash( $_GET['sll_status'] ) ) : '';
 		$messages = array(
-			'saved'             => __( 'Settings saved.', 'simple-ldap-login' ),
-			'connection_ok'     => __( 'Connection test passed.', 'simple-ldap-login' ),
-			'connection_failed' => __( 'Cannot connect to LDAP. Check the server, port, TLS certificate, and search account.', 'simple-ldap-login' ),
-			'login_ok'          => __( 'LDAP login test passed. No account was created.', 'simple-ldap-login' ),
-			'login_failed'      => __( 'LDAP login test failed. Check the username, password, and required groups.', 'simple-ldap-login' ),
-			'error'             => __( 'Could not save settings. Check the values and try again.', 'simple-ldap-login' ),
+			'saved'                   => __( 'Settings saved.', 'simple-ldap-login' ),
+			'saved_connection_ok'     => __( 'Settings saved.', 'simple-ldap-login' ) . ' ' . __( 'Connection test passed.', 'simple-ldap-login' ),
+			'saved_connection_failed' => __( 'Settings saved.', 'simple-ldap-login' ) . ' ' . __( 'Cannot connect to LDAP. Check the server, port, TLS certificate, and search account.', 'simple-ldap-login' ),
+			'connection_ok'           => __( 'Connection test passed.', 'simple-ldap-login' ),
+			'connection_failed'       => __( 'Cannot connect to LDAP. Check the server, port, TLS certificate, and search account.', 'simple-ldap-login' ),
+			'login_ok'                => __( 'LDAP login test passed. No account was created.', 'simple-ldap-login' ),
+			'login_failed'            => __( 'LDAP login test failed. Check the username, password, and required groups.', 'simple-ldap-login' ),
+			'error'                   => __( 'Could not save settings. Check the values and try again.', 'simple-ldap-login' ),
 		);
 		if ( ! isset( $messages[ $status ] ) ) {
 			return;
@@ -609,7 +601,7 @@ final class Admin {
 				$message = $validation;
 			}
 		}
-		$success = in_array( $status, array( 'saved', 'connection_ok', 'login_ok' ), true );
+		$success = in_array( $status, array( 'saved', 'saved_connection_ok', 'connection_ok', 'login_ok' ), true );
 		?>
 		<div class="notice <?php echo $success ? 'notice-success' : 'notice-error'; ?> is-dismissible"><p><?php echo esc_html( $message ); ?></p></div>
 		<?php

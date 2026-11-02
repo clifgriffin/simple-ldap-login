@@ -545,24 +545,6 @@ msgstr "Gem indstillinger"
 msgid "Settings on other tabs are kept."
 msgstr "Indstillinger på andre faner bevares."
 
-#: src/Admin.php:215
-msgid ""
-"Save settings before you check the connection. The check uses saved "
-"settings."
-msgstr ""
-"Gem indstillingerne, før du tjekker forbindelsen. Tjekket bruger de gemte "
-"indstillinger."
-
-#: src/Admin.php:219
-#: src/Admin.php:391
-#: src/Admin.php:393
-msgid "Check Connection"
-msgstr "Tjek forbindelse"
-
-#: src/Admin.php:221
-msgid "Open the Testing tab for login tests and more information."
-msgstr "Åbn fanen Test for at teste login og få flere oplysninger."
-
 #: src/Admin.php:223
 msgid "LDAP connection"
 msgstr "LDAP-forbindelse"
@@ -943,6 +925,12 @@ msgid ""
 msgstr ""
 "Tests kontrollerer forbindelsen, adgangskoden og de krævede grupper. De "
 "opretter ikke konti eller logger brugere ind."
+
+#: src/Admin.php:219
+#: src/Admin.php:391
+#: src/Admin.php:393
+msgid "Check Connection"
+msgstr "Tjek forbindelse"
 
 #: src/Admin.php:373
 msgid "Connect to LDAP and test the search account, if set."

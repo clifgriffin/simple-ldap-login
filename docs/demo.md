@@ -94,7 +94,7 @@ sh demo/setup.sh check
 
 ## Manual tests
 
-1. Log in as `testadmin`. Open the plugin settings and use the connection test. It must succeed.
+1. Log in as `testadmin`. Open the Connection tab and save the settings. The automatic connection test must succeed.
 2. Open a private browser window. Log in as `alice` with `Test-Password-42!`. The login must succeed.
 3. Open Alice's profile. Check the name **Alice Example**, email `alice@example.test`, and Subscriber role.
 4. Log out. Try Alice with an incorrect password. The login must fail.
