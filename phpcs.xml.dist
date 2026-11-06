@@ -4,8 +4,6 @@
     <file>Simple-LDAP-Login.php</file>
     <file>uninstall.php</file>
     <file>src</file>
-    <file>pro/bootstrap.php</file>
-    <file>pro/src</file>
     <exclude-pattern>*/vendor/*</exclude-pattern>
     <arg name="extensions" value="php"/>
     <arg name="colors"/>

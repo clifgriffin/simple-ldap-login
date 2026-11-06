@@ -29,10 +29,11 @@ services:
           ldapsearch -x -ZZ -H ldap://ad -D reader@example.test
           -w 'Reader-Password-42!' -b 'DC=example,DC=test'
           '(sAMAccountName=alice)' dn | grep -qi '^dn: CN=alice,'
-      interval: 2s
+      interval: 60s
+      start_interval: 2s
       timeout: 5s
-      retries: 45
-      start_period: 10s
+      retries: 3
+      start_period: 90s
 
   free:
     environment: *ad-environment
@@ -40,6 +41,11 @@ services:
       - samba-certs:/certs:ro
 
   pro:
+    environment: *ad-environment
+    volumes:
+      - samba-certs:/certs:ro
+
+  enterprise:
     environment: *ad-environment
     volumes:
       - samba-certs:/certs:ro

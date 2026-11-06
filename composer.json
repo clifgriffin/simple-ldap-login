@@ -38,8 +38,6 @@
         "test": [
             "php tests/run.php",
             "php tests/admin.php",
-            "php tests/upgrades.php",
-            "php tests/licenses.php",
             "php tests/uninstall.php"
         ],
         "lint": "php -r \"define('ABSPATH', getcwd() . '/'); require 'vendor/bin/phpcs';\" --",
@@ -48,6 +46,22 @@
             "@test",
             "@lint"
         ],
-        "build": "npm run plugin-zip"
+        "build": "npm run plugin-zip",
+        "test:paid": [
+            "@test",
+            "php tests/run.php paid",
+            "php tests/admin.php paid",
+            "php pro/tests/upgrades.php",
+            "php pro/tests/licenses.php",
+            "php pro/tests/licenses.php enterprise"
+        ],
+        "lint:paid": [
+            "@lint",
+            "php -r \"define('ABSPATH', getcwd() . '/'); require 'vendor/bin/phpcs';\" -- pro/bootstrap.php pro/src"
+        ],
+        "check:paid": [
+            "@test:paid",
+            "@lint:paid"
+        ]
     }
 }

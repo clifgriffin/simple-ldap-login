@@ -1,82 +1,81 @@
 # Pro and Enterprise licenses
 
-Free LDAP password login does not need a PaidCommunities account or license. The Pro ZIP contains the paid features for both annual plans. It replaces Free in the same plugin folder. A verified license determines which paid features can run.
+Free LDAP login needs no license. Pro and Enterprise use separate ZIPs built from the same private `pro/` source. Each paid ZIP has one fixed PaidCommunities product ID. All ZIPs use the same plugin folder.
 
-## Products and plans
-
-PaidCommunities uses a separate product for each feature tier. The **Simple LDAP Login** product family groups the two products. The family ID is `prgrp_9R8wuq4vA3Dtc9b8`.
-
-| Plan | Annual price | Sites | Product ID | Plan ID |
+| Build | Annual price | Sites | Product ID | Plan ID |
 | --- | --- | --- | --- | --- |
 | Pro | USD 99 | 1 | `prd_9QyrKxQpvZGrcCW8` | `plan_9R8xkMlq1nmCekmG` |
 | Enterprise | USD 499 | 1 | `prd_9R92jB1prxMfJR36` | `plan_9R937DcDDy4wMH4x` |
 
-Pro is the default purchase choice, as the user requested. The previous USD 499 plan, `plan_9QysG8ogD3yHM8sO`, belongs to the Pro product and is retained for existing records. Its inactive status and the family's exact two-product membership were verified after reload. The Enterprise product remains Draft without a release. No release has been assigned as part of this setup. The pricing-page editor still needs a storage fix. See the [catalog setup](product-plan.md#paidcommunities-catalog-setup).
+The product family ID is `prgrp_9R8wuq4vA3Dtc9b8`. The inactive old Enterprise plan on the Pro product, `plan_9QysG8ogD3yHM8sO`, is retained for existing records. See the [catalog setup](product-plan.md#paidcommunities-catalog-setup). A plan name, billing plan ID, price, or submitted product field cannot enable a tier.
 
-Pro includes backup LDAP servers, SSO, custom user fields, group role rules, and profile updates at login. Enterprise includes these features plus scheduled account import, scheduled access removal and session removal, multisite membership rules, and audit history with retention and CSV export. See the [complete feature table](product-plan.md#free-pro-and-enterprise-features).
+## Native SDK integration
 
-The feature checks, purchase links, activation selector, license messages, and upgrade prompts are implemented. The plugin makes an authenticated status request for Enterprise first, then Pro if Enterprise returns `invalid_product`. It saves the verified product as `product_id` in local license state. Both plans use the same paid ZIP. Access does not depend on the price, a plan ID, or the administrator's activation choice.
+The Composer dependency is pinned to `paidcommunities/wordpress-sdk` `0.0.4`. Its upstream HEAD was verified as `4bfaef0967c01daf720fd5182d87fe91451ca20d` on 2026-11-02. The installed SDK and current upstream source match.
 
-| License state | Paid feature behavior |
+`Pro\PaidCommunities_Config` extends `PluginConfig`. It receives the main plugin file, fixed build product ID, version, and existing option name. The SDK registers its native activation/deactivation handlers, update controller, plugin information callback, assets, and response cache. The build adds `Update URI: https://paidcommunities.com` only to paid ZIPs. Free keeps WordPress.org updates. See the [SDK setup guide](https://paidcommunities.com/documentation/code-examples/wordpress-plugin/sdk-integration/) and [SDK reference](https://paidcommunities.com/documentation/sdks/wordpress-sdk/).
+
+The React `LicenseActivation` component uses its default SDK API service. The PHP fallback also uses the SDK template and script. Both activation and deactivation go to the native `AdminAjaxController`; the plugin has no replacement activation API or HTTP client. Registration uses the product from PluginConfig. A submitted edition or product field is ignored.
+
+`SimpleLdapLogin\License` extends the SDK License. Its read/save/delete overrides preserve the existing `sll_pro_license` option, encrypted secret, configured site binding, and site/network scope. These methods do not make service requests. The SDK supplies the status and redacted key. The original key is not stored. The SDK deletion behavior is retained, including deletion after a failed deactivation. A capability guard requires the appropriate site or network settings permission before the native handlers run.
+
+Feature access delegates to the SDK's `isActive()` method. Pro features require an active license for the installed product. Enterprise features also require the Enterprise build. Settings must enable optional features. Free includes no paid feature code. See the [feature table](product-plan.md#free-pro-and-enterprise-features).
+
+## Scheduled and manual checks
+
+SDK 0.0.4 has no separate license scheduler or standalone validation service. It refreshes saved license status in `UpdateController::checkPluginUpdates()`, through WordPress's normal plugin-update checks. The plugin does not add an hourly license event. A small migration cleanup removes the old `sll_pro_license_check` event.
+
+WordPress normally schedules `wp_update_plugins` twice daily and can also check during update administration. The SDK owns the update request, status write, and 60-second response cache. WordPress cron still needs site traffic or a system task. Delayed cron delays license status changes. Login and feature checks read saved state and do not contact PaidCommunities.
+
+**Check license** clears the SDK's product/version cache entry and calls the same SDK update controller. It does not call an endpoint directly. Inactive licenses can be checked again, so a confirmed renewal restores features. A successful SDK save makes no second request. See the [SDK update controller](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/UpdateController.php).
+
+| SDK result | Feature behavior |
 | --- | --- |
-| Not activated | All paid features are off. |
-| Active Pro | Backup LDAP servers, SSO, custom fields, group role rules, and profile updates can run. Enterprise features are off. |
-| Active Enterprise | All nine paid feature groups can run. |
-| Active with a missing or unknown product | All paid features are off. Select **Check license** to verify the plan. |
-| Expired or inactive | All paid features stop. LDAP uses only the first configured server. Saved settings, user data, audit records, and suspensions remain. |
-| Renewed or changed product | A successful check applies the verified product entitlement. |
-| Service error | Keep the last verified status and entitlement. An expired license stays expired. |
+| Not activated or wrong build/product | Paid features stay off. |
+| Active Pro | Backup servers, SSO, custom fields, group roles, and profile updates can run. |
+| Active Enterprise | Pro features and scheduled jobs, multisite membership, and audit features can run. |
+| Confirmed expiry/inactive status | Paid features stop. Saved settings, records, and existing suspensions remain. |
+| Confirmed renewal | The SDK restores licensed features. |
+| Failed update/status request | Keep the last saved status. An expired license stays expired. |
 
-LDAP password login, account creation, login group checks, and local recovery accounts remain available in every state. Existing account suspensions and directory identity checks remain enforced. License expiry does not end existing WordPress sessions. Pro settings remain available. Enterprise controls are disabled without an Enterprise license and show a link to the License tab. Saving another tab keeps their saved values.
+LDAP password login, account creation, login group restrictions, and local recovery stay available. Expiry does not end existing WordPress sessions. Enterprise controls are disabled without Enterprise access; their saved values remain.
 
-## Activation and checks
+## Compatibility guards
 
-Install the Pro ZIP, then open its License tab. Choose **Pro** or **Enterprise** to match the purchase receipt, enter the key, and activate it. This choice selects the product for domain registration. The authenticated license response determines access. Invalid plan choices are rejected before a service request. **Check license** and deactivation do not need a plan choice.
+The plugin does not modify SDK vendor source. WordPress HTTP filters bound this product's SDK requests to ten seconds, block redirects, and limit response size. Invalid HTTP/JSON responses cannot overwrite saved status or put remote bodies in the SDK error log. Requests from other PaidCommunities plugins and the SDK download handler are left unchanged.
 
-Activation sends the key, configured site domain, plugin version, and selected product ID to PaidCommunities. The service also receives the server IP address. The original key is not stored. The site activation secret is encrypted with the same key source used for LDAP credentials. License data uses `sll_pro_license`, separate from the public LDAP settings API.
+One SDK 0.0.4 response guard is required: the live service can return `code: invalid_product` together with `license.status: active`. The SDK reads the status alone. The guard changes that denied product's status to inactive before the SDK processes its existing response. It sends no additional request and never tries another product. Unknown active codes or a mismatched response slug are rejected.
 
-The shared Composer dependency is `paidcommunities/wordpress-sdk` at `0.0.4`. The build places the SDK under `SimpleLdapLoginVendor`. Only the Pro ZIP loads its local `LicenseActivation` React component. Neither package initializes `PluginConfig`, the SDK admin handlers, or its updater. The component calls the checked `wp_ajax_sll_license` handler through its `apiService` prop. A normal form remains available if JavaScript fails. The shared HTTP client checks HTTP status and JSON data, blocks redirects, and uses a ten-second timeout. Keys, secrets, remote error bodies, LDAP settings, and directory records are not logged.
+The update callback delegates to the SDK and suppresses incomplete/no-download results and updates for inactive licenses. It still runs the SDK check for inactive licenses, so renewal works. Exceptions cannot break the admin page. The SDK's HTML view remains unmodified during dependency isolation; adding a PHP namespace after its leading HTML would break native rendering.
 
-The authenticated `plugins/update_check` endpoint checks the product ID in each request. The response's `slug` must match that ID. `code: invalid_product` denies access to that product even when `license.status` is `active`. `code: no_release` permits a license check before a release is assigned. A normal response without a code is also accepted. Unknown codes cannot grant active access. Missing license data and invalid statuses are errors. Only `active`, `inactive`, and `expired` statuses are accepted. A confirmed inactive or expired status stops paid features even with another result code. Enterprise takes priority; if both products are denied, paid features stop. These requests run during activation and background checks, never during login. See the [SDK source](https://github.com/paidcommunities/paidcommunities-wordpress-sdk/blob/4bfaef0967c01daf720fd5182d87fe91451ca20d/src/UpdateController.php).
+## Purchases and changing editions
 
-The [general License object](https://paidcommunities.com/documentation/objects/license/) documents `product_id` and `product_ids`, but the live WordPress update response does not include those fields. Do not require them in this endpoint's response. Product access comes from the result of the authenticated request for that product.
+Free lists both plans and links to their annual checkout URLs. Opening the plugin screen makes no purchase request. PaidCommunities receives the key, site domain, plugin version, product ID, and server IP during activation. Later SDK checks use the activation secret. LDAP credentials and directory records are not sent.
 
-Activation schedules `sll_pro_license_check` hourly through WP-Cron. `License::plan()` reads only saved local state. Login never calls PaidCommunities. Confirmed expiry takes effect after a successful check. WP-Cron needs site traffic or a server cron task. A delayed task delays expiry detection. Administrators can select **Check license** after renewal or a product change. Older activation records without a verified product retain their check schedule but cannot enable paid features until a check verifies the product.
-
-License data uses site options for a site activation and network options for a network activation. Network checks run on the main site. A copy at a different configured site address needs its own activation. The service controls activation limits; live staging and multisite terms still need acceptance tests.
-
-The admin handler requires POST, `manage_options` or `manage_network_options`, a valid nonce, and the correct settings scope. Failed permission checks do not read keys, call the service, or clear local activation data. Failed remote deactivation also keeps local data.
-
-## Purchases and Enterprise access
-
-Free's Go Pro tab lists both prices and the correct feature split. Each purchase button links directly to that product's annual plan. Free has no license form and loads no purchase service scripts. Opening Go Pro makes no purchase service request. A small notice at the bottom explains checkout data sharing. A retained active license hides another purchase offer for the same plan. A retained license without a verified product shows installation and license-check instructions.
-
-`Commerce::checkout_url()` selects Pro by default. Passing `enterprise` selects the Enterprise product and annual plan. Both URLs are recorded in the [catalog setup](product-plan.md#paidcommunities-catalog-setup). Links use `rel="noreferrer"` and open in the same tab. PaidCommunities handles payment at `https://checkout.paidcommunities.com`.
-
-After purchase, replace Free with the Pro ZIP from the receipt through WordPress. Activate the license in Pro. The replacement keeps LDAP settings and any existing license record. Free does not download or install executable code.
-
-The paid License tab identifies the verified plan. Active Pro users see **Get Enterprise**. It opens checkout for a new license; it does not change or cancel a Pro subscription. Manage the Pro subscription separately through PaidCommunities. After purchase, deactivate the current key, choose Enterprise, and activate the new key. Deactivating a site key does not cancel its subscription. An active Enterprise license has no repeat purchase prompt.
+After purchase, install the ZIP for that plan at the existing plugin path and activate its matching key. Free does not install executable code. For Pro-to-Enterprise changes, deactivate the Pro key, install the Enterprise ZIP, and activate the Enterprise key. Checkout creates a new license; it does not change or cancel the Pro subscription. Manage subscriptions through PaidCommunities.
 
 ## Checks and release limits
 
-### Local service test: 2026-10-30
+`composer check:paid` runs the real SDK handlers and update controller with controlled WordPress HTTP responses. It checks both products and storage scopes, native nonce behavior, fixed product selection, one-request activation and status writes, update caching, expiry, renewal, malformed responses, copied sites, encryption, and local feature access. No custom license cron may be created. JavaScript tests verify that the activation component does not override the SDK API service.
 
-The dashboard was changed to **Test** mode. Its Stripe test connection was already configured. In the Pro product menu, **Preview Checkout** opened a page with a **TEST MODE** label and Stripe test inputs. The normal purchase link did not show that label. Use the dashboard preview for payment tests. Checkout needs a customer account password; no purchase was submitted.
+ZIP tests exercise native PHP template rendering and isolated SDK classes. Docker tests use the native activation handler and update controller in real WordPress with controlled service responses. The prior real service probes below establish the API behavior; they do not substitute for purchase and published-release tests of the current implementation.
 
-A Pro license was created in Test mode, limited to `simple-ldap-demo.test` and one site. Its record is `lic_9R9J7uE84CBYPBXV`. Keep the key out of this repository. The local demo used the real SDK and service. Domain registration and the authenticated update check both returned HTTP 200. The response's `license` object contained only `limit` and `status`, without `product_id` or `product_ids`. The plugin rejected activation and saved no local activation record. The first diagnosis incorrectly treated the missing fields as a service defect. The test below found the supported product check.
+Before release, test completed purchases, live expiry/renewal, refunds, cancellation, site limits, staging, and a published release download through the SDK. No release is assigned by this task. The pricing-page feature storage issue also remains in the [catalog notes](product-plan.md#paidcommunities-catalog-setup).
 
-A second registration failed, so the test domain could not be deactivated through that request. The license detail page also failed with `Cannot read properties of undefined (reading 'filter')`. Check and clear the remote activation when that page works. Opening **New Product** also created an unused blank draft, `prd_9R9Io1bCtkGSO939`; no plan or release was added to it.
+## Product group and billing plan API test: 2026-11-02
 
-The local license suite passed 177 checks after this service test.
+Both service-issued test keys were used with the WordPress client API. These were manual test licenses, not keys from completed checkout purchases. No payment was made.
 
-### Product checks and correction: 2026-11-02
+| Request | Result |
+| --- | --- |
+| Register with the key's assigned product ID | HTTP 200; domain ID and activation secret returned. |
+| Register with `product_id` set to `prgrp_9R8wuq4vA3Dtc9b8` | HTTP 400; product group is not assigned to the license. |
+| Register with only `product_group_id`, `group_id`, `plan_id`, or `billing_plan_id` | HTTP 400; `product_id` is required. |
+| Register with `product_id` set to a billing plan ID | HTTP 400; product is not assigned to the license. |
+| Authenticated update check with the group ID | HTTP 200 with no license data. It cannot establish access. |
+| Update check with the correct product and a valid, invalid, or other tier's `plan_id` or `billing_plan_id` | Same active result. These fields do not select or verify a plan. |
+| Authenticated domain detail or list | HTTP 404. |
 
-The documentation and both the installed and current upstream SDK were reviewed. The SDK sends `product_id` for registration and update checks; it does not require product IDs in the response's license object.
+The update response provides only license status and activation limit. Both annual plans cover one site, so the limit cannot identify a tier. Account license endpoints did not return usable license data with a domain activation secret. Public dashboard code stores product IDs on licenses; plans and groups use separate account endpoints.
 
-Two new service-issued test keys were limited to `.test` domains. With the Pro key, Enterprise registration returned HTTP 400. Pro registration succeeded. With its domain secret, the Pro status request returned `no_release`; the Enterprise request returned `invalid_product`. Both responses had HTTP 200 and `license.status: active`. An unknown product returned no license data. The test removed its domain activation.
-
-The corrected plugin passed eight checks against the real service on the local demo: Enterprise rejection with a Pro key, Pro activation, no saved license key, Pro refresh, Pro deactivation, Enterprise activation with the same code, Enterprise refresh, and Enterprise deactivation. Both test activations were removed. No payment was submitted. The local license suite passes 173 checks with fixtures based on these real responses. Source checks, coding standards, and Free/Pro ZIP tests also pass. Payment, renewal, expiry, and keys from completed purchases still need live tests.
-
-`php tests/licenses.php` tests the real SDK with controlled HTTP responses. It covers Pro and Enterprise products, activation choices, unknown and missing products, expiry, renewal, inactive licenses, timeouts, invalid JSON, HTTP errors, storage failure, scope, secret storage, and copied activations. Admin and JavaScript tests cover the feature lists, checkout links, plan selector, upgrade prompts, permissions, nonces, and form output. The feature tests check Pro denial and Enterprise access for jobs, membership changes, audit collection, retention, and export.
-
-The tests do not use a live customer license. Before release, check a real purchase for each product, expiry, renewal, cancellation, refund, site limits, staging, and network activation with PaidCommunities. Test product changes and retained account suspensions. Complete the external updater separately. Verify both checkout URLs and current payment methods. Fix the pricing-page feature storage. Assign a tested release only after these checks pass.
+No usable group or billing plan route was found in the exposed client API. Use three builds rather than trying product IDs in sequence. Pro uses `prd_9QyrKxQpvZGrcCW8`; Enterprise uses `prd_9R92jB1prxMfJR36`. All successful probe activations were removed. Do not put account API credentials in a distributed plugin. A published release and checkout tests remain required.

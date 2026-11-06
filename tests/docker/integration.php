@@ -20,11 +20,11 @@ $check     = static function ( bool $passed, string $label ) use ( &$checks ): v
 	echo 'PASS: ' . $label . "\n";
 };
 
-$check( in_array( $edition, array( 'free', 'pro' ), true ), 'The test edition is Free or Pro.' );
+$check( in_array( $edition, array( 'free', 'pro', 'enterprise' ), true ), 'The test edition is Free, Pro, or Enterprise.' );
 $check( in_array( $directory, array( 'ol', 'ad' ), true ), 'The test directory is OpenLDAP or Samba AD.' );
 $check( defined( 'SLL_EDITION' ) && SLL_EDITION === $edition, 'The installed ZIP has the expected edition.' );
 $check( extension_loaded( 'ldap' ), 'The PHP LDAP extension is loaded.' );
-$check( class_exists( 'SimpleLdapLogin\\Pro\\Server_Sso' ) === ( 'pro' === $edition ), 'Only the Pro ZIP contains server SSO.' );
+$check( class_exists( 'SimpleLdapLogin\\Pro\\Server_Sso' ) === ( 'free' !== $edition ), 'Only paid ZIPs contain server SSO.' );
 $check( ! method_exists( Ldap_Client::class, 'authenticate_sso' ), 'The shared LDAP client has no SSO implementation.' );
 
 $bad_ca = '1' === getenv( 'SLL_BAD_CA' );
@@ -151,7 +151,7 @@ $check( is_wp_error( $client->authenticate( 'alice', '' ) ) && is_wp_error( $cli
 
 $save( array( 'domain_controllers' => array( '127.0.0.1:1', $host ), 'timeout' => 1 ) );
 $result = $client->authenticate( 'alice', $password );
-$check( 'pro' === SLL_EDITION ? is_array( $result ) : is_wp_error( $result ), 'Only the licensed paid package uses a backup server after the primary fails.' );
+$check( 'free' !== SLL_EDITION ? is_array( $result ) : is_wp_error( $result ), 'Only the licensed paid package uses a backup server after the primary fails.' );
 $save( array( 'domain_controllers' => array( $host, '127.0.0.1:1' ) ) );
 $result = $client->authenticate( 'alice', 'wrong-password' );
 $check( is_wp_error( $result ) && 'sll_credentials' === $result->get_error_code(), 'A credential denial is not replaced by a later controller error.' );
@@ -312,7 +312,7 @@ $result = wp_authenticate( 'alice', $password );
 remove_filter( 'wp_authenticate_user', $deny, 100 );
 $check( is_wp_error( $result ) && 'sll_test_user_check' === $result->get_error_code(), 'WordPress user checks can deny LDAP login.' );
 
-if ( 'pro' === $edition ) {
+if ( 'free' !== $edition ) {
 	$check( '+15550100' === get_user_meta( $user->ID, 'phone_ldap', true ) && '+15550100' === get_user_meta( $user->ID, 'phone_wp', true ), 'Pro copies custom LDAP metadata into both legacy keys.' );
 	update_user_meta( $user->ID, 'phone_wp', 'local edit' );
 	wp_authenticate( 'alice', $password );

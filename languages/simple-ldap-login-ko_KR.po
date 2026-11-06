@@ -406,6 +406,10 @@ msgstr "사용자 ID"
 msgid "You do not have permission to export these records."
 msgstr "이 기록을 내보낼 권한이 없습니다."
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "이 설정을 변경할 권한이 없습니다."
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -443,10 +447,6 @@ msgstr "Simple LDAP Login은 PHP 8.1 이상이 필요합니다."
 msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
 msgstr "플러그인 파일이 누락되었습니다. 릴리스 ZIP에서 Simple LDAP Login을 다시 설치하십시오."
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "이 설정을 변경할 권한이 없습니다."
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr "설정 범위가 변경되었습니다. 설정 페이지를 열고 다시 시도하십시오."
@@ -454,15 +454,6 @@ msgstr "설정 범위가 변경되었습니다. 설정 페이지를 열고 다�
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "이 설정을 볼 권한이 없습니다."
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "LDAP 로그인 설정"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr "LDAP에 연결한 후 인증을 활성화하기 전에 로그인을 테스트하십시오."
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -491,6 +482,11 @@ msgid ""
 "LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your "
 "server supports it."
 msgstr "LDAP 비밀번호는 암호화 없이 전송됩니다. 서버가 지원하는 경우 StartTLS 또는 LDAPS를 사용하세요."
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP 로그인 설정"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -538,6 +534,12 @@ msgid ""
 msgstr ""
 "한 줄에 호스트 이름 또는 IP 주소를 하나씩 입력하세요. 활성 Pro 또는 Enterprise 라이선스가 있으면 백업 서버를 사용할 "
 "수 있습니다. 활성 라이선스가 없으면 첫 번째 서버만 사용합니다."
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr "Pro로 업그레이드하여 기본 서버를 사용할 수 없을 때 백업 LDAP 서버를 사용하세요."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -688,6 +690,12 @@ msgstr "기본 역할"
 msgid "For new accounts only."
 msgstr "새 계정에만 해당합니다."
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr "Pro로 업그레이드하여 로그인할 때마다 디렉터리 그룹에 따라 WordPress 역할을 할당하세요."
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -698,6 +706,12 @@ msgid ""
 "One group name per line. Users must belong to at least one. Leave blank to "
 "allow all LDAP users."
 msgstr "한 줄에 하나의 그룹 이름. 사용자는 최소한 하나에 속해야 합니다. 모든 LDAP 사용자를 허용하려면 비워 두세요."
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr "Enterprise로 업그레이드하여 매시간 디렉터리 검사로 퇴사한 직원의 접근을 차단하세요."
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -804,6 +818,12 @@ msgstr "이메일 속성"
 msgid "Website attribute"
 msgstr "웹사이트 속성"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr "Pro로 업그레이드하여 로그인 시 프로필을 업데이트하고 디렉터리에서 사용자 정의 필드를 복사하세요."
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "데이터 보존"
@@ -818,32 +838,105 @@ msgid ""
 "plugin. Keep user accounts."
 msgstr "WordPress가 플러그인을 삭제할 때 저장된 설정과 LDAP 자격 증명을 삭제합니다. 사용자 계정은 유지됩니다."
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "문서"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "도움을 드리겠습니다."
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "지원"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr "설정, 로그인 또는 라이선스에 대한 도움을 받으세요. 메시지를 보내 주시면 이메일로 답변해 드립니다."
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "지원팀에 문의"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "문서 보기"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "자주 묻는 질문"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "설치 및 설정"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "디렉터리를 연결하고 첫 로그인을 테스트하세요."
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "연결 및 로그인 테스트"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "연결을 확인하고 로그인 오류의 원인을 찾으세요."
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "관리자 접근 복구"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr "LDAP 로그인이 작동하지 않으면 접근을 복구하세요."
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "Pro 및 Enterprise 라이선스"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "라이선스를 활성화하거나 요금제를 확인하거나 갱신하세요."
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "복구"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
-msgstr ""
-"잠금 해제되지 않으면 호스팅 파일 관리자를 사용하여 simple-ldap-login 폴더 이름을 변경하세요. WordPress 관리자 "
-"비밀번호로 로그인한 후 폴더를 복원하고 설정을 수정하세요."
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
+msgstr "wp-config.php에서 wp-settings.php를 불러오는 줄 앞에 다음 줄을 추가하세요:"
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
-msgstr "인증서 오류가 발생하면 호스트에 신뢰할 수 있는 LDAP 인증 기관을 구성하도록 요청하세요."
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
+msgstr "LDAP 로그인과 SSO가 비활성화됩니다. 로컬 WordPress 관리자 비밀번호로 로그인하여 설정을 수정한 다음 이 줄을 삭제하세요."
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "다른 방법: 플러그인 폴더 이름 변경"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr ""
+"접근이 차단되면 WordPress 서버에서 %s 폴더의 이름을 변경하세요. WordPress 관리자 비밀번호로 로그인한 다음 폴더 "
+"이름을 복원하고 설정을 수정하세요."
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr "인증서 오류가 발생하면 LDAP 서버 인증서가 만료되지 않았고 연결 설정의 서버 이름과 일치하는지 확인하세요."
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"WordPress 서버에서 PHP LDAP 라이브러리가 사용하는 신뢰 설정에 루트 및 중간 CA 인증서를 추가하세요. "
+"OpenLDAP에서는 ldap.conf의 TLS_CACERT를 사용하세요. 변경 후 PHP를 다시 시작하고 연결 설정을 저장하여 다시 "
+"테스트하세요."
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -896,6 +989,10 @@ msgstr "LDAP 비밀번호"
 msgid "After both tests pass, enable LDAP and try logging in from another browser."
 msgstr "두 가지 테스트가 모두 통과한 후 LDAP를 활성화하고 다른 브라우저에서 로그인해 보세요."
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "지금 업그레이드"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "설정이 저장되었습니다."
@@ -937,6 +1034,10 @@ msgstr "고급"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "테스트"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "지원"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1066,17 +1167,17 @@ msgstr "로그인 결과, 역할 변경, 가져오기 및 접근 권한 변경�
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro 및 Enterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "LDAP 요금제를 선택하세요."
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "WordPress 접근 권한을 최신 상태로 유지하세요."
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
 msgstr ""
-"Pro는 통합 로그인과 사용자 데이터 업데이트를 추가합니다. Enterprise는 예약된 계정 관리, 멀티사이트 회원 규칙 및 감사 "
-"기록을 추가합니다."
+"Pro로 업그레이드하여 로그인 시 역할을 할당하고 프로필을 업데이트하세요. Enterprise로 업그레이드하여 직원이 퇴사하면 다음 "
+"로그인 전에 접근을 차단하세요."
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1097,6 +1198,12 @@ msgstr "모든 Free 기능과 다음 기능:"
 #: src/Commerce.php:154
 msgid "Everything in Pro, plus:"
 msgstr "모든 Pro 기능과 다음 기능:"
+
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr "매시간 디렉터리 검사에서 접근 권한 상실이 확인되면 접근을 차단하고 활성 세션을 종료하세요. 사용자 콘텐츠와 감사 기록은 보존하세요."
 
 #: src/Commerce.php:168
 msgid "Buy Pro"
@@ -1120,20 +1227,22 @@ msgstr ""
 "예약 작업은 WordPress cron을 사용하며 사이트 방문 또는 시스템 작업이 필요합니다. 통합 로그인에는 웹 서버 인증이 "
 "필요합니다. 멀티사이트 규칙에는 네트워크 활성화가 필요합니다."
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
-msgstr "저장된 라이선스의 요금제를 확인해야 합니다. Pro를 설치한 다음 라이선스 탭에서 라이선스 확인을 선택하세요."
-
-#: src/Commerce.php:176
-msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
 msgstr ""
-"구매 후 Free를 영수증의 Pro ZIP으로 교체하세요. 그런 다음 Pro의 라이선스 탭에서 라이선스를 활성화하세요. LDAP 설정은 "
-"유지됩니다."
+"저장된 라이선스의 요금제를 확인해야 합니다. Pro/Enterprise를 설치한 다음 라이선스 탭에서 라이선스 확인을 선택하세요. "
+"요금제에 맞는 ZIP을 사용하세요."
+
+#: src/Commerce.php:181
+msgid ""
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
+msgstr ""
+"구매 후 Free를 영수증의 Pro/Enterprise ZIP으로 교체하세요. 그런 다음 Pro/Enterprise의 라이선스 탭에서 "
+"라이선스를 활성화하세요. LDAP 설정은 유지됩니다. 요금제에 맞는 ZIP을 사용하세요."
 
 #: src/Commerce.php:177
 msgid ""
@@ -1202,40 +1311,16 @@ msgid ""
 "membership rules, and audit history with CSV export."
 msgstr "Enterprise는 예약된 계정 가져오기와 접근 권한 제거, 멀티사이트 회원 규칙, CSV 내보내기가 포함된 감사 기록을 추가합니다."
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "Enterprise 받기는 새 라이선스의 결제 페이지를 엽니다. Pro 구독을 변경하거나 취소하지 않습니다. 해당 구독은 "
-"PaidCommunities에서 별도로 관리하세요. 구매 후 이 키를 비활성화하고 Enterprise를 선택한 다음 새 키를 "
+"PaidCommunities에서 별도로 관리하세요. 구매 후 이 키를 비활성화하고 Enterprise ZIP을 설치한 다음 새 키를 "
 "활성화하세요."
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "구매한 요금제"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr ""
-"구매 영수증에 있는 요금제를 선택하세요. 이 선택은 키를 활성화할 때만 사용됩니다. 라이선스 확인을 통해 사용할 수 있는 기능을 "
-"검증합니다."
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "라이센스 키"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "라이센스 활성화"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "라이센스 비활성화"
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1253,6 +1338,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "라이센스 작업을 선택하십시오."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "라이센스 키"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "라이센스 활성화"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "라이센스 비활성화"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

@@ -2,7 +2,10 @@
 set -eu
 cd "$(dirname "$0")/../.."
 
-for edition in free pro; do
+editions=free
+configurations=12
+if [ "${SLL_TEST_PAID:-0}" = 1 ]; then editions="free pro enterprise"; configurations=36; fi
+for edition in $editions; do
     npm run "build:$edition"
 done
 for target in minimum current; do
@@ -17,4 +20,4 @@ for target in minimum current; do
         done
     done
 done
-echo 'Release matrix passed: 24 core configurations.'
+echo "Release matrix passed: $configurations core configurations."

@@ -436,6 +436,10 @@ msgstr "معرّف المستخدم"
 msgid "You do not have permission to export these records."
 msgstr "ليس لديك إذن لتصدير هذه السجلات."
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "ليس لديك إذن لتغيير هذه الإعدادات."
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -475,10 +479,6 @@ msgstr "يحتاج Simple LDAP Login إلى PHP 8.1 أو أحدث."
 msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
 msgstr "ملفات المكون الإضافي مفقودة. أعد تثبيت Simple LDAP Login من ملف ZIP الإصدار."
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "ليس لديك إذن لتغيير هذه الإعدادات."
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr "لقد تغير نطاق الإعدادات. افتح صفحة الإعدادات وحاول مرة أخرى."
@@ -486,15 +486,6 @@ msgstr "لقد تغير نطاق الإعدادات. افتح صفحة الإع�
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "ليس لديك إذن لعرض هذه الإعدادات."
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "إعدادات تسجيل الدخول عبر LDAP"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr "اتصل بـ LDAP، ثم اختبر تسجيل الدخول قبل تمكين المصادقة."
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -530,6 +521,11 @@ msgid ""
 msgstr ""
 "تُرسل كلمات مرور LDAP بدون تشفير. استخدم StartTLS أو LDAPS إذا كان خادمك "
 "يدعمه."
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "إعدادات تسجيل الدخول عبر LDAP"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -577,6 +573,14 @@ msgid ""
 msgstr ""
 "اسم مضيف أو عنوان IP واحد في كل سطر. يتيح ترخيص Pro أو Enterprise نشط "
 "استخدام الخوادم الاحتياطية. بدون ترخيص نشط، يُستخدم الخادم الأول فقط."
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr ""
+"قم بالترقية إلى Pro لاستخدام خوادم LDAP احتياطية عندما يكون خادمك الأساسي "
+"غير متاح."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -727,6 +731,14 @@ msgstr "الدور الافتراضي"
 msgid "For new accounts only."
 msgstr "للحسابات الجديدة فقط."
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr ""
+"قم بالترقية إلى Pro لتعيين أدوار WordPress استنادًا إلى مجموعات الدليل عند "
+"كل تسجيل دخول."
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -739,6 +751,14 @@ msgid ""
 msgstr ""
 "اسم مجموعة واحد لكل سطر. يجب أن ينتمي المستخدمون إلى مجموعة واحدة على "
 "الأقل. اتركه فارغًا للسماح لجميع مستخدمي LDAP."
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr ""
+"قم بالترقية إلى Enterprise لإلغاء وصول الموظفين عند مغادرتهم، باستخدام "
+"فحوصات الدليل كل ساعة."
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -847,6 +867,14 @@ msgstr "سمة البريد الإلكتروني"
 msgid "Website attribute"
 msgstr "سمة الموقع الإلكتروني"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr ""
+"قم بالترقية إلى Pro لتحديث الملفات الشخصية عند تسجيل الدخول ونسخ الحقول "
+"المخصصة من دليلك."
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "احتفاظ البيانات"
@@ -863,33 +891,112 @@ msgstr ""
 "احذف الإعدادات المحفوظة وبيانات اعتماد LDAP عند حذف WordPress للمكون "
 "الإضافي. احتفظ بحسابات المستخدمين."
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "الوثائق"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "يمكننا المساعدة."
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "الدعم"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr ""
+"احصل على مساعدة في الإعداد أو تسجيل الدخول أو الترخيص. أرسل لنا رسالة وسنرد "
+"عبر البريد الإلكتروني."
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "الاتصال بالدعم"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "عرض الوثائق"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "أسئلة شائعة"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "التثبيت والإعداد"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "اربط دليلك واختبر أول تسجيل دخول."
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "اختبارات الاتصال وتسجيل الدخول"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "تحقق من الاتصال وحدد سبب أخطاء تسجيل الدخول."
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "استعادة وصول المسؤول"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr "استعد الوصول إذا توقف تسجيل الدخول عبر LDAP عن العمل."
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "تراخيص Pro وEnterprise"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "فعّل ترخيصًا أو تحقق من خطتك أو جددها."
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "استرداد"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
-msgstr ""
-"إذا كنت محجوزًا، قم بإعادة تسمية مجلد simple-ldap-login باستخدام مدير ملفات "
-"الاستضافة الخاص بك. سجل الدخول باستخدام كلمة مرور مسؤول WordPress، ثم استعد "
-"المجلد وصحح الإعدادات."
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
+msgstr "في wp-config.php، أضف هذا السطر قبل السطر الذي يحمّل wp-settings.php:"
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
-msgstr "بالنسبة لأخطاء الشهادة، اطلب من مضيفك تكوين هيئة الشهادة LDAP الموثوقة."
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
+msgstr ""
+"يعطّل هذا تسجيل الدخول عبر LDAP وSSO. سجّل الدخول بكلمة مرور مسؤول "
+"WordPress محلي، وصحّح الإعدادات، ثم احذف هذا السطر."
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "بديل: إعادة تسمية مجلد الإضافة"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr ""
+"إذا تعذر عليك الدخول، فأعد تسمية المجلد %s على خادم WordPress. سجّل الدخول "
+"بكلمة مرور مسؤول WordPress، ثم أعد اسم المجلد وصحّح الإعدادات."
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr ""
+"عند حدوث أخطاء في الشهادة، تحقق من أن شهادة خادم LDAP لم تنتهِ صلاحيتها "
+"وأنها تطابق اسم الخادم في إعدادات الاتصال."
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"على خادم WordPress، أضف شهادات جهات التصديق الجذرية والوسيطة إلى إعدادات "
+"الثقة التي تستخدمها مكتبة LDAP في PHP. في OpenLDAP، استخدم TLS_CACERT في "
+"ldap.conf. أعد تشغيل PHP بعد التغييرات، ثم احفظ إعدادات الاتصال للاختبار "
+"مجددًا."
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -944,6 +1051,10 @@ msgstr "كلمة مرور LDAP"
 msgid "After both tests pass, enable LDAP and try logging in from another browser."
 msgstr "بعد اجتياز كلا الاختبارين، قم بتمكين LDAP وحاول تسجيل الدخول من متصفح آخر."
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "قم بالترقية الآن"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "تم حفظ الإعدادات."
@@ -987,6 +1098,10 @@ msgstr "متقدم"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "الاختبار"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "الدعم"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1140,17 +1255,18 @@ msgstr ""
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro وEnterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "اختر خطة LDAP."
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "حافظ على تحديث صلاحيات الوصول إلى WordPress."
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
 msgstr ""
-"يضيف Pro تسجيل الدخول الموحّد وتحديث بيانات المستخدمين. يضيف Enterprise "
-"إدارة الحسابات المجدولة وقواعد عضوية المواقع المتعددة وسجل التدقيق."
+"قم بالترقية إلى Pro لتعيين الأدوار وتحديث الملفات الشخصية عند تسجيل الدخول. "
+"قم بالترقية إلى Enterprise لإلغاء وصول الموظفين عند مغادرتهم، قبل تسجيل "
+"دخولهم التالي."
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1171,6 +1287,14 @@ msgstr "جميع ميزات Free، بالإضافة إلى:"
 #: src/Commerce.php:154
 msgid "Everything in Pro, plus:"
 msgstr "كل ما في Pro، بالإضافة إلى:"
+
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr ""
+"ألغِ الوصول وأنهِ الجلسات النشطة عندما تؤكد فحوصات الدليل كل ساعة فقدان "
+"الوصول. احتفظ بمحتوى المستخدمين وسجل التدقيق."
 
 #: src/Commerce.php:168
 msgid "Buy Pro"
@@ -1195,22 +1319,23 @@ msgstr ""
 "نظام. يتطلب تسجيل الدخول الموحّد مصادقة خادم الويب. تتطلب قواعد المواقع "
 "المتعددة التفعيل على الشبكة."
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
 msgstr ""
-"يحتاج ترخيصك المحفوظ إلى فحص الخطة. ثبّت Pro، ثم اختر «فحص الترخيص» في "
-"علامة التبويب «الترخيص»."
+"يحتاج ترخيصك المحفوظ إلى فحص الخطة. ثبّت Pro/Enterprise، ثم اختر «فحص "
+"الترخيص» في علامة التبويب «الترخيص». استخدم ملف ZIP الخاص بخطتك."
 
-#: src/Commerce.php:176
+#: src/Commerce.php:181
 msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
 msgstr ""
-"بعد الشراء، استبدل Free بملف Pro ZIP من إيصالك. ثم فعّل ترخيصك في علامة "
-"التبويب «الترخيص» في Pro. تبقى إعدادات LDAP في مكانها."
+"بعد الشراء، استبدل Free بملف Pro/Enterprise ZIP من إيصالك. ثم فعّل ترخيصك "
+"في علامة التبويب «الترخيص» في Pro/Enterprise. تبقى إعدادات LDAP في مكانها. "
+"استخدم ملف ZIP الخاص بخطتك."
 
 #: src/Commerce.php:177
 msgid ""
@@ -1282,40 +1407,16 @@ msgstr ""
 "يضيف Enterprise استيراد الحسابات وإزالة الوصول وفق جدول وقواعد عضوية "
 "المواقع المتعددة وسجل التدقيق مع تصدير CSV."
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "يفتح «الحصول على Enterprise» صفحة الدفع لترخيص جديد. ولا يغيّر اشتراك Pro "
 "أو يلغيه. أدر ذلك الاشتراك بشكل منفصل من خلال PaidCommunities. بعد الشراء، "
-"عطّل هذا المفتاح، واختر Enterprise، ثم فعّل المفتاح الجديد."
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "الخطة المشتراة"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr ""
-"اختر الخطة الواردة في إيصال الشراء. يُستخدم هذا الاختيار فقط عند تفعيل "
-"مفتاح. يتحقق فحص الترخيص من الميزات التي يمكنك استخدامها."
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "مفتاح الترخيص"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "تنشيط الترخيص"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "إلغاء تنشيط الترخيص"
+"عطّل هذا المفتاح، وثبّت ملف Enterprise ZIP، ثم فعّل المفتاح الجديد."
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1334,6 +1435,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "اختر إجراء الترخيص."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "مفتاح الترخيص"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "تنشيط الترخيص"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "إلغاء تنشيط الترخيص"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

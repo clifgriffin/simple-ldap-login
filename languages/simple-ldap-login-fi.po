@@ -440,6 +440,10 @@ msgstr "Käyttäjän ID"
 msgid "You do not have permission to export these records."
 msgstr "Sinulla ei ole oikeutta viedä näitä tietueita."
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "Sinulla ei ole oikeuksia muuttaa näitä asetuksia."
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -484,10 +488,6 @@ msgstr ""
 "Laajennustiedostot puuttuvat. Asenna Simple LDAP Login uudelleen julkaisun "
 "ZIP-tiedostosta."
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "Sinulla ei ole oikeuksia muuttaa näitä asetuksia."
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr "Asetusten laajuus on muuttunut. Avaa asetussivu ja yritä uudelleen."
@@ -495,15 +495,6 @@ msgstr "Asetusten laajuus on muuttunut. Avaa asetussivu ja yritä uudelleen."
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "Sinulla ei ole oikeuksia nähdä näitä asetuksia."
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "LDAP-kirjautumisen asetukset"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr "Yhdistä LDAP:iin ja testaa kirjautuminen ennen autentikoinnin käyttöönottoa."
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -541,6 +532,11 @@ msgid ""
 msgstr ""
 "LDAP-salasanat lähetetään ilman salausta. Käytä StartTLS:ää tai LDAPS:ää, "
 "jos palvelimesi tukee sitä."
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP-kirjautumisen asetukset"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -589,6 +585,14 @@ msgstr ""
 "Yksi palvelinnimi tai IP-osoite riviä kohden. Aktiivinen Pro- tai "
 "Enterprise-lisenssi mahdollistaa varapalvelinten käytön. Ilman aktiivista "
 "lisenssiä käytetään vain ensimmäistä palvelinta."
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr ""
+"Päivitä Prohon, jotta voit käyttää LDAP-varapalvelimia, kun ensisijainen "
+"palvelimesi ei ole käytettävissä."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -741,6 +745,14 @@ msgstr "Oletusrooli"
 msgid "For new accounts only."
 msgstr "Vain uusille tileille."
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr ""
+"Päivitä Prohon, jotta voit määrittää WordPress-roolit hakemistoryhmien "
+"perusteella jokaisella kirjautumiskerralla."
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -753,6 +765,14 @@ msgid ""
 msgstr ""
 "Yksi ryhmän nimi per rivi. Käyttäjien on kuuluttava vähintään yhteen. Jätä "
 "tyhjäksi, jotta kaikki LDAP-käyttäjät saavat käyttöoikeuden."
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr ""
+"Päivitä Enterpriseen, jotta voit poistaa käyttöoikeudet työntekijöiden "
+"lähtiessä tunnin välein tehtävien hakemistotarkistusten avulla."
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -862,6 +882,14 @@ msgstr "Sähköpostiattribuutti"
 msgid "Website attribute"
 msgstr "Verkkosivuston attribuutti"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr ""
+"Päivitä Prohon, jotta voit päivittää profiilit kirjautumisen yhteydessä ja "
+"kopioida mukautetut kentät hakemistostasi."
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "Tietojen säilytys"
@@ -878,35 +906,116 @@ msgstr ""
 "Poista tallennetut asetukset ja LDAP-todistukset, kun WordPress poistaa "
 "lisäosan. Pidä käyttäjätilit."
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "Dokumentaatio"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "Voimme auttaa."
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Tuki"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr ""
+"Saat apua määrityksiin, kirjautumiseen ja lisensseihin. Lähetä meille "
+"viesti, niin vastaamme sähköpostitse."
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "Ota yhteyttä tukeen"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "Avaa dokumentaatio"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "Yleiset kysymykset"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "Asennus ja määritys"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "Yhdistä hakemistosi ja testaa ensimmäinen kirjautuminen."
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "Yhteys- ja kirjautumistestit"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "Tarkista yhteys ja selvitä kirjautumisvirheiden syy."
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "Ylläpitäjän pääsyn palautus"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr "Palauta pääsy, jos LDAP-kirjautuminen lakkaa toimimasta."
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "Pro- ja Enterprise-lisenssit"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "Aktivoi lisenssi, tarkista tilauksesi tai uusi se."
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Palautus"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
 msgstr ""
-"Jos olet lukittu ulos, nimeä simple-ldap-login-kansio uudelleen isäntäsi "
-"tiedostohallinnassa. Kirjaudu sisään WordPress-ylläpitäjän salasanalla, "
-"sitten palauta kansio ja korjaa asetukset."
+"Lisää wp-config.php-tiedostoon tämä rivi ennen riviä, joka lataa "
+"wp-settings.php-tiedoston:"
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
 msgstr ""
-"Todistushäiriöiden vuoksi pyydä isäntäsi määrittämään luotettu "
-"LDAP-todistusviranomainen."
+"Tämä poistaa LDAP-kirjautumisen ja SSO:n käytöstä. Kirjaudu paikallisen "
+"WordPress-ylläpitäjän salasanalla, korjaa asetukset ja poista sitten tämä "
+"rivi."
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "Vaihtoehto: nimeä lisäosan kansio uudelleen"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr ""
+"Jos et pääse kirjautumaan, nimeä WordPress-palvelimella oleva kansio %s "
+"uudelleen. Kirjaudu WordPress-ylläpitäjän salasanalla, palauta sitten "
+"kansion nimi ja korjaa asetukset."
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr ""
+"Jos ilmenee varmennevirheitä, tarkista, ettei LDAP-palvelimen varmenne ole "
+"vanhentunut ja että se vastaa yhteysasetusten palvelinnimeä."
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"Lisää WordPress-palvelimella juuri- ja välivarmentajien varmenteet PHP:n "
+"LDAP-kirjaston käyttämään luottamusmääritykseen. Käytä OpenLDAPissa "
+"TLS_CACERT-asetusta ldap.conf-tiedostossa. Käynnistä PHP muutosten jälkeen "
+"uudelleen ja tallenna yhteysasetukset uutta testiä varten."
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -965,6 +1074,10 @@ msgstr ""
 "Kun molemmat testit onnistuvat, ota LDAP käyttöön ja yritä kirjautua sisään "
 "toisesta selaimesta."
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "Päivitä nyt"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "Asetukset tallennettu."
@@ -1010,6 +1123,10 @@ msgstr "Lisäasetukset"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Testaus"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Tuki"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1172,18 +1289,18 @@ msgstr ""
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro ja Enterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "Valitse LDAP-pakettisi."
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "Pidä WordPress-käyttöoikeudet ajan tasalla."
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
 msgstr ""
-"Pro lisää kertakirjautumisen ja käyttäjätietojen päivitykset. Enterprise "
-"lisää ajastetun tilien hallinnan, monisivuston jäsenyyssäännöt ja "
-"tapahtumahistorian."
+"Päivitä Prohon, jotta voit määrittää roolit ja päivittää profiilit "
+"kirjautumisen yhteydessä. Päivitä Enterpriseen, jotta voit poistaa "
+"käyttöoikeuden työntekijän lähtiessä ennen hänen seuraavaa kirjautumistaan."
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1204,6 +1321,15 @@ msgstr "Kaikki Free-ominaisuudet sekä:"
 #: src/Commerce.php:154
 msgid "Everything in Pro, plus:"
 msgstr "Kaikki Pro-ominaisuudet sekä:"
+
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr ""
+"Poista käyttöoikeus ja päätä aktiiviset istunnot, kun tunnin välein "
+"tehtävät hakemistotarkistukset vahvistavat käyttöoikeuden menetyksen. "
+"Säilytä käyttäjien sisältö ja tarkastushistoria."
 
 #: src/Commerce.php:168
 msgid "Buy Pro"
@@ -1228,22 +1354,25 @@ msgstr ""
 "sivustoliikennettä tai järjestelmätehtävän. Kertakirjautuminen vaatii "
 "verkkopalvelimen todennuksen. Monisivustosäännöt vaativat verkkoaktivoinnin."
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
 msgstr ""
-"Tallennettu lisenssisi tarvitsee paketin tarkistuksen. Asenna Pro ja "
-"valitse sitten Lisenssi-välilehdeltä Tarkista lisenssi."
+"Tallennettu lisenssisi tarvitsee paketin tarkistuksen. Asenna "
+"Pro/Enterprise ja valitse sitten Lisenssi-välilehdeltä Tarkista lisenssi. "
+"Käytä oman pakettisi ZIP-tiedostoa."
 
-#: src/Commerce.php:176
+#: src/Commerce.php:181
 msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
 msgstr ""
-"Korvaa Free oston jälkeen kuitissa olevalla Pro ZIP -tiedostolla. Aktivoi "
-"sitten lisenssi Pro-paketin Lisenssi-välilehdellä. LDAP-asetuksesi säilyvät."
+"Korvaa Free oston jälkeen kuitissa olevalla Pro/Enterprise ZIP "
+"-tiedostolla. Aktivoi sitten lisenssi Pro/Enterprise-paketin "
+"Lisenssi-välilehdellä. LDAP-asetuksesi säilyvät. Käytä oman pakettisi "
+"ZIP-tiedostoa."
 
 #: src/Commerce.php:177
 msgid ""
@@ -1317,42 +1446,17 @@ msgstr ""
 "Enterprise lisää ajastetun tilien tuonnin ja käyttöoikeuksien poiston, "
 "monisivuston jäsenyyssäännöt sekä tapahtumahistorian ja CSV-viennin."
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "Hanki Enterprise avaa uuden lisenssin maksusivun. Se ei muuta eikä peruuta "
 "Pro-tilaustasi. Hallitse tilausta erikseen PaidCommunities-palvelussa. "
-"Poista tämä avain käytöstä oston jälkeen, valitse Enterprise ja aktivoi "
-"uusi avain."
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "Ostettu paketti"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr ""
-"Valitse ostokuitissasi oleva paketti. Tätä valintaa käytetään vain avaimen "
-"aktivoinnissa. Lisenssin tarkistus vahvistaa, mitä ominaisuuksia voit "
-"käyttää."
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "Lisenssiavain"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "Aktivoi lisenssi"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "Deaktivoi lisenssi"
+"Poista tämä avain käytöstä oston jälkeen, asenna Enterprise ZIP -tiedosto "
+"ja aktivoi uusi avain."
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1372,6 +1476,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "Valitse lisenssitoiminto."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Lisenssiavain"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Aktivoi lisenssi"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Deaktivoi lisenssi"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

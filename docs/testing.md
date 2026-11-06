@@ -8,7 +8,7 @@ The two-package change removes Legacy and Transition builds and eligibility reco
 
 ## Pro account features
 
-The six Pro additions have source tests in `tests/pro.php` and real WordPress and directory tests in `tests/docker/pro-features.php`.
+The six Pro additions have source tests in `pro/tests/features.php` and real WordPress and directory tests in `pro/tests/docker/pro-features.php`.
 `composer check` passes 1020 checks: 281 for settings, secrets, login, LDAP, and Pro account features; 597 for admin screens; 26 for package replacement; 112 for licenses; and 4 for uninstall.
 The local source checks use PHP 8.4.23. Coding standards now run with the WordPress bootstrap constant set; the previous command exited during Composer autoloading before it checked source files.
 Asset checks and browser-script checks pass. Package tests pass for Free and Pro, including a direct call from the private LDAP types into the role callback.

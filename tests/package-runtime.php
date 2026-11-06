@@ -12,7 +12,7 @@ $sll_meta = array();
 $sll_activation = null;
 $sll_network = in_array( $sll_scenario, array( 'network', 'v1-network', 'pro-network' ), true );
 $sll_existing = 'fresh' !== $sll_scenario;
-$sll_licensed = ! in_array( $sll_scenario, array( 'unlicensed', 'expired' ), true );
+$sll_licensed = ! in_array( $sll_scenario, array( 'unlicensed', 'expired', 'wrong-tier' ), true );
 define( 'HOUR_IN_SECONDS', 3600 );
 
 // Other plugins can load different dependency versions before this plugin.
@@ -46,11 +46,24 @@ function has_action( $name ) { return ! empty( $GLOBALS['sll_hooks'][ $name ] );
 function is_main_site() { return true; }
 function wp_next_scheduled( $name ) { return false; }
 function wp_schedule_event( $time, $schedule, $hook ) {}
+function wp_clear_scheduled_hook( $hook ) {}
+function wp_salt( $scheme ) { return 'package-test-key'; }
+function wp_json_encode( $value ) { return json_encode( $value ); }
+function wp_create_nonce( $action ) { return 'test-nonce'; }
+function _wp_specialchars( $value, ...$args ) { return htmlspecialchars( $value, ENT_QUOTES ); }
 function home_url() { return 'https://example.test'; }
 function network_home_url() { return 'https://network.test'; }
 function untrailingslashit( $value ) { return rtrim( $value, '/' ); }
+function trailingslashit( $value ) { return rtrim( $value, '/' ) . '/'; }
 function wp_parse_url( $url, $component = -1 ) { return parse_url( $url, $component ); }
 function plugin_basename( $file ) { return basename( dirname( $file ) ) . '/' . basename( $file ); }
+function plugin_dir_url( $file ) { return '/wp-content/plugins/simple-ldap-login/vendor/paidcommunities/wordpress-sdk/'; }
+function get_file_data( $file, $headers, $context ) { return array( 'Version' => SLL_VERSION ); }
+function remove_filter( $name, $callback, $priority = 10 ) {
+	foreach ( $GLOBALS['sll_hooks'][ $name ][ $priority ] ?? array() as $key => $entry ) {
+		if ( $callback === $entry[0] ) { unset( $GLOBALS['sll_hooks'][ $name ][ $priority ][ $key ] ); }
+	}
+}
 function get_option( $key, $fallback = false ) { return $GLOBALS['sll_options'][ $key ] ?? $fallback; }
 function get_site_option( $key, $fallback = false ) { return $GLOBALS['sll_network_options'][ $key ] ?? $fallback; }
 function update_option( $key, $value, $autoload = null ) { $GLOBALS['sll_options'][ $key ] = $value; return true; }
@@ -92,12 +105,14 @@ if ( $sll_existing ) {
 	if ( $sll_network ) { $sll_network_options['sll_settings'] = $sll_old; } else { $sll_options['sll_settings'] = $sll_old; }
 }
 // A test activation record. No credentials or license bypass ship in either ZIP.
-$sll_pro_license = in_array( $sll_scenario, array( 'pro-license', 'pro-network' ), true );
-$sll_test_license = array( 'product_id' => $sll_pro_license ? 'prd_9QyrKxQpvZGrcCW8' : 'prd_9R92jB1prxMfJR36', 'status' => $sll_licensed ? 'active' : 'expired', 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => $sll_network ? network_home_url() : home_url() );
+$sll_pro_license = 'pro' === $sll_edition;
+if ( 'wrong-tier' === $sll_scenario ) { $sll_pro_license = ! $sll_pro_license; }
+$sll_test_license = array( 'product_id' => $sll_pro_license ? 'prd_9QyrKxQpvZGrcCW8' : 'prd_9R92jB1prxMfJR36', 'status' => 'expired' === $sll_scenario ? 'expired' : 'active', 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => $sll_network ? network_home_url() : home_url() );
+require $sll_package_dir . '/Simple-LDAP-Login.php';
+$sll_test_license['secret'] = SimpleLdapLogin\Secrets::encrypt( 'test-secret' );
 if ( 'unlicensed' !== $sll_scenario ) {
 	if ( $sll_network ) { $sll_network_options['sll_pro_license'] = $sll_test_license; } else { $sll_options['sll_pro_license'] = $sll_test_license; }
 }
-require $sll_package_dir . '/Simple-LDAP-Login.php';
 package_check( array( 'another-plugin-helper' => true ) === $GLOBALS['__composer_autoload_files'], 'Private dependency loading preserves other Composer helper files.' );
 $sll_psr4 = require $sll_package_dir . '/vendor/composer/autoload_psr4.php';
 foreach ( array_keys( $sll_psr4 ) as $sll_namespace ) {
@@ -162,7 +177,7 @@ $GLOBALS[ $sll_scope_options ]['sll_settings']['domain_controllers'] = $sll_save
 foreach ( array( 'Metadata', 'Server_Sso', 'Admin', 'Ldap_Client', 'Upgrade_Guard', 'Roles', 'Profile', 'Accounts', 'Settings_Rules', 'Multisite', 'Audit' ) as $sll_class ) {
 	package_check( class_exists( 'SimpleLdapLogin\\Pro\\' . $sll_class ) === $sll_full, 'The package has the correct Pro PSR-4 classes.' );
 }
-foreach ( array( 'License', 'PaidCommunities_Client', 'Commerce' ) as $sll_class ) {
+foreach ( array( 'License', 'Commerce' ) as $sll_class ) {
 	package_check( class_exists( 'SimpleLdapLogin\\' . $sll_class ), 'Both packages include the SDK purchase and activation code.' );
 }
 package_check( class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\HttpClient\\WordPressClient' ), 'The private license SDK loads beside another version.' );
@@ -180,19 +195,20 @@ if ( $sll_full ) {
 	$sll_group_data = ( new SimpleLdapLogin\Pro\Roles( $sll_settings ) )->groups( array(), $sll_connection, $sll_user, 'alice' );
 	package_check( is_array( $sll_group_data ), 'Pro role callbacks accept the private LDAP connection and model types.' );
 }
-package_check( ! class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\Admin\\AdminAjaxController', false ), 'The SDK admin handlers are not initialized.' );
+package_check( $sll_full === class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\Admin\\AdminAjaxController', false ), 'Only the paid package initializes the SDK admin handlers.' );
+package_check( $sll_full === isset( $sll_hooks['update_plugins_paidcommunities.com'] ), 'Only the paid package registers the SDK update hook.' );
 $sll_commerce = new SimpleLdapLogin\Commerce( $sll_settings );
 ob_start();
 $sll_commerce->license( new SimpleLdapLogin\Admin( $sll_settings, new SimpleLdapLogin\Ldap_Client( $sll_settings ) ) );
 $sll_license_html = ob_get_clean();
-package_check( str_contains( $sll_license_html, 'replace Free with the Pro ZIP' ) === ! $sll_full, 'Only Free shows installation instructions for the paid ZIP.' );
+package_check( str_contains( $sll_license_html, 'Use the ZIP for your plan' ) === ! $sll_full, 'Only Free shows installation instructions for the paid ZIP.' );
 package_check( str_contains( $sll_license_html, 'sll-license-component' ) === $sll_full, 'Only the paid package renders the license activation component.' );
 package_check( 'https://checkout.paidcommunities.com/checkout/prd_9QyrKxQpvZGrcCW8?plan=plan_9R8xkMlq1nmCekmG' === SimpleLdapLogin\Commerce::checkout_url() && 'https://checkout.paidcommunities.com/checkout/prd_9R92jB1prxMfJR36?plan=plan_9R937DcDDy4wMH4x' === SimpleLdapLogin\Commerce::checkout_url( 'enterprise' ), 'The built package maps each edition to its own product and annual plan.' );
 if ( ! $sll_full ) {
 	package_check( str_contains( $sll_license_html, 'Pro — $99/year' ) && str_contains( $sll_license_html, 'Enterprise — $499/year' ), 'Free shows both annual feature tiers.' );
 } else {
-	package_check( str_contains( $sll_license_html, 'name="sll_license_plan"' ), 'The paid package lets an administrator select the purchased plan.' );
-	package_check( str_contains( $sll_license_html, 'Get Enterprise' ) === $sll_pro_license, 'Only an active Pro license has an Enterprise upgrade offer.' );
+	package_check( ! str_contains( $sll_license_html, 'sll_license_plan' ), 'Paid activation needs only a key.' );
+	package_check( str_contains( $sll_license_html, 'Get Enterprise' ) === ( $sll_licensed && $sll_pro_license ), 'Only an active Pro license has an Enterprise upgrade offer.' );
 }
 if ( 'unlicensed' === $sll_scenario && $sll_full ) {
 	ob_start(); $sll_commerce->license_notice(); $sll_notice_html = ob_get_clean();

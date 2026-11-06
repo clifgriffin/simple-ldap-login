@@ -149,13 +149,6 @@ final class Admin {
 			<h1><?php esc_html_e( 'Simple LDAP Login', 'simple-ldap-login' ); ?></h1>
 			<?php $this->notice(); ?>
 			<?php do_action( 'sll_settings_notices' ); ?>
-			<div class="sll-overview">
-				<div>
-					<h2><?php esc_html_e( 'LDAP login settings', 'simple-ldap-login' ); ?></h2>
-					<p><?php esc_html_e( 'Connect to LDAP, then test a login before enabling authentication.', 'simple-ldap-login' ); ?></p>
-				</div>
-
-			</div>
 			<?php if ( $recovery ) : ?>
 				<div class="notice notice-warning inline"><p><?php esc_html_e( 'LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php.', 'simple-ldap-login' ); ?></p></div>
 			<?php endif; ?>
@@ -229,6 +222,7 @@ final class Admin {
 			)
 		);
 		$this->textarea( 'domain_controllers', __( 'LDAP servers', 'simple-ldap-login' ), __( 'One hostname or IP address per line. An active Pro or Enterprise license enables backup servers. Without an active license, only the first server is used.', 'simple-ldap-login' ) );
+		$this->upgrade_prompt( __( 'Upgrade to Pro to use backup LDAP servers when your primary server is unavailable.', 'simple-ldap-login' ) );
 		$this->input( 'base_dn', __( 'Base DN', 'simple-ldap-login' ), __( 'Where to search for users. Example: DC=example,DC=org.', 'simple-ldap-login' ) );
 		$this->input( 'account_suffix', __( 'Username suffix', 'simple-ldap-login' ), __( 'Added to usernames without a domain. Example: @example.org.', 'simple-ldap-login' ) );
 		$this->input( 'login_domain', __( 'Windows domain', 'simple-ldap-login' ), __( 'Short domain name, such as EXAMPLE. Takes priority over the username suffix.', 'simple-ldap-login' ) );
@@ -276,7 +270,9 @@ final class Admin {
 			$roles[ $key ] = translate_user_role( $role['name'] );
 		}
 		$this->select( 'role', __( 'Default role', 'simple-ldap-login' ), $roles, __( 'For new accounts only.', 'simple-ldap-login' ) );
+		$this->upgrade_prompt( __( 'Upgrade to Pro to assign WordPress roles from directory groups at each login.', 'simple-ldap-login' ) );
 		$this->textarea( 'groups', __( 'Required groups', 'simple-ldap-login' ), __( 'One group name per line. Users must belong to at least one. Leave blank to allow all LDAP users.', 'simple-ldap-login' ) );
+		$this->upgrade_prompt( __( 'Upgrade to Enterprise to remove access when staff leave, with hourly directory checks.', 'simple-ldap-login' ), 'enterprise' );
 		$this->card_end();
 		do_action( 'sll_access_settings', $this );
 	}
@@ -341,6 +337,7 @@ final class Admin {
 		$this->input( 'user_last_name_attribute', __( 'Last name attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_email_attribute', __( 'Email attribute', 'simple-ldap-login' ) );
 		$this->input( 'user_url_attribute', __( 'Website attribute', 'simple-ldap-login' ) );
+		$this->upgrade_prompt( __( 'Upgrade to Pro to update profiles at login and copy custom fields from your directory.', 'simple-ldap-login' ) );
 		$this->card_end();
 		do_action( 'sll_advanced_settings', $this );
 		$this->card_start( __( 'Data retention', 'simple-ldap-login' ), '' );
@@ -353,15 +350,57 @@ final class Admin {
 	 */
 	private function support(): void {
 		?>
-		<div class="sll-save-bar">
-			<a class="button button-primary" href="https://simpleldaplogin.com/docs/" rel="noreferrer"><?php esc_html_e( 'Documentation', 'simple-ldap-login' ); ?></a>
-			<a class="button" href="https://simpleldaplogin.com/support/" rel="noreferrer"><?php esc_html_e( 'Support', 'simple-ldap-login' ); ?></a>
-		</div>
+		<section class="sll-support-intro" aria-labelledby="sll-support-title">
+			<div>
+				<h2 id="sll-support-title"><?php esc_html_e( 'We can help.', 'simple-ldap-login' ); ?></h2>
+				<p><?php esc_html_e( 'Get help with setup, login, or licensing. Send us a message and we will reply by email.', 'simple-ldap-login' ); ?></p>
+				<div class="sll-support-actions">
+					<a class="button button-primary" href="https://simpleldaplogin.com/support/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Contact Support', 'simple-ldap-login' ); ?></a>
+					<a class="button" href="https://simpleldaplogin.com/docs/" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'View Documentation', 'simple-ldap-login' ); ?></a>
+				</div>
+			</div>
+			<span class="dashicons dashicons-sos" aria-hidden="true"></span>
+		</section>
+		<section aria-labelledby="sll-support-guides-title">
+			<h2 id="sll-support-guides-title"><?php esc_html_e( 'Common questions', 'simple-ldap-login' ); ?></h2>
+			<div class="sll-support-guides">
+				<?php
+				$guides = array(
+					array( 'quick-start', __( 'Installation and setup', 'simple-ldap-login' ), __( 'Connect your directory and test your first login.', 'simple-ldap-login' ) ),
+					array( 'testing', __( 'Connection and login tests', 'simple-ldap-login' ), __( 'Check the connection and find the cause of login errors.', 'simple-ldap-login' ) ),
+					array( 'recovery', __( 'Administrator recovery', 'simple-ldap-login' ), __( 'Restore access if LDAP login stops working.', 'simple-ldap-login' ) ),
+					array( 'licensing', __( 'Pro and Enterprise licensing', 'simple-ldap-login' ), __( 'Activate a license, check your plan, or renew.', 'simple-ldap-login' ) ),
+				);
+				foreach ( $guides as $guide ) :
+					?>
+					<a class="sll-support-guide" href="<?php echo esc_url( 'https://simpleldaplogin.com/docs/' . $guide[0] . '/' ); ?>" target="_blank" rel="noopener noreferrer">
+						<h3><?php echo esc_html( $guide[1] ); ?></h3>
+						<p><?php echo esc_html( $guide[2] ); ?></p>
+					</a>
+				<?php endforeach; ?>
+			</div>
+		</section>
 		<?php
 		$this->card_start( __( 'Recovery', 'simple-ldap-login' ), '' );
+		$directory = wp_normalize_path( WP_PLUGIN_DIR . '/' . dirname( plugin_basename( SLL_FILE ) ) ) . '/';
+		$root      = wp_normalize_path( ABSPATH );
+		$directory = str_starts_with( $directory, $root ) ? substr( $directory, strlen( $root ) ) : $directory;
 		?>
-		<p><?php esc_html_e( 'If you are locked out, rename the simple-ldap-login folder using your hosting file manager. Log in with a WordPress administrator password, then restore the folder and correct the settings.', 'simple-ldap-login' ); ?></p>
-		<p><?php esc_html_e( 'For certificate errors, ask your host to configure the trusted LDAP certificate authority.', 'simple-ldap-login' ); ?></p>
+		<p><?php esc_html_e( 'In wp-config.php, add this line before the line that loads wp-settings.php:', 'simple-ldap-login' ); ?></p>
+		<pre class="sll-recovery-code"><code>define( 'SLL_DISABLE_LDAP', true );</code></pre>
+		<p><?php esc_html_e( 'This disables LDAP login and SSO. Log in with a local WordPress administrator password, correct the settings, then remove this line.', 'simple-ldap-login' ); ?></p>
+		<h3><?php esc_html_e( 'Alternative: rename the plugin folder', 'simple-ldap-login' ); ?></h3>
+		<div class="sll-recovery-instructions">
+			<?php
+			printf(
+				/* translators: %s: Installed plugin directory, shown as an inline path. */
+				esc_html__( 'If you are locked out, rename the %s folder on your WordPress server. Log in with a WordPress administrator password, then restore the folder and correct the settings.', 'simple-ldap-login' ),
+				'<pre class="sll-plugin-path">' . esc_html( $directory ) . '</pre>'
+			);
+			?>
+		</div>
+		<p><?php esc_html_e( 'For certificate errors, check that the LDAP server certificate has not expired and matches the server name in Connection settings.', 'simple-ldap-login' ); ?></p>
+		<p><?php esc_html_e( "On the WordPress server, add your root and intermediate CA certificates to the trust configuration used by PHP's LDAP library. For OpenLDAP, use TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection settings to test again.", 'simple-ldap-login' ); ?></p>
 		<?php
 		$this->card_end();
 	}
@@ -398,6 +437,24 @@ final class Admin {
 			</div>
 		</section>
 		<p><?php esc_html_e( 'After both tests pass, enable LDAP and try logging in from another browser.', 'simple-ldap-login' ); ?></p>
+		<?php
+	}
+
+	/**
+	 * Link related Free settings to the plan details.
+	 *
+	 * @param string $message Feature benefit.
+	 * @param string $plan Plan section.
+	 */
+	private function upgrade_prompt( string $message, string $plan = 'pro' ): void {
+		if ( defined( 'SLL_FEATURES_LOADED' ) ) {
+			return;
+		}
+		?>
+		<p class="sll-upgrade-prompt">
+			<?php echo esc_html( $message ); ?>
+			<a href="<?php echo esc_url( add_query_arg( 'tab', 'license', $this->url() ) . '#sll-plan-' . $plan ); ?>"><?php esc_html_e( 'Upgrade Now', 'simple-ldap-login' ); ?></a>
+		</p>
 		<?php
 	}
 

@@ -1,18 +1,21 @@
 <?php
 /**
- * Store the license status outside the login request.
+ * Use the SDK license with encrypted site or network storage.
  *
  * @package SimpleLdapLogin
  */
 
 namespace SimpleLdapLogin;
 
+use PaidCommunities\WordPress\Cache;
+use PaidCommunities\WordPress\License as Sdk_License;
+use PaidCommunities\WordPress\PluginConfig;
 use WP_Error;
 
-/** Only a verified active license enables Pro features. */
-final class License {
+/** Keep feature access on the SDK's saved license status. */
+final class License extends Sdk_License {
 
-	/** PaidCommunities product ID. */
+	/** PaidCommunities Pro product ID. */
 	public const PRODUCT = 'prd_9QyrKxQpvZGrcCW8';
 	/** PaidCommunities Enterprise product ID. */
 	public const ENTERPRISE_PRODUCT = 'prd_9R92jB1prxMfJR36';
@@ -20,9 +23,9 @@ final class License {
 	public const PRO_PLAN = 'plan_9R8xkMlq1nmCekmG';
 	/** Annual Enterprise billing plan. */
 	public const ENTERPRISE_PLAN = 'plan_9R937DcDDy4wMH4x';
-	/** Separate from the LDAP settings and their public compatibility API. */
+	/** Keep the existing option and settings scope. */
 	public const OPTION = 'sll_pro_license';
-	/** Background check hook. */
+	/** Remove the old custom task; the SDK uses WordPress update checks. */
 	public const CHECK = 'sll_pro_license_check';
 
 	/**
@@ -33,26 +36,27 @@ final class License {
 	private Settings $settings;
 
 	/**
-	 * Set the license scope.
+	 * Read the SDK license without a service request.
 	 *
-	 * @param Settings $settings Shared settings.
+	 * @param Settings $settings Settings scope.
 	 */
 	public function __construct( Settings $settings ) {
 		$this->settings = $settings;
+		parent::__construct( self::OPTION );
+		$this->read();
 	}
 
-	/** Register checks without making an HTTP request. */
+	/** Remove a custom license task left by an earlier development build. */
 	public function register(): void {
-		add_action( self::CHECK, array( $this, 'refresh' ) );
-		if ( ( ! $this->settings->is_network() || is_main_site() ) && ! empty( $this->data()['domain_id'] ) && ! wp_next_scheduled( self::CHECK ) ) {
-			wp_schedule_event( time() + HOUR_IN_SECONDS, 'hourly', self::CHECK );
+		if ( wp_next_scheduled( self::CHECK ) ) {
+			self::stop_checks( $this->settings->is_network() );
 		}
 	}
 
 	/**
-	 * Stop checks when the plugin is deactivated. Keep the activation record.
+	 * Clear only the old plugin task. WordPress owns its update schedule.
 	 *
-	 * @param bool $network Whether deactivation applies to the network.
+	 * @param bool $network Whether the plugin is network activated.
 	 */
 	public static function stop_checks( bool $network = false ): void {
 		if ( $network && is_multisite() ) {
@@ -64,213 +68,128 @@ final class License {
 		}
 	}
 
-	/**
-	 * Read local state only. This method is safe to use during login.
-	 *
-	 * @return bool Whether Pro features can run.
-	 */
+	/** Use the SDK status without a remote check during login. */
 	public function is_active(): bool {
-		return '' !== $this->plan();
+		$this->read();
+		return $this->isActive();
 	}
 
-	/** Read verified product access without a service request. */
+	/** Return the installed edition only when its SDK license is active. */
 	public function plan(): string {
-		$data = $this->data();
-		if ( 'active' !== ( $data['status'] ?? '' ) || empty( $data['secret'] ) || empty( $data['domain_id'] ) || $this->site_url() !== ( $data['site_url'] ?? '' ) ) {
+		if ( ! $this->is_active() ) {
 			return '';
 		}
-		return match ( $data['product_id'] ?? '' ) {
-			self::PRODUCT => 'pro',
-			self::ENTERPRISE_PRODUCT => 'enterprise',
-			default => '',
-		};
+		return self::ENTERPRISE_PRODUCT === $this->product() ? 'enterprise' : 'pro';
 	}
 
-	/** Check the verified Enterprise product entitlement. */
+	/** Require the Enterprise build and an active SDK license. */
 	public function is_enterprise(): bool {
 		return 'enterprise' === $this->plan();
 	}
 
-	/**
-	 * Read the record in the same scope as the LDAP settings.
-	 *
-	 * @return array License record.
-	 */
+	/** Read the existing local record in the active settings scope. */
 	public function data(): array {
 		$data = $this->settings->is_network() ? get_site_option( self::OPTION, array() ) : get_option( self::OPTION, array() );
 		return is_array( $data ) ? $data : array();
 	}
 
-	/**
-	 * Activate only after an administrator submits a key.
-	 *
-	 * @param string $key  License key. Never store the original key.
-	 * @param string $plan Purchased plan used for domain registration.
-	 * @return true|WP_Error Activation result.
-	 */
-	public function activate( string $key, string $plan = 'pro' ) {
-		if ( ! in_array( $plan, array( 'pro', 'enterprise' ), true ) || '' === $key || strlen( $key ) > 512 || preg_match( '/[\x00-\x20\x7f]/', $key ) ) {
-			return $this->error();
-		}
-		$product = 'enterprise' === $plan ? self::ENTERPRISE_PRODUCT : self::PRODUCT;
-		try {
-			$client = new PaidCommunities_Client();
-			$domain = $client->domains->register(
-				array(
-					'key'        => $key,
-					'domain'     => wp_parse_url( $this->site_url(), PHP_URL_HOST ),
-					'version'    => SLL_VERSION,
-					'product_id' => $product,
-				)
-			);
-			if ( ! is_string( $domain->id ) || ! preg_match( '/^dom_[a-zA-Z0-9]+$/D', $domain->id ) || ! is_string( $domain->secret ) || '' === $domain->secret ) {
-				return $this->error();
-			}
-			// Registration alone does not establish the current license status.
-			$client->setSecret( $domain->secret );
-			$access = $this->status( $client );
-			if ( '' === $access['product_id'] ) {
-				return $this->error();
-			}
-			$secret = Secrets::encrypt( $domain->secret );
-			if ( is_wp_error( $secret ) ) {
-				return $this->error();
-			}
-			$saved = $this->save(
-				array(
-					'domain_id'  => $domain->id,
-					'secret'     => $secret,
-					'site_url'   => $this->site_url(),
-					'status'     => $access['status'],
-					'product_id' => $access['product_id'],
-					'checked_at' => time(),
-					'error'      => false,
-				)
-			);
-			if ( ! $saved ) {
-				return $this->error();
-			}
-			$this->register();
-			return true;
-		} catch ( \Throwable $error ) {
-			return $this->error();
-		}
+	/** Load the SDK fields. A copied site or another product cannot reuse them. */
+	public function read() {
+		$data    = $this->data();
+		$product = $data['product_id'] ?? '';
+		$id      = $data['domain_id'] ?? '';
+		$stored  = $data['secret'] ?? '';
+		$valid   = is_string( $id ) && preg_match( '/^dom_[a-zA-Z0-9]+$/D', $id ) && is_string( $stored ) && ( $data['site_url'] ?? '' ) === $this->site_url() && ( '' === $product || $product === $this->product() );
+		$secret  = $valid ? Secrets::decrypt( $stored ) : '';
+		$valid   = $valid && is_string( $secret ) && '' !== $secret;
+		$this->setSecret( $valid ? $secret : '' );
+		$this->setDomainId( $valid ? $data['domain_id'] : '' );
+		$this->setDomain( $valid ? wp_parse_url( $this->site_url(), PHP_URL_HOST ) : '' );
+		$this->setLicenseKey( $valid ? ( $data['license_key'] ?? '••••••••' ) : '' );
+		$this->setStatus( $valid && $product === $this->product() ? ( $data['status'] ?? self::INACTIVE ) : self::INACTIVE );
+		$this->setCreatedAt( $data['created_at'] ?? '' );
+		$this->setLastCheck( $data['checked_at'] ?? '' );
 	}
 
 	/**
-	 * Keep the last verified status when the service cannot be reached.
+	 * Save the SDK fields without a second service request.
 	 *
-	 * @return true|WP_Error Check result.
+	 * @throws \RuntimeException When the scoped record cannot be saved.
+	 */
+	public function save() {
+		$id     = $this->getDomainId();
+		$secret = $this->getSecret();
+		if ( ! is_string( $id ) || ! preg_match( '/^dom_[a-zA-Z0-9]+$/D', $id ) || ! is_string( $secret ) || '' === $secret ) {
+			throw new \RuntimeException( 'The license activation is invalid.' );
+		}
+		$encrypted = Secrets::encrypt( $secret );
+		if ( is_wp_error( $encrypted ) ) {
+			throw new \RuntimeException( 'Could not save the license.' );
+		}
+		$data = array(
+			'domain_id'   => $id,
+			'secret'      => $encrypted,
+			'status'      => $this->getStatus(),
+			'product_id'  => $this->product(),
+			'site_url'    => $this->site_url(),
+			'license_key' => $this->getLicenseKey(),
+			'created_at'  => $this->getCreatedAt(),
+			'checked_at'  => $this->getLastCheck(),
+			'error'       => false,
+		);
+		$this->settings->is_network() ? update_site_option( self::OPTION, $data ) : update_option( self::OPTION, $data, false );
+		if ( $this->data() !== $data ) {
+			throw new \RuntimeException( 'Could not save the license.' );
+		}
+		$this->read();
+	}
+
+	/** Retain the SDK's deletion behavior in the correct settings scope. */
+	public function delete() {
+		$this->settings->is_network() ? delete_site_option( self::OPTION ) : delete_option( self::OPTION );
+		self::stop_checks( $this->settings->is_network() );
+		$this->read();
+	}
+
+	/**
+	 * Run a manual check through the SDK's normal update controller.
+	 *
+	 * @return true|WP_Error SDK check result.
 	 */
 	public function refresh() {
-		$data = $this->data();
-		if ( empty( $data['domain_id'] ) || $this->site_url() !== ( $data['site_url'] ?? '' ) ) {
+		$config = $GLOBALS['sll_paidcommunities'] ?? null;
+		if ( ! $config instanceof PluginConfig || ! $this->getSecret() ) {
 			return $this->error();
 		}
 		try {
-			$secret = Secrets::decrypt( $data['secret'] ?? '' );
-			if ( is_wp_error( $secret ) || '' === $secret ) {
-				return $this->error();
-			}
-			$access             = $this->status( new PaidCommunities_Client( PaidCommunities_Client::PRODUCTION, $secret ) );
-			$data['status']     = $access['status'];
-			$data['product_id'] = $access['product_id'];
-			$data['checked_at'] = time();
-			$data['error']      = false;
-			return $this->save( $data ) ? true : $this->error();
-		} catch ( \Throwable $error ) {
-			$data['error'] = true;
-			$this->save( $data );
-			return $this->error();
-		}
-	}
-
-	/**
-	 * Remove this site's activation only after the service accepts it.
-	 *
-	 * @return true|WP_Error Deactivation result.
-	 */
-	public function deactivate() {
-		$data = $this->data();
-		try {
-			$secret = Secrets::decrypt( $data['secret'] ?? '' );
-			if ( is_wp_error( $secret ) || '' === $secret || empty( $data['domain_id'] ) || $this->site_url() !== ( $data['site_url'] ?? '' ) ) {
-				return $this->error();
-			}
-			$client = new PaidCommunities_Client( PaidCommunities_Client::PRODUCTION, $secret );
-			$client->domains->delete( $data['domain_id'] );
-			if ( ! $this->save( array() ) ) {
-				return $this->error();
-			}
-			wp_clear_scheduled_hook( self::CHECK );
-			return true;
+			$cache = new Cache();
+			$cache->delete( $cache->generateKey( 'update_plugins', $config->getProductId(), SLL_VERSION ) );
+			$result = $config->getUpdateController()->checkPluginUpdates( false, array( 'Version' => SLL_VERSION ), $config->getPluginBasename() );
+			$this->read();
+			return is_array( $result ) && ( $result['slug'] ?? '' ) === $this->product() ? true : $this->error();
 		} catch ( \Throwable $error ) {
 			return $this->error();
 		}
 	}
 
-	/**
-	 * Ask the SDK update endpoint for its authenticated license status.
-	 *
-	 * @param PaidCommunities_Client $client Authenticated SDK client.
-	 * @throws \RuntimeException When no valid status is returned.
-	 * @return array Verified status and product entitlement.
-	 */
-	private function status( PaidCommunities_Client $client ): array {
-		foreach ( array( self::ENTERPRISE_PRODUCT, self::PRODUCT ) as $product ) {
-			$response = $client->plugins->updateCheck(
-				array(
-					'version'    => SLL_VERSION,
-					'product_id' => $product,
-				)
-			);
-			if ( $product !== $response->slug ) {
-				throw new \RuntimeException( 'The license product is invalid.' );
-			}
-			// An active license can still return invalid_product for this product.
-			if ( 'invalid_product' === $response->code ) {
-				continue;
-			}
-			$status = $response->license->status ?? null;
-			if ( ! in_array( $status, array( 'active', 'inactive', 'expired' ), true ) || ( 'active' === $status && ! in_array( $response->code, array( null, 'no_release' ), true ) ) ) {
-				throw new \RuntimeException( 'The license status is invalid.' );
-			}
-			return array(
-				'status'     => $status,
-				'product_id' => $product,
-			);
+	/** Return the one product assigned to this build. */
+	public function product(): string {
+		if ( defined( 'SLL_EDITION' ) && 'enterprise' === SLL_EDITION ) {
+			return self::ENTERPRISE_PRODUCT;
 		}
-		return array(
-			'status'     => 'inactive',
-			'product_id' => '',
-		);
+		if ( defined( 'SLL_EDITION' ) && 'pro' === SLL_EDITION ) {
+			return self::PRODUCT;
+		}
+		// Free displays retained purchase information but includes no paid features.
+		return self::ENTERPRISE_PRODUCT === ( $this->data()['product_id'] ?? '' ) ? self::ENTERPRISE_PRODUCT : self::PRODUCT;
 	}
 
-	/**
-	 * Bind stored activation data to the configured site, not the Host header.
-	 *
-	 * @return string Site address.
-	 */
+	/** Bind the local record to the configured site address. */
 	private function site_url(): string {
 		return untrailingslashit( $this->settings->is_network() ? network_home_url() : home_url() );
 	}
 
-	/**
-	 * Save without autoloading the activation secret.
-	 *
-	 * @param array $data License record.
-	 * @return bool Whether the record was saved.
-	 */
-	private function save( array $data ): bool {
-		$this->settings->is_network() ? update_site_option( self::OPTION, $data ) : update_option( self::OPTION, $data, false );
-		return $this->data() === $data;
-	}
-
-	/**
-	 * Return a safe error without remote content or credentials.
-	 *
-	 * @return WP_Error License error.
-	 */
+	/** Return a safe service error for the manual check control. */
 	private function error(): WP_Error {
 		return new WP_Error( 'sll_license_error', __( 'Could not verify the license. Check your key and connection, then try again.', 'simple-ldap-login' ) );
 	}

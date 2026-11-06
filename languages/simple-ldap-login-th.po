@@ -437,6 +437,10 @@ msgstr "ID ผู้ใช้"
 msgid "You do not have permission to export these records."
 msgstr "คุณไม่มีสิทธิ์ส่งออกรายการบันทึกเหล่านี้"
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "คุณไม่มีสิทธิ์ในการเปลี่ยนแปลงการตั้งค่าเหล่านี้."
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -479,10 +483,6 @@ msgstr "Simple LDAP Login ต้องการ PHP 8.1 หรือใหม่
 msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
 msgstr "ไฟล์ปลั๊กอินหายไป. ติดตั้ง Simple LDAP Login ใหม่จาก ZIP ที่ปล่อยออกมา."
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "คุณไม่มีสิทธิ์ในการเปลี่ยนแปลงการตั้งค่าเหล่านี้."
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr "ขอบเขตการตั้งค่าได้เปลี่ยนแปลง. เปิดหน้าการตั้งค่าและลองอีกครั้ง."
@@ -490,15 +490,6 @@ msgstr "ขอบเขตการตั้งค่าได้เปลี่
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "คุณไม่มีสิทธิ์ในการดูการตั้งค่าเหล่านี้."
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "การตั้งค่าการเข้าสู่ระบบ LDAP"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr "เชื่อมต่อกับ LDAP แล้วทดสอบการเข้าสู่ระบบก่อนเปิดใช้งานการตรวจสอบสิทธิ์."
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -534,6 +525,11 @@ msgid ""
 msgstr ""
 "รหัสผ่าน LDAP ถูกส่งโดยไม่มีการเข้ารหัส ใช้ StartTLS หรือ LDAPS "
 "หากเซิร์ฟเวอร์ของคุณรองรับ."
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "การตั้งค่าการเข้าสู่ระบบ LDAP"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -582,6 +578,14 @@ msgstr ""
 "ชื่อโฮสต์หรือที่อยู่ IP หนึ่งรายการต่อบรรทัด ใบอนุญาต Pro หรือ Enterprise "
 "ที่ใช้งานอยู่จะเปิดให้ใช้เซิร์ฟเวอร์สำรอง หากไม่มีใบอนุญาตที่ใช้งานอยู่ "
 "จะใช้เฉพาะเซิร์ฟเวอร์แรกเท่านั้น"
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr ""
+"อัปเกรดเป็น Pro เพื่อใช้เซิร์ฟเวอร์ LDAP "
+"สำรองเมื่อเซิร์ฟเวอร์หลักไม่พร้อมใช้งาน"
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -732,6 +736,14 @@ msgstr "บทบาทเริ่มต้น"
 msgid "For new accounts only."
 msgstr "สำหรับบัญชีใหม่เท่านั้น."
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr ""
+"อัปเกรดเป็น Pro เพื่อกำหนดบทบาท WordPress "
+"ตามกลุ่มในไดเรกทอรีทุกครั้งที่เข้าสู่ระบบ"
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -744,6 +756,14 @@ msgid ""
 msgstr ""
 "ชื่อกลุ่มหนึ่งต่อบรรทัด ผู้ใช้ต้องเป็นสมาชิกของอย่างน้อยหนึ่งกลุ่ม "
 "ปล่อยว่างเพื่ออนุญาตให้ผู้ใช้ LDAP ทั้งหมด."
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr ""
+"อัปเกรดเป็น Enterprise เพื่อยกเลิกสิทธิ์การเข้าถึงเมื่อพนักงานลาออก "
+"ด้วยการตรวจสอบไดเรกทอรีรายชั่วโมง"
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -852,6 +872,14 @@ msgstr "คุณสมบัติอีเมล"
 msgid "Website attribute"
 msgstr "คุณสมบัติเว็บไซต์"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr ""
+"อัปเกรดเป็น Pro "
+"เพื่ออัปเดตโปรไฟล์เมื่อเข้าสู่ระบบและคัดลอกฟิลด์ที่กำหนดเองจากไดเรกทอรี"
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "การเก็บข้อมูล"
@@ -868,35 +896,114 @@ msgstr ""
 "ลบการตั้งค่าและข้อมูลรับรอง LDAP ที่บันทึกไว้เมื่อ WordPress ลบปลั๊กอิน "
 "เก็บบัญชีผู้ใช้ไว้."
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "เอกสารประกอบ"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "เราช่วยคุณได้"
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "การสนับสนุน"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr ""
+"รับความช่วยเหลือเกี่ยวกับการตั้งค่า การเข้าสู่ระบบ หรือใบอนุญาต "
+"ส่งข้อความถึงเรา แล้วเราจะตอบกลับทางอีเมล"
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "ติดต่อฝ่ายสนับสนุน"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "ดูเอกสารประกอบ"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "คำถามที่พบบ่อย"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "การติดตั้งและตั้งค่า"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "เชื่อมต่อไดเรกทอรีและทดสอบการเข้าสู่ระบบครั้งแรก"
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "การทดสอบการเชื่อมต่อและการเข้าสู่ระบบ"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "ตรวจสอบการเชื่อมต่อและหาสาเหตุของข้อผิดพลาดในการเข้าสู่ระบบ"
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "การกู้คืนสิทธิ์ผู้ดูแลระบบ"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr "กู้คืนการเข้าถึงหากการเข้าสู่ระบบ LDAP หยุดทำงาน"
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "ใบอนุญาต Pro และ Enterprise"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "เปิดใช้งานใบอนุญาต ตรวจสอบแผน หรือต่ออายุ"
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "การกู้คืน"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
-msgstr ""
-"หากคุณถูกล็อกออก เปลี่ยนชื่อโฟลเดอร์ simple-ldap-login "
-"โดยใช้ตัวจัดการไฟล์ของโฮสติ้งของคุณ เข้าสู่ระบบด้วยรหัสผ่านผู้ดูแลระบบ "
-"WordPress จากนั้นกู้คืนโฟลเดอร์และแก้ไขการตั้งค่า."
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
+msgstr "ใน wp-config.php ให้เพิ่มบรรทัดนี้ก่อนบรรทัดที่โหลด wp-settings.php:"
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
 msgstr ""
-"สำหรับข้อผิดพลาดของใบรับรอง ให้ขอให้โฮสต์ของคุณกำหนดค่าใบรับรอง LDAP "
-"ที่เชื่อถือได้."
+"การตั้งค่านี้ปิดการเข้าสู่ระบบ LDAP และ SSO "
+"เข้าสู่ระบบด้วยรหัสผ่านผู้ดูแลระบบ WordPress ภายในเครื่อง แก้ไขการตั้งค่า "
+"แล้วลบบรรทัดนี้ออก"
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "วิธีอื่น: เปลี่ยนชื่อโฟลเดอร์ปลั๊กอิน"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr ""
+"หากคุณเข้าสู่ระบบไม่ได้ ให้เปลี่ยนชื่อโฟลเดอร์ %s บนเซิร์ฟเวอร์ WordPress "
+"เข้าสู่ระบบด้วยรหัสผ่านผู้ดูแลระบบ WordPress "
+"แล้วคืนชื่อโฟลเดอร์เดิมและแก้ไขการตั้งค่า"
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr ""
+"เมื่อเกิดข้อผิดพลาดเกี่ยวกับใบรับรอง ให้ตรวจสอบว่าใบรับรองของเซิร์ฟเวอร์ "
+"LDAP ยังไม่หมดอายุและตรงกับชื่อเซิร์ฟเวอร์ในการตั้งค่าการเชื่อมต่อ"
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"บนเซิร์ฟเวอร์ WordPress ให้เพิ่มใบรับรอง CA รากและ CA "
+"ระดับกลางในการกำหนดค่าความเชื่อถือที่ไลบรารี LDAP ของ PHP ใช้ สำหรับ "
+"OpenLDAP ให้ใช้ TLS_CACERT ใน ldap.conf เริ่ม PHP ใหม่หลังจากเปลี่ยนแปลง "
+"แล้วบันทึกการตั้งค่าการเชื่อมต่อเพื่อทดสอบอีกครั้ง"
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -955,6 +1062,10 @@ msgstr ""
 "หลังจากการทดสอบทั้งสองผ่าน เปิดใช้งาน LDAP "
 "และลองเข้าสู่ระบบจากเบราว์เซอร์อื่น."
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "อัปเกรดเลย"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "บันทึกการตั้งค่าแล้ว."
@@ -1000,6 +1111,10 @@ msgstr "ขั้นสูง"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "การทดสอบ"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "การสนับสนุน"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1158,17 +1273,18 @@ msgstr ""
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro และ Enterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "เลือกแผน LDAP ของคุณ"
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "ปรับสิทธิ์การเข้าถึง WordPress ให้เป็นปัจจุบัน"
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
 msgstr ""
-"Pro เพิ่มการเข้าสู่ระบบครั้งเดียวและการอัปเดตข้อมูลผู้ใช้ Enterprise "
-"เพิ่มการจัดการบัญชีตามกำหนดเวลา กฎสมาชิกแบบหลายไซต์ และประวัติการตรวจสอบ"
+"อัปเกรดเป็น Pro เพื่อกำหนดบทบาทและอัปเดตโปรไฟล์เมื่อเข้าสู่ระบบ อัปเกรดเป็น "
+"Enterprise เพื่อยกเลิกสิทธิ์การเข้าถึงเมื่อพนักงานลาออก "
+"ก่อนการเข้าสู่ระบบครั้งถัดไป"
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1189,6 +1305,15 @@ msgstr "คุณลักษณะทั้งหมดของ Free และ
 #: src/Commerce.php:154
 msgid "Everything in Pro, plus:"
 msgstr "ทุกอย่างใน Pro และ:"
+
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr ""
+"ยกเลิกสิทธิ์การเข้าถึงและสิ้นสุดเซสชันที่ใช้งานอยู่ "
+"เมื่อการตรวจสอบไดเรกทอรีรายชั่วโมงยืนยันการสูญเสียสิทธิ์ "
+"เก็บเนื้อหาของผู้ใช้และประวัติการตรวจสอบไว้"
 
 #: src/Commerce.php:168
 msgid "Buy Pro"
@@ -1213,23 +1338,23 @@ msgstr ""
 "การเข้าสู่ระบบครั้งเดียวต้องมีการยืนยันตัวตนของเว็บเซิร์ฟเวอร์ "
 "กฎแบบหลายไซต์ต้องเปิดใช้งานทั้งเครือข่าย"
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
 msgstr ""
-"ใบอนุญาตที่บันทึกไว้ต้องตรวจสอบแผน ติดตั้ง Pro "
-"แล้วเลือกตรวจสอบใบอนุญาตในแท็บใบอนุญาต"
+"ใบอนุญาตที่บันทึกไว้ต้องตรวจสอบแผน ติดตั้ง Pro/Enterprise "
+"แล้วเลือกตรวจสอบใบอนุญาตในแท็บใบอนุญาต ใช้ไฟล์ ZIP สำหรับแผนของคุณ"
 
-#: src/Commerce.php:176
+#: src/Commerce.php:181
 msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
 msgstr ""
-"หลังซื้อ ให้แทนที่ Free ด้วยไฟล์ Pro ZIP จากใบเสร็จ "
-"แล้วเปิดใช้งานใบอนุญาตในแท็บใบอนุญาตของ Pro การตั้งค่า LDAP "
-"ของคุณจะยังคงอยู่"
+"หลังซื้อ ให้แทนที่ Free ด้วยไฟล์ Pro/Enterprise ZIP จากใบเสร็จ "
+"แล้วเปิดใช้งานใบอนุญาตในแท็บใบอนุญาตของ Pro/Enterprise การตั้งค่า LDAP "
+"ของคุณจะยังคงอยู่ ใช้ไฟล์ ZIP สำหรับแผนของคุณ"
 
 #: src/Commerce.php:177
 msgid ""
@@ -1303,41 +1428,17 @@ msgstr ""
 "Enterprise เพิ่มการนำเข้าบัญชีและการลบสิทธิ์เข้าถึงตามกำหนดเวลา "
 "กฎสมาชิกแบบหลายไซต์ และประวัติการตรวจสอบที่ส่งออกเป็น CSV ได้"
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "รับ Enterprise จะเปิดหน้าชำระเงินสำหรับใบอนุญาตใหม่ "
 "โดยจะไม่เปลี่ยนหรือยกเลิกการสมัคร Pro ของคุณ "
 "จัดการการสมัครนั้นแยกต่างหากผ่าน PaidCommunities หลังซื้อ "
-"ให้ปิดใช้งานคีย์นี้ เลือก Enterprise แล้วเปิดใช้งานคีย์ใหม่"
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "แผนที่ซื้อ"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr ""
-"เลือกแผนตามใบเสร็จการซื้อ ตัวเลือกนี้ใช้เฉพาะเมื่อเปิดใช้งานคีย์ "
-"การตรวจสอบใบอนุญาตจะยืนยันคุณลักษณะที่คุณใช้ได้"
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "คีย์ใบอนุญาต"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "เปิดใช้งานใบอนุญาต"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "ยกเลิกการเปิดใช้งานใบอนุญาต"
+"ให้ปิดใช้งานคีย์นี้ ติดตั้งไฟล์ Enterprise ZIP แล้วเปิดใช้งานคีย์ใหม่"
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1357,6 +1458,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "เลือกการดำเนินการใบอนุญาต."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "คีย์ใบอนุญาต"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "เปิดใช้งานใบอนุญาต"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "ยกเลิกการเปิดใช้งานใบอนุญาต"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

@@ -19,29 +19,77 @@
 	margin: 16px 0 20px;
 }
 
-.sll-admin .sll-overview {
+.sll-admin .sll-support-intro {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 24px;
-	padding: 28px 32px;
+	gap: 32px;
+	padding: 32px;
+	margin-bottom: 28px;
 	border: 1px solid #d2e0e7;
-	border-radius: 12px;
+	border-radius: 9px;
 	background: linear-gradient(115deg, #fff, #edf5f8);
-	color: var(--sll-ink);
 }
 
-.sll-admin .sll-overview h2 {
-	margin: 6px 0 10px;
-	font-size: 25px;
+.sll-admin .sll-support-intro h2 {
+	margin: 0 0 12px;
+	font-size: 26px;
 	line-height: 1.3;
 	color: var(--sll-ink);
 }
 
-.sll-admin .sll-overview p {
+.sll-admin .sll-support-intro p {
+	max-width: 620px;
 	margin: 0;
 	color: var(--sll-muted);
 	font-size: 14px;
+	line-height: 1.7;
+}
+
+.sll-admin .sll-support-intro > .dashicons {
+	flex-shrink: 0;
+	width: 64px;
+	height: 64px;
+	font-size: 64px;
+	color: #245674;
+}
+
+.sll-admin .sll-support-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+.sll-admin .sll-support-guides {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 16px;
+	margin: 16px 0 28px;
+}
+
+.sll-admin .sll-support-guide {
+	padding: 24px;
+	border: 1px solid var(--sll-border);
+	border-radius: 9px;
+	background: #fff;
+	text-decoration: none;
+}
+
+.sll-admin .sll-support-guide:hover,
+.sll-admin .sll-support-guide:focus {
+	border-color: #2271b1;
+}
+
+.sll-admin .sll-support-guide h3 {
+	margin: 0 0 8px;
+	color: #2271b1;
+	font-size: 15px;
+}
+
+.sll-admin .sll-support-guide p {
+	margin: 0;
+	color: var(--sll-muted);
 	line-height: 1.6;
 }
 
@@ -89,6 +137,27 @@
 
 .sll-admin .sll-fields {
 	padding: 0 28px;
+}
+
+.sll-admin .sll-recovery-instructions {
+	margin: 1em 0;
+}
+
+.sll-admin .sll-recovery-code {
+	overflow-x: auto;
+	padding: 12px;
+	border-radius: 4px;
+	background: #f6f7f7;
+}
+
+.sll-admin .sll-plugin-path {
+	display: inline;
+	margin: 0;
+	padding: 2px 4px;
+	border-radius: 4px;
+	background: #f6f7f7;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
 }
 
 .sll-admin .sll-field {
@@ -234,6 +303,21 @@
 	margin-bottom: 24px;
 }
 
+.sll-admin .sll-upgrade-prompt {
+	padding: 14px 18px;
+	margin: 0 0 22px;
+	border-inline-start: 3px solid #2271b1;
+	border-radius: 4px;
+	background: #edf5f8;
+	color: var(--sll-ink);
+	line-height: 1.6;
+}
+
+.sll-admin .sll-upgrade-prompt a {
+	display: inline-block;
+	font-weight: 600;
+}
+
 .sll-admin .sll-pro-hero {
 	padding: 40px;
 	border-radius: 12px;
@@ -289,6 +373,7 @@
 
 .sll-admin .sll-pro-included {
 	margin: 28px 0 20px;
+	scroll-margin-top: 48px;
 }
 
 .sll-admin .sll-pro-included h2 {
@@ -353,18 +438,19 @@
 		padding: 28px 24px;
 	}
 
-	.sll-admin .sll-pro-features {
+	.sll-admin .sll-pro-features,
+	.sll-admin .sll-support-guides {
 		grid-template-columns: minmax(0, 1fr);
 	}
 
-	.sll-admin .sll-overview {
+	.sll-admin .sll-support-intro {
 		align-items: flex-start;
 		flex-direction: column;
 		padding: 24px;
 	}
 
-	.sll-admin .sll-overview h2 {
-		font-size: 22px;
+	.sll-admin .sll-support-intro > .dashicons {
+		display: none;
 	}
 
 	.sll-admin .sll-field {

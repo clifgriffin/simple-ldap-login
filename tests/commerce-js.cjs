@@ -2,129 +2,60 @@ const assert = require( 'node:assert/strict' );
 const fs = require( 'node:fs' );
 const vm = require( 'node:vm' );
 const source = fs.readFileSync( 'assets/commerce.js', 'utf8' );
-
-async function check() {
-	const elements = Object.fromEntries(
-		[
-			'sll-license-component',
-			'sll-license-fallback',
-			'sll-license-plan',
-		].map( ( id ) => [ id, { hidden: false } ] )
-	);
-	const input = {
-		setAttribute( name, value ) {
-			this[ name ] = value;
-		},
-	};
-	elements[ 'sll-license-component' ].querySelector = () => input;
-	elements[ 'sll-license-plan' ].value = 'enterprise';
-	let observer;
-	let props;
-	let request;
-	let requests = 0;
-	const config = {
-		ajaxUrl: '/wp-admin/admin-ajax.php',
-		scope: 'network',
-		i18n: {
-			licenseKey: 'License key',
-			licenseError: 'Could not verify the license.',
-		},
-	};
-	const window = {
-		sllCommerce: config,
-		paidcommunities: { wp: { components: { LicenseActivation() {} } } },
-		wp: {
-			element: {
-				createRoot: () => ( { render() {} } ),
-				createElement: ( component, options ) => {
-					assert.equal(
-						component,
-						window.paidcommunities.wp.components.LicenseActivation
-					);
-					props = options;
-				},
+const elements = {
+	'sll-license-component': { hidden: true },
+	'sll-license-fallback': { hidden: false },
+};
+const input = {
+	setAttribute( key, value ) {
+		this[ key ] = value;
+	},
+};
+elements[ 'sll-license-component' ].querySelector = () => input;
+let observer;
+let props;
+let reloaded = 0;
+const window = {
+	sllCommerce: { i18n: { licenseKey: 'License key' } },
+	paidcommunities: { wp: { components: { LicenseActivation() {} } } },
+	wp: {
+		element: {
+			createRoot: () => ( { render() {} } ),
+			createElement: ( component, options ) => {
+				props = options;
 			},
 		},
-		location: { reload() {} },
-		async fetch( url, options ) {
-			++requests;
-			request = { url, options };
-			return {
-				json: async () => ( { success: true, data: { license: {} } } ),
-			};
+	},
+	location: {
+		reload() {
+			++reloaded;
 		},
-	};
-	const document = {
-		getElementById: ( id ) => elements[ id ],
-	};
-	vm.runInNewContext( source, {
-		window,
-		document,
-		URLSearchParams,
-		MutationObserver: ( window.MutationObserver = class {
-			constructor( callback ) {
-				observer = callback;
-			}
-			observe() {}
-		} ),
-	} );
-	assert.equal( requests, 0 );
-	assert.equal( elements[ 'sll-license-fallback' ].hidden, true );
-	observer();
-	assert.equal( input.type, 'password' );
-	assert.equal( input.autocomplete, 'new-password' );
-	assert.equal( input[ 'aria-label' ], 'License key' );
-	await props.apiService.activate( 'plugin', {
-		nonce: 'test-nonce',
-		license_key: 'private-key',
-	} );
-	assert.equal( request.url, config.ajaxUrl );
-	assert.equal( request.options.credentials, 'same-origin' );
-	assert.equal( request.options.body.get( 'action' ), 'sll_license' );
-	assert.equal( request.options.body.get( 'sll_scope' ), 'network' );
-	assert.equal(
-		request.options.body.get( 'sll_license_key' ),
-		'private-key'
-	);
-	assert.equal(
-		request.options.body.get( 'sll_license_plan' ),
-		'enterprise'
-	);
-	elements[ 'sll-license-plan' ].value = 'pro';
-	await props.apiService.activate( 'plugin', {
-		nonce: 'test-nonce',
-		license_key: 'pro-key',
-	} );
-	assert.equal( request.options.body.get( 'sll_license_plan' ), 'pro' );
-	await props.apiService.deactivate( 'plugin', { nonce: 'test-nonce' } );
-	assert.equal(
-		request.options.body.get( 'sll_license_task' ),
-		'deactivate'
-	);
-	assert.equal( request.options.body.has( 'sll_license_plan' ), false );
-	window.fetch = async () => ( {
-		json: async () => ( {
-			success: false,
-			data: { message: 'Rejected.' },
-		} ),
-	} );
-	assert.equal(
-		( await props.apiService.deactivate( '', {} ) ).error.message,
-		'Rejected.'
-	);
-	window.fetch = async () => {
-		throw new Error( 'Test connection error.' );
-	};
-	assert.equal(
-		( await props.apiService.activate( '', {} ) ).error.message,
-		config.i18n.licenseError
-	);
-	delete elements[ 'sll-license-component' ];
-	vm.runInNewContext( source, { window, document, URLSearchParams } );
-	process.stdout.write(
-		'Pro license component and API adapter checks passed.\n'
-	);
-}
-check().catch( ( error ) => {
-	throw error;
-} );
+	},
+	fetch() {
+		throw new Error( 'Our component must use the SDK API service.' );
+	},
+	MutationObserver: class {
+		constructor( callback ) {
+			observer = callback;
+		}
+		observe() {}
+	},
+};
+const document = { getElementById: ( id ) => elements[ id ] };
+vm.runInNewContext( source, { window, document } );
+assert.equal( props.config, window.sllCommerce );
+assert.equal( Object.hasOwn( props, 'apiService' ), false );
+assert.equal( elements[ 'sll-license-component' ].hidden, false );
+assert.equal( elements[ 'sll-license-fallback' ].hidden, true );
+observer();
+assert.equal( input.type, 'password' );
+assert.equal( input.autocomplete, 'new-password' );
+assert.equal( input[ 'aria-label' ], 'License key' );
+props.onActivate();
+props.onDeactivate();
+assert.equal( reloaded, 2 );
+delete elements[ 'sll-license-component' ];
+vm.runInNewContext( source, { window, document } );
+process.stdout.write(
+	'The license component uses the native SDK API service.\n'
+);

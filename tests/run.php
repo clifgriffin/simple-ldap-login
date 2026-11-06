@@ -2,6 +2,10 @@
 /** Standalone regression checks. Run: composer test. */
 
 define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+define( 'SLL_TEST_PAID', 'paid' === ( $argv[1] ?? '' ) );
+if ( SLL_TEST_PAID && ! is_file( dirname( __DIR__ ) . '/pro/vendor/autoload.php' ) ) {
+	throw new RuntimeException( 'Install the paid repo at pro/ and run composer install --working-dir=pro.' );
+}
 
 error_reporting( E_ALL );
 set_error_handler(
@@ -96,7 +100,7 @@ function check( $condition, $label ) {
 }
 
 require dirname( __DIR__ ) . '/vendor/autoload.php';
-require dirname( __DIR__ ) . '/pro/vendor/autoload.php';
+if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/vendor/autoload.php'; }
 
 use SimpleLdapLogin\Secrets;
 use SimpleLdapLogin\Settings;
@@ -263,11 +267,11 @@ echo 'Settings and secret checks passed: ' . $GLOBALS['sll_test_count'] . ".\n";
 require __DIR__ . '/auth.php';
 require __DIR__ . '/recovery-settings.php';
 require __DIR__ . '/ldap.php';
-require __DIR__ . '/pro.php';
+if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/tests/features.php'; }
 define( 'SLL_DISABLE_LDAP', true );
 sll_auth_setup( array( 'enabled' => true, 'sso_enabled' => true ) );
 check( empty( $GLOBALS['sll_test_filters']['authenticate'] ) && empty( $GLOBALS['sll_test_filters']['init'] ), 'The recovery constant disables password and SSO hooks.' );
-foreach ( array( '/src/Ldap_Client.php', '/pro/src/Ldap_Client.php' ) as $client_file ) {
+foreach ( SLL_TEST_PAID ? array( '/src/Ldap_Client.php', '/pro/src/Ldap_Client.php' ) : array( '/src/Ldap_Client.php' ) as $client_file ) {
 	check( ! preg_match( '/\bldap_[a-z_]+\s*\(/i', file_get_contents( dirname( __DIR__ ) . $client_file ) ), 'The application LDAP client uses library APIs: ' . $client_file );
 }
 echo 'All checks passed: ' . $GLOBALS['sll_test_count'] . ".\n";

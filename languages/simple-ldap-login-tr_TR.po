@@ -435,6 +435,10 @@ msgstr "Kullanıcı kimliği"
 msgid "You do not have permission to export these records."
 msgstr "Bu kayıtları dışa aktarma izniniz yok."
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "Bu ayarları değiştirmek için izniniz yok."
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -479,10 +483,6 @@ msgstr ""
 "Eklenti dosyaları eksik. Simple LDAP Login'i sürüm ZIP'inden yeniden "
 "yükleyin."
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "Bu ayarları değiştirmek için izniniz yok."
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr "Ayarlar kapsamı değişti. Ayarlar sayfasını açın ve tekrar deneyin."
@@ -490,17 +490,6 @@ msgstr "Ayarlar kapsamı değişti. Ayarlar sayfasını açın ve tekrar deneyin
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "Bu ayarları görüntülemek için izniniz yok."
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "LDAP giriş ayarları"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr ""
-"LDAP'a bağlanın, ardından kimlik doğrulamayı etkinleştirmeden önce bir "
-"girişi test edin."
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -536,6 +525,11 @@ msgid ""
 msgstr ""
 "LDAP şifreleri şifrelenmeden gönderilir. Sunucunuz destekliyorsa StartTLS "
 "veya LDAPS kullanın."
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP giriş ayarları"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -584,6 +578,14 @@ msgstr ""
 "Her satıra bir ana bilgisayar adı veya IP adresi girin. Etkin bir Pro veya "
 "Enterprise lisansı yedek sunucuların kullanımını sağlar. Etkin lisans yoksa "
 "yalnızca ilk sunucu kullanılır."
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr ""
+"Birincil sunucunuz kullanılamadığında yedek LDAP sunucularını kullanmak "
+"için Pro’ya yükseltin."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -736,6 +738,14 @@ msgstr "Varsayılan rol"
 msgid "For new accounts only."
 msgstr "Sadece yeni hesaplar için."
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr ""
+"Her oturum açılışında dizin gruplarına göre WordPress rolleri atamak için "
+"Pro’ya yükseltin."
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -748,6 +758,14 @@ msgid ""
 msgstr ""
 "Her satıra bir grup adı. Kullanıcıların en az birine ait olması gerekir. "
 "Tüm LDAP kullanıcılarına izin vermek için boş bırakın."
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr ""
+"Çalışanlar ayrıldığında saatlik dizin kontrolleriyle erişimlerini kaldırmak "
+"için Enterprise’a yükseltin."
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -857,6 +875,14 @@ msgstr "E-posta niteliği"
 msgid "Website attribute"
 msgstr "Web sitesi niteliği"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr ""
+"Oturum açıldığında profilleri güncellemek ve dizininizden özel alanları "
+"kopyalamak için Pro’ya yükseltin."
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "Veri saklama"
@@ -873,35 +899,115 @@ msgstr ""
 "Eklenti kaldırıldığında kaydedilen ayarları ve LDAP kimlik bilgilerini "
 "silin. Kullanıcı hesaplarını koruyun."
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "Belgeler"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "Yardımcı olabiliriz."
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Destek"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr ""
+"Kurulum, giriş veya lisanslama konusunda yardım alın. Bize mesaj gönderin, "
+"e-postayla yanıtlayalım."
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "Destek ile iletişime geçin"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "Belgeleri görüntüleyin"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "Sık sorulan sorular"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "Yükleme ve kurulum"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "Dizininizi bağlayın ve ilk girişinizi test edin."
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "Bağlantı ve giriş testleri"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "Bağlantıyı kontrol edin ve giriş hatalarının nedenini bulun."
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "Yönetici erişimini kurtarma"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr "LDAP girişi çalışmazsa erişimi geri yükleyin."
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "Pro ve Enterprise lisansları"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "Bir lisansı etkinleştirin, planınızı kontrol edin veya yenileyin."
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Kurtarma"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
 msgstr ""
-"Erişim engellendiyseniz, basit-ldap-giriş klasörünü barındırma dosya "
-"yöneticinizle yeniden adlandırın. WordPress yönetici şifresiyle giriş "
-"yapın, ardından klasörü geri yükleyin ve ayarları düzeltin."
+"wp-config.php dosyasında bu satırı wp-settings.php dosyasını yükleyen "
+"satırdan önce ekleyin:"
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
 msgstr ""
-"Sertifika hataları için, barındırma sağlayıcınızdan güvenilir LDAP "
-"sertifika otoritesini yapılandırmasını isteyin."
+"Bu, LDAP girişini ve SSO’yu devre dışı bırakır. Yerel WordPress yönetici "
+"parolasıyla giriş yapın, ayarları düzeltin ve ardından bu satırı kaldırın."
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "Alternatif: eklenti klasörünü yeniden adlandırın"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr ""
+"Giriş yapamıyorsanız WordPress sunucunuzdaki %s klasörünü yeniden "
+"adlandırın. WordPress yönetici parolasıyla giriş yapın, ardından klasör "
+"adını geri yükleyin ve ayarları düzeltin."
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr ""
+"Sertifika hatalarında LDAP sunucusunun sertifikasının süresinin dolmadığını "
+"ve Bağlantı ayarlarındaki sunucu adıyla eşleştiğini kontrol edin."
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"WordPress sunucusunda kök ve ara CA sertifikalarınızı PHP LDAP kitaplığının "
+"kullandığı güven yapılandırmasına ekleyin. OpenLDAP için ldap.conf içinde "
+"TLS_CACERT kullanın. Değişikliklerden sonra PHP’yi yeniden başlatın ve "
+"yeniden test etmek için Bağlantı ayarlarını kaydedin."
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -960,6 +1066,10 @@ msgstr ""
 "Her iki test geçtikten sonra LDAP'ı etkinleştirin ve başka bir tarayıcıdan "
 "giriş yapmayı deneyin."
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "Şimdi yükseltin"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "Ayarlar kaydedildi."
@@ -1005,6 +1115,10 @@ msgstr "Gelişmiş"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Test"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Destek"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1163,18 +1277,18 @@ msgstr ""
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro ve Enterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "LDAP planınızı seçin."
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "WordPress erişimini güncel tutun."
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
 msgstr ""
-"Pro, tek oturum açma ve kullanıcı verisi güncellemelerini ekler. "
-"Enterprise, zamanlanmış hesap yönetimi, çoklu site üyelik kuralları ve "
-"denetim geçmişini ekler."
+"Oturum açıldığında rol atamak ve profilleri güncellemek için Pro’ya "
+"yükseltin. Çalışanlar ayrıldığında bir sonraki oturum açılışından önce "
+"erişimlerini kaldırmak için Enterprise’a yükseltin."
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1195,6 +1309,15 @@ msgstr "Tüm Free özelliklerine ek olarak:"
 #: src/Commerce.php:154
 msgid "Everything in Pro, plus:"
 msgstr "Pro içindeki her şeye ek olarak:"
+
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr ""
+"Saatlik dizin kontrolleri erişim kaybını doğruladığında erişimi kaldırın ve "
+"etkin oturumları sonlandırın. Kullanıcı içeriğini ve denetim geçmişini "
+"koruyun."
 
 #: src/Commerce.php:168
 msgid "Buy Pro"
@@ -1220,23 +1343,25 @@ msgstr ""
 "doğrulaması gerekir. Çoklu site kuralları ağ üzerinden etkinleştirme "
 "gerektirir."
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
 msgstr ""
-"Kayıtlı lisansınızın planı kontrol edilmelidir. Pro yükleyin, ardından "
-"Lisans sekmesinden Lisansı kontrol et seçeneğini seçin."
+"Kayıtlı lisansınızın planı kontrol edilmelidir. Pro/Enterprise yükleyin, "
+"ardından Lisans sekmesinden Lisansı kontrol et seçeneğini seçin. Planınıza "
+"uygun ZIP dosyasını kullanın."
 
-#: src/Commerce.php:176
+#: src/Commerce.php:181
 msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
 msgstr ""
-"Satın aldıktan sonra Free yerine makbuzunuzdaki Pro ZIP dosyasını yükleyin. "
-"Ardından Pro içindeki Lisans sekmesinden lisansınızı etkinleştirin. LDAP "
-"ayarlarınız korunur."
+"Satın aldıktan sonra Free yerine makbuzunuzdaki Pro/Enterprise ZIP "
+"dosyasını yükleyin. Ardından Pro/Enterprise içindeki Lisans sekmesinden "
+"lisansınızı etkinleştirin. LDAP ayarlarınız korunur. Planınıza uygun ZIP "
+"dosyasını kullanın."
 
 #: src/Commerce.php:177
 msgid ""
@@ -1310,42 +1435,17 @@ msgstr ""
 "Enterprise, zamanlanmış hesap içe aktarma ve erişim kaldırma, çoklu site "
 "üyelik kuralları ve CSV dışa aktarmalı denetim geçmişini ekler."
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "Enterprise edin, yeni bir lisans için ödeme sayfasını açar. Pro "
 "aboneliğinizi değiştirmez veya iptal etmez. Bu aboneliği PaidCommunities "
 "üzerinden ayrı olarak yönetin. Satın aldıktan sonra bu anahtarı devre dışı "
-"bırakın, Enterprise seçin ve yeni anahtarı etkinleştirin."
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "Satın alınan plan"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr ""
-"Satın alma makbuzunuzdaki planı seçin. Bu seçim yalnızca bir anahtarı "
-"etkinleştirirken kullanılır. Lisans kontrolü hangi özellikleri "
-"kullanabileceğinizi doğrular."
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "Lisans anahtarı"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "Lisansı etkinleştir"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "Lisansı devre dışı bırak"
+"bırakın, Enterprise ZIP dosyasını yükleyin ve yeni anahtarı etkinleştirin."
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1365,6 +1465,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "Bir lisans eylemi seçin."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Lisans anahtarı"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Lisansı etkinleştir"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Lisansı devre dışı bırak"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

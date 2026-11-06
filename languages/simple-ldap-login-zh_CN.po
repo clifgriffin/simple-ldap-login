@@ -393,6 +393,10 @@ msgstr "用户 ID"
 msgid "You do not have permission to export these records."
 msgstr "您无权导出这些记录。"
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "您没有权限更改这些设置。"
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -428,10 +432,6 @@ msgstr "Simple LDAP Login需要PHP 8.1或更高版本。"
 msgid "Plugin files are missing. Reinstall Simple LDAP Login from the release ZIP."
 msgstr "插件文件丢失。从发布ZIP重新安装Simple LDAP Login。"
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "您没有权限更改这些设置。"
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr "设置范围已更改。打开设置页面并重试。"
@@ -439,15 +439,6 @@ msgstr "设置范围已更改。打开设置页面并重试。"
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "您没有权限查看这些设置。"
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "LDAP登录设置"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr "连接到LDAP，然后在启用身份验证之前测试登录。"
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -474,6 +465,11 @@ msgid ""
 "LDAP passwords are sent without encryption. Use StartTLS or LDAPS if your "
 "server supports it."
 msgstr "LDAP 密码以未加密的方式发送。如果您的服务器支持，请使用 StartTLS 或 LDAPS。"
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP登录设置"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -519,6 +515,12 @@ msgid ""
 "enables backup servers. Without an active license, only the first server is "
 "used."
 msgstr "每行输入一个主机名或 IP 地址。有效的 Pro 或 Enterprise 许可证可启用备用服务器。没有有效许可证时，仅使用第一个服务器。"
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr "升级到 Pro，在主服务器不可用时使用备用 LDAP 服务器。"
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -669,6 +671,12 @@ msgstr "默认角色"
 msgid "For new accounts only."
 msgstr "仅适用于新账户。"
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr "升级到 Pro，在每次登录时根据目录组分配 WordPress 角色。"
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -679,6 +687,12 @@ msgid ""
 "One group name per line. Users must belong to at least one. Leave blank to "
 "allow all LDAP users."
 msgstr "每行一个组名。用户必须至少属于一个。留空以允许所有 LDAP 用户。"
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr "升级到 Enterprise，通过每小时的目录检查撤销离职员工的访问权限。"
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -783,6 +797,12 @@ msgstr "电子邮件属性"
 msgid "Website attribute"
 msgstr "网站属性"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr "升级到 Pro，在登录时更新个人资料并从目录中复制自定义字段。"
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "数据保留"
@@ -797,32 +817,102 @@ msgid ""
 "plugin. Keep user accounts."
 msgstr "当 WordPress 删除插件时，删除保存的设置和 LDAP 凭据。保留用户账户。"
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "文档"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "我们可以提供帮助。"
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "支持"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr "获取设置、登录或许可方面的帮助。向我们发送消息，我们将通过电子邮件回复。"
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "联系支持"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "查看文档"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "常见问题"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "安装和设置"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "连接您的目录并测试首次登录。"
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "连接和登录测试"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "检查连接并找出登录错误的原因。"
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "恢复管理员访问权限"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr "LDAP 登录停止工作时恢复访问权限。"
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "Pro 和 Enterprise 许可"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "激活许可证、查看方案或续订。"
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "恢复"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
-msgstr ""
-"如果您被锁定，请使用您的主机文件管理器重命名 simple-ldap-login 文件夹。使用 WordPress "
-"管理员密码登录，然后恢复文件夹并更正设置。"
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
+msgstr "在 wp-config.php 中，将以下行添加到加载 wp-settings.php 的行之前："
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
-msgstr "对于证书错误，请要求您的主机配置受信任的 LDAP 证书颁发机构。"
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
+msgstr "这将禁用 LDAP 登录和 SSO。使用本地 WordPress 管理员密码登录，更正设置，然后删除此行。"
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "替代方法：重命名插件文件夹"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr "如果您无法登录，请在 WordPress 服务器上重命名 %s 文件夹。使用 WordPress 管理员密码登录，然后恢复文件夹名称并更正设置。"
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr "如果出现证书错误，请检查 LDAP 服务器证书是否尚未过期，并与连接设置中的服务器名称匹配。"
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"在 WordPress 服务器上，将根 CA 和中间 CA 证书添加到 PHP LDAP 库使用的信任配置中。对于 OpenLDAP，请在 "
+"ldap.conf 中使用 TLS_CACERT。更改后重新启动 PHP，然后保存连接设置以再次测试。"
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -875,6 +965,10 @@ msgstr "LDAP 密码"
 msgid "After both tests pass, enable LDAP and try logging in from another browser."
 msgstr "在两个测试通过后，启用 LDAP 并尝试从另一个浏览器登录。"
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "立即升级"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "设置已保存。"
@@ -916,6 +1010,10 @@ msgstr "高级"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "测试"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "支持"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1041,15 +1139,15 @@ msgstr "集中查看登录结果、角色更改、导入和访问权限更改。
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro 和 Enterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "选择 LDAP 方案。"
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "使 WordPress 访问权限保持最新。"
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
-msgstr "Pro 增加单点登录和用户数据更新。Enterprise 增加定时账户管理、多站点成员规则和审计历史。"
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
+msgstr "升级到 Pro，在登录时分配角色并更新个人资料。升级到 Enterprise，在员工离职后、下次登录前撤销其访问权限。"
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1071,6 +1169,12 @@ msgstr "所有 Free 功能，另加："
 msgid "Everything in Pro, plus:"
 msgstr "所有 Pro 功能，另加："
 
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr "当每小时的目录检查确认访问权限丢失时，撤销访问权限并结束活动会话。保留用户内容和审计历史。"
+
 #: src/Commerce.php:168
 msgid "Buy Pro"
 msgstr "购买 Pro"
@@ -1091,18 +1195,20 @@ msgid ""
 "network activation."
 msgstr "定时任务使用 WordPress cron，需要站点流量或系统任务触发。单点登录需要 Web 服务器身份验证。多站点规则需要在网络中激活插件。"
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
-msgstr "已保存的许可证需要检查方案。请安装 Pro，然后在“许可证”选项卡中选择“检查许可证”。"
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
+msgstr "已保存的许可证需要检查方案。请安装 Pro/Enterprise，然后在“许可证”选项卡中选择“检查许可证”。 请使用所购方案的 ZIP。"
 
-#: src/Commerce.php:176
+#: src/Commerce.php:181
 msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
-msgstr "购买后，请使用收据中的 Pro ZIP 替换 Free。然后在 Pro 的“许可证”选项卡中激活许可证。LDAP 设置会保留。"
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
+msgstr ""
+"购买后，请使用收据中的 Pro/Enterprise ZIP 替换 Free。然后在 Pro/Enterprise "
+"的“许可证”选项卡中激活许可证。LDAP 设置会保留。 请使用所购方案的 ZIP。"
 
 #: src/Commerce.php:177
 msgid ""
@@ -1169,37 +1275,15 @@ msgid ""
 "membership rules, and audit history with CSV export."
 msgstr "Enterprise 增加定时账户导入和访问权限移除、多站点成员规则，以及支持 CSV 导出的审计历史。"
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "“获取 Enterprise”会打开新许可证的结账页面。它不会更改或取消您的 Pro 订阅。请通过 PaidCommunities "
-"单独管理该订阅。购买后，停用此密钥，选择 Enterprise，然后激活新密钥。"
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "已购方案"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr "选择购买收据上的方案。此选择仅在激活密钥时使用。许可证检查会验证您可以使用的功能。"
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "许可证密钥"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "激活许可证"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "停用许可证"
+"单独管理该订阅。购买后，停用此密钥，安装 Enterprise ZIP，然后激活新密钥。"
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1217,6 +1301,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "选择一个许可证操作。"
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "许可证密钥"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "激活许可证"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "停用许可证"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

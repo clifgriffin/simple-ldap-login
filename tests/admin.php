@@ -41,6 +41,7 @@ namespace SimpleLdapLogin {
 
 	/** Read only the stored secret format in these screen checks. */
 	class Secrets {
+		public static function encrypt( $value ) { return 'test-ciphertext'; }
 		public static function decrypt( $value ) { return empty( $GLOBALS['sll_admin_broken_secret'] ) ? 'test-secret' : new \WP_Error(); }
 	}
 }
@@ -48,6 +49,8 @@ namespace SimpleLdapLogin {
 namespace {
 
 	define( 'ABSPATH', '/tmp/' );
+	define( 'SLL_TEST_PAID', 'paid' === ( $argv[1] ?? '' ) );
+	define( 'WP_PLUGIN_DIR', '/tmp/custom-content/extensions' );
 	define( 'SLL_FILE', '/simple-ldap-login/Simple-LDAP-Login.php' );
 	define( 'SLL_VERSION', 'test' );
 	define( 'MINUTE_IN_SECONDS', 60 );
@@ -67,6 +70,7 @@ namespace {
 		new WP_User( 4, 'other-site-admin', 'Other Site Admin', true, false, 2 ),
 	);
 	function get_current_blog_id() { return 1; }
+	function is_admin() { return true; }
 	function is_multisite() { return $GLOBALS['sll_admin_multisite'] ?? false; }
 	function get_super_admins() { return $GLOBALS['sll_admin_super_admins'] ?? array( 'network-admin' ); }
 	function get_users( $query ) {
@@ -78,6 +82,9 @@ namespace {
 	}
 	function __( $s, $d = '' ) { return $s; }
 	function add_filter( $name, $callback, $priority = 10, $accepted = 1 ) { $GLOBALS['sll_admin_hooks'][ $name ][ $priority ][] = array( $callback, $accepted ); }
+	function remove_filter( $hook, $callback, $priority = 10 ) {
+		foreach ( $GLOBALS['sll_admin_hooks'][$hook][$priority] ?? array() as $index => $entry ) { if ( $entry[0] === $callback ) { unset( $GLOBALS['sll_admin_hooks'][$hook][$priority][$index] ); } }
+	}
 	function add_action( $name, $callback, $priority = 10, $accepted = 1 ) { add_filter( $name, $callback, $priority, $accepted ); }
 	function has_action( $name ) { return ! empty( $GLOBALS['sll_admin_hooks'][ $name ] ); }
 	function get_option( $name, $default = false ) { return $GLOBALS['sll_admin_options'][ $name ] ?? $default; }
@@ -85,17 +92,23 @@ namespace {
 	function home_url() { return 'https://example.test'; }
 	function network_home_url() { return 'https://network.test'; }
 	function untrailingslashit( $value ) { return rtrim( $value, '/' ); }
-	function plugin_basename( $file ) { return 'simple-ldap-login/' . basename( $file ); }
+function trailingslashit( $value ) { return rtrim( $value, '/' ) . '/'; }
+	function plugin_basename( $file ) { return ( $GLOBALS['sll_admin_plugin_folder'] ?? 'simple-ldap-login' ) . '/' . basename( $file ); }
+	function wp_normalize_path( $path ) { return str_replace( '\\', '/', $path ); }
 	function plugins_url( $path, $file ) { return '/wp-content/plugins/simple-ldap-login/' . $path; }
 	function get_posts( $args ) { return array(); }
 	function get_current_network_id() { return 1; }
 	function get_main_site_id() { return 1; }
 	function wp_nonce_url( $url, $action ) { return $url . '&_wpnonce=test-nonce'; }
 	function wp_create_nonce( $action ) { return 'test-nonce'; }
+	function wp_salt( $scheme ) { return 'admin-test-key'; }
+	function wp_parse_url( $value, $part = -1 ) { return parse_url( $value, $part ); }
+	function plugin_dir_url( $file ) { return '/wp-content/plugins/simple-ldap-login/vendor/paidcommunities/wordpress-sdk/'; }
+	function _wp_specialchars( $value, ...$args ) { return htmlspecialchars( $value, ENT_QUOTES ); }
 	function wp_json_encode( $data, $flags = 0 ) { return json_encode( $data, $flags ); }
 	function wp_register_script( $handle, $url, $deps, $version, $footer ) { $GLOBALS['sll_commerce_scripts'][ $handle ] = $url; }
 	function wp_register_style( $handle, $url, $deps, $version ) { $GLOBALS['sll_commerce_styles'][ $handle ] = $url; }
-	function wp_enqueue_script( $handle, $url, $deps, $version, $footer ) { $GLOBALS['sll_commerce_scripts'][ $handle ] = $url; }
+	function wp_enqueue_script( $handle, $url = '', $deps = array(), $version = false, $footer = false ) { $GLOBALS['sll_commerce_scripts'][ $handle ] = $url; }
 	function wp_enqueue_style( $handle ) {}
 	function wp_add_inline_script( $handle, $script, $position ) { $GLOBALS['sll_commerce_config'] = $script; }
 	function apply_filters( $name, $value ) {
@@ -153,18 +166,23 @@ namespace {
 		throw new RuntimeException( 'The handler did not redirect or reject the request.' );
 	}
 
+	require dirname( __DIR__ ) . '/vendor/autoload.php';
 	require dirname( __DIR__ ) . '/src/Admin.php';
-	require dirname( __DIR__ ) . '/pro/src/Admin.php';
-	require dirname( __DIR__ ) . '/pro/src/Audit.php';
+	if ( SLL_TEST_PAID ) {
+		require dirname( __DIR__ ) . '/pro/src/Admin.php';
+		require dirname( __DIR__ ) . '/pro/src/Audit.php';
+	}
 	require dirname( __DIR__ ) . '/src/License.php';
 	require dirname( __DIR__ ) . '/src/Commerce.php';
-	require dirname( __DIR__ ) . '/vendor/paidcommunities/wordpress-sdk/src/Assets/AssetsApi.php';
+
 	$settings = new SimpleLdapLogin\Settings();
 	$client   = new SimpleLdapLogin\Ldap_Client( $settings );
 	$admin    = new SimpleLdapLogin\Admin( $settings, $client );
-	foreach ( array( 'free', 'pro' ) as $edition ) {
+	foreach ( SLL_TEST_PAID ? array( 'free', 'pro' ) : array( 'free' ) as $edition ) {
 		if ( 'pro' === $edition ) {
 			define( 'SLL_FEATURES_LOADED', true );
+			require dirname( __DIR__ ) . '/pro/src/PaidCommunities_Config.php';
+			$GLOBALS['sll_paidcommunities'] = new SimpleLdapLogin\Pro\PaidCommunities_Config( $settings );
 		}
 		$GLOBALS['sll_admin_hooks'] = array();
 		( new SimpleLdapLogin\Commerce( $settings ) )->register();
@@ -179,17 +197,26 @@ namespace {
 				$_GET = array( 'tab' => $tab );
 				ob_start(); $admin->render(); $html = ob_get_clean();
 				admin_check( false === strpos( $html, 'never-render-this-secret' ), 'Saved password is absent from ' . $edition . '/' . $scope . '/' . $tab );
-				if ( 'support' !== $tab && ! ( 'free' === $edition && 'license' === $tab ) ) {
+				if ( 'support' !== $tab && 'license' !== $tab ) {
 					admin_check( false !== strpos( $html, 'name="sll_scope" value="' . $scope . '"' ) && false !== strpos( $html, 'name="_wpnonce"' ), 'Forms have a nonce and correct scope: ' . $edition . '/' . $scope . '/' . $tab );
 				}
 				admin_check( false !== strpos( $html, 'aria-current="page"' ), 'The current tab has an accessible label: ' . $edition . '/' . $scope . '/' . $tab );
 				admin_check( ( 'free' === $edition ) === str_contains( $html, '✨ Go Pro' ) && ! str_contains( $html, 'Get Pro' ), 'Free has a Go Pro tab with an accent; Pro keeps License.' );
+				$prompt_count = 'free' === $edition ? ( array( 'connection' => 1, 'access' => 2, 'advanced' => 1, 'profile' => 1, 'sso' => 1, 'accounts' => 1, 'audit' => 1 )[ $tab ] ?? 0 ) : 0;
+				admin_check( $prompt_count === substr_count( $html, 'class="sll-upgrade-prompt"' ), 'Upgrade prompts appear beside related Free settings only: ' . $edition . '/' . $scope . '/' . $tab );
+				admin_check( $prompt_count === preg_match_all( '/<p class="sll-upgrade-prompt">\s*Upgrade to [^<]+<a href="[^"]+">Upgrade Now<\/a>\s*<\/p>/', $html ), 'Upgrade offers keep plain text and a separate Upgrade Now link.' );
+				if ( $prompt_count ) {
+					$plan_url = ( 'network' === $scope ? network_admin_url( 'settings.php?page=simple-ldap-login' ) : admin_url( 'options-general.php?page=simple-ldap-login' ) ) . '&tab=license#sll-plan-';
+					admin_check( str_contains( $html, 'href="' . esc_url( $plan_url . 'pro' ) . '"' ), 'The Pro prompt keeps the settings scope and links to the plan section.' );
+					admin_check( ( 'access' === $tab ) === str_contains( $html, 'href="' . esc_url( $plan_url . 'enterprise' ) . '"' ), 'Access settings link to the Enterprise section.' );
+				}
 				if ( 'license' === $tab ) {
 					admin_check( ( 'pro' === $edition ) === str_contains( $html, 'id="sll-license-component"' ), 'Only Pro has license activation controls.' );
-					admin_check( ( 'pro' === $edition ) === str_contains( $html, 'name="sll_license_plan" form="sll-license-form"' ), 'Paid package activation selects the purchased product in both JavaScript and fallback forms.' );
+					admin_check( ! str_contains( $html, 'sll_license_plan' ) && ! str_contains( $html, 'Purchased plan' ), 'Neither package asks the administrator to choose a license plan.' );
 					admin_check( ! str_contains( $html, 'sll-pricing' ) && ! str_contains( $html, 'Open checkout in a new tab' ), 'Neither edition has a pricing frame or an extra checkout link.' );
-					admin_check( 1 === substr_count( $html, 'PaidCommunities' ), 'Each edition has one data sharing notice.' );
+					admin_check( 1 === substr_count( $html, 'class="sll-commerce-disclaimer"' ), 'Each edition has one data sharing notice.' );
 					if ( 'free' === $edition ) {
+						admin_check( str_contains( $html, 'id="sll-plan-pro"' ) && str_contains( $html, 'id="sll-plan-enterprise"' ), 'Both upgrade link targets exist on the plan page.' );
 						admin_check( ! str_contains( $html, '<form ' ) && ! str_contains( $html, '<h2>License</h2>' ), 'Free has no license form.' );
 						admin_check( 1 === substr_count( $html, 'href="' . esc_url( SimpleLdapLogin\Commerce::checkout_url() ) . '"' ) && 1 === substr_count( $html, 'href="' . esc_url( SimpleLdapLogin\Commerce::checkout_url( 'enterprise' ) ) . '"' ), 'Free links each plan to its own annual checkout.' );
 						admin_check( str_contains( $html, 'Pro — $99/year' ) && str_contains( $html, 'Enterprise — $499/year' ) && ! str_contains( $html, 'All eight features are included with an active Pro license.' ), 'Free shows the two plan prices and feature split.' );
@@ -208,12 +235,12 @@ namespace {
 						admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Free does not load commerce scripts.' );
 						$target = $settings->network ? 'sll_admin_network_options' : 'sll_admin_options';
 						foreach ( array( 'active', 'expired' ) as $status ) {
-							$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => $status, 'product_id' => SimpleLdapLogin\License::PRODUCT, 'secret' => 'never-render-license-secret', 'domain_id' => 'dom_test', 'site_url' => $settings->network ? network_home_url() : home_url() );
+							$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => $status, 'product_id' => SimpleLdapLogin\License::PRODUCT, 'secret' => SimpleLdapLogin\Secrets::encrypt( 'never-render-license-secret' ), 'domain_id' => 'dom_test', 'site_url' => $settings->network ? network_home_url() : home_url() );
 							ob_start(); $admin->render(); $saved_license_html = ob_get_clean();
-							admin_check( ! str_contains( $saved_license_html, '<h2>License</h2>' ) && ! str_contains( $saved_license_html, 'Check license' ) && str_contains( $saved_license_html, 'replace Free with the Pro ZIP' ), 'Free keeps installation instructions without license controls or notices for a retained ' . $status . ' license.' );
+							admin_check( ! str_contains( $saved_license_html, '<h2>License</h2>' ) && ! str_contains( $saved_license_html, 'Check license' ) && str_contains( $saved_license_html, 'Use the ZIP for your plan' ), 'Free keeps installation instructions without license controls or notices for a retained ' . $status . ' license.' );
 							admin_check( ( 'expired' === $status ) === str_contains( $saved_license_html, '>Buy Pro' ), 'A retained active license hides repeat purchase offers.' );
 						}
-						$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => 'active', 'product_id' => SimpleLdapLogin\License::ENTERPRISE_PRODUCT, 'secret' => 'never-render-license-secret', 'domain_id' => 'dom_test', 'site_url' => $settings->network ? network_home_url() : home_url() );
+						$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => 'active', 'product_id' => SimpleLdapLogin\License::ENTERPRISE_PRODUCT, 'secret' => SimpleLdapLogin\Secrets::encrypt( 'never-render-license-secret' ), 'domain_id' => 'dom_test', 'site_url' => $settings->network ? network_home_url() : home_url() );
 						ob_start(); $admin->render(); $enterprise_html = ob_get_clean();
 						admin_check( ! str_contains( $enterprise_html, '>Buy Pro' ) && ! str_contains( $enterprise_html, '>Buy Enterprise' ) && ! str_contains( $enterprise_html, 'Get Enterprise' ), 'A retained Enterprise license does not show another purchase offer.' );
 						unset( $GLOBALS[ $target ]['sll_pro_license']['product_id'] );
@@ -237,6 +264,11 @@ namespace {
 				}
 				if ( 'support' === $tab ) {
 					admin_check( ! str_contains( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ), 'Support contains instructions without a form.' );
+					admin_check( str_contains( $html, "define( 'SLL_DISABLE_LDAP', true );" ) && strpos( $html, 'before the line that loads wp-settings.php' ) < strpos( $html, 'Alternative: rename the plugin folder' ), 'Recovery starts with the emergency constant and retains folder renaming as an alternative.' );
+					$GLOBALS['sll_admin_plugin_folder'] = 'renamed-ldap & login';
+					ob_start(); $admin->render(); $renamed_html = ob_get_clean();
+					admin_check( str_contains( $renamed_html, 'rename the <pre class="sll-plugin-path">custom-content/extensions/renamed-ldap &amp; login/</pre> folder' ), 'Recovery shows the escaped installed path inline, including custom content and renamed plugin directories.' );
+					unset( $GLOBALS['sll_admin_plugin_folder'] );
 				}
 				admin_check( ( 'pro' === $edition ) === ( false !== strpos( $html, 'tab=sso' ) ), 'Only packages with SSO add its tab.' );
 				admin_check( ( 'pro' === $edition && 'access' === $tab ) === str_contains( $html, 'sll_settings[role_rules]' ), 'Group role rules appear only on Pro Access.' );
@@ -302,65 +334,7 @@ namespace {
 			admin_check( str_contains( $html, 'Your settings are kept.' ), 'Free reports saved custom fields without deleting their settings.' );
 		}
 	}
-	$pro_admin = new SimpleLdapLogin\Commerce( $settings );
-	foreach ( array( false, true ) as $network ) {
-		$settings->network = $network;
-		$scope = $network ? 'network' : 'site';
-		foreach ( array( 'activate', 'check', 'deactivate' ) as $task ) {
-			$_SERVER['REQUEST_METHOD'] = 'POST';
-			$_POST = array( '_wpnonce' => 'test-nonce', 'sll_scope' => $scope, 'sll_license_task' => $task );
-			$GLOBALS['sll_admin_allowed'] = false;
-			try { $pro_admin->handle_license(); } catch ( AdminTestStop $stop ) { admin_check( 'denied:403' === $stop->getMessage(), 'License actions require settings permissions.' ); }
-			admin_check( ( $network ? 'manage_network_options' : 'manage_options' ) === $GLOBALS['sll_admin_capability'], 'License actions check the correct capability for the scope.' );
-			$GLOBALS['sll_admin_allowed'] = true;
-			unset( $_POST['_wpnonce'] );
-			try { $pro_admin->handle_license(); } catch ( AdminTestStop $stop ) { admin_check( 'nonce' === $stop->getMessage(), 'License actions reject a missing nonce before reading credentials.' ); }
-			$_POST['_wpnonce'] = 'test-nonce';
-			$_POST['sll_scope'] = $network ? 'site' : 'network';
-			try { $pro_admin->handle_license(); } catch ( AdminTestStop $stop ) { admin_check( 'denied:400' === $stop->getMessage(), 'A changed scope cannot alter a license.' ); }
-		}
-		$target = $network ? 'sll_admin_network_options' : 'sll_admin_options';
-		$GLOBALS[ $target ]['sll_pro_license'] = array( 'status' => 'expired', 'product_id' => SimpleLdapLogin\License::PRODUCT, 'secret' => 'never-render-license-secret', 'domain_id' => 'dom_test', 'site_url' => $network ? network_home_url() : home_url() );
-		$_GET = array( 'tab' => 'license' );
-		ob_start(); $admin->render(); $html = ob_get_clean();
-		admin_check( str_contains( $html, 'Your license has expired.' ) && str_contains( $html, 'Check license' ), 'Expired licenses have a clear message and a renewal check.' );
-		admin_check( ! str_contains( $html, 'never-render-license-secret' ) && 1 === substr_count( $html, '<form ' ) && ! str_contains( $html, 'Save settings' ), 'The license page has one form and does not reveal the activation secret.' );
-		admin_check( ! str_contains( $html, 'sll-pro-hero' ) && ! str_contains( $html, '>Buy Pro' ), 'An expired Pro license does not show a purchase page.' );
-		admin_check( 1 === substr_count( $html, 'PaidCommunities' ) && strpos( $html, 'sll-commerce-disclaimer' ) > strpos( $html, '</form>' ), 'One data sharing notice appears below all license controls.' );
-		admin_check( ! str_contains( $html, '<details>' ), 'Data sharing does not add a separate warning control.' );
-		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'active';
-		ob_start(); $admin->render(); $licensed_html = ob_get_clean();
-		admin_check( ! str_contains( $licensed_html, '>Buy Pro' ) && str_contains( $licensed_html, '<h2>License</h2>' ) && ! str_contains( $licensed_html, 'Pro ZIP' ), 'Licensed Pro has license controls without a repeat Pro purchase or installation offer.' );
-		admin_check( str_contains( $licensed_html, 'Current plan' ) && str_contains( $licensed_html, '</strong> Pro</p>' ) && str_contains( $licensed_html, 'Get Enterprise' ) && str_contains( $licensed_html, esc_url( SimpleLdapLogin\Commerce::checkout_url( 'enterprise' ) ) ), 'Active Pro shows its plan and the correct Enterprise upgrade link.' );
-		$GLOBALS[ $target ]['sll_pro_license']['product_id'] = SimpleLdapLogin\License::ENTERPRISE_PRODUCT;
-		ob_start(); $admin->render(); $enterprise_html = ob_get_clean();
-		admin_check( str_contains( $enterprise_html, '</strong> Enterprise</p>' ) && ! str_contains( $enterprise_html, 'Get Enterprise' ), 'Enterprise shows its verified plan without a repeat upgrade offer.' );
-		unset( $GLOBALS[ $target ]['sll_pro_license']['product_id'] );
-		ob_start(); $admin->render(); $unknown_plan_html = ob_get_clean();
-		admin_check( str_contains( $unknown_plan_html, 'Your license plan has not been verified.' ) && str_contains( $unknown_plan_html, 'Check license' ) && ! str_contains( $unknown_plan_html, 'Get Enterprise' ), 'An old license needs a plan check instead of a new purchase.' );
-		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
-		$unknown_config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
-		admin_check( 'inactive' === $unknown_config['license']['status'], 'The SDK does not show an unverified plan as active.' );
-		$GLOBALS[ $target ]['sll_pro_license']['product_id'] = SimpleLdapLogin\License::PRODUCT;
-		$GLOBALS[ $target ]['sll_pro_license']['status'] = 'expired';
-		$GLOBALS['sll_commerce_scripts'] = array();
-		$_GET['tab'] = 'connection';
-		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
-		admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Other tabs do not load the SDK components.' );
-		$_GET['tab'] = 'license';
-		$pro_admin->enqueue( 'dashboard' );
-		admin_check( ! $GLOBALS['sll_commerce_scripts'], 'Other admin screens do not load the SDK components.' );
-		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
-		admin_check( count( $GLOBALS['sll_commerce_scripts'] ) === 3 && ! str_contains( implode( '', $GLOBALS['sll_commerce_scripts'] ), 'https://' ), 'The Pro license screen registers only local scripts for license controls.' );
-		$config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
-		admin_check( $scope === $config['scope'] && 'test-nonce' === $config['nonce'] && 'expired' === $config['license']['status'], 'The SDK receives the correct scope, nonce, and saved status.' );
-		admin_check( ! str_contains( $GLOBALS['sll_commerce_config'], 'never-render-license-secret' ), 'The SDK configuration does not contain the activation secret.' );
-		$GLOBALS[ $target ]['sll_pro_license']['site_url'] = 'https://copied.test';
-		$pro_admin->enqueue( 'settings_page_simple-ldap-login' );
-		$config = json_decode( substr( $GLOBALS['sll_commerce_config'], strlen( 'window.sllCommerce = ' ), -1 ), true );
-		admin_check( ! $config['license']['registered'], 'A copied site can enter its own license key in the SDK component.' );
-		unset( $GLOBALS[ $target ]['sll_pro_license'] );
-	}
+	if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/tests/admin.php'; }
 	foreach ( array( 'ad', 'ol' ) as $directory ) {
 		$settings->directory = $directory;
 		foreach ( array( 'connection', 'advanced' ) as $tab ) {
@@ -438,7 +412,7 @@ namespace {
 	admin_check( false !== strpos( $html, 'The saved LDAP search password cannot be read.' ) && false === strpos( $html, 'never-render-this-secret' ), 'An unreadable secret has a safe repair notice.' );
 	$GLOBALS['sll_admin_hooks'] = array();
 	ob_start(); $admin->render(); $html = ob_get_clean();
-	admin_check( ! str_contains( $html, 'Your saved settings use backup LDAP servers, SSO, or custom user fields.' ), 'Pro does not show the missing-feature notice.' );
+	admin_check( SLL_TEST_PAID !== str_contains( $html, 'Your saved settings use backup LDAP servers, SSO, or custom user fields.' ), 'Only Free shows the missing-feature notice for saved paid settings.' );
 	define( 'SLL_DISABLE_LDAP', true );
 	$settings->enabled = true;
 	ob_start(); $admin->render(); $html = ob_get_clean();

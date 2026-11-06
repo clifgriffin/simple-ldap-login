@@ -49,12 +49,14 @@
 		"format:css": "wp-scripts lint-style assets/admin.css --fix",
 		"test:admin": "node tests/admin-js.cjs && node tests/commerce-js.cjs",
 		"test:packages": "node tests/package.cjs",
-		"test:docker": "npm run build:free && npm run build:pro && sh tests/docker/run.sh test",
+		"test:docker": "npm run build:free && sh tests/docker/run.sh test",
 		"test:release": "composer check && npm run lint && npm run test:admin && npm run test:i18n && npm run test:packages && sh tests/docker/matrix.sh",
-		"env:up": "npm run build:free && npm run build:pro && sh tests/docker/run.sh up",
-		"env:down": "sh tests/docker/run.sh down",
+		"env:up": "npm run build:free && sh tests/docker/run.sh up",
+		"env:stop": "SLL_TEST_PAID=1 sh tests/docker/run.sh stop",
+		"env:down": "SLL_TEST_PAID=1 sh tests/docker/run.sh down",
 		"build:free": "node scripts/package.cjs free",
 		"build:pro": "node scripts/package.cjs pro",
+		"build:enterprise": "node scripts/package.cjs enterprise",
 		"plugin-zip": "npm run build:free",
 		"make:pot": "wp i18n make-pot . languages/simple-ldap-login.pot --exclude=\".*,node_modules,vendor,tests,tools,scripts,demo,dist,languages\" --domain=\"simple-ldap-login\" --slug=\"simple-ldap-login\"",
 		"make:po": "node scripts/i18n.cjs sync",
@@ -63,6 +65,11 @@
 		"make:php": "wp i18n make-php languages",
 		"make:json": "wp i18n make-json languages --no-purge",
 		"test:i18n": "node scripts/i18n.cjs check",
-		"i18n:build": "npm run make:pot && npm run make:po && npm run make:mo && npm run make:php"
+		"i18n:build": "npm run make:pot && npm run make:po && npm run make:mo && npm run make:php",
+		"test:packages:paid": "node tests/package.cjs --paid",
+		"build:all": "npm run build:free && npm run build:pro && npm run build:enterprise",
+		"test:docker:paid": "npm run build:all && SLL_TEST_PAID=1 sh tests/docker/run.sh test",
+		"test:release:paid": "composer check:paid && npm run lint && npm run test:admin && npm run test:i18n && npm run test:packages:paid && SLL_TEST_PAID=1 sh tests/docker/matrix.sh",
+		"env:up:paid": "npm run build:all && SLL_TEST_PAID=1 sh tests/docker/run.sh up"
 	}
 }

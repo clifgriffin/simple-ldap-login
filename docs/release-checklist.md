@@ -13,10 +13,10 @@ Complete these checks before public release. Record completed tests separately. 
 - [ ] Run Composer validation and dependency security checks. Review all included dependency licenses.
 - [ ] Test a clean production install from the lock file with development packages excluded.
 - [ ] Confirm that required autoload and runtime files are present in the release ZIP.
-- [ ] Run `npm run test:packages`. Check both packages, PSR-4 loading, file exclusions, and source preservation after a build.
-- [ ] Run `npm run test:release`. All 24 core configurations and the selected settings, migration, and package replacement cases must pass. See the [coverage map](test-coverage.md).
-- [ ] Confirm that `npm run plugin-zip` builds Free and that only Free and Pro ZIPs are produced.
-- [ ] Keep the Pro preview out of public distribution until its external update path is implemented and tested. `Update URI: false` prevents WordPress.org replacement but supplies no updates.
+- [ ] Run `npm run test:packages:paid`. Check all three packages, PSR-4 loading, file exclusions, and source preservation after a build.
+- [ ] Run `npm run test:release:paid`. All 36 core configurations and the selected settings, migration, and package replacement cases must pass. See the [coverage map](test-coverage.md).
+- [ ] Confirm that `npm run plugin-zip` builds Free and that Free, Pro, and Enterprise ZIPs are produced.
+- [ ] Keep paid previews out of public distribution until a published release download and installation pass through its SDK update path. The paid ZIP uses `Update URI: https://paidcommunities.com`.
 - [ ] Include `composer.json`, source files, license text, third-party notices, and any required asset source.
 - [ ] Exclude development dependencies, tests, IDE files, old build scripts, obsolete setup guides, and unused libraries from the ZIP.
 - [ ] Install the ZIP on a clean site without Composer or a package download step.
@@ -95,7 +95,7 @@ The WordPress.org package must include the files needed to run. Its review guida
 ## Free package and product claims
 
 - [ ] Keep basic LDAP login, TLS, recovery, group restrictions, account creation, standard profiles, network settings, and one directory server free. Require Pro or Enterprise for backup servers.
-- [ ] Exclude SSO and custom metadata feature code from reduced Free. Include those features without locks in Pro.
+- [ ] Exclude SSO and custom metadata feature code from reduced Free. Require an active matching license in paid builds.
 - [ ] State that backup LDAP servers, SSO, and custom user fields require Pro, including on 1.x upgrades.
 - [ ] Exclude Pro feature code and the external self-updater from the free ZIP. An optional upgrade connection must not restrict free features or replace WordPress.org updates.
 - [ ] Keep promotion brief and within the plugin's own settings. Do not use repeated dashboard notices.
@@ -108,7 +108,7 @@ SSO and custom user fields are Pro features. Keep their code outside the WordPre
 
 - [ ] Test direct 1.x-to-Free upgrades with LDAP password login, required groups, and administrator recovery.
 - [ ] Test direct 1.x-to-Pro upgrades with backup LDAP servers, SSO, custom user fields, stored credentials, and custom metadata suffixes.
-- [ ] Tell sites that use backup LDAP servers, SSO, or custom user fields to install Pro directly. Free cannot preserve functionality whose code is absent.
+- [ ] Tell sites that use backup LDAP servers, SSO, or custom user fields to install the matching Pro or Enterprise ZIP directly. Free cannot preserve functionality whose code is absent.
 - [ ] Preserve activation, settings scope, credentials, migration backup, and user data during replacement.
 - [ ] Verify the Free settings notice for saved backup servers, SSO, or metadata configuration. Do not delete those settings.
 - [ ] Verify that the Pro update guard rejects incomplete packages and restores the original activation scope.
@@ -116,15 +116,15 @@ SSO and custom user fields are Pro features. Keep their code outside the WordPre
 ## Planned Pro release
 
 - [ ] Build and test the planned Pro features before advertising them as available or opening sales.
-- [ ] Generate Free and Pro ZIPs from one codebase. Keep the plugin folder and entry filename stable. Test replacement upgrades and voluntary package changes without losing settings or silently changing access.
+- [ ] Generate Free, Pro, and Enterprise ZIPs from one codebase. Keep the plugin folder and entry filename stable. Test replacement upgrades and voluntary package changes without losing settings or silently changing access.
 - [ ] Verify whether PaidCommunities generates the required packages and provides authorized Pro installation. Use its tools where available. Test the package contents and update source for each build.
-- [ ] Require explicit user authorization through the connected service before any automatic Pro installation. Free currently uses manual Pro ZIP installation after checkout. Any future service installation flow must test invalid authorization, cancellation, interrupted installation, and recovery. A license activation alone must not start an install.
-- [ ] Verify the pinned PaidCommunities SDK on PHP 8.1 and the latest supported PHP release. Keep the SDK's built-in admin handlers disabled; use the checked shared handlers.
-- [ ] Verify that failed nonce and permission checks cannot clear or change local license data. Repeat this check on activation and deactivation.
+- [ ] Require explicit user authorization through the connected service before any automatic Pro installation. Free currently uses manual installation of the matching paid ZIP after checkout. Any future service installation flow must test invalid authorization, cancellation, interrupted installation, and recovery. A license activation alone must not start an install.
+- [ ] Verify the pinned PaidCommunities SDK on PHP 8.1 and the latest supported PHP release. Verify PluginConfig initialization, encrypted site and network license storage, and the native SDK deletion behavior.
+- [ ] Verify native SDK nonce handling and site/network scope isolation. Keep its documented deletion behavior after failed deactivation.
 - [ ] Test new purchases, activation, site limits, site moves, staging sites, network installations, refunds, cancellation, renewal, and expiry.
 - [ ] Test invalid responses, rate limits, service outages, and stale license data.
 - [ ] Verify that confirmed expiry stops backup servers, SSO, and custom field updates. Keep LDAP password login, group rules, local recovery, saved settings, and user data. Verify that login never calls the license server.
-- [ ] Verify that renewal restores Pro features and that a service error keeps the last verified status. Check hourly scheduling on a live site and network.
+- [ ] Verify that renewal restores Pro features and that a service error keeps the last verified status. Check the SDK through WordPress scheduled plugin updates on a live site and network. Confirm that the old custom hourly license event is removed.
 - [ ] Confirm that keys and update tokens are not sent in browser URLs or retained in logs.
 - [ ] Test package download authorization and ensure that a license for a different product cannot download Pro.
 - [ ] Export and restore customer, subscription, license, and activation records before relying on the service.
@@ -144,6 +144,8 @@ Service references: [EDD API](https://easydigitaldownloads.com/docs/software-lic
 - [ ] Record exact WordPress, PHP, LDAP server, and operating system versions for each result.
 - [ ] Resolve all authentication and migration failures before public release.
 - [ ] Update plugin headers, readme, stable tag, changelog, screenshots, and upgrade notice together.
-- [ ] State which features remain in Free and which need Pro for new installations. State that 1.x sites using backup LDAP servers, SSO, or custom user fields must install Pro directly. List security changes that can require administrator action.
+- [ ] State which features remain in Free and which need Pro for new installations. State that 1.x sites using backup LDAP servers, SSO, or custom user fields must install the matching Pro or Enterprise ZIP directly. List security changes that can require administrator action.
 - [ ] Publish a recovery guide with the tested `SLL_DISABLE_LDAP` method and `sll_settings_backup_v1` backup key. Do not publish secrets or real customer settings.
 - [ ] Use the existing WordPress.org listing for the rewrite, then verify the generated package from that listing. [Plugin Developer FAQ](https://developer.wordpress.org/plugins/wordpress-org/plugin-developer-faq/)
+
+- [ ] Assign the Pro ZIP only to the Pro product and the Enterprise ZIP only to the Enterprise product. Check each release with its matching key. Confirm that a key for the other tier fails without trying another product ID.

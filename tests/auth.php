@@ -71,7 +71,7 @@ function wp_insert_user( $data ) {
 	return $id;
 }
 
-class Sll_Test_Client extends Ldap_Client {
+trait Sll_Test_Client_Result {
 	public $result;
 	public array $calls = array();
 	public function authenticate( string $username, string $password ) {
@@ -79,6 +79,12 @@ class Sll_Test_Client extends Ldap_Client {
 		return $this->result;
 	}
 	public function authenticate_sso( string $username ) { $this->calls[] = array( $username, 'sso' ); return $this->result; }
+}
+
+if ( SLL_TEST_PAID ) {
+	class Sll_Test_Client extends Ldap_Client { use Sll_Test_Client_Result; }
+} else {
+	class Sll_Test_Client extends \SimpleLdapLogin\Ldap_Client { use Sll_Test_Client_Result; }
 }
 
 function sll_auth_setup( array $changes = array(), bool $register = true ): array {
@@ -89,7 +95,7 @@ function sll_auth_setup( array $changes = array(), bool $register = true ): arra
 	$GLOBALS['sll_test_blog_id'] = 1;
 	$GLOBALS['sll_test_local_passwords'] = array();
 	$GLOBALS['sll_test_options'] = array( 'sll_settings' => array_replace( Settings::defaults(), array( 'enabled' => true, 'high_security' => true, 'recovery_mode' => 'legacy' ), $changes ) );
-	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'product_id' => \SimpleLdapLogin\License::ENTERPRISE_PRODUCT, 'secret' => 'test-secret', 'domain_id' => 'dom_test', 'site_url' => home_url() );
+	$GLOBALS['sll_test_options']['sll_pro_license'] = array( 'status' => 'active', 'product_id' => \SimpleLdapLogin\License::ENTERPRISE_PRODUCT, 'secret' => \SimpleLdapLogin\Secrets::encrypt( 'test-secret' ), 'domain_id' => 'dom_test', 'site_url' => home_url() );
 	$GLOBALS['sll_test_meta']    = array();
 	$GLOBALS['sll_test_users']   = array( new WP_User( 1, 'alice', 'alice@example.com' ), new WP_User( 2, 'admin', 'admin@example.com', true ) );
 	unset( $GLOBALS['sll_test_cookie_user'], $GLOBALS['sll_test_auth_observer'] );
@@ -97,11 +103,13 @@ function sll_auth_setup( array $changes = array(), bool $register = true ): arra
 	$client   = new Sll_Test_Client( $settings );
 	$client->result = array( 'dn' => 'uid=alice,dc=example,dc=com' );
 	$auth = new Authenticator( $settings, $client );
-	$sso  = new Server_Sso( $settings, $client, $auth );
+	$sso  = SLL_TEST_PAID ? new Server_Sso( $settings, $client, $auth ) : null;
 	if ( $register ) {
 		$auth->register();
-		( new Metadata( $settings ) )->register();
-		$sso->register();
+		if ( SLL_TEST_PAID ) {
+			( new Metadata( $settings ) )->register();
+			$sso->register();
+		}
 	}
 	return array( $settings, $client, $auth, $sso );
 }
@@ -184,8 +192,7 @@ foreach ( array( 'DOMAIN\\admin', 'directory-admin@example.com' ) as $login ) {
 list( $settings, , $auth ) = sll_auth_setup( array( 'recovery_mode' => 'selected', 'recovery_user_ids' => array( 2 ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) );
 $result = $auth->authenticate_entry( 'admin', array( 'dn' => 'uid=admin,dc=example,dc=com' ), 'proof' );
 check( is_wp_error( $result ) && 'sll_local_recovery' === $result->get_error_code(), 'The shared directory account path rejects a selected recovery account.' );
-( new Metadata( $settings ) )->sync( get_user_by( 'login', 'admin' ), array( 'telephonenumber' => array( '5551234' ) ) );
-check( array() === $GLOBALS['sll_test_meta'], 'Metadata sync leaves selected local recovery accounts unchanged.' );
+if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/tests/recovery-metadata.php'; }
 
 list( , $client ) = sll_auth_setup( array( 'high_security' => false ) );
 $client->result = new WP_Error( 'sll_groups', 'The account is outside the required group.' );
@@ -209,21 +216,7 @@ $client->result['telephonenumber'] = array( '5551002000' );
 $result = apply_filters( 'authenticate', null, 'alice', 'password' );
 check( $result instanceof WP_User && empty( $GLOBALS['sll_test_filters']['init'] ) && empty( $GLOBALS['sll_test_filters']['sll_account_loaded'] ) && empty( $GLOBALS['sll_test_meta'] ), 'Free password login works without SSO or metadata hooks, even when their old settings remain stored.' );
 
-list( , $client ) = sll_auth_setup( array( 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'number' ) ) ) );
-$client->result['telephonenumber'] = array( '(555) 100-2000' );
-apply_filters( 'authenticate', null, 'alice', 'password' );
-check( '5551002000' === get_user_meta( 1, 'phone_ldap', true ) && '5551002000' === get_user_meta( 1, 'phone_wp', true ), 'A login saves both legacy user data keys.' );
-update_user_meta( 1, 'phone_wp', 'local edit' );
-apply_filters( 'authenticate', null, 'alice', 'password' );
-check( 'local edit' === get_user_meta( 1, 'phone_wp', true ), 'A login retains local edits while LDAP data is unchanged.' );
-$client->result['telephonenumber'] = array( '555 300 4000' );
-apply_filters( 'authenticate', null, 'alice', 'password' );
-check( '5553004000' === get_user_meta( 1, 'phone_wp', true ), 'A changed LDAP value updates the local user data copy.' );
-
-list( , $client ) = sll_auth_setup( array( 'meta_data_suffix_wp' => 'capabilities' ) );
-add_filter( 'sll_user_meta_data', static function () { return array( 'wp' => 'administrator' ); } );
-apply_filters( 'authenticate', null, 'alice', 'password' );
-check( ! metadata_exists( 'user', 1, 'wp_capabilities' ), 'A metadata filter cannot write capabilities.' );
+if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/tests/metadata.php'; }
 
 list( , $client ) = sll_auth_setup( array( 'create_users' => true ) );
 $client->result = array( 'dn' => 'uid=new-user,dc=example,dc=com', 'givenname' => array( 'New' ), 'sn' => array( 'User' ), 'mail' => array( 'new@example.com' ) );
@@ -252,52 +245,7 @@ function wp_set_current_user( $id ) { $GLOBALS['sll_test_current_user'] = $id; }
 function wp_set_auth_cookie( $id, $remember = false, $secure = false ) { $GLOBALS['sll_test_cookie_user'] = $id; }
 function is_ssl() { return true; }
 
-list( , $client, , $sso ) = sll_auth_setup( array( 'directory' => 'ad', 'sso_enabled' => true ) );
-$client->result['samaccountname'] = array( 'alice' );
-$_SERVER['REMOTE_USER'] = addslashes( 'DOMAIN\\alice' );
-$_SERVER['REQUEST_METHOD'] = 'GET';
-$GLOBALS['sll_test_auth_observer'] = static function ( $username, $proof ) use ( $sso ) {
-	$GLOBALS['sll_test_last_sso_proof'] = $proof;
-	check( null === $sso->authenticate( null, 'admin', $proof ), 'An SSO entry cannot authenticate another login name.' );
-	check( null === $sso->authenticate( null, $username, 'wrong-proof' ), 'An SSO entry cannot authenticate a different password call.' );
-};
-$sso->login();
-unset( $GLOBALS['sll_test_auth_observer'] );
-check( array( 'DOMAIN\\alice', 'sso' ) === $client->calls[0] && 1 === ( $GLOBALS['sll_test_cookie_user'] ?? 0 ), 'SSO removes WordPress server slashes and sets a session only for the checked account.' );
-check( null === $sso->authenticate( null, 'DOMAIN\\alice', $GLOBALS['sll_test_last_sso_proof'] ), 'A finished SSO attempt cannot reuse its verified entry.' );
-unset( $GLOBALS['sll_test_cookie_user'] );
-add_filter( 'authenticate', static function () use ( $mfa ) { return $mfa; }, 50 );
-$sso->login();
-check( ! isset( $GLOBALS['sll_test_cookie_user'] ), 'A second-factor denial stops the server SSO cookie.' );
-
-list( , $client, , $sso ) = sll_auth_setup( array( 'directory' => 'ad', 'enabled' => false, 'sso_enabled' => true ) );
-$client->result['samaccountname'] = array( 'alice' );
-sll_add_fallback( 'username' );
-check( apply_filters( 'authenticate', null, 'alice', 'local-password' ) instanceof WP_User && array() === $client->calls, 'SSO alone does not intercept normal local password login.' );
-$sso->login();
-check( 1 === $GLOBALS['sll_test_cookie_user'] && array( array( 'DOMAIN\\alice', 'sso' ) ) === $client->calls, 'SSO works while LDAP password login is off.' );
-
-list( , $client, , $sso ) = sll_auth_setup( array( 'directory' => 'ad', 'enabled' => false, 'sso_enabled' => true ) );
-$client->result['samaccountname'] = array( 'alice' );
-add_filter( 'wp_authenticate_user', static function () use ( $mfa ) { return $mfa; } );
-sll_add_fallback( 'username' );
-$sso->login();
-check( ! isset( $GLOBALS['sll_test_cookie_user'] ), 'A failed SSO user check cannot become a local password login.' );
-
-list( , $client, , $sso ) = sll_auth_setup( array( 'sso_enabled' => true ) );
-$client->result = new WP_Error( 'sll_groups', 'The account is outside the required group.' );
-$sso->login();
-check( ! isset( $GLOBALS['sll_test_cookie_user'] ) && array( array( 'DOMAIN\\alice', 'sso' ) ) === $client->calls, 'A failed SSO group check cannot set a login cookie.' );
-foreach ( array( 'admin', 'admin@example.com', 'DOMAIN\\admin', 'directory-admin@example.com' ) as $login ) {
-	list( , $client, , $sso ) = sll_auth_setup( array( 'directory' => 'ad', 'sso_enabled' => true, 'recovery_mode' => 'selected', 'recovery_user_ids' => array( 2 ), 'user_meta_data' => array( array( 'telephoneNumber', 'phone', 'string' ) ) ) );
-	$client->result = array( 'dn' => 'cn=admin,dc=example,dc=com', 'samaccountname' => array( 'admin' ), 'telephonenumber' => array( '5551234' ) );
-	$_SERVER['REMOTE_USER'] = addslashes( $login );
-	$sso->login();
-	check( ! isset( $GLOBALS['sll_test_cookie_user'] ) && array() === $GLOBALS['sll_test_meta'], 'Server SSO cannot sign in as or update a recovery account through ' . $login . '.' );
-	if ( in_array( $login, array( 'admin', 'admin@example.com' ), true ) ) {
-		check( array() === $client->calls, 'A direct recovery identity skips the SSO directory request.' );
-	}
-}
+if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/tests/sso.php'; }
 
 unset( $_SERVER['REMOTE_USER'] );
 

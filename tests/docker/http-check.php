@@ -71,13 +71,13 @@ $check( 401 === $request( 'sll-test-sso.php' )['code'], 'Apache requires authent
 $check( 400 === $request( 'sll-test-user.php?sll_case=invalid' )['code'], 'The test probe rejects an unknown fixture.' );
 
 $cases = array(
-	'normal'          => array( 'GET', array(), 'pro' === $edition ),
+	'normal'          => array( 'GET', array(), 'free' !== $edition ),
 	'license-expired' => array( 'GET', array(), false ),
 	'license-inactive' => array( 'GET', array(), false ),
 	'license-missing' => array( 'GET', array(), false ),
-	'license-outage' => array( 'GET', array(), 'pro' === $edition ),
-	'proof-whitespace' => array( 'GET', array(), 'pro' === $edition ),
-	'password-off'    => array( 'GET', array(), 'pro' === $edition ),
+	'license-outage' => array( 'GET', array(), 'free' !== $edition ),
+	'proof-whitespace' => array( 'GET', array(), 'free' !== $edition ),
+	'password-off'    => array( 'GET', array(), 'free' !== $edition ),
 	'sso-off'         => array( 'GET', array(), false ),
 	'group-denied'    => array( 'GET', array(), false ),
 	'service-missing' => array( 'GET', array(), false ),
@@ -95,8 +95,8 @@ $cases = array(
 	'recovery-selected' => array( 'GET', array(), false ),
 	'recovery-upn'      => array( 'GET', array(), false ),
 	'recovery-domain'   => array( 'GET', array(), false ),
-	'recovery-off'      => array( 'GET', array(), 'pro' === $edition ),
-	'recovery-demoted'  => array( 'GET', array(), 'pro' === $edition ),
+	'recovery-off'      => array( 'GET', array(), 'free' !== $edition ),
+	'recovery-demoted'  => array( 'GET', array(), 'free' !== $edition ),
 );
 foreach ( $cases as $scenario => $case ) {
 	$response = $request( 'sll-test-sso.php?sll_case=' . $scenario, $case[1], true, $case[0] );
@@ -107,7 +107,7 @@ foreach ( $cases as $scenario => $case ) {
 		$check( 0 === ( $body['account_loaded'] ?? null ), $scenario . ': a directory identity cannot run recovery account update hooks.' );
 	}
 	if ( 'password-off' === $scenario ) {
-		$check( false === $body['password_hook'] && ( 'pro' === $edition ) === $body['sso_hook'], 'SSO can run while the LDAP password hook is off.' );
+		$check( false === $body['password_hook'] && ( 'free' !== $edition ) === $body['sso_hook'], 'SSO can run while the LDAP password hook is off.' );
 	}
 	if ( in_array( $scenario, array( 'sso-off', 'recovery', 'license-expired', 'license-inactive', 'license-missing' ), true ) ) {
 		$check( false === $body['sso_hook'], $scenario . ': no server SSO hook is registered.' );
@@ -126,12 +126,12 @@ $response = $request( 'sll-test-sso.php', array( 'Cookie: ' . $cookie['cookie'] 
 $check( 200 === $response['code'] && 'testadmin' === ( $response['body']['user'] ?? null ) && array() === $response['cookies'], 'SSO cannot replace an existing WordPress login.' );
 
 
-if ( 'pro' === $edition ) {
+if ( 'free' !== $edition ) {
 	$export_identity = $cli( '$id = get_user_by("login", "testadmin")->ID; wp_set_current_user($id); $expires = time() + 600; $token = WP_Session_Tokens::get_instance($id)->create($expires); $logged = wp_generate_auth_cookie($id, $expires, "logged_in", $token); $_COOKIE[LOGGED_IN_COOKIE] = $logged; echo wp_json_encode(array("cookie" => AUTH_COOKIE . "=" . wp_generate_auth_cookie($id, $expires, "auth", $token) . "; " . LOGGED_IN_COOKIE . "=" . $logged, "nonce" => wp_create_nonce("sll_export_audit"), "scope" => (new SimpleLdapLogin\\Settings())->is_network() ? "network" : "site"));' );
 	$path = 'wp-admin/admin-post.php?action=sll_export_audit&sll_scope=' . $export_identity['scope'] . '&_wpnonce=';
 	$headers = array( 'Cookie: ' . $export_identity['cookie'] );
 	$response = $request( $path . $export_identity['nonce'], $headers );
-	$check( 200 === $response['code'] && str_starts_with( $response['raw'], 'time_utc,event,actor_id,user_id,site_id' ), 'A real administrator request downloads audit CSV.' );
+	$check( 'enterprise' === $edition ? 200 === $response['code'] && str_starts_with( $response['raw'], 'time_utc,event,actor_id,user_id,site_id' ) : 403 === $response['code'] && ! str_starts_with( $response['raw'], 'time_utc,' ), 'A real administrator request downloads audit CSV only with Enterprise.' );
 	$response = $request( $path . 'invalid', $headers );
 	$check( 403 === $response['code'] && ! str_starts_with( $response['raw'], 'time_utc,' ), 'A real export request with an invalid nonce is denied.' );
 	$wrong_scope = 'site' === $export_identity['scope'] ? 'network' : 'site';

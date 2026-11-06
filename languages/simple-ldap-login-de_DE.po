@@ -448,6 +448,10 @@ msgstr "Benutzer-ID"
 msgid "You do not have permission to export these records."
 msgstr "Sie haben keine Berechtigung, diese Einträge zu exportieren."
 
+#: src/Admin.php:90
+msgid "You do not have permission to change these settings."
+msgstr "Sie haben keine Berechtigung, diese Einstellungen zu ändern."
+
 #: pro/src/Settings_Rules.php:53
 msgid ""
 "Activate an Enterprise license to change these settings. Your saved "
@@ -494,10 +498,6 @@ msgstr ""
 "Plugin-Dateien fehlen. Installieren Sie Simple LDAP Login aus der "
 "Release-ZIP-Datei neu."
 
-#: src/Admin.php:90
-msgid "You do not have permission to change these settings."
-msgstr "Sie haben keine Berechtigung, diese Einstellungen zu ändern."
-
 #: src/Admin.php:97
 msgid "The settings scope has changed. Open the settings page and try again."
 msgstr ""
@@ -507,17 +507,6 @@ msgstr ""
 #: src/Admin.php:141
 msgid "You do not have permission to view these settings."
 msgstr "Sie haben keine Berechtigung, diese Einstellungen anzuzeigen."
-
-#: src/Admin.php:154
-#: src/Admin.php:177
-msgid "LDAP login settings"
-msgstr "LDAP-Anmeldeeinstellungen"
-
-#: src/Admin.php:155
-msgid "Connect to LDAP, then test a login before enabling authentication."
-msgstr ""
-"Verbinden Sie sich mit LDAP und testen Sie dann eine Anmeldung, bevor Sie "
-"die Authentifizierung aktivieren."
 
 #: src/Admin.php:160
 msgid "LDAP login and SSO are disabled by SLL_DISABLE_LDAP in wp-config.php."
@@ -555,6 +544,11 @@ msgid ""
 msgstr ""
 "LDAP-Passwörter werden unverschlüsselt gesendet. Verwenden Sie StartTLS "
 "oder LDAPS, wenn Ihr Server dies unterstützt."
+
+#: src/Admin.php:154
+#: src/Admin.php:177
+msgid "LDAP login settings"
+msgstr "LDAP-Anmeldeeinstellungen"
 
 #: src/Admin.php:207
 msgid "Save settings"
@@ -603,6 +597,14 @@ msgstr ""
 "Ein Hostname oder eine IP-Adresse pro Zeile. Eine aktive Pro- oder "
 "Enterprise-Lizenz ermöglicht die Verwendung von Ersatzservern. Ohne aktive "
 "Lizenz wird nur der erste Server verwendet."
+
+#: src/Admin.php:225
+msgid ""
+"Upgrade to Pro to use backup LDAP servers when your primary server is "
+"unavailable."
+msgstr ""
+"Wechseln Sie zu Pro, um LDAP-Ersatzserver zu nutzen, wenn Ihr Hauptserver "
+"nicht verfügbar ist."
 
 #: src/Admin.php:234
 #: src/Settings.php:600
@@ -759,6 +761,14 @@ msgstr "Standardrolle"
 msgid "For new accounts only."
 msgstr "Nur für neue Konten."
 
+#: src/Admin.php:273
+msgid ""
+"Upgrade to Pro to assign WordPress roles from directory groups at each "
+"login."
+msgstr ""
+"Wechseln Sie zu Pro, um bei jeder Anmeldung WordPress-Rollen anhand der "
+"Verzeichnisgruppen zuzuweisen."
+
 #: src/Admin.php:281
 #: src/Settings.php:609
 msgid "Required groups"
@@ -771,6 +781,14 @@ msgid ""
 msgstr ""
 "Ein Gruppenname pro Zeile. Benutzer müssen mindestens einer angehören. Leer "
 "lassen, um allen LDAP-Benutzern zu erlauben."
+
+#: src/Admin.php:275
+msgid ""
+"Upgrade to Enterprise to remove access when staff leave, with hourly "
+"directory checks."
+msgstr ""
+"Wechseln Sie zu Enterprise, um ausscheidenden Mitarbeitern durch stündliche "
+"Verzeichnisprüfungen den Zugriff zu entziehen."
 
 #: src/Admin.php:295
 #: src/Settings.php:613
@@ -882,6 +900,14 @@ msgstr "E-Mail-Attribut"
 msgid "Website attribute"
 msgstr "Website-Attribut"
 
+#: src/Admin.php:340
+msgid ""
+"Upgrade to Pro to update profiles at login and copy custom fields from your "
+"directory."
+msgstr ""
+"Wechseln Sie zu Pro, um Profile bei der Anmeldung zu aktualisieren und "
+"benutzerdefinierte Felder aus Ihrem Verzeichnis zu kopieren."
+
 #: src/Admin.php:337
 msgid "Data retention"
 msgstr "Datenaufbewahrung"
@@ -898,36 +924,120 @@ msgstr ""
 "Gespeicherte Einstellungen und LDAP-Anmeldeinformationen löschen, wenn "
 "WordPress das Plugin löscht. Benutzerkonten behalten."
 
-#: src/Admin.php:367
-msgid "Documentation"
-msgstr "Dokumentation"
+#: src/Admin.php:351
+msgid "We can help."
+msgstr "Wir können helfen."
 
-#: src/Admin.php:642
-msgid "Support"
-msgstr "Support"
+#: src/Admin.php:352
+msgid ""
+"Get help with setup, login, or licensing. Send us a message and we will "
+"reply by email."
+msgstr ""
+"Erhalten Sie Hilfe bei Einrichtung, Anmeldung oder Lizenzierung. Schreiben "
+"Sie uns. Wir antworten per E-Mail."
+
+#: src/Admin.php:354
+msgid "Contact Support"
+msgstr "Support kontaktieren"
+
+#: src/Admin.php:355
+msgid "View Documentation"
+msgstr "Dokumentation ansehen"
+
+#: src/Admin.php:361
+msgid "Common questions"
+msgstr "Häufige Fragen"
+
+#: src/Admin.php:365
+msgid "Installation and setup"
+msgstr "Installation und Einrichtung"
+
+#: src/Admin.php:365
+msgid "Connect your directory and test your first login."
+msgstr "Verbinden Sie Ihr Verzeichnis und testen Sie die erste Anmeldung."
+
+#: src/Admin.php:366
+msgid "Connection and login tests"
+msgstr "Verbindungs- und Anmeldetests"
+
+#: src/Admin.php:366
+msgid "Check the connection and find the cause of login errors."
+msgstr "Prüfen Sie die Verbindung und finden Sie die Ursache von Anmeldefehlern."
+
+#: src/Admin.php:367
+msgid "Administrator recovery"
+msgstr "Administratorzugriff wiederherstellen"
+
+#: src/Admin.php:367
+msgid "Restore access if LDAP login stops working."
+msgstr ""
+"Stellen Sie den Zugriff wieder her, wenn die LDAP-Anmeldung nicht mehr "
+"funktioniert."
+
+#: src/Admin.php:368
+msgid "Pro and Enterprise licensing"
+msgstr "Pro- und Enterprise-Lizenzen"
+
+#: src/Admin.php:368
+msgid "Activate a license, check your plan, or renew."
+msgstr "Aktivieren Sie eine Lizenz, prüfen Sie Ihren Tarif oder verlängern Sie ihn."
 
 #: src/Admin.php:350
 msgid "Recovery"
 msgstr "Wiederherstellung"
 
-#: src/Admin.php:351
-msgid ""
-"If you are locked out, rename the simple-ldap-login folder using your "
-"hosting file manager. Log in with a WordPress administrator password, then "
-"restore the folder and correct the settings."
+#: src/Admin.php:385
+msgid "In wp-config.php, add this line before the line that loads wp-settings.php:"
 msgstr ""
-"Wenn Sie ausgesperrt sind, benennen Sie den simple-ldap-login-Ordner mit "
-"Ihrem Hosting-Dateimanager um. Melden Sie sich mit einem "
-"WordPress-Administratorpasswort an, stellen Sie dann den Ordner wieder her "
-"und korrigieren Sie die Einstellungen."
+"Fügen Sie diese Zeile in wp-config.php vor der Zeile ein, die "
+"wp-settings.php lädt:"
 
-#: src/Admin.php:352
+#: src/Admin.php:387
 msgid ""
-"For certificate errors, ask your host to configure the trusted LDAP "
-"certificate authority."
+"This disables LDAP login and SSO. Log in with a local WordPress "
+"administrator password, correct the settings, then remove this line."
 msgstr ""
-"Bei Zertifikatfehlern bitten Sie Ihren Host, die vertrauenswürdige "
-"LDAP-Zertifizierungsstelle zu konfigurieren."
+"Dadurch werden LDAP-Anmeldung und SSO deaktiviert. Melden Sie sich mit dem "
+"Passwort eines lokalen WordPress-Administrators an, korrigieren Sie die "
+"Einstellungen und entfernen Sie dann diese Zeile."
+
+#: src/Admin.php:388
+msgid "Alternative: rename the plugin folder"
+msgstr "Alternative: Plugin-Ordner umbenennen"
+
+#: src/Admin.php:389
+#. translators: %s: Installed plugin directory, shown as an inline path.
+#, php-format
+msgid ""
+"If you are locked out, rename the %s folder on your WordPress server. Log "
+"in with a WordPress administrator password, then restore the folder and "
+"correct the settings."
+msgstr ""
+"Wenn Sie keinen Zugriff mehr haben, benennen Sie den Ordner %s auf Ihrem "
+"WordPress-Server um. Melden Sie sich mit einem "
+"WordPress-Administratorpasswort an, stellen Sie dann den Ordnernamen wieder "
+"her und korrigieren Sie die Einstellungen."
+
+#: src/Admin.php:384
+msgid ""
+"For certificate errors, check that the LDAP server certificate has not "
+"expired and matches the server name in Connection settings."
+msgstr ""
+"Prüfen Sie bei Zertifikatfehlern, ob das Zertifikat des LDAP-Servers noch "
+"gültig ist und zum Servernamen in den Verbindungseinstellungen passt."
+
+#: src/Admin.php:385
+msgid ""
+"On the WordPress server, add your root and intermediate CA certificates to "
+"the trust configuration used by PHP's LDAP library. For OpenLDAP, use "
+"TLS_CACERT in ldap.conf. Restart PHP after changes, then save Connection "
+"settings to test again."
+msgstr ""
+"Fügen Sie auf dem WordPress-Server Ihre Stamm- und Zwischenzertifikate der "
+"Zertifizierungsstellen zur Vertrauenskonfiguration der LDAP-Bibliothek von "
+"PHP hinzu. Verwenden Sie für OpenLDAP TLS_CACERT in ldap.conf. Starten Sie "
+"PHP nach Änderungen neu und speichern Sie die Verbindungseinstellungen, um "
+"erneut zu testen."
 
 #: src/Admin.php:366
 msgid "LDAP tests"
@@ -988,6 +1098,10 @@ msgstr ""
 "Nachdem beide Tests bestanden sind, aktivieren Sie LDAP und versuchen Sie, "
 "sich von einem anderen Browser aus anzumelden."
 
+#: src/Admin.php:456
+msgid "Upgrade Now"
+msgstr "Jetzt upgraden"
+
 #: src/Admin.php:537
 msgid "Settings saved."
 msgstr "Einstellungen gespeichert."
@@ -1035,6 +1149,10 @@ msgstr "Erweitert"
 #: src/Admin.php:641
 msgid "Testing"
 msgstr "Tests"
+
+#: src/Admin.php:642
+msgid "Support"
+msgstr "Support"
 
 #: src/Authenticator.php:151
 msgid ""
@@ -1201,18 +1319,18 @@ msgstr ""
 msgid "Simple LDAP Login Pro and Enterprise"
 msgstr "Simple LDAP Login Pro und Enterprise"
 
-#: src/Commerce.php:142
-msgid "Choose your LDAP plan."
-msgstr "Wählen Sie Ihren LDAP-Tarif."
+#: src/Commerce.php:147
+msgid "Keep WordPress access up to date."
+msgstr "Halten Sie den WordPress-Zugriff aktuell."
 
-#: src/Commerce.php:143
+#: src/Commerce.php:148
 msgid ""
-"Pro adds single sign-on and user data updates. Enterprise adds scheduled "
-"account management, multisite membership rules, and audit history."
+"Upgrade to Pro to assign roles and update profiles at login. Upgrade to "
+"Enterprise to remove access when staff leave, before their next login."
 msgstr ""
-"Pro ergänzt Einmalanmeldung und Aktualisierungen von Benutzerdaten. "
-"Enterprise ergänzt geplante Kontoverwaltung, Regeln für die "
-"Multisite-Mitgliedschaft und einen Protokollverlauf."
+"Wechseln Sie zu Pro, um Rollen zuzuweisen und Profile bei der Anmeldung zu "
+"aktualisieren. Wechseln Sie zu Enterprise, um ausscheidenden Mitarbeitern "
+"vor ihrer nächsten Anmeldung den Zugriff zu entziehen."
 
 #: src/Commerce.php:144
 msgid "Both plans cover one site. Your existing LDAP settings stay in place."
@@ -1235,6 +1353,15 @@ msgstr "Alle Funktionen von Free sowie:"
 #: src/Commerce.php:154
 msgid "Everything in Pro, plus:"
 msgstr "Alles aus Pro sowie:"
+
+#: src/Commerce.php:161
+msgid ""
+"Remove access and end active sessions when hourly directory checks confirm "
+"that access is lost. Keep user content and an audit history."
+msgstr ""
+"Entziehen Sie den Zugriff und beenden Sie aktive Sitzungen, wenn stündliche "
+"Verzeichnisprüfungen den Zugriffsverlust bestätigen. Benutzerinhalte und "
+"ein Prüfprotokoll bleiben erhalten."
 
 #: src/Commerce.php:168
 msgid "Buy Pro"
@@ -1260,23 +1387,25 @@ msgstr ""
 "Webserver-Authentifizierung. Multisite-Regeln erfordern die "
 "Netzwerkaktivierung."
 
-#: src/Commerce.php:174
+#: src/Commerce.php:179
 msgid ""
-"Your saved license needs a plan check. Install Pro, then select Check "
-"license on the License tab."
+"Your saved license needs a plan check. Install the ZIP for your plan. Then "
+"select Check license on the License tab."
 msgstr ""
 "Für Ihre gespeicherte Lizenz muss der Tarif überprüft werden. Installieren "
-"Sie Pro und wählen Sie dann im Tab Lizenz die Option Lizenz überprüfen."
+"Sie Pro/Enterprise und wählen Sie dann im Tab Lizenz die Option Lizenz "
+"überprüfen. Verwenden Sie die ZIP-Datei für Ihren Tarif."
 
-#: src/Commerce.php:176
+#: src/Commerce.php:181
 msgid ""
-"After purchase, replace Free with the Pro ZIP from your receipt. Then "
-"activate your license on the License tab in Pro. Your LDAP settings stay in "
-"place."
+"After purchase, install the Pro or Enterprise ZIP from your receipt. Use "
+"the ZIP for your plan. Then activate your key on the License tab. Your LDAP "
+"settings stay in place."
 msgstr ""
-"Ersetzen Sie nach dem Kauf Free durch die Pro-ZIP-Datei aus Ihrem "
-"Kaufbeleg. Aktivieren Sie dann Ihre Lizenz im Tab Lizenz in Pro. Ihre "
-"LDAP-Einstellungen bleiben erhalten."
+"Ersetzen Sie nach dem Kauf Free durch die Pro/Enterprise-ZIP-Datei aus "
+"Ihrem Kaufbeleg. Aktivieren Sie dann Ihre Lizenz im Tab Lizenz in "
+"Pro/Enterprise. Ihre LDAP-Einstellungen bleiben erhalten. Verwenden Sie die "
+"ZIP-Datei für Ihren Tarif."
 
 #: src/Commerce.php:177
 msgid ""
@@ -1351,43 +1480,18 @@ msgstr ""
 "Zugriffsrechten, Regeln für die Multisite-Mitgliedschaft und einen "
 "Protokollverlauf mit CSV-Export."
 
-#: src/Commerce.php:200
+#: src/Commerce.php:205
 msgid ""
 "Get Enterprise opens checkout for a new license. It does not change or "
 "cancel your Pro subscription. Manage that subscription separately through "
-"PaidCommunities. After purchase, deactivate this key, choose Enterprise, "
-"and activate the new key."
+"PaidCommunities. After purchase, deactivate this key, install the "
+"Enterprise ZIP, and activate the new key."
 msgstr ""
 "Enterprise erwerben öffnet den Kaufvorgang für eine neue Lizenz. Ihr "
 "Pro-Abonnement wird dadurch weder geändert noch gekündigt. Verwalten Sie "
 "dieses Abonnement separat über PaidCommunities. Deaktivieren Sie nach dem "
-"Kauf diesen Schlüssel, wählen Sie Enterprise und aktivieren Sie den neuen "
-"Schlüssel."
-
-#: src/Commerce.php:205
-msgid "Purchased plan"
-msgstr "Gekaufter Tarif"
-
-#: src/Commerce.php:211
-msgid ""
-"Choose the plan on your purchase receipt. This choice is used only when "
-"activating a key. A license check verifies which features you can use."
-msgstr ""
-"Wählen Sie den Tarif auf Ihrem Kaufbeleg. Diese Auswahl wird nur beim "
-"Aktivieren eines Schlüssels verwendet. Eine Lizenzprüfung bestätigt, welche "
-"Funktionen Sie verwenden können."
-
-#: pro/src/Admin.php:107
-msgid "License key"
-msgstr "Lizenzschlüssel"
-
-#: pro/src/Admin.php:111
-msgid "Activate license"
-msgstr "Lizenz aktivieren"
-
-#: pro/src/Admin.php:114
-msgid "Deactivate license"
-msgstr "Lizenz deaktivieren"
+"Kauf diesen Schlüssel, installieren Sie die Enterprise-ZIP-Datei und "
+"aktivieren Sie den neuen Schlüssel."
 
 #: pro/src/Admin.php:113
 msgid "Check license"
@@ -1407,6 +1511,18 @@ msgstr ""
 #: pro/src/Admin.php:144
 msgid "Select a license action."
 msgstr "Wählen Sie eine Lizenzaktion aus."
+
+#: pro/src/Admin.php:107
+msgid "License key"
+msgstr "Lizenzschlüssel"
+
+#: pro/src/Admin.php:111
+msgid "Activate license"
+msgstr "Lizenz aktivieren"
+
+#: pro/src/Admin.php:114
+msgid "Deactivate license"
+msgstr "Lizenz deaktivieren"
 
 #: src/Commerce.php:249
 msgid "Activating license…"

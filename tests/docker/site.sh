@@ -14,7 +14,7 @@ fi
 wp option update home "$SLL_SITE_URL"
 wp option update siteurl "$SLL_SITE_URL"
 archive=/packages/simple-ldap-login.zip
-if [ "$SLL_EDITION" = pro ]; then archive=/packages/simple-ldap-login-pro.zip; fi
+if [ "$SLL_EDITION" != free ]; then archive=/packages/simple-ldap-login-$SLL_EDITION.zip; fi
 wp --skip-plugins --skip-themes plugin install "$archive" --force
 if [ "${SLL_MULTISITE:-0}" = 1 ]; then
     wp --skip-plugins --skip-themes plugin activate simple-ldap-login --network

@@ -22,9 +22,7 @@ jobs:
           coverage: none
           tools: composer:v2
       - run: composer install --no-interaction --prefer-dist
-      - run: composer install --working-dir=pro --no-interaction --prefer-dist --no-plugins --no-scripts
       - run: composer validate --strict
-      - run: composer validate --working-dir=pro --strict
       - run: composer check
   assets:
     runs-on: ubuntu-latest
@@ -41,7 +39,6 @@ jobs:
           coverage: none
           tools: composer:v2
       - run: composer install --no-interaction --prefer-dist
-      - run: composer install --working-dir=pro --no-interaction --prefer-dist --no-plugins --no-scripts
       - run: npm ci
       - run: npm run lint
       - run: npm run test:admin

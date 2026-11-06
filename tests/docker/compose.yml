@@ -24,9 +24,11 @@ x-wordpress: &wordpress
       condition: service_healthy
   healthcheck:
     test: [CMD, curl, -fsS, http://localhost/wp-includes/images/blank.gif]
-    interval: 2s
+    interval: 60s
+    start_interval: 2s
+    start_period: 90s
     timeout: 5s
-    retries: 45
+    retries: 3
 
 services:
   db:
@@ -40,9 +42,11 @@ services:
       - database:/var/lib/mysql
     healthcheck:
       test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
-      interval: 2s
+      interval: 60s
+      start_interval: 2s
+      start_period: 90s
       timeout: 5s
-      retries: 45
+      retries: 3
 
   ldap:
     build:
@@ -56,9 +60,11 @@ services:
         aliases: [ldap-wrong-name]
     healthcheck:
       test: [CMD, ldapsearch, -x, -H, ldap://localhost, -s, base, -b, '', namingContexts]
-      interval: 2s
+      interval: 60s
+      start_interval: 2s
+      start_period: 90s
       timeout: 5s
-      retries: 30
+      retries: 3
 
   free:
     <<: *wordpress
@@ -77,6 +83,7 @@ services:
       - .:/tests:ro
 
   pro:
+    profiles: [paid]
     <<: *wordpress
     image: sll-test-wordpress-pro:${SLL_PHP_VERSION:-8.4}
     environment:
@@ -91,10 +98,30 @@ services:
       - ldap-certs:/certs:ro
       - ../../dist:/packages:ro
       - .:/tests:ro
+      - ../../pro/tests/docker:/pro-tests:ro
+
+  enterprise:
+    profiles: [paid]
+    <<: *wordpress
+    image: sll-test-wordpress-enterprise:${SLL_PHP_VERSION:-8.4}
+    environment:
+      <<: *wp-environment
+      WORDPRESS_TABLE_PREFIX: enterprise_
+      SLL_EDITION: enterprise
+      SLL_SITE_URL: ${SLL_TEST_URL:-http://localhost:${SLL_ENTERPRISE_PORT:-8090}}
+    ports:
+      - 127.0.0.1:${SLL_ENTERPRISE_PORT:-8090}:80
+    volumes:
+      - enterprise-site:/var/www/html
+      - ldap-certs:/certs:ro
+      - ../../dist:/packages:ro
+      - .:/tests:ro
+      - ../../pro/tests/docker:/pro-tests:ro
 
 volumes:
   database:
   free-site:
   pro-site:
+  enterprise-site:
   ldap-data:
   ldap-certs:

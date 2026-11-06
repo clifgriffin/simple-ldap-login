@@ -32,3 +32,5 @@ wp eval-file "$PWD/tests/i18n-runtime.php" --path="$HOME/Sites/simple-ldap-demo"
 ```
 
 This check does not change the saved site or user language.
+
+Generate catalogs from a workspace with the paid checkout at `pro/`. The public repo stores the shared catalogs for all editions. Public catalog checks do not need paid source.

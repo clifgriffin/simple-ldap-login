@@ -12,6 +12,7 @@ if ( ! defined( 'FS_METHOD' ) ) {
 }
 $plugin = 'simple-ldap-login/Simple-LDAP-Login.php';
 $phase  = $args[0] ?? '';
+$full = 'enterprise' === getenv( 'SLL_EDITION' ) ? 'enterprise' : 'pro';
 $checks = 0;
 $check  = static function ( bool $passed, string $label ) use ( &$checks ): void {
 	if ( ! $passed ) {
@@ -21,7 +22,7 @@ $check  = static function ( bool $passed, string $label ) use ( &$checks ): void
 	echo 'PASS: ' . $label . "\n";
 };
 $package = static function ( string $edition ): string {
-	if ( ! in_array( $edition, array( 'free', 'pro' ), true ) ) {
+	if ( ! in_array( $edition, array( 'free', 'pro', 'enterprise' ), true ) ) {
 		throw new RuntimeException( 'Unknown test edition.' );
 	}
 	return '/packages/simple-ldap-login' . ( 'free' === $edition ? '' : '-' . $edition ) . '.zip';
@@ -63,7 +64,7 @@ $on_disk = static function ( string $edition ): bool {
 };
 
 if ( 'prepare' === $phase ) {
-	$check( defined( 'SLL_EDITION' ) && in_array( SLL_EDITION, array( 'free', 'pro' ), true ), 'The upgrade test starts from Free or Pro.' );
+	$check( defined( 'SLL_EDITION' ) && in_array( SLL_EDITION, array( 'free', 'pro', 'enterprise' ), true ), 'The upgrade test starts from Free, Pro, or Enterprise.' );
 	$network = ( new Settings() )->is_network();
 	$check( $active( $network ), 'The original package is active in its expected scope.' );
 	$login = 'sll-upgrade-' . strtolower( wp_generate_password( 8, false, false ) );
@@ -72,15 +73,15 @@ if ( 'prepare' === $phase ) {
 	update_user_meta( $id, 'sll_upgrade_fixture', array( 'retain' => 'user data' ) );
 	$state = array( 'edition' => SLL_EDITION, 'network' => $network, 'options' => $read_state( $network ), 'user_id' => $id, 'user' => $user_state( $id ), 'update_transient' => get_site_transient( 'update_plugins' ) );
 	update_option( 'sll_test_upgrade_state', $state, false );
-	list( $result ) = $install( $package( 'pro' ) );
-	$check( true === $result && $on_disk( 'pro' ), 'A native ZIP replacement installs Pro at the stable plugin path.' );
-	$check( $active( $network ) && $same_data( $state ), 'The Pro replacement keeps activation, settings, backup, and stored credentials.' );
+	list( $result ) = $install( $package( $full ) );
+	$check( true === $result && $on_disk( $full ), 'A native ZIP replacement installs the paid build at the stable plugin path.' );
+	$check( $active( $network ) && $same_data( $state ), 'The paid replacement keeps activation, settings, backup, and stored credentials.' );
 } else {
 	$state = get_option( 'sll_test_upgrade_state' );
 	$check( is_array( $state ) && isset( $state['edition'], $state['network'], $state['options'] ), 'The upgrade snapshot exists.' );
 	$network = $state['network'];
 	if ( 'seed-v1' === $phase ) {
-		$check( 'pro' === SLL_EDITION && $active( $network ), 'Pro is installed before the 1.x settings test.' );
+		$check( $full === SLL_EDITION && $active( $network ), 'The matching paid build is installed before the 1.x settings test.' );
 		$old = ( new Settings() )->all();
 		unset( $old['schema_version'], $old['recovery_mode'], $old['recovery_user_ids'] );
 		$old['version'] = '180';
@@ -101,7 +102,7 @@ if ( 'prepare' === $phase ) {
 		$old = get_option( 'sll_test_upgrade_v1' );
 		$settings = new Settings();
 		$backup = $network ? get_site_option( 'sll_settings_backup_v1' ) : get_option( 'sll_settings_backup_v1' );
-		$check( 'pro' === SLL_EDITION && $backup === $old && 3 === $settings->get( 'schema_version' ), 'Pro migrates 1.x on startup and keeps the original settings backup.' );
+		$check( $full === SLL_EDITION && $backup === $old && 3 === $settings->get( 'schema_version' ), 'The paid build migrates 1.x on startup and keeps the original settings backup.' );
 		$check( $old['sso_search_user_password'] === $settings->get( 'sso_search_user_password' ) && 'legacy' === $settings->recovery_mode(), 'The upgrade retains the search password and administrator recovery.' );
 		$client = new SimpleLdapLogin\Pro\Ldap_Client( $settings );
 		$check( is_array( $client->authenticate_sso( 'alice' ) ), 'SSO lookup works with the migrated 1.x settings.' );
@@ -145,7 +146,7 @@ if ( 'prepare' === $phase ) {
 			throw new RuntimeException( 'Unknown upgrade test operation.' );
 		}
 	} elseif ( 'deactivate' === $phase ) {
-		$check( defined( 'SLL_EDITION' ) && 'pro' === SLL_EDITION, 'The full-package cycle ends on Pro.' );
+		$check( defined( 'SLL_EDITION' ) && $full === SLL_EDITION, 'The full-package cycle ends on the matching paid build.' );
 		deactivate_plugins( $plugin, true, $network );
 		$check( ! $active( $network ) && $same_data( $state ), 'An explicit deactivation keeps saved settings.' );
 	} elseif ( 'choose-free' === $phase ) {

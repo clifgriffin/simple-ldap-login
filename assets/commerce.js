@@ -6,40 +6,6 @@
 	}
 
 	const { LicenseActivation } = window.paidcommunities.wp.components;
-	const api = async ( task, data ) => {
-		try {
-			const response = await window.fetch( config.ajaxUrl, {
-				method: 'POST',
-				credentials: 'same-origin',
-				body: new URLSearchParams( {
-					...data,
-					action: 'sll_license',
-					sll_scope: config.scope,
-					sll_license_task: task,
-					sll_license_key: data.license_key || '',
-				} ),
-			} );
-			const result = await response.json();
-			if ( result.success === true && result.data?.license ) {
-				return result;
-			}
-			return {
-				success: false,
-				error: {
-					code: 'license_error',
-					message: result.data?.message || config.i18n.licenseError,
-				},
-			};
-		} catch {
-			return {
-				success: false,
-				error: {
-					code: 'license_error',
-					message: config.i18n.licenseError,
-				},
-			};
-		}
-	};
 	// Keep the SDK input private and give it an accessible label.
 	new window.MutationObserver( () => {
 		const input = root.querySelector( 'input' );
@@ -52,16 +18,6 @@
 	window.wp.element.createRoot( root ).render(
 		window.wp.element.createElement( LicenseActivation, {
 			config,
-			apiService: {
-				activate: ( basename, data ) =>
-					api( 'activate', {
-						...data,
-						sll_license_plan:
-							document.getElementById( 'sll-license-plan' )
-								?.value || 'pro',
-					} ),
-				deactivate: ( basename, data ) => api( 'deactivate', data ),
-			},
 			onActivate: () => window.location.reload(),
 			onDeactivate: () => window.location.reload(),
 		} )

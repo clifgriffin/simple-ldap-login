@@ -1,8 +1,9 @@
 /vendor/
-/pro/vendor/
+/pro/
 /tools/scoper/vendor/
 /dist/
 /.phpcs-cache
 /.DS_Store
 /node_modules/
 /simple-ldap-login.zip
+/.idea

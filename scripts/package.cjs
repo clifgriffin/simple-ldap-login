@@ -92,8 +92,8 @@ function buildPackage(
 	source = root,
 	output = path.join( source, 'dist' )
 ) {
-	if ( ! [ 'free', 'pro' ].includes( edition ) ) {
-		throw new Error( 'Choose free or pro.' );
+	if ( ! [ 'free', 'pro', 'enterprise' ].includes( edition ) ) {
+		throw new Error( 'Choose free, pro, or enterprise.' );
 	}
 	const full = edition !== 'free';
 	if (
@@ -148,17 +148,28 @@ function buildPackage(
 			}
 			entry = entry.replace(
 				'Plugin Name: Simple LDAP Login',
-				'Plugin Name: Simple LDAP Login Pro'
+				`Plugin Name: Simple LDAP Login ${ edition === 'enterprise' ? 'Enterprise' : 'Pro' }`
 			);
-			// This is a local preview until the external updater is configured.
 			entry = entry.replace(
 				' * Text Domain:',
-				' * Update URI: false\n * Text Domain:'
+				' * Update URI: https://paidcommunities.com\n * Text Domain:'
 			);
 			fs.copyFileSync(
 				path.join( stage, 'pro/readme.txt' ),
 				path.join( stage, 'readme.txt' )
 			);
+			if ( edition === 'enterprise' ) {
+				const readme = path.join( stage, 'readme.txt' );
+				fs.writeFileSync(
+					readme,
+					fs
+						.readFileSync( readme, 'utf8' )
+						.replace(
+							'=== Simple LDAP Login Pro ===',
+							'=== Simple LDAP Login Enterprise ==='
+						)
+				);
+			}
 			fs.unlinkSync( path.join( stage, 'pro/readme.txt' ) );
 			entry += "\nrequire_once __DIR__ . '/pro/bootstrap.php';\n";
 			install( path.join( stage, 'pro' ) );

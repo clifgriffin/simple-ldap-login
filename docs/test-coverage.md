@@ -4,22 +4,24 @@ Run this before a release:
 
 ```sh
 npm run test:release
+# With the paid checkout:
+npm run test:release:paid
 ```
 
-This command runs source checks, coding standards, asset checks, package checks, and the Docker matrix. A failed check returns a nonzero exit code. GitHub Actions runs the same suites on pushes and pull requests.
+This command runs source checks, coding standards, asset checks, package checks, and the Docker matrix. A failed check returns a nonzero exit code. The public workflow runs Free checks on pushes and pull requests. The private paid workflow runs all-edition checks.
 
 ## Configuration selection
 
-The release matrix checks 24 core configurations:
+The public release matrix checks 12 Free configurations. The paid matrix checks 36 configurations across all three editions:
 
 | Setting | Values |
 | --- | --- |
-| Package | Free, Pro |
+| Package | Free, Pro, Enterprise |
 | PHP and WordPress | PHP 8.1 with WordPress 6.5; PHP 8.5 with the current WordPress image |
 | Directory | OpenLDAP, Samba AD |
 | Installation | Single site; network activation; site-only activation in multisite |
 
-The source CI job also runs on each PHP minor version from 8.1 through 8.5. Package tests check Free and Pro with fresh, schema 2, and 1.x settings in site and network scope.
+The source CI job also runs on each PHP minor version from 8.1 through 8.5. Package tests check Free, Pro, and Enterprise with fresh, schema 2, and 1.x settings in site and network scope.
 
 Within each core configuration, the tests change selected settings and check their results. They cover both outcomes for important access controls and combine settings where one can affect another. They do not run every possible combination of fields.
 
@@ -37,14 +39,14 @@ Within each core configuration, the tests change selected settings and check the
 | Library API | No direct PHP LDAP function calls in either client, bounded queries, escaped values, and explicit LDAPS port 389 | `tests/ldap.php`, `tests/run.php` |
 | Account creation | Creation on and off, existing account, safe configured role, invalid role, random local password, disabled AD account | `tests/docker/integration.php` |
 | Recovery and fallback | Selected, legacy, and Off modes; local username/email login without LDAP; normal fallback; invalid local passwords; account removal and demotion; LDAP and SSO alias denial; WordPress security checks; recovery constant | `tests/auth.php`, `tests/docker/integration.php`, `tests/docker/http-check.php` |
-| Pro account management | Ordered group roles, role removal, profile update conflicts, paged import, local account protection, stable identities, job locks, suspension and restoration, session removal, multisite membership restoration, and license expiry | `tests/pro.php`, `tests/docker/pro-features.php` |
-| Audit | Completed login events, fixed event names, numeric IDs only, private storage, scope isolation, retention, paged CSV export, capability and nonce checks | `tests/pro.php`, `tests/admin.php`, `tests/docker/pro-features.php` |
+| Paid account management | Ordered group roles, role removal, profile update conflicts, paged import, local account protection, stable identities, job locks, suspension and restoration, session removal, multisite membership restoration, and license expiry | `pro/tests/features.php`, `pro/tests/docker/pro-features.php` |
+| Audit | Completed login events, fixed event names, numeric IDs only, private storage, scope isolation, retention, paged CSV export, capability and nonce checks | `pro/tests/features.php`, `tests/admin.php`, `pro/tests/docker/pro-features.php` |
 | Profile and metadata | Default and custom attributes, Pro string and number values, custom suffixes, local edit retention, changed mapped values, protected WordPress keys, Free feature absence | `tests/run.php`, `tests/auth.php`, `tests/docker/integration.php` |
 | Server SSO | SSO on/off, password login off, missing or invalid identity/service account, group denial, user and later login filter denial, existing session, password whitespace normalization | `tests/docker/http-check.php` |
-| Pro licenses | Activation, expiry, renewal, inactive and missing licenses, failed checks, encrypted secrets, site and network scope, copied sites, product families, permissions, and retained LDAP password login | `tests/licenses.php`, `tests/admin.php`, `tests/package-runtime.php`, `tests/docker/licenses.php`, `tests/docker/http-check.php` |
+| Paid licenses | Native SDK activation/deactivation, WordPress update hooks, SDK caching, expiry, renewal, inactive and missing licenses, failed checks, encrypted secrets, site and network scope, copied sites, fixed product IDs, mismatched tier keys, permissions, and retained LDAP password login | `pro/tests/licenses.php`, `tests/admin.php`, `tests/package-runtime.php`, `tests/docker/licenses.php`, `tests/docker/http-check.php` |
 | SSO request context | GET, POST, JSON, login page, AJAX, cron, XML-RPC, CLI, forged identity headers, auth cookies set only after success | `tests/docker/http-check.php` |
 | Migration | Both old option formats, schema 2 to 3 recovery policy, false and custom values, old encrypted passwords, backup, repeat migration, malformed data | `tests/run.php`, `tests/docker/migration.php` |
-| Package replacement | 1.x settings to Pro with LDAP login, SSO lookup, and metadata updates; Free to Pro, full package updates and replacements, blocked reduced Free update, deliberate inactive downgrade, activation and user data retention after shutdown | `tests/upgrades.php`, `tests/docker/upgrades.php` |
+| Package replacement | 1.x settings to Pro with LDAP login, SSO lookup, and metadata updates; Free to Pro, full package updates and replacements, blocked reduced Free update, deliberate inactive downgrade, activation and user data retention after shutdown | `pro/tests/upgrades.php`, `tests/docker/upgrades.php` |
 | Missing dependencies | LDAP absent; OpenSSL encryption functions absent; controlled errors, unchanged secrets, usable admin controls | `tests/docker/dependencies.php` |
 | Recovery settings | Fresh selected policy, existing legacy policy, explicit Off, required selection before setup, eligible IDs, site membership, network superadmin scope, atomic saves | `tests/recovery-settings.php`, `tests/admin.php`, `tests/docker/migration.php` |
 | Admin and input security | Capabilities, nonce, POST, scope, tab saves, Advanced field placement, old Free profile links, blank secret handling, malformed fields, escaping, protected metadata, no LDAP request during render | `tests/admin.php`, `tests/run.php` |

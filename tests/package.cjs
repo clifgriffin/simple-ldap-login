@@ -11,6 +11,12 @@ const AdmZip = createRequire(
 	require.resolve( '@wordpress/scripts/scripts/plugin-zip.js' )
 )( 'adm-zip' );
 const root = path.resolve( __dirname, '..' );
+const paid = process.argv.includes( '--paid' );
+if ( paid && ! fs.existsSync( path.join( root, 'pro/composer.lock' ) ) ) {
+	throw new Error(
+		'Install the paid repo at pro/ before running paid package checks.'
+	);
+}
 const source = fs.mkdtempSync( path.join( os.tmpdir(), 'sll-package-check-' ) );
 const manifest = require( '../package.json' );
 const prefix = 'simple-ldap-login/';
@@ -23,10 +29,9 @@ const originalVendor = fs.readFileSync(
 	path.join( root, 'vendor/composer/installed.json' ),
 	'utf8'
 );
-const originalProLock = fs.readFileSync(
-	path.join( root, 'pro/composer.lock' ),
-	'utf8'
-);
+const originalProLock = paid
+	? fs.readFileSync( path.join( root, 'pro/composer.lock' ), 'utf8' )
+	: null;
 
 try {
 	for ( const file of [
@@ -41,19 +46,23 @@ try {
 	}
 	assert.throws(
 		() => buildPackage( 'other', source ),
-		/Choose free or pro/
+		/Choose free, pro, or enterprise/
 	);
 	assert.throws( () => buildPackage( 'pro', source ), /source is missing/ );
 	for ( const removed of [ 'legacy', 'transition' ] ) {
 		assert.throws(
 			() => buildPackage( removed, source ),
-			/Choose free or pro/
+			/Choose free, pro, or enterprise/
 		);
 	}
-	fs.cpSync( path.join( root, 'pro' ), path.join( source, 'pro' ), {
-		recursive: true,
-		filter: ( file ) => path.basename( file ) !== 'vendor',
-	} );
+	if ( paid ) {
+		fs.cpSync( path.join( root, 'pro' ), path.join( source, 'pro' ), {
+			recursive: true,
+			filter: ( file ) =>
+				! [ 'vendor', '.git' ].includes( path.basename( file ) ),
+		} );
+	}
+
 	for ( const folder of [
 		'vendor',
 		'pro/vendor',
@@ -85,7 +94,9 @@ try {
 		'PACKAGE_PRIVATE_MARKER'
 	);
 
-	for ( const edition of [ 'free', 'pro' ] ) {
+	for ( const edition of paid
+		? [ 'free', 'pro', 'enterprise' ]
+		: [ 'free' ] ) {
 		const archive = buildPackage( edition, source );
 		const suffix = edition === 'free' ? '' : `-${ edition }`;
 		assert.equal(
@@ -118,7 +129,7 @@ try {
 		}
 		assert(
 			! names.some( ( name ) =>
-				/(?:^|\/)(?:tests|scripts|tools|node_modules|marketing|\.wordpress-org|\.env)(?:\/|$)/.test(
+				/(?:^|\/)(?:tests|scripts|tools|node_modules|marketing|\.wordpress-org|\.git|\.env)(?:\/|$)/.test(
 					name
 				)
 			)
@@ -141,8 +152,8 @@ try {
 		const readme = zip.readAsText( `${ prefix }readme.txt` );
 		assert(
 			readme.startsWith(
-				edition === 'pro'
-					? '=== Simple LDAP Login Pro ==='
+				edition !== 'free'
+					? `=== Simple LDAP Login ${ edition === 'enterprise' ? 'Enterprise' : 'Pro' } ===`
 					: '=== Simple LDAP Login ==='
 			),
 			'Each package includes its own readme.'
@@ -184,6 +195,7 @@ try {
 				'src/Multisite.php',
 				'src/Audit.php',
 				'src/Settings_Rules.php',
+				'src/PaidCommunities_Config.php',
 				'src/Server_Sso.php',
 				'src/Ldap_Client.php',
 				'src/Admin.php',
@@ -197,9 +209,15 @@ try {
 				main.includes( "require_once __DIR__ . '/pro/bootstrap.php';" )
 			);
 		}
-		if ( edition === 'pro' ) {
-			assert( main.includes( 'Update URI: false' ) );
-			assert( main.includes( 'Plugin Name: Simple LDAP Login Pro' ) );
+		if ( edition !== 'free' ) {
+			assert(
+				main.includes( 'Update URI: https://paidcommunities.com' )
+			);
+			assert(
+				main.includes(
+					`Plugin Name: Simple LDAP Login ${ edition === 'enterprise' ? 'Enterprise' : 'Pro' }`
+				)
+			);
 		} else {
 			assert( ! main.includes( 'Update URI:' ) );
 		}
@@ -217,8 +235,8 @@ try {
 			'network',
 			'v1',
 			'v1-network',
-			...( edition === 'pro'
-				? [ 'pro-license', 'pro-network', 'unlicensed', 'expired' ]
+			...( edition !== 'free'
+				? [ 'unlicensed', 'expired', 'wrong-tier' ]
 				: [] ),
 		] ) {
 			execFileSync(
@@ -264,12 +282,15 @@ try {
 		fs.readFileSync( path.join( root, 'Simple-LDAP-Login.php' ), 'utf8' ),
 		originalMain
 	);
-	assert.equal(
-		fs.readFileSync( path.join( root, 'pro/composer.lock' ), 'utf8' ),
-		originalProLock
-	);
+	if ( paid ) {
+		assert.equal(
+			fs.readFileSync( path.join( root, 'pro/composer.lock' ), 'utf8' ),
+			originalProLock
+		);
+	}
+
 	process.stdout.write(
-		'Package checks passed: Free and Pro, private dependencies, PSR-4 loading, runtime hooks, migration, exclusions, and source preservation.\n'
+		`Package checks passed: ${ paid ? 'Free, Pro, and Enterprise' : 'Free' }, private dependencies, PSR-4 loading, runtime hooks, migration, exclusions, and source preservation.\n`
 	);
 } finally {
 	fs.rmSync( source, { recursive: true, force: true } );
