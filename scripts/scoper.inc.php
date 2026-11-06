@@ -11,8 +11,7 @@ $finders = array(
 		->notPath( 'symfony/polyfill-php83/Resources/stubs' ),
 );
 if ( is_file( 'pro/src/Ldap_Client.php' ) ) {
-	$files   = array_merge( $files, array( 'pro/composer.json', 'pro/src/Ldap_Client.php', 'pro/src/Roles.php', 'pro/src/PaidCommunities_Config.php' ) );
-	$finders[] = Finder::create()->files()->in( 'pro/vendor' );
+	$files = array_merge( $files, array( 'pro/src/Ldap_Client.php', 'pro/src/Roles.php', 'pro/src/PaidCommunities_Config.php' ) );
 }
 
 return array(

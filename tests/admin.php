@@ -168,10 +168,6 @@ function trailingslashit( $value ) { return rtrim( $value, '/' ) . '/'; }
 
 	require dirname( __DIR__ ) . '/vendor/autoload.php';
 	require dirname( __DIR__ ) . '/src/Admin.php';
-	if ( SLL_TEST_PAID ) {
-		require dirname( __DIR__ ) . '/pro/src/Admin.php';
-		require dirname( __DIR__ ) . '/pro/src/Audit.php';
-	}
 	require dirname( __DIR__ ) . '/src/License.php';
 	require dirname( __DIR__ ) . '/src/Commerce.php';
 
@@ -180,8 +176,7 @@ function trailingslashit( $value ) { return rtrim( $value, '/' ) . '/'; }
 	$admin    = new SimpleLdapLogin\Admin( $settings, $client );
 	foreach ( SLL_TEST_PAID ? array( 'free', 'pro' ) : array( 'free' ) as $edition ) {
 		if ( 'pro' === $edition ) {
-			define( 'SLL_FEATURES_LOADED', true );
-			require dirname( __DIR__ ) . '/pro/src/PaidCommunities_Config.php';
+			require dirname( __DIR__ ) . '/pro/bootstrap.php';
 			$GLOBALS['sll_paidcommunities'] = new SimpleLdapLogin\Pro\PaidCommunities_Config( $settings );
 		}
 		$GLOBALS['sll_admin_hooks'] = array();

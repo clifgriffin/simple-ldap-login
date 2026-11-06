@@ -3,8 +3,8 @@
 
 define( 'ABSPATH', dirname( __DIR__ ) . '/' );
 define( 'SLL_TEST_PAID', 'paid' === ( $argv[1] ?? '' ) );
-if ( SLL_TEST_PAID && ! is_file( dirname( __DIR__ ) . '/pro/vendor/autoload.php' ) ) {
-	throw new RuntimeException( 'Install the paid repo at pro/ and run composer install --working-dir=pro.' );
+if ( SLL_TEST_PAID && ! is_file( dirname( __DIR__ ) . '/pro/bootstrap.php' ) ) {
+	throw new RuntimeException( 'Install the paid repo at pro/ to run the paid checks.' );
 }
 
 error_reporting( E_ALL );
@@ -99,8 +99,7 @@ function check( $condition, $label ) {
 	echo 'PASS: ' . $label . "\n";
 }
 
-require dirname( __DIR__ ) . '/vendor/autoload.php';
-if ( SLL_TEST_PAID ) { require dirname( __DIR__ ) . '/pro/vendor/autoload.php'; }
+require dirname( __DIR__ ) . ( SLL_TEST_PAID ? '/pro/bootstrap.php' : '/vendor/autoload.php' );
 
 use SimpleLdapLogin\Secrets;
 use SimpleLdapLogin\Settings;

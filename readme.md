@@ -67,8 +67,6 @@ This public repo does not track `pro/`. The local folder is a separate Git repo 
 simple-ldap-login/       # Public core repo.
   pro/                  # Separate paid repo.
     bootstrap.php
-    composer.json
-    composer.lock
     readme.txt
     src/
     tests/
@@ -77,7 +75,6 @@ simple-ldap-login/       # Public core repo.
 To set up another workspace, clone the paid repo into `pro/`, then run these commands from the public root:
 
 ```sh
-composer install --working-dir=pro
 composer check:paid
 npm run test:packages:paid
 npm run test:docker:paid
@@ -90,33 +87,9 @@ Use `git status` for shared changes and `git -C pro status` for paid changes. Co
 
 Public CI checks Free without private credentials. The paid repo has its own workflow that checks out this public repo, installs itself at `pro/`, tests all editions, and saves build artifacts with both commit IDs. It does not push or publish releases. Its `CORE_REF` variable or manual `core_ref` input can select a public commit. See the paid repo's `README.md` for local setup and release commands.
 
-The shared Composer manifest includes the PaidCommunities SDK. Free shows direct plan checkout links without a license form or external scripts. Each paid build uses the native SDK activation handlers and a stored SDK license for its fixed product. Pro feature code stays in `pro/`. Its separate manifest uses PSR-4:
+The shared Composer manifest includes the PaidCommunities SDK. Free shows direct plan checkout links without a license form or external scripts. Each paid build uses the native SDK activation handlers and a stored SDK license for its fixed product.
 
-```json
-{
-  "name": "clifgriffin/simple-ldap-login-pro",
-  "license": "GPL-2.0-or-later",
-  "require": {
-    "php": ">=8.1"
-  },
-  "autoload": {
-    "psr-4": {
-      "SimpleLdapLogin\\Pro\\": "src/"
-    }
-  },
-  "config": {
-    "platform": {
-      "php": "8.1.0"
-    }
-  }
-}
-```
-
-The Pro manifest needs its own PHP platform setting. The shared manifest's setting does not apply to it. This keeps dependency selection compatible with PHP 8.1.
-
-Generate and commit `pro/composer.lock` when adding its dependencies. `pro/bootstrap.php` checks `ABSPATH`, loads `pro/vendor/autoload.php`, and registers the SSO and metadata features. Use shared services and the `sll_loaded` hook where needed. Do not check a remote license during login.
-
-The Pro build includes the bootstrap, Composer files, classes, assets, and production dependencies. The reduced Free ZIP excludes the entire Pro folder and keeps WordPress.org updates.
+`pro/bootstrap.php` registers the `SimpleLdapLogin\Pro\` namespace with the shared Composer autoloader and starts the paid features through `sll_loaded`. Run Composer from the public root for all editions. Paid ZIPs add the bootstrap, feature classes, and assets to the shared package. Free excludes the paid source and keeps WordPress.org updates.
 
 `npm run test:packages` checks Free. `npm run test:packages:paid` checks all editions. Both check the package contents, stable plugin path, PSR-4 class loading, production autoloaders, file exclusions, and source preservation. Test classes must not enter product ZIPs.
 

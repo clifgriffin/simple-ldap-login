@@ -184,11 +184,10 @@ foreach ( array( 'License', 'Commerce' ) as $sll_class ) {
 }
 package_check( class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\HttpClient\\WordPressClient' ), 'The private license SDK loads beside another version.' );
 if ( $sll_full ) {
-	$sll_pro_psr4 = require $sll_package_dir . '/pro/vendor/composer/autoload_psr4.php';
-	foreach ( array_keys( $sll_pro_psr4 ) as $sll_namespace ) {
-		package_check( 'SimpleLdapLogin\\Pro\\' === $sll_namespace || str_starts_with( $sll_namespace, 'SimpleLdapLoginVendor\\' ), 'Pro dependencies use private namespaces.' );
-	}
-	package_check( class_exists( 'SimpleLdapLoginVendor\\PaidCommunities\\WordPress\\HttpClient\\WordPressClient' ), 'The private license SDK loads beside another version.' );
+	$sll_root      = realpath( $sll_package_dir );
+	$sll_loaders   = Composer\Autoload\ClassLoader::getRegisteredLoaders();
+	$sll_pro_paths = $sll_loaders[ $sll_root . '/vendor' ]->getPrefixesPsr4()['SimpleLdapLogin\\Pro\\'] ?? array();
+	package_check( array( $sll_root . '/pro/src' ) === $sll_pro_paths && ! isset( $sll_loaders[ $sll_root . '/pro/vendor' ] ), 'The shared Composer loader serves Pro classes.' );
 }
 package_check( ! method_exists( SimpleLdapLogin\Ldap_Client::class, 'authenticate_sso' ), 'The shared LDAP client has no SSO implementation.' );
 package_check( ! empty( $sll_hooks['sll_account_loaded'] ) === $sll_full, 'The full package registers custom metadata.' );

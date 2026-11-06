@@ -12,7 +12,7 @@ const AdmZip = createRequire(
 )( 'adm-zip' );
 const root = path.resolve( __dirname, '..' );
 const paid = process.argv.includes( '--paid' );
-if ( paid && ! fs.existsSync( path.join( root, 'pro/composer.lock' ) ) ) {
+if ( paid && ! fs.existsSync( path.join( root, 'pro/bootstrap.php' ) ) ) {
 	throw new Error(
 		'Install the paid repo at pro/ before running paid package checks.'
 	);
@@ -29,9 +29,6 @@ const originalVendor = fs.readFileSync(
 	path.join( root, 'vendor/composer/installed.json' ),
 	'utf8'
 );
-const originalProLock = paid
-	? fs.readFileSync( path.join( root, 'pro/composer.lock' ), 'utf8' )
-	: null;
 
 try {
 	for ( const file of [
@@ -185,9 +182,6 @@ try {
 		} else {
 			for ( const file of [
 				'bootstrap.php',
-				'composer.json',
-				'composer.lock',
-				'vendor/autoload.php',
 				'src/Metadata.php',
 				'src/Roles.php',
 				'src/Profile.php',
@@ -207,6 +201,12 @@ try {
 			}
 			assert(
 				main.includes( "require_once __DIR__ . '/pro/bootstrap.php';" )
+			);
+			assert(
+				! names.some( ( name ) =>
+					name.startsWith( `${ prefix }pro/vendor/` )
+				),
+				'Paid builds use only the shared vendor directory.'
 			);
 		}
 		if ( edition !== 'free' ) {
@@ -282,12 +282,6 @@ try {
 		fs.readFileSync( path.join( root, 'Simple-LDAP-Login.php' ), 'utf8' ),
 		originalMain
 	);
-	if ( paid ) {
-		assert.equal(
-			fs.readFileSync( path.join( root, 'pro/composer.lock' ), 'utf8' ),
-			originalProLock
-		);
-	}
 
 	process.stdout.write(
 		`Package checks passed: ${ paid ? 'Free, Pro, and Enterprise' : 'Free' }, private dependencies, PSR-4 loading, runtime hooks, migration, exclusions, and source preservation.\n`

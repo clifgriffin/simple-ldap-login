@@ -6,12 +6,7 @@ const { spawnSync } = require( 'node:child_process' );
 const root = path.resolve( __dirname, '..' );
 const zipScript = require.resolve( '@wordpress/scripts/scripts/plugin-zip.js' );
 const scoperRoot = path.join( root, 'tools/scoper' );
-const proFiles = [
-	'bootstrap.php',
-	'composer.json',
-	'composer.lock',
-	'readme.txt',
-];
+const proFiles = [ 'bootstrap.php', 'readme.txt', 'src' ];
 
 function run( command, args, cwd ) {
 	const result = spawnSync( command, args, { cwd, encoding: 'utf8' } );
@@ -68,20 +63,6 @@ function isolateDependencies( stage ) {
 			],
 			stage
 		);
-		if ( fs.existsSync( path.join( stage, 'pro/composer.json' ) ) ) {
-			run(
-				'composer',
-				[
-					'dump-autoload',
-					'--no-dev',
-					'--optimize',
-					'--no-interaction',
-					'--no-plugins',
-					'--no-scripts',
-				],
-				path.join( stage, 'pro' )
-			);
-		}
 	} finally {
 		fs.rmSync( scoped, { recursive: true, force: true } );
 	}
@@ -103,7 +84,7 @@ function buildPackage(
 		)
 	) {
 		throw new Error(
-			'Pro source is missing. Add pro/bootstrap.php, pro/composer.json, pro/composer.lock, and pro/readme.txt before building a full package. See readme.md.'
+			'Pro source is missing. Add the paid repository at pro/ before building a paid package. See readme.md.'
 		);
 	}
 
@@ -138,7 +119,7 @@ function buildPackage(
 			`define( 'SLL_EDITION', '${ edition }' );`
 		);
 		if ( full ) {
-			for ( const file of [ ...proFiles, 'src', 'assets' ] ) {
+			for ( const file of [ ...proFiles, 'assets' ] ) {
 				const from = path.join( source, 'pro', file );
 				if ( fs.existsSync( from ) ) {
 					fs.cpSync( from, path.join( stage, 'pro', file ), {
@@ -172,7 +153,6 @@ function buildPackage(
 			}
 			fs.unlinkSync( path.join( stage, 'pro/readme.txt' ) );
 			entry += "\nrequire_once __DIR__ . '/pro/bootstrap.php';\n";
-			install( path.join( stage, 'pro' ) );
 			files.push( 'pro/' );
 		}
 		fs.writeFileSync( path.join( stage, mainFile ), entry );
