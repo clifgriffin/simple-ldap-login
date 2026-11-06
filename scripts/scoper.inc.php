@@ -4,7 +4,12 @@
 use Symfony\Component\Finder\Finder;
 
 $files = array( 'composer.json', 'src/Ldap_Client.php', 'src/License.php', 'src/Commerce.php' );
-$finders = array( Finder::create()->files()->in( 'vendor' )->notPath( 'paidcommunities/wordpress-sdk/src/Admin/Views' ) );
+// Keep PHP's compatibility classes global so Composer can load their parents on demand.
+$finders = array(
+	Finder::create()->files()->in( 'vendor' )
+		->notPath( 'paidcommunities/wordpress-sdk/src/Admin/Views' )
+		->notPath( 'symfony/polyfill-php83/Resources/stubs' ),
+);
 if ( is_file( 'pro/src/Ldap_Client.php' ) ) {
 	$files   = array_merge( $files, array( 'pro/composer.json', 'pro/src/Ldap_Client.php', 'pro/src/Roles.php', 'pro/src/PaidCommunities_Config.php' ) );
 	$finders[] = Finder::create()->files()->in( 'pro/vendor' );

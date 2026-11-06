@@ -114,6 +114,8 @@ if ( 'unlicensed' !== $sll_scenario ) {
 	if ( $sll_network ) { $sll_network_options['sll_pro_license'] = $sll_test_license; } else { $sll_options['sll_pro_license'] = $sll_test_license; }
 }
 package_check( array( 'another-plugin-helper' => true ) === $GLOBALS['__composer_autoload_files'], 'Private dependency loading preserves other Composer helper files.' );
+$sll_classmap = require $sll_package_dir . '/vendor/composer/autoload_classmap.php';
+package_check( isset( $sll_classmap['DateException'], $sll_classmap['DateMalformedIntervalStringException'] ), 'Composer can load the PHP 8.3 date exception stubs by their global names.' );
 $sll_psr4 = require $sll_package_dir . '/vendor/composer/autoload_psr4.php';
 foreach ( array_keys( $sll_psr4 ) as $sll_namespace ) {
 	package_check( 'SimpleLdapLogin\\' === $sll_namespace || str_starts_with( $sll_namespace, 'SimpleLdapLoginVendor\\' ), 'Every dependency namespace is private.' );
